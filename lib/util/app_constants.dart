@@ -12,7 +12,7 @@ class AppConstants {
   static const int balanceInputLen = 10;
   static const String webHostedUrl = 'https://6ammart-web.6amtech.com';
 
-  static const String baseUrl = 'https://unilaos.com';
+  static const String baseUrl = 'https://admin.bentodelivery.net';
   static const String categoryUri = '/api/v1/categories';
   static const String bannerUri = '/api/v1/banners';
   static const String storeItemUri = '/api/v1/items/latest';
