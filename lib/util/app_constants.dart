@@ -4,7 +4,7 @@ import 'package:sixam_mart/features/language/domain/models/language_model.dart';
 import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
-  static const String appName = 'bento';
+  static const String appName = 'bentodelivery';
   static const double appVersion = 2.8;
 
   static const String fontFamily = 'Lao';
