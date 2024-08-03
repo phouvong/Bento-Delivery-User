@@ -10,7 +10,7 @@ class AppConstants {
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://6ammart-web.6amtech.com';
+  static const String webHostedUrl = 'https://admin.bentodelivery.net';
 
   static const String baseUrl = 'https://admin.bentodelivery.net';
   static const String categoryUri = '/api/v1/categories';
