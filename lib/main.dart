@@ -50,20 +50,20 @@ Future<void> main() async {
 
   if(GetPlatform.isWeb){
     await Firebase.initializeApp(options: const FirebaseOptions(
-        apiKey: "AIzaSyDFN-73p8zKVZbA0i5DtO215XzAb-xuGSE",
-        authDomain: "ammart-8885e.firebaseapp.com",
-        projectId: "ammart-8885e",
-        storageBucket: "ammart-8885e.appspot.com",
-        messagingSenderId: "1000163153346",
-        appId: "1:1000163153346:web:4f702a4b5adbd5c906b25b",
+        apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
+        authDomain: "bento-delivery-service.firebaseapp.com",
+        projectId: "bento-delivery-service",
+        storageBucket: "bento-delivery-service.appspot.com",
+        messagingSenderId: "787586896333",
+        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
     ));
   } else if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
-        apiKey: "AIzaSyCic6Mw3RRPFcimXhwGidwhCN0tXY7HFFc",
-        appId: "1:1000163153346:android:9d8caf29b912e11606b25b",
-        messagingSenderId: "1000163153346",
-        projectId: "ammart-8885e",
+        apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
+        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
+        messagingSenderId: "787586896333",
+        projectId: "bento-delivery-service",
       ),
     );
   } else {

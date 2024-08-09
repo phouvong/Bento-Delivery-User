@@ -77,13 +77,13 @@ flutter:
     - assets/map/
 
   fonts:
-    - family: Roboto
+    - family: Lao
       fonts:
-        - asset: assets/font/Roboto-Regular.ttf
+        - asset: assets/font/Lao-Regular.ttf
           weight: 400
-        - asset: assets/font/Roboto-Medium.ttf
+        - asset: assets/font/Lao-Medium.ttf
           weight: 500
-        - asset: assets/font/Roboto-Bold.ttf
+        - asset: assets/font/Lao-Bold.ttf
           weight: 700
-        - asset: assets/font/Roboto-Black.ttf
+        - asset: assets/font/Lao-Black.ttf
           weight: 900

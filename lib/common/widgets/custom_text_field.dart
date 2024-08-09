@@ -166,6 +166,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                 padding: const EdgeInsets.only(left: 5),
                 child: Center(
                 child: CodePickerWidget(
+                  countryFilter: [widget.countryDialCode!],
                   boxDecoration: BoxDecoration(color: Theme.of(context).cardColor),
                   flagWidth: 25,
                   padding: EdgeInsets.zero,
