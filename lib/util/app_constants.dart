@@ -10,7 +10,7 @@ class AppConstants {
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://bentodelivery.net';
+  static const String webHostedUrl = 'https://admin.bentodelivery.net';
   static const bool useReactWebsite = false;
 
   static const String baseUrl = 'https://admin.bentodelivery.net';
