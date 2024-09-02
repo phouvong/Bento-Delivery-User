@@ -58,4 +58,16 @@ class VerificationController extends GetxController implements GetxService {
     return responseModel;
   }
 
+  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage, required String? token}) async {
+    _isLoading = true;
+    update();
+    ResponseModel responseModel = await verificationServiceInterface.verifyFirebaseOtp(phoneNumber: phoneNumber, session: session, otp: otp, isSignUpPage: isSignUpPage, token: token);
+    if (responseModel.isSuccess && isSignUpPage) {
+      Get.find<ProfileController>().getUserInfo();
+    }
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
 }

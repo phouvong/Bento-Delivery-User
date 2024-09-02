@@ -1,5 +1,4 @@
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
-import 'package:sixam_mart/features/taxi_booking/controllers/rider_controller.dart';
 import 'package:sixam_mart/features/location/domain/models/prediction_model.dart';
 import 'package:sixam_mart/features/parcel/controllers/parcel_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
@@ -12,9 +11,8 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 class LocationSearchDialogWidget extends StatelessWidget {
   final GoogleMapController? mapController;
   final bool? isPickedUp;
-  final bool isRider;
   final bool isFrom;
-  const LocationSearchDialogWidget({super.key, required this.mapController, this.isPickedUp, this.isRider = false, this.isFrom = false});
+  const LocationSearchDialogWidget({super.key, required this.mapController, this.isPickedUp, this.isFrom = false});
 
   @override
   Widget build(BuildContext context) {
@@ -68,14 +66,10 @@ class LocationSearchDialogWidget extends StatelessWidget {
             );
           },
           onSuggestionSelected: (PredictionModel suggestion) {
-            if(isRider){
-              Get.find<RiderController>().setLocationFromPlace(suggestion.placeId, suggestion.description, isFrom);
+            if(isPickedUp == null) {
+              Get.find<LocationController>().setLocation(suggestion.placeId, suggestion.description, mapController);
             }else {
-              if(isPickedUp == null) {
-                Get.find<LocationController>().setLocation(suggestion.placeId, suggestion.description, mapController);
-              }else {
-                Get.find<ParcelController>().setLocationFromPlace(suggestion.placeId, suggestion.description, isPickedUp);
-              }
+              Get.find<ParcelController>().setLocationFromPlace(suggestion.placeId, suggestion.description, isPickedUp);
             }
             Get.back();
           },

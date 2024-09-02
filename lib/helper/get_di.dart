@@ -21,8 +21,6 @@ import 'package:sixam_mart/features/home/domain/services/advertisement_service.d
 import 'package:sixam_mart/features/home/domain/services/advertisement_service_interface.dart';
 import 'package:sixam_mart/features/home/domain/services/home_service.dart';
 import 'package:sixam_mart/features/home/domain/services/home_service_interface.dart';
-import 'package:sixam_mart/features/taxi_booking/controllers/booking_checkout_controller.dart';
-import 'package:sixam_mart/features/taxi_booking/controllers/car_selection_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/banner/controllers/banner_controller.dart';
 import 'package:sixam_mart/features/banner/domain/repositories/banner_repository.dart';
@@ -77,11 +75,7 @@ import 'package:sixam_mart/features/language/domain/repository/language_reposito
 import 'package:sixam_mart/features/language/domain/service/language_service.dart';
 import 'package:sixam_mart/features/language/domain/service/language_service_interface.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
-import 'package:sixam_mart/features/taxi_booking/controllers/rider_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
-import 'package:sixam_mart/features/taxi_booking/repo/car_selection_repo.dart';
-import 'package:sixam_mart/features/taxi_booking/repo/cart_repo.dart';
-import 'package:sixam_mart/features/taxi_booking/repo/rider_repo.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
 import 'package:sixam_mart/features/address/domain/repositories/address_repository.dart';
@@ -188,11 +182,6 @@ Future<Map<String, Map<String, String>>> init() async {
   final sharedPreferences = await SharedPreferences.getInstance();
   Get.lazyPut(() => sharedPreferences);
   Get.lazyPut(() => ApiClient(appBaseUrl: AppConstants.baseUrl, sharedPreferences: Get.find()));
-
-  /// Repository
-  Get.lazyPut(() => CartRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => RiderRepo(apiClient: Get.find(), sharedPreferences: Get.find()));
-  Get.lazyPut(() => CarSelectionRepo(apiClient: Get.find()));
 
   /// Repository interface
   CheckoutRepositoryInterface checkoutRepositoryInterface = CheckoutRepository(apiClient: Get.find(), sharedPreferences: Get.find());
@@ -426,9 +415,6 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => ParcelController(parcelServiceInterface: Get.find()));
   Get.lazyPut(() => WalletController(walletServiceInterface: Get.find()));
   Get.lazyPut(() => ChatController(chatServiceInterface: Get.find()));
-  Get.lazyPut(() => RiderController(riderRepo: Get.find()));
-  Get.lazyPut(() => CarSelectionController(carSelectionRepo: Get.find()));
-  Get.lazyPut(() => BookingCheckoutController(riderRepo: Get.find()));
   Get.lazyPut(() => FlashSaleController(flashSaleServiceInterface: Get.find()));
   Get.lazyPut(() => CheckoutController(checkoutServiceInterface: Get.find()));
   Get.lazyPut(() => PaymentController(paymentServiceInterface: Get.find()));

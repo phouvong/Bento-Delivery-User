@@ -97,6 +97,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
               inputAction: TextInputAction.done,
               controller: inputAmountController,
               textAlign: TextAlign.center,
+              isAmount: true,
               onChanged: (String value){
                 _checkFormatters(value);
                 try{
@@ -193,7 +194,7 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
   }
 
   void _checkFormatters(String value) {
-    String test = '';
+    String test = value;
     if(value.contains('-')) {
       test = value.replaceAll('-', '');
     } else if(value.contains(' ')) {
@@ -205,6 +206,9 @@ class _AddFundDialogueWidgetState extends State<AddFundDialogueWidget> {
     }
     setState(() {
       inputAmountController.text = test;
+      inputAmountController.selection = TextSelection.fromPosition(
+        TextPosition(offset: test.length),
+      );
     });
   }
 

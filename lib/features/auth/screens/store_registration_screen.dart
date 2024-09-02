@@ -1430,7 +1430,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                 moduleId: storeRegController.moduleList![storeRegController.selectedModuleIndex!].id.toString(),
                 deliveryTimeType: storeRegController.storeTimeUnit,
                 businessPlan: storeRegController.businessIndex == 0 ? 'commission' : 'subscription',
-                packageId: storeRegController.packageModel!.packages![storeRegController.activeSubscriptionIndex].id!.toString(),
+                packageId: storeRegController.businessIndex == 0 ? '' : storeRegController.packageModel!.packages![storeRegController.activeSubscriptionIndex].id!.toString(),
               ));
 
 

@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:io';
+import 'dart:ui';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
@@ -19,7 +20,6 @@ import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/messages.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -36,17 +36,17 @@ Future<void> main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
-  // Pass all uncaught "fatal" errors from the framework to Crashlytics
-  // FlutterError.onError = (errorDetails) {
-  //   FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
-  // };
+ /* ///Pass all uncaught "fatal" errors from the framework to Crashlytics
+  FlutterError.onError = (errorDetails) {
+    FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
+  };
 
 
-  // Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
-  // PlatformDispatcher.instance.onError = (error, stack) {
-  //   FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
-  //   return true;
-  // };
+  ///Pass all uncaught asynchronous errors that aren't handled by the Flutter framework to Crashlytics
+  PlatformDispatcher.instance.onError = (error, stack) {
+    FirebaseCrashlytics.instance.recordError(error, stack, fatal: true);
+    return true;
+  };*/
 
   if(GetPlatform.isWeb){
     await Firebase.initializeApp(options: const FirebaseOptions(

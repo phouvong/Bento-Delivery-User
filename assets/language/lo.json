@@ -79,7 +79,7 @@
   "offer": "ສະເໜີ",
   "price": "ລາຄາ",
   "apply_filters": "ໃຊ້ຕົວຄັດກອງ",
-  "daily_time": "ເວລາລາຍວັນ",
+  "daily_time": "ຊ່ວງເວລາໂປຣໂມຊັ່ນ",
   "free_delivery": "ຈັດສົ່ງຟຣີ",
   "min": "ນາທີ",
   "location": "ທີ່ຕັ້ງຂອງຮ້ານ",
@@ -222,7 +222,7 @@
   "select_a_time": "ເລືອກຊ່ວງເວລາ",
   "free": "ຟຣີ",
   "delivery": "ຈັດສົ່ງ",
-  "campaign_schedule": "ກຳໜົດການຂອງແຄມເປນ",
+  "campaign_schedule": "ໄລຍະເວລາຂອງແຄມເປນ",
   "order_amount": "ມູນຄ່າການສັ່ງຊື",
   "one_or_more_products_are_not_available_for_this_selected_time": "ບໍ່ມີສິນຄ້າຢ່າງໜ້ອຍໜື່ງລາຍການໃນກະຕ່າຂອງທ່ານໃນຊ່ວງເວລາທີ່ເລືອກນີ້",
   "item_campaigns": "ລາຍການແຄມເປນ",
@@ -879,7 +879,7 @@
   "please_provide_extra_napkin": "ຕົວຢ່າງ: ກະລຸນາໃຫ້ເຈ້ຍເຊັດມືຕື່ມມາແນ່",
   "add_new": "ເພີ່ມໃໝ່",
   "tips_can_not_be_negative": "ທິບບໍ່ສາມາດຕິດລົບໄດ້",
-  "organic": "ທຳມະຊາດ",
+  "organic": "ອໍແກນິກ",
   "completed": "ສຳເລັດແລ້ວ",
   "all_products": "ສິນຄ້າທັງໝົດ",
 
@@ -1283,5 +1283,9 @@
   "guest_email" : "ອີເມວຜູ້ຢ້ຽມຢາມ",
   "please_enter_your_email" : "ກະລຸນາໃສ່ອີເມວຂອງທ່ານ",
   "please_select_address_first" : "ກະລຸນາເລືອກທີ່ຢູ່ກ່ອນ",
-  "your_location": "ທີ່ຢູ່ຂອງທ່ານ"
+  "your_location": "ທີ່ຢູ່ຂອງທ່ານ",
+  "sender_email": "ອີເມວຂຜູ້ສົ່ງ",
+  "receiver_email": "ອີເມວຜູ້ຮັບ",
+  "please_enter_sender_email": "ກະລຸນາລະບຸອີເມວຜູ້ສົ່ງ",
+  "successfully_verified": "ການຢືນຢັນສຳເລັດ"
 }

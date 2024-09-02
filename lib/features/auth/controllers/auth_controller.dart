@@ -1,13 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
+import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 import 'package:sixam_mart/features/auth/domain/models/signup_body_model.dart';
 import 'package:sixam_mart/features/auth/domain/services/auth_service_interface.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 
 class AuthController extends GetxController implements GetxService {
   final AuthServiceInterface authServiceInterface;
@@ -194,6 +197,38 @@ class AuthController extends GetxController implements GetxService {
 
   Future<String?> saveDeviceToken() async {
     return await authServiceInterface.saveDeviceToken();
+  }
+
+  Future<void> firebaseVerifyPhoneNumber(String phoneNumber, String? token, {bool fromSignUp = true, bool canRoute = true})async {
+    _isLoading = true;
+    update();
+
+    await FirebaseAuth.instance.verifyPhoneNumber(
+      phoneNumber: phoneNumber,
+      verificationCompleted: (PhoneAuthCredential credential) {},
+      verificationFailed: (FirebaseAuthException e) {
+        _isLoading = false;
+        update();
+
+        if(e.code == 'invalid-phone-number') {
+          showCustomSnackBar('please_submit_a_valid_phone_number'.tr);
+        }else{
+          showCustomSnackBar(e.message?.replaceAll('_', ' '));
+        }
+
+      },
+      codeSent: (String vId, int? resendToken) {
+
+        _isLoading = false;
+        update();
+
+        if(canRoute) {
+          Get.toNamed(RouteHelper.getVerificationRoute(phoneNumber, token, fromSignUp ? RouteHelper.signUp : RouteHelper.forgotPassword, '', session: vId));
+        }
+      },
+      codeAutoRetrievalTimeout: (String verificationId) {},
+    );
+
   }
 
 }

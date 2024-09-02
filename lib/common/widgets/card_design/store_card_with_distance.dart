@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
@@ -32,7 +31,6 @@ class StoreCardWithDistance extends StatelessWidget {
   Widget build(BuildContext context) {
     bool isPharmacy = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.pharmacy;
     double distance = (store.distance!/1000);
-    String formattedDistance = NumberFormat.compact().format(distance);
     return Stack(
       children: [
         Container(
@@ -154,7 +152,7 @@ class StoreCardWithDistance extends StatelessWidget {
                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                             Text(
-                              '$formattedDistance ${'km'.tr}',
+                              '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
                               style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall),
                             ),
                             const SizedBox(width: Dimensions.paddingSizeExtraSmall),

@@ -112,6 +112,7 @@ class AuthRepository implements AuthRepositoryInterface{
       }
       if(!GetPlatform.isWeb) {
         FirebaseMessaging.instance.subscribeToTopic(AppConstants.topic);
+        FirebaseMessaging.instance.subscribeToTopic('zone_${AddressHelper.getUserAddressFromSharedPref()!.zoneId}_customer');
       }
     }
     return await apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": notificationDeviceToken.isNotEmpty ? notificationDeviceToken : deviceToken}, handleError: false);
@@ -168,6 +169,7 @@ class AuthRepository implements AuthRepositoryInterface{
   Future<bool> clearSharedData() async {
     if(!GetPlatform.isWeb) {
       FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.topic);
+      FirebaseMessaging.instance.unsubscribeFromTopic('zone_${AddressHelper.getUserAddressFromSharedPref()!.zoneId}_customer');
       apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": '@'}, handleError: false);
     }
     sharedPreferences.remove(AppConstants.token);

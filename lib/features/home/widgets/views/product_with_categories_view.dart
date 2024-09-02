@@ -26,7 +26,7 @@ class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Categories>? categories = [];
       List<Item>? products = [];
-      if(widget.fromShop ? itemController.reviewedCategoriesList != null && itemController.reviewedItemList !=null : itemController.basicMedicineModel != null){
+      if(widget.fromShop ? itemController.reviewedCategoriesList != null && itemController.reviewedItemList != null : itemController.basicMedicineModel != null){
         categories.add(Categories(name: 'all'.tr, id: 0));
         for (var category in widget.fromShop ? itemController.reviewedCategoriesList! : itemController.basicMedicineModel!.categories!) {
           categories.add(category);
@@ -35,7 +35,7 @@ class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
           if(selectedCategory == 0) {
             products.add(product);
           }
-          if(categories[selectedCategory].id == product.categoryId){
+          if(categories[selectedCategory].id == product.categoryIds?[0].id){
             products.add(product);
           }
         }

@@ -234,7 +234,6 @@ class LocationController extends GetxController implements GetxService {
   }
 
   void _prepareZoneData(AddressModel address, bool fromSignUp, String? route, bool canRoute, bool isDesktop) {
-    print('=====here====1====> $route');
     getZone(address.latitude, address.longitude, false).then((response) async {
       if (response.isSuccess) {
         Get.find<CartController>().getCartDataOnline();
@@ -247,10 +246,14 @@ class LocationController extends GetxController implements GetxService {
         address.areaIds!.addAll(response.areaIds);
         autoNavigate(address, fromSignUp, route, canRoute, isDesktop);
       } else {
-        Get.back();
-        showCustomSnackBar(response.message);
-        if(route == 'splash') {
+        if (response.statusCode == 404) {
           Get.toNamed(RouteHelper.getPickMapRoute(route, false));
+        } else {
+          Get.back();
+          showCustomSnackBar(response.message);
+          if(route == 'splash') {
+            Get.toNamed(RouteHelper.getPickMapRoute(route, false));
+          }
         }
       }
     });
@@ -274,7 +277,6 @@ class LocationController extends GetxController implements GetxService {
 
   void _saveDataAndFirebaseConfig(AddressModel address, bool fromSignUp, String? route, bool canRoute, bool isDesktop) async {
     locationServiceInterface.configureFirebaseMessaging(address);
-    print('=====here====2====> $route');
     await AddressHelper.saveUserAddressInSharedPref(address);
     if(AuthHelper.isLoggedIn()) {
       if(Get.find<SplashController>().module != null) {

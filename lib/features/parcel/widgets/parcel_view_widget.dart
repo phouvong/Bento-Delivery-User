@@ -13,6 +13,7 @@ import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_dropdown.dart';
 import 'package:sixam_mart/common/widgets/custom_text_field.dart';
@@ -27,10 +28,12 @@ class ParcelViewWidget extends StatefulWidget {
   final TextEditingController streetController;
   final TextEditingController houseController;
   final TextEditingController floorController;
+  final TextEditingController? guestEmailController;
   final String? countryCode;
 
   const ParcelViewWidget({super.key, required this.isSender, required this.nameController, required this.phoneController,
-    required this.streetController, required this.houseController, required this.floorController, required this.bottomButton, required this.countryCode});
+    required this.streetController, required this.houseController, required this.floorController, required this.bottomButton, required this.countryCode,
+    this.guestEmailController});
 
   @override
   State<ParcelViewWidget> createState() => _ParcelViewWidgetState();
@@ -42,6 +45,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
   final FocusNode floorNode = FocusNode();
   final FocusNode nameNode = FocusNode();
   final FocusNode phoneNode = FocusNode();
+  final FocusNode guestEmailNode = FocusNode();
   String? _countryCode;
   String? _addressCountryCode;
 
@@ -269,7 +273,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                           controller: widget.phoneController,
                           focusNode: phoneNode,
                           inputType: TextInputType.phone,
-                          inputAction: TextInputAction.done,
+                          inputAction: AuthHelper.isGuestLoggedIn() ? TextInputAction.next : TextInputAction.done,
                           isPhone: true,
                           onCountryChanged: (CountryCode countryCode) {
                             countryDialCode = countryCode.dialCode;
@@ -277,7 +281,20 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                           },
                           countryDialCode: countryDialCode ?? _countryCode,
                         ),
+                        SizedBox(height: AuthHelper.isGuestLoggedIn() ? Dimensions.paddingSizeLarge : 0),
+
+                        AuthHelper.isGuestLoggedIn() ? CustomTextField(
+                          titleText: parcelController.isSender ? 'sender_email'.tr : 'receiver_email'.tr,
+                          labelText: parcelController.isSender ? 'sender_email'.tr : 'receiver_email'.tr,
+                          controller: widget.guestEmailController,
+                          inputType: TextInputType.emailAddress,
+                          focusNode: guestEmailNode,
+                          prefixImage: Images.mail,
+                          inputAction: TextInputAction.done,
+                        ) : const SizedBox(),
+
                         const SizedBox(height: Dimensions.paddingSizeDefault),
+
                       ]),
                     ),
 

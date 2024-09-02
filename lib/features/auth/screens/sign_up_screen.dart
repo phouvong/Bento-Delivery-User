@@ -361,9 +361,13 @@ class SignUpScreenState extends State<SignUpScreen> {
         authController.registration(signUpBody).then((status) async {
           if (status.isSuccess) {
             if(Get.find<SplashController>().configModel!.customerVerification!) {
-              List<int> encoded = utf8.encode(password);
-              String data = base64Encode(encoded);
-              Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, status.message, RouteHelper.signUp, data));
+              if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+                Get.find<AuthController>().firebaseVerifyPhoneNumber(numberWithCountryCode, status.message, fromSignUp: true);
+              } else {
+                List<int> encoded = utf8.encode(password);
+                String data = base64Encode(encoded);
+                Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, status.message, RouteHelper.signUp, data));
+              }
             }else {
               Get.find<LocationController>().navigateToLocationScreen(RouteHelper.signUp);
               if(ResponsiveHelper.isDesktop(context)){

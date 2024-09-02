@@ -377,8 +377,10 @@ class ParcelController extends GetxController implements GetxService {
     if (response.statusCode == 200) {
       String? message = response.body['message'];
       orderID = response.body['order_id'].toString();
+      int createUserId = response.body['user_id'];
+
       if(!isOfflinePay) {
-        parcelCallback(true, message, orderID, zoneID, amount, maximumCodOrderAmount, isCashOnDeliveryActive, placeOrderBody.contactPersonNumber);
+        parcelCallback(true, message, orderID, zoneID, amount, maximumCodOrderAmount, isCashOnDeliveryActive, placeOrderBody.contactPersonNumber, createUserId: createUserId);
       }
       if (kDebugMode) {
         print('-------- Order placed successfully $orderID ----------');
@@ -395,7 +397,7 @@ class ParcelController extends GetxController implements GetxService {
     return orderID;
   }
 
-  Future<void> parcelCallback(bool isSuccess, String? message, String orderID, int? zoneID, double orderAmount, double? maxCodAmount, bool isCashOnDeliveryActive, String? contactNumber,) async {
+  Future<void> parcelCallback(bool isSuccess, String? message, String orderID, int? zoneID, double orderAmount, double? maxCodAmount, bool isCashOnDeliveryActive, String? contactNumber, {int? createUserId}) async {
     Get.find<ParcelController>().startLoader(false);
     if(isSuccess) {
       if(isDmTipSave){
@@ -408,18 +410,18 @@ class ParcelController extends GetxController implements GetxService {
           await Get.find<AuthController>().saveGuestNumber(contactNumber ?? '');
           String? hostname = html.window.location.hostname;
           String protocol = html.window.location.protocol;
-          String selectedUrl = '${AppConstants.baseUrl}/payment-mobile?order_id=$orderID&&customer_id=${Get.find<ProfileController>().userInfoModel?.id ?? AuthHelper.getGuestId()}'
+          String selectedUrl = '${AppConstants.baseUrl}/payment-mobile?order_id=$orderID&&customer_id=${Get.find<ProfileController>().userInfoModel?.id ?? (Get.find<CheckoutController>().isCreateAccount ? createUserId : AuthHelper.getGuestId())}'
               '&payment_method=${Get.find<ParcelController>().digitalPaymentName}&payment_platform=web&&callback=$protocol//$hostname${RouteHelper.orderSuccess}?id=$orderID&status=';
           html.window.open(selectedUrl,"_self");
         } else{
           Get.offNamed(RouteHelper.getPaymentRoute(
             orderID, Get.find<ProfileController>().userInfoModel?.id ?? 0, 'parcel', orderAmount, isCashOnDeliveryActive,
             Get.find<ParcelController>().digitalPaymentName, guestId: AuthHelper.getGuestId(),
-            contactNumber: contactNumber,
+            contactNumber: contactNumber, createAccount: Get.find<CheckoutController>().isCreateAccount, createUserId: createUserId,
           ));
         }
       }else {
-        Get.offNamed(RouteHelper.getOrderSuccessRoute(orderID, contactNumber));
+        Get.offNamed(RouteHelper.getOrderSuccessRoute(orderID, contactNumber, createAccount: Get.find<CheckoutController>().isCreateAccount));
       }
       updateTips(0, notify: false);
     }else {
