@@ -23,9 +23,10 @@ class PaymentScreen extends StatefulWidget {
   final String contactNumber;
   final String? subscriptionUrl;
   final int? storeId;
-  final bool? createAccount;
+  final bool createAccount;
+  final int? createUserId;
   const PaymentScreen({super.key, required this.orderModel, required this.isCashOnDelivery, this.addFundUrl, required this.paymentMethod,
-    required this.guestId, required this.contactNumber, this.storeId, this.subscriptionUrl, this.createAccount = false});
+    required this.guestId, required this.contactNumber, this.storeId, this.subscriptionUrl, this.createAccount = false, this.createUserId});
 
   @override
   PaymentScreenState createState() => PaymentScreenState();
@@ -44,7 +45,7 @@ class PaymentScreenState extends State<PaymentScreen> {
     super.initState();
 
     if(widget.addFundUrl == '' && widget.addFundUrl!.isEmpty && widget.subscriptionUrl == '' && widget.subscriptionUrl!.isEmpty){
-      selectedUrl = '${AppConstants.baseUrl}/payment-mobile?customer_id=${widget.orderModel.userId == 0 ? widget.guestId : widget.orderModel.userId}&order_id=${widget.orderModel.id}&payment_method=${widget.paymentMethod}';
+      selectedUrl = '${AppConstants.baseUrl}/payment-mobile?customer_id=${widget.createAccount ? widget.createUserId : widget.orderModel.userId == 0 ? widget.guestId : widget.orderModel.userId}&order_id=${widget.orderModel.id}&payment_method=${widget.paymentMethod}';
     } else if(widget.subscriptionUrl != '' && widget.subscriptionUrl!.isNotEmpty){
       selectedUrl = widget.subscriptionUrl!;
     } else{
@@ -76,7 +77,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       orderAmount: widget.orderModel.orderAmount, maxCodOrderAmount: _maximumCodOrderAmount,
       isCashOnDelivery: widget.isCashOnDelivery, addFundUrl: widget.addFundUrl,
       contactNumber: widget.contactNumber, storeId: widget.storeId,
-      subscriptionUrl: widget.subscriptionUrl, createAccount: widget.createAccount!,
+      subscriptionUrl: widget.subscriptionUrl, createAccount: widget.createAccount,
       guestId: widget.guestId,
     );
 
@@ -126,7 +127,7 @@ class PaymentScreenState extends State<PaymentScreen> {
       return Get.dialog(PaymentFailedDialog(
         orderID: widget.orderModel.id.toString(), orderAmount: widget.orderModel.orderAmount,
         maxCodOrderAmount: _maximumCodOrderAmount, orderType: widget.orderModel.orderType,
-        isCashOnDelivery: widget.isCashOnDelivery, guestId: widget.guestId,
+        isCashOnDelivery: widget.isCashOnDelivery, guestId: widget.createAccount ? widget.createUserId.toString() : widget.guestId,
       ));
     } else{
       return Get.dialog(FundPaymentDialogWidget(isSubscription: widget.subscriptionUrl != null && widget.subscriptionUrl!.isNotEmpty));

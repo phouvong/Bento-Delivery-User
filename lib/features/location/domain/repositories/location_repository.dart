@@ -31,10 +31,10 @@ class LocationRepository implements LocationRepositoryInterface {
       ZoneResponseModel responseModel;
       List<int>? zoneIds = ZoneModel.fromJson(response.body).zoneIds;
       List<ZoneData>? zoneData = ZoneModel.fromJson(response.body).zoneData;
-      responseModel = ZoneResponseModel(true, '' , zoneIds ?? [], zoneData??[], []);
+      responseModel = ZoneResponseModel(true, '' , zoneIds ?? [], zoneData??[], [], response.statusCode);
       return responseModel;
     } else {
-      return ZoneResponseModel(false, response.statusText, [], [], []);
+      return ZoneResponseModel(false, response.statusText, [], [], [], response.statusCode);
     }
   }
 

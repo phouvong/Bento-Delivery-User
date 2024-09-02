@@ -4,13 +4,15 @@ class ZoneResponseModel {
   final String? _message;
   final List<ZoneData> _zoneData;
   final List<int> _areaIds;
-  ZoneResponseModel(this._isSuccess, this._message, this._zoneIds, this._zoneData, this._areaIds);
+  final int? statusCode;
+  ZoneResponseModel(this._isSuccess, this._message, this._zoneIds, this._zoneData, this._areaIds, this.statusCode);
 
   String? get message => _message;
   List<int> get zoneIds => _zoneIds;
   bool get isSuccess => _isSuccess;
   List<ZoneData> get zoneData => _zoneData;
   List<int> get areaIds => _areaIds;
+  int? get status => statusCode;
 }
 
 class ZoneData {

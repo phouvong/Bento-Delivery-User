@@ -336,7 +336,7 @@
   "connected": "Conectado",
   "no_connection": "Sin conexión a Internet",
   "ready_for_handover": "Listo para la entrega",
-  "for_demo_purpose": "Para fines de demostración, use 1234 como OTP",
+  "for_demo_purpose": "Para fines de demostración, use 123456 como OTP",
   "more": "Más",
   "we_are_under_maintenance": "Estamos en Mantenimiento",
   "we_will_be_right_back": "Ya volvemos",
@@ -1269,5 +1269,9 @@
   "this_charge_include_extra_vehicle_charge": "Este cargo incluye cargo adicional por vehículo",
   "and_bad_weather_charge": "y cargo por mal tiempo",
   "please_select_address_first" : "Por favor seleccione la dirección primero",
-  "your_location": "Tu ubicación"
+  "your_location": "Tu ubicación",
+  "sender_email": "Correo electrónico del remitente",
+  "receiver_email": "Correo electrónico del destinatario",
+  "please_enter_sender_email": "Por favor, introduzca el correo electrónico del remitente",
+  "successfully_verified": "Verificado con éxito"
 }

@@ -10,7 +10,7 @@ class AppConstants {
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://admin.bentodelivery.net';
+  static const String webHostedUrl = 'https://bentodelivery.net';
   static const bool useReactWebsite = false;
 
   static const String baseUrl = 'https://admin.bentodelivery.net';
@@ -142,6 +142,7 @@ class AppConstants {
   static const String advertisementListUri = '/api/v1/advertisement/list';
   static const String searchSuggestionsUri = '/api/v1/items/item-or-store-search';
   static const String searchPopularCategoriesUri = '/api/v1/categories/popular';
+  static const String firebaseAuthVerify = '/api/v1/auth/firebase-verify-token';
 
   ///Subscription
   static const String businessPlanUri = '/api/v1/vendor/business_plan';
@@ -247,9 +248,9 @@ class AppConstants {
   static List<LanguageModel> languages = [
     LanguageModel(imageUrl: Images.lao, languageName: 'ພາສາລາວ', countryCode: 'LA', languageCode: 'lo'),
     LanguageModel(imageUrl: Images.english, languageName: 'English', countryCode: 'US', languageCode: 'en'),
-    ///LanguageModel(imageUrl: Images.arabic, languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
-    ///LanguageModel(imageUrl: Images.spanish, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
-    ///LanguageModel(imageUrl: Images.bengali, languageName: 'Bengali', countryCode: 'BN', languageCode: 'bn'),
+    //LanguageModel(imageUrl: Images.arabic, languageName: 'عربى', countryCode: 'SA', languageCode: 'ar'),
+    //LanguageModel(imageUrl: Images.spanish, languageName: 'Spanish', countryCode: 'ES', languageCode: 'es'),
+    //LanguageModel(imageUrl: Images.bengali, languageName: 'Bengali', countryCode: 'BN', languageCode: 'bn'),
   ];
 
   static List<String> joinDropdown = [

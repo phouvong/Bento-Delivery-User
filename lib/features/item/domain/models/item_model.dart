@@ -269,17 +269,20 @@ class Item {
 }
 
 class CategoryIds {
-  String? id;
+  int? id;
+  int? position;
 
-  CategoryIds({this.id});
+  CategoryIds({this.id, this.position});
 
   CategoryIds.fromJson(Map<String, dynamic> json) {
-    id = json['id'].toString();
+    id = int.tryParse(json['id'].toString())??0;
+    position = int.tryParse(json['position'].toString())??0;
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['id'] = id;
+    data['position'] = position;
     return data;
   }
 }

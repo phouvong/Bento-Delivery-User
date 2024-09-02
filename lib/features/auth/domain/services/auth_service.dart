@@ -1,9 +1,11 @@
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
+import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/auth/domain/models/signup_body_model.dart';
 import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 import 'package:sixam_mart/features/auth/domain/reposotories/auth_repository_interface.dart';
 import 'package:sixam_mart/features/auth/domain/services/auth_service_interface.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 
@@ -34,6 +36,9 @@ class AuthService implements AuthServiceInterface{
     Response response = await authRepositoryInterface.login(phone: phone, password: password);
     ResponseModel responseModel;
     if (response.statusCode == 200) {
+
+      // Get.find<AuthController>().firebaseVerifyPhoneNumber(phone!);
+      // responseModel = ResponseModel(false, 'success');
       if(isCustomerVerificationOn && response.body['is_phone_verified'] == 0) {
 
       }else {
@@ -61,7 +66,11 @@ class AuthService implements AuthServiceInterface{
       String? token = response.body['token'];
       if(token != null && token.isNotEmpty) {
         if(isCustomerVerificationOn && response.body['is_phone_verified'] == 0) {
-          Get.toNamed(RouteHelper.getVerificationRoute(response.body['phone'] ?? socialLogInBody.email, token, RouteHelper.signUp, ''));
+          if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+            Get.find<AuthController>().firebaseVerifyPhoneNumber(response.body['phone'], token, fromSignUp: true);
+          }else{
+            Get.toNamed(RouteHelper.getVerificationRoute(response.body['phone'] ?? socialLogInBody.email, token, RouteHelper.signUp, ''));
+          }
         }else {
           authRepositoryInterface.saveUserToken(response.body['token']);
           await authRepositoryInterface.updateToken();
@@ -86,7 +95,11 @@ class AuthService implements AuthServiceInterface{
     if (response.statusCode == 200) {
       String? token = response.body['token'];
       if(isCustomerVerificationOn && response.body['is_phone_verified'] == 0) {
-        Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.phone, token, RouteHelper.signUp, ''));
+        if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+          Get.find<AuthController>().firebaseVerifyPhoneNumber(socialLogInBody.phone!, token, fromSignUp: true);
+        }else{
+          Get.toNamed(RouteHelper.getVerificationRoute(socialLogInBody.phone, token, RouteHelper.signUp, ''));
+        }
       }else {
         authRepositoryInterface.saveUserToken(response.body['token']);
         await authRepositoryInterface.updateToken();

@@ -336,7 +336,7 @@
   "connected": "متصل",
   "no_connection": "لا يوجد اتصال بالإنترنت",
   "ready_for_handover": "جاهز للتسليم",
-  "for_demo_purpose": "لغرض العرض ، يرجى استخدام 1234 كـ OTP",
+  "for_demo_purpose": "لغرض العرض ، يرجى استخدام 123456 كـ OTP",
   "more": "أكثر",
   "we_are_under_maintenance": "نحن تحت الصيانة",
   "we_will_be_right_back": "سوف نعود",
@@ -1270,5 +1270,9 @@
   "this_charge_include_extra_vehicle_charge": "تشمل هذه الرسوم رسوم المركبة الإضافية",
   "and_bad_weather_charge": "ورسوم الطقس السيئ",
   "please_select_address_first" : "يرجى اختيار العنوان أولاً",
-  "your_location": "موقعك"
+  "your_location": "موقعك",
+  "sender_email": "بريد المرسل",
+  "receiver_email": "بريد المستلم",
+  "please_enter_sender_email": "الرجاء إدخال بريد المرسل",
+  "successfully_verified": "تم التحقق بنجاح"
 }

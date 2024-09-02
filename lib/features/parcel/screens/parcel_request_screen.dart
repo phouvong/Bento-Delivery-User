@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
+import 'package:sixam_mart/features/checkout/widgets/guest_create_account.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
@@ -49,8 +50,10 @@ class ParcelRequestScreen extends StatefulWidget {
 
 class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
   final TextEditingController _tipController = TextEditingController();
-  final TextEditingController _guestEmailController = TextEditingController();
-  final FocusNode _guestEmailNode = FocusNode();
+  final TextEditingController _guestPasswordController = TextEditingController();
+  final TextEditingController _guestConfirmPasswordController = TextEditingController();
+  final FocusNode _guestPasswordNode = FocusNode();
+  final FocusNode _guestConfirmPasswordNode = FocusNode();
   bool _isLoggedIn = AuthHelper.isLoggedIn();
   bool? _isCashOnDeliveryActive = false;
   bool? _isDigitalPaymentActive = false;
@@ -85,6 +88,10 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
       Get.find<ParcelController>().updateTips(
         Get.find<AuthController>().getDmTipIndex().isNotEmpty ? int.parse(Get.find<AuthController>().getDmTipIndex()) : 0, notify: false,
       );
+
+    if(Get.find<CheckoutController>().isCreateAccount) {
+      Get.find<CheckoutController>().toggleCreateAccount(willUpdate: false);
+    }
 
     Get.find<ParcelController>().setInstructionselectedIndex(-1, notify: false);
     Get.find<ParcelController>().setCustomNoteController('', notify: false);
@@ -266,27 +273,12 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                 ),
                 const SizedBox(height: Dimensions.paddingSizeDefault),
 
-                AuthHelper.isGuestLoggedIn() ? CardWidget(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('guest_email'.tr, style: robotoMedium),
-                        const SizedBox(height: Dimensions.paddingSizeSmall),
+                isGuestLoggedIn ? GuestCreateAccount(
+                  guestPasswordController: _guestPasswordController, guestConfirmPasswordController: _guestConfirmPasswordController,
+                  guestPasswordNode: _guestPasswordNode, guestConfirmPasswordNode: _guestConfirmPasswordNode,
+                  fromParcel: true,
+                ): const SizedBox(),
 
-                        CustomTextField(
-                          titleText: 'enter_email'.tr,
-                          labelText: 'email'.tr,
-                          controller: _guestEmailController,
-                          inputType: TextInputType.emailAddress,
-                          focusNode: _guestEmailNode,
-                          inputAction: TextInputAction.done,
-                        ),
-                      ],
-                    ),
-                  ),
-                ) : const SizedBox(),
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                 (Get.find<SplashController>().configModel!.dmTipsStatus == 1) ? Container(
@@ -563,12 +555,12 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                 const CheckoutCondition(isParcel: true),
 
                 SizedBox(height: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : 0),
-                ResponsiveHelper.isDesktop(context) ? _bottomButton(parcelController, total) : const SizedBox(),
+                ResponsiveHelper.isDesktop(context) ? _bottomButton(parcelController, total, isGuestLoggedIn: isGuestLoggedIn) : const SizedBox(),
 
               ]))),
             )),
 
-            ResponsiveHelper.isDesktop(context) ? const SizedBox() : _bottomButton(parcelController, total),
+            ResponsiveHelper.isDesktop(context) ? const SizedBox() : _bottomButton(parcelController, total, isGuestLoggedIn: isGuestLoggedIn),
 
           ]);
         }) : NotLoggedInScreen(callBack: (value){
@@ -579,7 +571,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
     );
   }
 
-  Widget _bottomButton(ParcelController parcelController, double charge) {
+  Widget _bottomButton(ParcelController parcelController, double charge, {bool isGuestLoggedIn = false}) {
 
     bool isInstructionSelected = parcelController.selectedIndexNote != -1;
     bool isCustomNote = parcelController.customNote!.isNotEmpty;
@@ -595,8 +587,12 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
           showCustomSnackBar('tips_can_not_be_negative'.tr);
         }else if(parcelController.paymentIndex == -1) {
           showCustomSnackBar('please_select_payment_method_first'.tr);
-        }else if(AuthHelper.isGuestLoggedIn() && _guestEmailController.text.isEmpty) {
-          showCustomSnackBar('please_enter_your_email'.tr);
+        }else if(isGuestLoggedIn && Get.find<CheckoutController>().isCreateAccount && _guestPasswordController.text.isEmpty) {
+          showCustomSnackBar('enter_password'.tr);
+        }else if(isGuestLoggedIn && Get.find<CheckoutController>().isCreateAccount && _guestConfirmPasswordController.text.isEmpty) {
+          showCustomSnackBar('enter_confirm_password'.tr);
+        }else if(isGuestLoggedIn && Get.find<CheckoutController>().isCreateAccount && (_guestPasswordController.text != _guestConfirmPasswordController.text)) {
+          showCustomSnackBar('confirm_password_does_not_matched'.tr);
         }else {
 
           PlaceOrderBodyModel placeOrderBody = PlaceOrderBodyModel(
@@ -617,8 +613,8 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
             cutlery: 0, unavailableItemNote: '',
             deliveryInstruction: (isInstructionSelected ? '${parcelController.parcelInstructionList![parcelController.selectedIndexNote!].instruction}' : '') + (isInstructionSelected ? (isCustomNote ? " (${parcelController.customNote})" : '') : (isCustomNote ? parcelController.customNote ?? '' : '')),
             partialPayment: 0, guestId: AuthHelper.isGuestLoggedIn() ? int.parse(AuthHelper.getGuestId()) : 0, isBuyNow: 0,
-            guestEmail: _guestEmailController.text.trim(), extraPackagingAmount: null,
-            createNewUser: 0, password: null,
+            guestEmail: widget.pickedUpAddress.email ?? '', extraPackagingAmount: null,
+            createNewUser: Get.find<CheckoutController>().isCreateAccount ? 1 : 0, password: _guestPasswordController.text,
           );
 
           if(parcelController.paymentIndex == 3) {

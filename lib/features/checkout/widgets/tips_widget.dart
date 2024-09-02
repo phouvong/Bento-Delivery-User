@@ -56,7 +56,7 @@ class TipsWidget extends StatelessWidget {
             ]),
           ),
         ),
-        const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+        const SizedBox(height: Dimensions.paddingSizeExtraSmall -1),
 
         isSuggested && !ResponsiveHelper.isDesktop(context) ? Text(
           'most_tipped'.tr, style: robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall),

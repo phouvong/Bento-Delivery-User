@@ -237,8 +237,9 @@ class CartItemWidget extends StatelessWidget {
   double? _calculatePriceWithVariation({required Item? item, bool isStartingPrice = true}) {
     double? startingPrice;
     double? endingPrice;
+    bool newVariation = Get.find<SplashController>().getModuleConfig(item!.moduleType).newVariation ?? false;
 
-    if(item!.variations!.isNotEmpty) {
+    if(item.variations!.isNotEmpty && !newVariation) {
       List<double?> priceList = [];
       for (var variation in item.variations!) {
         priceList.add(variation.price);

@@ -301,9 +301,13 @@ class SignInScreenState extends State<SignInScreen> {
             }
             String token = status.message!.substring(1, status.message!.length);
             if(Get.find<SplashController>().configModel!.customerVerification! && int.parse(status.message![0]) == 0) {
-              List<int> encoded = utf8.encode(password);
-              String data = base64Encode(encoded);
-              Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, token, RouteHelper.signUp, data));
+              if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+                Get.find<AuthController>().firebaseVerifyPhoneNumber(numberWithCountryCode, token, fromSignUp: true);
+              } else {
+                List<int> encoded = utf8.encode(password);
+                String data = base64Encode(encoded);
+                Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, token, RouteHelper.signUp, data));
+              }
             }else {
 
               if(widget.backFromThis) {

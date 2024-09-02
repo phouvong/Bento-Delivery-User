@@ -336,7 +336,7 @@
   "connected": "Connected",
   "no_connection": "No internet connection",
   "ready_for_handover": "Ready for handover",
-  "for_demo_purpose": "For demo purpose please use 1234 as OTP",
+  "for_demo_purpose": "For demo purpose please use 123456 as OTP",
   "more": "More",
   "we_are_under_maintenance": "We Are Under Maintenance",
   "we_will_be_right_back": "We Will Be Right Back",
@@ -1283,5 +1283,9 @@
   "guest_email" : "Guest Email",
   "please_enter_your_email" : "Please enter your email",
   "please_select_address_first" : "Please select address first",
-  "your_location": "Your Location"
+  "your_location": "Your Location",
+  "sender_email": "Sender Email",
+  "receiver_email": "Receiver Email",
+  "please_enter_sender_email": "Please enter sender email",
+  "successfully_verified": "Successfully verified"
 }

@@ -10,7 +10,6 @@ import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/features/checkout/domain/models/place_order_body_model.dart';
 import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
-import 'package:sixam_mart/features/profile/domain/models/user_information_body.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
@@ -18,7 +17,6 @@ import 'package:sixam_mart/features/order/domain/models/order_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/parcel/domain/models/parcel_category_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
-import 'package:sixam_mart/features/taxi_booking/models/vehicle_model.dart';
 import 'package:sixam_mart/features/address/screens/add_address_screen.dart';
 import 'package:sixam_mart/features/address/screens/address_screen.dart';
 import 'package:sixam_mart/features/auth/screens/delivery_man_registration_screen.dart';
@@ -77,14 +75,6 @@ import 'package:sixam_mart/features/review/screens/review_screen.dart';
 import 'package:sixam_mart/features/search/screens/search_screen.dart';
 import 'package:sixam_mart/features/splash/screens/splash_screen.dart';
 import 'package:sixam_mart/features/support/screens/support_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/booking_checkout_screen/booking_checkout_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/car_details_screen/car_details_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/order_status_screen/order_status_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/select_car_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/select_map_location/select_map_location.dart';
-import 'package:sixam_mart/features/taxi_booking/taxi_coupon_screen/taxi_coupon_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/trip_completed_confermation/trip_completed_confirmation_screen.dart';
-import 'package:sixam_mart/features/taxi_booking/trip_history/trip_history_screen.dart';
 import 'package:sixam_mart/features/update/screens/update_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -143,18 +133,10 @@ class RouteHelper {
   static const String referAndEarn = '/refer-and-earn';
   static const String messages = '/messages';
   static const String conversation = '/conversation';
-  static const String restaurantRegistration = '/restaurant-registration';
+  static const String restaurantRegistration = '/store-registration';
   static const String deliveryManRegistration = '/delivery-man-registration';
   static const String refund = '/refund';
 
-  static const String selectRideMapLocation = '/select-rider-map-location';
-  static const String selectCarScreen = '/select-car-screen';
-  static const String carDetailsScreen = '/car-details-screen';
-  static const String bookingCheckoutScreen = '/booking-checkout-screen';
-  static const String tripHistoryScreen = '/trip-history-screen';
-  static const String orderStatusScreen = '/order-status-screen';
-  static const String tripCompletedConfirmationScreen = '/trip-complete-confirmation-screen';
-  static const String taxiCouponScreen = '/taxi-coupon-screen';
   static const String offlinePaymentScreen = '/offline-payment-screen';
   static const String flashSaleDetailsScreen = '/flash-sale-details-screen';
   static const String guestTrackOrderScreen = '/guest-track-order-screen';
@@ -180,8 +162,12 @@ class RouteHelper {
   static String getOnBoardingRoute() => onBoarding;
   static String getSignInRoute(String page) => '$signIn?page=$page';
   static String getSignUpRoute() => signUp;
-  static String getVerificationRoute(String? number, String? token, String page, String pass) {
-    return '$verification?page=$page&number=$number&token=$token&pass=$pass';
+  static String getVerificationRoute(String? number, String? token, String page, String pass, {String? session}) {
+    String? authSession;
+    if(session != null) {
+      authSession = base64Url.encode(utf8.encode(session));
+    }
+    return '$verification?page=$page&number=$number&token=$token&pass=$pass&session=$authSession';
   }
   static String getAccessLocationRoute(String page) => '$accessLocation?page=$page';
   static String getPickMapRoute(String? page, bool canRoute) => '$pickMap?page=$page&route=${canRoute.toString()}';
@@ -215,8 +201,8 @@ class RouteHelper {
   static String getOrderSuccessRoute(String orderID, String? contactNumber, {bool? createAccount, String guestId = ''}) {
     return '$orderSuccess?id=$orderID&contact_number=$contactNumber&create_account=$createAccount&guest_id=$guestId';
   }
-  static String getPaymentRoute(String id, int? user, String? type, double amount, bool? codDelivery, String? paymentMethod, {required String guestId, String? contactNumber, String? addFundUrl, String? subscriptionUrl, int? storeId, bool? createAccount}
-      ) => '$payment?id=$id&user=$user&type=$type&amount=$amount&cod-delivery=$codDelivery&add-fund-url=$addFundUrl&payment-method=$paymentMethod&guest-id=$guestId&number=$contactNumber&subscription-url=$subscriptionUrl&store_id=$storeId&create_account=$createAccount';
+  static String getPaymentRoute(String id, int? user, String? type, double amount, bool? codDelivery, String? paymentMethod, {required String guestId, String? contactNumber, String? addFundUrl, String? subscriptionUrl, int? storeId, bool? createAccount, int? createUserId}
+      ) => '$payment?id=$id&user=$user&type=$type&amount=$amount&cod-delivery=$codDelivery&add-fund-url=$addFundUrl&payment-method=$paymentMethod&guest-id=$guestId&number=$contactNumber&subscription-url=$subscriptionUrl&store_id=$storeId&create_account=$createAccount&create_user_id=$createUserId';
   static String getCheckoutRoute(String page,{int? storeId}) => '$checkout?page=$page&store-id=$storeId';
   static String getOrderTrackingRoute(int? id, String? contactNumber) => '$orderTracking?id=$id&number=$contactNumber';
   static String getBasicCampaignRoute(BasicCampaignModel basicCampaignModel) {
@@ -286,36 +272,6 @@ class RouteHelper {
   static String getDeliverymanRegistrationRoute() => deliveryManRegistration;
   static String getRefundRequestRoute(String orderID) => '$refund?id=$orderID';
 
-  static String getSelectRideMapLocationRoute(String riderType, AddressModel? addressModel, Vehicles? vehicle) {
-    String riderType0 = base64Url.encode(utf8.encode(jsonEncode(riderType)));
-    String address = 'null';
-    String vehicle0 = 'null';
-    if(addressModel != null){
-      address = base64Url.encode(utf8.encode(jsonEncode(addressModel)));
-    }
-    if(vehicle != null){
-      vehicle0 = base64Url.encode(utf8.encode(jsonEncode(vehicle)));
-    }
-    return '$selectRideMapLocation?rider_type=$riderType0&address=$address&vehicle=$vehicle0';
-  }
-  static String getSelectCarScreenRoute(UserInformationBody filterBody, ){
-    String body = base64Url.encode(utf8.encode(jsonEncode(filterBody)));
-    return '$selectCarScreen?body=$body';
-  }
-  static String getCarDetailsScreen(Vehicles vehicle, UserInformationBody filterBody) {
-    String vehicle0 = base64Url.encode(utf8.encode(jsonEncode(vehicle.toJson())));
-    String body = base64Url.encode(utf8.encode(jsonEncode(filterBody.toJson())));
-    return '$carDetailsScreen?vehicle=$vehicle0&body=$body';
-  }
-  static String getBookingCheckoutScreen(Vehicles vehicle, UserInformationBody filterBody) {
-    String vehicle0 = base64Url.encode(utf8.encode(jsonEncode(vehicle)));
-    String body = base64Url.encode(utf8.encode(jsonEncode(filterBody)));
-    return '$bookingCheckoutScreen?vehicle=$vehicle0&body=$body';
-  }
-  static String getTripHistoryScreen() => tripHistoryScreen;
-  static String getOrderStatusScreen() => orderStatusScreen;
-  static String getTripCompletedConfirmationScreen() => tripCompletedConfirmationScreen;
-  static String getTaxiCouponScreen() => taxiCouponScreen;
   static String getOfflinePaymentScreen({
     required PlaceOrderBodyModel placeOrderBody, required int? zoneId, required double total,
     required double? maxCodOrderAmount, required bool fromCart, required bool? isCodActive,
@@ -356,9 +312,13 @@ class RouteHelper {
     GetPage(name: verification, page: () {
       List<int> decode = base64Decode(Get.parameters['pass']!.replaceAll(' ', '+'));
       String data = utf8.decode(decode);
+      String? session;
+      if(Get.parameters['session'] != null && Get.parameters['session'] != 'null') {
+        session = utf8.decode(base64Url.decode(Get.parameters['session'] ?? ''));
+      }
       return VerificationScreen(
         number: Get.parameters['number'], fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token'],
-        password: data,
+        password: data, firebaseSession: session,
       );
     }),
     GetPage(name: accessLocation, page: () => AccessLocationScreen(
@@ -440,12 +400,13 @@ class RouteHelper {
       String number = Get.parameters['number']!;
       int? storeId = (Get.parameters['store_id'] != null && Get.parameters['store_id'] != 'null') ? int.parse(Get.parameters['store_id']!) : null;
       bool createAccount = Get.parameters['create_account'] == 'true';
+      int? createUserId = Get.parameters['create_user_id'] != null && Get.parameters['create_user_id'] != 'null' ? int.parse(Get.parameters['create_user_id']!) : null;
       return getRoute(AppConstants.payInWevView ? PaymentWebViewScreen(
         orderModel: order, isCashOnDelivery: isCodActive, addFundUrl: addFundUrl, paymentMethod: paymentMethod, guestId: guestId,
         contactNumber: number, subscriptionUrl: subscriptionUrl, storeId: storeId, createAccount: createAccount,
       ) : PaymentScreen(
         orderModel: order, isCashOnDelivery: isCodActive, addFundUrl: addFundUrl, paymentMethod: paymentMethod, guestId: guestId,
-        contactNumber: number, subscriptionUrl: subscriptionUrl, storeId: storeId, createAccount: createAccount,
+        contactNumber: number, subscriptionUrl: subscriptionUrl, storeId: storeId, createAccount: createAccount, createUserId: createUserId,
       ));
     }),
     GetPage(name: checkout, page: () {
@@ -538,37 +499,6 @@ class RouteHelper {
     GetPage(name: restaurantRegistration, page: () => const StoreRegistrationScreen()),
     GetPage(name: deliveryManRegistration, page: () => const DeliveryManRegistrationScreen()),
     GetPage(name: refund, page: () => RefundRequestScreen(orderId: Get.parameters['id'])),
-
-    GetPage(name: selectRideMapLocation, page: () {
-    AddressModel? addressModel;
-    Vehicles? vehicle;
-    if(Get.parameters['address'] != 'null') {
-      addressModel = AddressModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['address']!.replaceAll(' ', '+')))));
-    }
-    if(Get.parameters['vehicle'] != 'null') {
-      vehicle = Vehicles.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['vehicle']!.replaceAll(' ', '+')))));
-    }
-    return getRoute(SelectMapLocation(
-        riderType: jsonDecode(utf8.decode(base64Url.decode(Get.parameters['rider_type']!.replaceAll(' ', '+')))),
-        address: addressModel, vehicle: vehicle,
-      ),
-    );
-    }),
-    GetPage(name: selectCarScreen, page: () => SelectCarScreen(
-        filterBody: UserInformationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['body']!.replaceAll(' ', '+')))))),
-    ),
-    GetPage(name: carDetailsScreen, page: () => CarDetailsScreen(
-      vehicle: Vehicles.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['vehicle']!.replaceAll(' ', '+'))))),
-      filterBody: UserInformationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['body']!.replaceAll(' ', '+'))))),
-    )),
-    GetPage(name: bookingCheckoutScreen, page: () => BookingCheckoutScreen(
-      vehicle: Vehicles.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['vehicle']!.replaceAll(' ', '+'))))),
-      filterBody: UserInformationBody.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['body']!.replaceAll(' ', '+'))))),
-    )),
-    GetPage(name: tripHistoryScreen, page: () => const TripHistoryScreen()),
-    GetPage(name: orderStatusScreen, page: () => const OrderStatusScreen()),
-    GetPage(name: tripCompletedConfirmationScreen, page: () => const TripCompletedConfirmationScreen()),
-    GetPage(name: taxiCouponScreen, page: () => const TaxiCouponScreen()),
     GetPage(name: offlinePaymentScreen, page: () {
       List<int> decode = base64Decode(Get.parameters['order_body']!.replaceAll(' ', '+'));
       PlaceOrderBodyModel orderBody = PlaceOrderBodyModel.fromJson(jsonDecode(utf8.decode(decode)));

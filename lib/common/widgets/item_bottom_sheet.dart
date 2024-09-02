@@ -67,7 +67,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
       child: GetBuilder<ItemController>(builder: (itemController) {
         double? startingPrice;
         double? endingPrice;
-        if (widget.item!.choiceOptions!.isNotEmpty && widget.item!.foodVariations!.isEmpty) {
+        if (widget.item!.choiceOptions!.isNotEmpty && widget.item!.foodVariations!.isEmpty && !_newVariation) {
           List<double?> priceList = [];
           for (var variation in widget.item!.variations!) {
             priceList.add(variation.price);

@@ -80,13 +80,17 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
             ),
             const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
-            GetBuilder<VerificationController>(builder: (verificationController) {
-              return CustomButton(
-                buttonText: 'next'.tr,
-                isLoading: verificationController.isLoading,
-                onPressed: () => _forgetPass(_countryDialCode!),
-              );
-            }),
+            GetBuilder<AuthController>(
+              builder: (authController) {
+                return GetBuilder<VerificationController>(builder: (verificationController) {
+                  return CustomButton(
+                    buttonText: 'next'.tr,
+                    isLoading: verificationController.isLoading || authController.isLoading,
+                    onPressed: () => _forgetPass(_countryDialCode!),
+                  );
+                });
+              }
+            ),
             const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
             RichText(text: TextSpan(children: [
@@ -128,7 +132,11 @@ class _ForgetPassScreenState extends State<ForgetPassScreen> {
         }else {
           Get.find<VerificationController>().forgetPassword(numberWithCountryCode).then((status) async {
             if (status.isSuccess) {
-              Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, '', RouteHelper.forgotPassword, ''));
+              if(Get.find<SplashController>().configModel!.firebaseOtpVerification!) {
+                Get.find<AuthController>().firebaseVerifyPhoneNumber(numberWithCountryCode, '', fromSignUp: false);
+              } else {
+                Get.toNamed(RouteHelper.getVerificationRoute(numberWithCountryCode, '', RouteHelper.forgotPassword, ''));
+              }
             }else {
               showCustomSnackBar(status.message);
             }

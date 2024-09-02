@@ -47,7 +47,7 @@ class _OnBoardingScreenState extends State<OnBoardingScreen> {
                   itemBuilder: (context, index) {
                     return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
-                      showIndicatorAndButton ? Padding(
+                      showIndicatorAndButton && onBoardingController.onBoardingList[index].imageUrl != '' ? Padding(
                         padding: EdgeInsets.all(context.height*0.05),
                         child: Image.asset(onBoardingController.onBoardingList[index].imageUrl, height: context.height*0.4),
                       ) : const SizedBox(),

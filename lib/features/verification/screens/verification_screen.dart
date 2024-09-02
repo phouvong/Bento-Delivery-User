@@ -6,11 +6,9 @@ import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/verification/controllers/verification_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
-import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
 import 'package:sixam_mart/common/widgets/custom_button.dart';
-import 'package:sixam_mart/common/widgets/custom_dialog.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -23,8 +21,9 @@ class VerificationScreen extends StatefulWidget {
   final bool fromSignUp;
   final String? token;
   final String password;
+  final String? firebaseSession;
   const VerificationScreen({super.key, required this.number, required this.password, required this.fromSignUp,
-    required this.token});
+    required this.token, this.firebaseSession});
 
   @override
   VerificationScreenState createState() => VerificationScreenState();
@@ -79,7 +78,7 @@ class VerificationScreenState extends State<VerificationScreen> {
             boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
           ) : null,
           child: GetBuilder<VerificationController>(builder: (verificationController) {
-            return Column(children: [
+            return Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
               Get.find<SplashController>().configModel!.demo! ? Text(
                 'for_demo_purpose'.tr, style: robotoRegular,
@@ -89,16 +88,16 @@ class VerificationScreenState extends State<VerificationScreen> {
               ]), textAlign: TextAlign.center),
 
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 39, vertical: 35),
+                padding: EdgeInsets.symmetric(horizontal: context.width > 850 ? 50 : Dimensions.paddingSizeDefault, vertical: 35),
                 child: PinCodeTextField(
-                  length: 4,
+                  length: 6,
                   appContext: context,
                   keyboardType: TextInputType.number,
                   animationType: AnimationType.slide,
                   pinTheme: PinTheme(
                     shape: PinCodeFieldShape.box,
                     fieldHeight: 60,
-                    fieldWidth: 60,
+                    fieldWidth: 50,
                     borderWidth: 1,
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     selectedColor: Theme.of(context).primaryColor.withOpacity(0.2),
@@ -121,71 +120,55 @@ class VerificationScreenState extends State<VerificationScreen> {
                   'did_not_receive_the_code'.tr,
                   style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
                 ),
-                TextButton(
-                  onPressed: _seconds < 1 ? () {
-                    if(widget.fromSignUp) {
-                      Get.find<AuthController>().login(_number, widget.password).then((value) {
-                        if (value.isSuccess) {
+                GetBuilder<VerificationController>(builder: (verificationController) {
+                  return GetBuilder<AuthController>(builder: (authController) {
+                    return !authController.isLoading || !verificationController.isLoading ? TextButton(
+                      onPressed: _seconds < 1 ? () async {
+                        ///Firebase OTP
+                        if(widget.firebaseSession != null) {
+                          await authController.firebaseVerifyPhoneNumber(_number!, widget.token, fromSignUp: widget.fromSignUp, canRoute: false);
                           _startTimer();
-                          showCustomSnackBar('resend_code_successful'.tr, isError: false);
                         } else {
-                          showCustomSnackBar(value.message);
+                          _resendOtp(verificationController);
                         }
-                      });
-                    }else {
-                      verificationController.forgetPassword(_number).then((value) {
-                        if (value.isSuccess) {
-                          _startTimer();
-                          showCustomSnackBar('resend_code_successful'.tr, isError: false);
-                        } else {
-                          showCustomSnackBar(value.message);
-                        }
-                      });
-                    }
-                  } : null,
-                  child: Text('${'resend'.tr}${_seconds > 0 ? ' ($_seconds)' : ''}'),
-                ),
+                      } : null,
+                      child: Text('${'resend'.tr}${_seconds > 0 ? ' ($_seconds)' : ''}'),
+                    ) : Container(
+                      height: 20, width: 20,
+                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
+                      child: const CircularProgressIndicator(),
+                    );
+                  });
+                }),
               ]),
 
-              verificationController.verificationCode.length == 4 ? Padding(
+              verificationController.verificationCode.length == 6 ? Padding(
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                 child: CustomButton(
                   buttonText: 'verify'.tr,
                   isLoading: verificationController.isLoading,
                   onPressed: () {
-                    if(widget.fromSignUp) {
-                      verificationController.verifyPhone(_number, widget.token).then((value) {
+                    if(widget.firebaseSession != null) {
+                      verificationController.verifyFirebaseOtp(
+                        phoneNumber: _number!, session: widget.firebaseSession!,
+                        otp: verificationController.verificationCode, isSignUpPage: widget.fromSignUp,
+                        token: widget.token,
+                      ).then((value) {
                         if(value.isSuccess) {
-                          showAnimatedDialog(context, Center(
-                            child: Container(
-                              width: 300,
-                              padding: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
-                              decoration: BoxDecoration(color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge)),
-                              child: Column(mainAxisSize: MainAxisSize.min, children: [
-                                Image.asset(Images.checked, width: 100, height: 100),
-                                const SizedBox(height: Dimensions.paddingSizeLarge),
-                                Text('verified'.tr, style: robotoBold.copyWith(
-                                  fontSize: 30, color: Theme.of(context).textTheme.bodyLarge!.color,
-                                  decoration: TextDecoration.none,
-                                )),
-                              ]),
-                            ),
-                          ), dismissible: false);
-                          Future.delayed(const Duration(seconds: 2), () {
-                            Get.find<LocationController>().navigateToLocationScreen('verification', offAll: true);
+                          showCustomSnackBar('successfully_verified'.tr, isError: false);
+                          Future.delayed(const Duration(seconds: 1), () {
+                            if(widget.fromSignUp) {
+                              Get.find<LocationController>().navigateToLocationScreen('verification', offAll: true);
+                            } else {
+                              Get.toNamed(RouteHelper.getResetPasswordRoute(_number, verificationController.verificationCode, 'reset-password'));
+                            }
                           });
                         }else {
                           showCustomSnackBar(value.message);
                         }
                       });
-                    }else {
-                      verificationController.verifyToken(_number).then((value) {
-                        if(value.isSuccess) {
-                          Get.toNamed(RouteHelper.getResetPasswordRoute(_number, verificationController.verificationCode, 'reset-password'));
-                        }else {
-                          showCustomSnackBar(value.message);
-                        }
-                      });
+                    } else {
+                      _verifyOtp(verificationController);
                     }
                   },
                 ),
@@ -197,4 +180,51 @@ class VerificationScreenState extends State<VerificationScreen> {
       ))),
     );
   }
+
+  void _resendOtp(VerificationController verificationController) {
+    if(widget.fromSignUp) {
+      Get.find<AuthController>().login(_number, widget.password).then((value) {
+        if (value.isSuccess) {
+          _startTimer();
+          showCustomSnackBar('resend_code_successful'.tr, isError: false);
+        } else {
+          showCustomSnackBar(value.message);
+        }
+      });
+    }else {
+      verificationController.forgetPassword(_number).then((value) {
+        if (value.isSuccess) {
+          _startTimer();
+          showCustomSnackBar('resend_code_successful'.tr, isError: false);
+        } else {
+          showCustomSnackBar(value.message);
+        }
+      });
+    }
+  }
+
+
+  void _verifyOtp(VerificationController verificationController) {
+    if(widget.fromSignUp) {
+      verificationController.verifyPhone(_number, widget.token).then((value) {
+        if(value.isSuccess) {
+          showCustomSnackBar('successfully_verified'.tr, isError: false);
+          Future.delayed(const Duration(seconds: 1), () {
+            Get.find<LocationController>().navigateToLocationScreen('verification', offAll: true);
+          });
+        }else {
+          showCustomSnackBar(value.message);
+        }
+      });
+    }else {
+      verificationController.verifyToken(_number).then((value) {
+        if(value.isSuccess) {
+          Get.toNamed(RouteHelper.getResetPasswordRoute(_number, verificationController.verificationCode, 'reset-password'));
+        }else {
+          showCustomSnackBar(value.message);
+        }
+      });
+    }
+  }
+
 }

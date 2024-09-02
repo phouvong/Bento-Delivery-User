@@ -35,4 +35,15 @@ class VerificationService implements VerificationServiceInterface {
     return await verificationRepoInterface.verifyToken(phone, token);
   }
 
+  @override
+  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage, required String? token}) async {
+    ResponseModel responseModel = await verificationRepoInterface.verifyFirebaseOtp(phoneNumber: phoneNumber, session: session, otp: otp, isSignUpPage: isSignUpPage);
+    if(responseModel.isSuccess && isSignUpPage) {
+      authRepoInterface.saveUserToken(token!);
+      await authRepoInterface.updateToken();
+      authRepoInterface.clearSharedPrefGuestId();
+    }
+    return responseModel;
+  }
+
 }

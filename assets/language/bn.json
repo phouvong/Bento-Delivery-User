@@ -336,7 +336,7 @@
   "connected": "সংযুক্ত",
   "no_connection": "কোনও ইন্টারনেট সংযোগ নেই",
   "ready_for_handover": "হ্যান্ডওভারের জন্য প্রস্তুত",
-  "for_demo_purpose": "ডেমো উদ্দেশ্য জন্য দয়া করে 1234 ওটিপি হিসাবে ব্যবহার করুন",
+  "for_demo_purpose": "ডেমো উদ্দেশ্য জন্য দয়া করে 123456 ওটিপি হিসাবে ব্যবহার করুন",
   "more": "আরও",
   "we_are_under_maintenance": "আমরা রক্ষণাবেক্ষণ আওতাধীন",
   "we_will_be_right_back": "আমরা ঠিক ফিরে আসব",
@@ -1270,5 +1270,9 @@
   "this_charge_include_extra_vehicle_charge": "এই চার্জে অতিরিক্ত যানবাহনের চার্জ অন্তর্ভুক্ত",
   "and_bad_weather_charge": "এবং খারাপ আবহাওয়ার চার্জ",
   "please_select_address_first" : "অনুগ্রহ করে প্রথমে ঠিকানা নির্বাচন করুন",
-  "your_location": "আপনার লোকেশন"
+  "your_location": "আপনার লোকেশন",
+  "sender_email": "প্রেরক ইমেইল",
+  "receiver_email": "প্রাপক ইমেইল",
+  "please_enter_sender_email": "দয়া করে প্রেরক ইমেইল লিখুন",
+  "successfully_verified": "সফলভাবে যাচাই করা হয়েছে"
 }

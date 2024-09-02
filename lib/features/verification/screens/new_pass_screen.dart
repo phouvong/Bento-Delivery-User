@@ -63,7 +63,8 @@ class _NewPassScreenState extends State<NewPassScreen> {
             Column(children: [
 
               CustomTextField(
-                titleText: 'new_password'.tr,
+                labelText: 'new_password'.tr,
+                titleText: '8_character'.tr,
                 controller: _newPasswordController,
                 focusNode: _newPasswordFocus,
                 nextFocus: _confirmPasswordFocus,
@@ -71,10 +72,11 @@ class _NewPassScreenState extends State<NewPassScreen> {
                 prefixImage: Images.lock,
                 isPassword: true,
               ),
-              const SizedBox(height: Dimensions.paddingSizeLarge),
+              const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
               CustomTextField(
-                titleText: 'confirm_password'.tr,
+                labelText: 'confirm_password'.tr,
+                titleText: '8_character'.tr,
                 controller: _confirmPasswordController,
                 focusNode: _confirmPasswordFocus,
                 inputAction: TextInputAction.done,
@@ -87,13 +89,15 @@ class _NewPassScreenState extends State<NewPassScreen> {
             ]),
             const SizedBox(height: 40),
 
-            GetBuilder<ProfileController>(builder: (profileController) {
-              return GetBuilder<AuthController>(builder: (authBuilder) {
-                return CustomButton(
-                  buttonText: 'submit'.tr,
-                  isLoading: (authBuilder.isLoading || profileController.isLoading),
-                  onPressed: () => _resetPassword(),
-                );
+           GetBuilder<VerificationController>(builder: (verificationController) {
+              return GetBuilder<ProfileController>(builder: (profileController) {
+                return GetBuilder<AuthController>(builder: (authBuilder) {
+                  return CustomButton(
+                    buttonText: 'submit'.tr,
+                    isLoading: (authBuilder.isLoading || profileController.isLoading || verificationController.isLoading),
+                    onPressed: () => _resetPassword(),
+                  );
+                });
               });
             }),
 

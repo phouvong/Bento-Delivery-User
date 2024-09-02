@@ -48,6 +48,22 @@ class VerificationRepository implements VerificationRepositoryInterface{
   }
 
   @override
+  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage}) async {
+    Response response = await apiClient.postData(AppConstants.firebaseAuthVerify,
+        {'sessionInfo' : session,
+          'phoneNumber' : phoneNumber,
+          'code' : otp,
+          'is_reset_token' : isSignUpPage ? 0 : 1,
+        },
+    );
+    if (response.statusCode == 200) {
+      return ResponseModel(true, response.body["message"]);
+    } else {
+      return ResponseModel(false, response.statusText);
+    }
+  }
+
+  @override
   Future<ResponseModel> verifyToken(String? phone, String token) async {
     Response response = await apiClient.postData(AppConstants.verifyTokenUri, {"phone": phone, "reset_token": token});
     if (response.statusCode == 200) {
