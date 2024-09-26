@@ -4,6 +4,7 @@ import 'package:sixam_mart/features/brands/screens/brands_product_screen.dart';
 import 'package:sixam_mart/features/brands/screens/brands_screen.dart';
 import 'package:sixam_mart/features/business/screens/subscription_payment_screen.dart';
 import 'package:sixam_mart/features/business/screens/subscription_success_or_failed_screen.dart';
+import 'package:sixam_mart/features/chat/domain/models/order_chat_model.dart';
 import 'package:sixam_mart/features/loyalty/screens/loyalty_screen.dart';
 import 'package:sixam_mart/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
@@ -253,19 +254,23 @@ class RouteHelper {
   static String getSearchStoreItemRoute(int? storeID) => '$searchStoreItem?id=$storeID';
   static String getOrderRoute() => order;
   static String getItemDetailsRoute(int? itemID, bool isRestaurant) => '$itemDetails?id=$itemID&page=${isRestaurant ? 'restaurant' : 'item'}';
-  static String getWalletRoute({String? fundStatus, String? token}) => '$wallet?payment_status=$fundStatus&token=$token';
+  static String getWalletRoute({String? fundStatus, String? token,  bool fromNotification = false}) => '$wallet?payment_status=$fundStatus&token=$token&from_notification=$fromNotification';
   static String getLoyaltyRoute() => loyalty;
   static String getReferAndEarnRoute() => referAndEarn;
-  static String getChatRoute({required NotificationBodyModel? notificationBody, User? user, int? conversationID, int? index, bool? fromNotification}) {
+  static String getChatRoute({required NotificationBodyModel? notificationBody, User? user, int? conversationID, int? index, bool? fromNotification, OrderChatModel? orderChatModel}) {
     String notificationBody0 = 'null';
     if(notificationBody != null) {
       notificationBody0 = base64Encode(utf8.encode(jsonEncode(notificationBody.toJson())));
+    }
+    String orderChat = 'null';
+    if(orderChatModel != null) {
+      orderChat = base64Encode(utf8.encode(jsonEncode(orderChatModel.toJson())));
     }
     String user0 = 'null';
     if(user != null) {
       user0 = base64Encode(utf8.encode(jsonEncode(user.toJson())));
     }
-    return '$messages?notification=$notificationBody0&user=$user0&conversation_id=$conversationID&index=$index&from=${fromNotification.toString()}';
+    return '$messages?notification=$notificationBody0&user=$user0&conversation_id=$conversationID&index=$index&from=${fromNotification.toString()}&order-chat=$orderChat';
   }
   static String getConversationRoute() => conversation;
   static String getRestaurantRegistrationRoute() => restaurantRegistration;
@@ -307,6 +312,7 @@ class RouteHelper {
     GetPage(name: signIn, page: () => SignInScreen(
       exitFromApp: Get.parameters['page'] == signUp || Get.parameters['page'] == splash || Get.parameters['page'] == onBoarding,
       backFromThis: Get.parameters['page'] != splash && Get.parameters['page'] != onBoarding,
+      fromNotification: Get.parameters['page'] == notification,
     )),
     GetPage(name: signUp, page: () => const SignUpScreen()),
     GetPage(name: verification, page: () {
@@ -477,6 +483,7 @@ class RouteHelper {
       return getRoute(WalletScreen(
         fundStatus: Get.parameters['flag'] ?? Get.parameters['payment_status'],
         token: Get.parameters['token'],
+        fromNotification: Get.parameters['from_notification'] == 'true',
       ));
     }),
     GetPage(name: loyalty, page: () => getRoute(const LoyaltyScreen())),
@@ -486,6 +493,10 @@ class RouteHelper {
       if(Get.parameters['notification'] != 'null') {
         notificationBody = NotificationBodyModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['notification']!.replaceAll(' ', '+')))));
       }
+      OrderChatModel? orderChat;
+      if(Get.parameters['order-chat'] != 'null') {
+        orderChat = OrderChatModel.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['order-chat']!.replaceAll(' ', '+')))));
+      }
       User? user;
       if(Get.parameters['user'] != 'null') {
         user = User.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['user']!.replaceAll(' ', '+')))));
@@ -493,6 +504,7 @@ class RouteHelper {
       return getRoute(ChatScreen(
         notificationBody: notificationBody, user: user, index: Get.parameters['index'] != 'null' ? int.parse(Get.parameters['index']!) : null, fromNotification: Get.parameters['from'] == 'true',
         conversationID: (Get.parameters['conversation_id'] != null && Get.parameters['conversation_id'] != 'null') ? int.parse(Get.parameters['conversation_id']!) : null,
+        orderChatModel: orderChat,
       ));
     }),
     GetPage(name: conversation, page: () => const ConversationScreen()),
@@ -534,7 +546,7 @@ class RouteHelper {
     }else if(GetPlatform.isIOS) {
       minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
     }
-    return AppConstants.appVersion < minimumVersion! ? const UpdateScreen(isUpdate: true)
+    return (AppConstants.appVersion < minimumVersion! && !GetPlatform.isWeb)  ? const UpdateScreen(isUpdate: true)
         : Get.find<SplashController>().configModel!.maintenanceMode! ? const UpdateScreen(isUpdate: false)
         : (AddressHelper.getUserAddressFromSharedPref() == null && !byPuss)
         ? AccessLocationScreen(fromSignUp: false, fromHome: false, route: Get.currentRoute) : navigateTo;

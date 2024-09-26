@@ -56,7 +56,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (value) async{
+      onPopInvokedWithResult: (didPop, result) async {
         await Get.offAllNamed(RouteHelper.getInitialRoute());
       },
       child: Scaffold(

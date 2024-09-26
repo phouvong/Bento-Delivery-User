@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+          "client_id": "787586896333-u2tj8il1od8ts1cm8l42bknqhvqlv6eo.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unilaos.frider",
+            "certificate_hash": "c583497597a1b5278884226551095cbbbc6782b8"
+          }
+        },
+        {
+          "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -27,8 +35,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "787586896333-1pldag7urtv8p9h28tq47otuq7rr6h51.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.unilaos.iosr"
+              }
             }
           ]
         }
@@ -43,7 +58,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+          "client_id": "787586896333-660f1p3mt9398762rumk8cp8bd4hvvli.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unilaos.fuser",
+            "certificate_hash": "bd035aa793bd2c5d06396a3320be2fea1800205e"
+          }
+        },
+        {
+          "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -56,8 +79,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "787586896333-1pldag7urtv8p9h28tq47otuq7rr6h51.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.unilaos.iosr"
+              }
             }
           ]
         }
@@ -72,7 +102,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+          "client_id": "787586896333-13h8j74hg11j0gunn7mpvlatgl9pfmoe.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.unilaos.fvendor",
+            "certificate_hash": "c583497597a1b5278884226551095cbbbc6782b8"
+          }
+        },
+        {
+          "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
@@ -85,8 +123,15 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-jgp9h3dhd4bo7eo49akb9gpladvmg5mc.apps.googleusercontent.com",
+              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "787586896333-1pldag7urtv8p9h28tq47otuq7rr6h51.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.unilaos.iosr"
+              }
             }
           ]
         }

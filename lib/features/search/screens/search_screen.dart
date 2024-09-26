@@ -72,7 +72,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if(Get.find<search.SearchController>().isSearchMode) {
           return;
         }else {
@@ -85,7 +85,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
         body: SafeArea(child: Padding(
           padding: ResponsiveHelper.isDesktop(context) ? EdgeInsets.zero : const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
           child: GetBuilder<search.SearchController>(builder: (searchController) {
-            if(!ResponsiveHelper.isDesktop(context)) {
+            if(!GetPlatform.isWeb) {
               _searchController.text = searchController.searchText!;
             }
             return Column(children: [
@@ -210,6 +210,9 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                       _showSuggestion = false;
                       searchController.setSearchMode(true);
                       searchController.setStore(false);
+                      if(GetPlatform.isWeb) {
+                        _searchController.text = '';
+                      }
                     },
                     onChanged: (text) {
                       searchController.setSearchText(text);

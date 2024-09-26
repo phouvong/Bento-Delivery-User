@@ -131,7 +131,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
       }else {
         Get.find<VerificationController>().resetPassword(widget.resetToken, '+${widget.number!.trim()}', password, confirmPassword).then((value) {
           if (value.isSuccess) {
-            if(!ResponsiveHelper.isDesktop(context)) {
+            if(!ResponsiveHelper.isDesktop(Get.context)) {
               Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
             }else{
               Get.offAllNamed(RouteHelper.getInitialRoute(fromSplash: false))?.then((value) {

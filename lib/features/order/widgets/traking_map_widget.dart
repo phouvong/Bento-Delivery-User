@@ -105,13 +105,13 @@ class _TrackingMapWidgetState extends State<TrackingMapWidget> {
   void setMarker(Store? store, DeliveryMan? deliveryMan, AddressModel? addressModel, bool takeAway, bool parcel, bool isRestaurant) async {
     try {
       BitmapDescriptor restaurantImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: isRestaurant ? 100 : 150, imagePath: parcel ? Images.userMarker : isRestaurant ? Images.restaurantMarker : Images.markerStore,
+        width: isRestaurant ? 50 : 40, imagePath: parcel ? Images.userMarker : isRestaurant ? Images.restaurantMarker : Images.markerStore,
       );
       BitmapDescriptor deliveryBoyImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: 100, imagePath: Images.deliveryManMarker,
+        width: 30, imagePath: Images.deliveryManMarker,
       );
       BitmapDescriptor destinationImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: takeAway ? 50 : 100, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
+        width: takeAway ? 30 : 30, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
       );
 
       /// Animate to coordinate

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_ink_well.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/parcel/domain/models/parcel_category_model.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -65,11 +66,12 @@ class ParcelBottomSheetWidget extends StatelessWidget {
                       physics: const NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemBuilder: (context, index) {
-                        return InkWell(
+                        return CustomInkWell(
                           onTap: () {
                             Get.back();
                             Get.toNamed(RouteHelper.getParcelLocationRoute(parcelCategoryList![index]));
                           },
+                          radius: Dimensions.radiusDefault,
                           child: DeliverItemCardWidget(
                             isDeliverItem: true,
                             image: '${parcelCategoryList![index].imageFullUrl}',

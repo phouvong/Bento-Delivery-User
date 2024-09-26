@@ -403,31 +403,33 @@ class FoodCategoryShimmer extends StatelessWidget {
       itemBuilder: (context, index) {
         return Padding(
           padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, left: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault),
-          child: Shimmer(
-            duration: const Duration(seconds: 2),
-            enabled: true,
-            child: SizedBox(
-              width: 60,
-              child: Column(children: [
+          child: SizedBox(
+            width: 60,
+            child: Column(children: [
 
-                Container(
-                  height: 60, width: double.infinity,
-                  margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
-                  decoration: BoxDecoration(
-                    borderRadius: const BorderRadius.all(Radius.circular(100)),
-                    color: Colors.grey[300],
-                  )
-                ),
-                const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                Expanded(
+              ClipOval(
+                child: Shimmer(
                   child: Container(
-                    height: 10, width: 50,
-                    color: Colors.grey[300],
+                    height: 60, width: double.infinity,
+                    margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Theme.of(context).shadowColor,
+                    )
                   ),
                 ),
-              ]),
-            ),
+              ),
+              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+              Expanded(
+                child: Shimmer(
+                  child: Container(
+                    height: 10, width: 50,
+                    color: Theme.of(context).shadowColor,
+                  ),
+                ),
+              ),
+            ]),
           ),
         );
       },

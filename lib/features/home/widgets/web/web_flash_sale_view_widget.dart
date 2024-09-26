@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/features/flash_sale/controllers/flash_sale_controller.dart';
+import 'package:sixam_mart/features/home/widgets/web/web_recomanded_store_view_widget.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/home/widgets/components/flash_sale_card_widget.dart';
@@ -118,12 +118,12 @@ class _WebFlashSaleViewWidgetState extends State<WebFlashSaleViewWidget> {
           ]),
           const SizedBox(height: Dimensions.paddingSizeDefault),
         ]),
-      ) : const SizedBox() : const WebFlashSaleShimmerView();
+      ) : const SizedBox() : const WebRecommendedStoreShimmerView();
     });
   }
 }
 
-class WebFlashSaleShimmerView extends StatelessWidget {
+/*class WebFlashSaleShimmerView extends StatelessWidget {
   const WebFlashSaleShimmerView({super.key});
 
   @override
@@ -141,4 +141,4 @@ class WebFlashSaleShimmerView extends StatelessWidget {
       ),
     );
   }
-}
+}*/

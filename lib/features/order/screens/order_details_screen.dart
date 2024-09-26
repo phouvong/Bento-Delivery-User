@@ -50,7 +50,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
   void _loadData(BuildContext context, bool reload) async {
     await Get.find<OrderController>().trackOrder(widget.orderId.toString(), reload ? null : widget.orderModel, false, contactNumber: widget.contactNumber).then((value) {
       if(widget.fromOfflinePayment) {
-        Future.delayed(const Duration(seconds: 2), () => showAnimatedDialog(context, OfflineSuccessDialog(orderId: widget.orderId)));
+        Future.delayed(const Duration(seconds: 2), () => showAnimatedDialog(Get.context!, OfflineSuccessDialog(orderId: widget.orderId)));
       }
     });
     Get.find<OrderController>().timerTrackOrder(widget.orderId.toString(), contactNumber: widget.contactNumber);
@@ -84,7 +84,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: Navigator.canPop(context),
-      onPopInvoked: (value) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if(widget.fromNotification || widget.fromOfflinePayment) {
           Get.offAllNamed(RouteHelper.getInitialRoute());
         } else {
@@ -165,6 +165,8 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
               } else {
                 showChatPermission = false;
               }
+            } else {
+              showChatPermission = AuthHelper.isLoggedIn();
             }
 
             ongoing = (order.orderStatus != 'delivered' && order.orderStatus != 'failed' && order.orderStatus != 'canceled' && order.orderStatus != 'refund_requested'
@@ -207,7 +209,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
                         discount: discount, couponDiscount: couponDiscount, tax: tax, addOns: addOns, dmTips: dmTips,
                         taxIncluded: taxIncluded, subTotal: subTotal, total: total,
                         bottomView: _bottomView(orderController, order, parcel, total), extraPackagingAmount: extraPackagingCharge,
-                        referrerBonusAmount: referrerBonusAmount,
+                        referrerBonusAmount: referrerBonusAmount, timerCancel : () => _timer?.cancel(), startApiCall : () =>  _startApiCall(),
                       ),
                     ),
                   ]) : const SizedBox(),
@@ -223,6 +225,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
                       prescriptionOrder: prescriptionOrder, deliveryCharge: deliveryCharge, itemsPrice: itemsPrice,
                       discount: discount, couponDiscount: couponDiscount, tax: tax, addOns: addOns, dmTips: dmTips, taxIncluded: taxIncluded, subTotal: subTotal, total: total,
                       bottomView: _bottomView(orderController, order, parcel, total), extraPackagingAmount: extraPackagingCharge, referrerBonusAmount: referrerBonusAmount,
+                    timerCancel : () => _timer?.cancel(), startApiCall : () =>  _startApiCall(),
                   ),
 
                 ],

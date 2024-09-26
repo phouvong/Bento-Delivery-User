@@ -117,9 +117,9 @@ class AuthController extends GetxController implements GetxService {
     return authServiceInterface.getSharedPrefGuestId();
   }
 
-  Future<bool> clearSharedData() async {
+  Future<bool> clearSharedData({bool removeToken = true}) async {
     Get.find<SplashController>().setModule(null);
-    return await authServiceInterface.clearSharedData();
+    return await authServiceInterface.clearSharedData(removeToken: removeToken);
   }
 
   Future<void> socialLogout() async {

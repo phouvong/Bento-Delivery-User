@@ -14,6 +14,7 @@ import 'package:sixam_mart/features/order/controllers/order_controller.dart';
 import 'package:sixam_mart/features/order/domain/models/order_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
+import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/marker_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -90,6 +91,8 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
             } else {
               showChatPermission = false;
             }
+          } else {
+            showChatPermission = AuthHelper.isLoggedIn();
           }
         }
 
@@ -126,7 +129,7 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
           ),
 
           Positioned(
-            right: 15, bottom: track.orderType != 'take_away' && track.deliveryMan == null ? 150 : 190,
+            right: 15, bottom: track.orderType != 'take_away' && track.deliveryMan == null ? 150 : 220,
             child: InkWell(
               onTap: () => _checkPermission(() async {
                 AddressModel address = await Get.find<LocationController>().getCurrentLocation(false, mapController: _controller);
@@ -170,15 +173,15 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
     try {
 
       BitmapDescriptor restaurantImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: (isRestaurant || parcel) ? 100 : 150,
+        width: (isRestaurant || parcel) ? 50 : 70,
         imagePath: parcel ? Images.userMarker : isRestaurant ? Images.restaurantMarker : Images.markerStore,
       );
 
       BitmapDescriptor deliveryBoyImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: 100, imagePath: Images.deliveryManMarker,
+        width: 50, imagePath: Images.deliveryManMarker,
       );
       BitmapDescriptor destinationImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: 100, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
+        width: 50, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
       );
 
       /// Animate to coordinate
@@ -245,7 +248,7 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
           markerId: const MarkerId('destination'),
           position: LatLng(double.parse(addressModel.latitude!), double.parse(addressModel.longitude!)),
           infoWindow: InfoWindow(
-            title: parcel ? 'Sender' : 'Destination',
+            title: parcel ? 'sender'.tr : 'Destination'.tr,
             snippet: addressModel.address,
           ),
           icon: destinationImageData,
@@ -257,7 +260,7 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
         markerId: const MarkerId('store'),
         position: LatLng(double.parse(store.latitude!), double.parse(store.longitude!)),
         infoWindow: InfoWindow(
-          title: parcel ? 'Receiver' : Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'store'.tr : 'store'.tr,
+          title: parcel ? 'receiver'.tr : Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'store'.tr : 'store'.tr,
           snippet: store.address,
         ),
         icon: restaurantImageData,

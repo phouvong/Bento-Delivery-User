@@ -10,6 +10,7 @@ ThemeData dark({Color color = const Color(0xFF54b46b)}) => ThemeData(
   hintColor: const Color(0xFFbebebe),
   cardColor: const Color(0xFF30313C),
   shadowColor: Colors.white.withOpacity(0.03),
+  textTheme: const TextTheme(bodyMedium: TextStyle(color: Colors.white70)),
   textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: color)),
   colorScheme: ColorScheme.dark(primary: color, secondary: color).copyWith(surface: const Color(0xFF191A26)).copyWith(error: const Color(0xFFdd3135)),
   popupMenuTheme: const PopupMenuThemeData(color: Color(0xFF29292D), surfaceTintColor: Color(0xFF29292D)),

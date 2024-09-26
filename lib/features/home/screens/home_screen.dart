@@ -178,6 +178,9 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(builder: (splashController) {
+      if(splashController.moduleList != null && splashController.moduleList!.length == 1) {
+        splashController.switchModule(0, true);
+      }
       bool showMobileModule = !ResponsiveHelper.isDesktop(context) && splashController.module == null && splashController.configModel!.module == null;
       bool isParcel = splashController.module != null && splashController.configModel!.moduleConfig!.module!.isParcel!;
       bool isPharmacy = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.pharmacy;
@@ -253,14 +256,14 @@ class _HomeScreenState extends State<HomeScreen> {
                     title: Center(child: Container(
                       width: Dimensions.webMaxWidth, height: Get.find<LocalizationController>().isLtr ? 60 : 70, color: Theme.of(context).colorScheme.surface,
                       child: Row(children: [
-                        (splashController.module != null && splashController.configModel!.module == null) ? InkWell(
+                        (splashController.module != null && splashController.configModel!.module == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? InkWell(
                           onTap: () {
                             splashController.removeModule();
                             Get.find<StoreController>().resetStoreData();
                           },
                           child: Image.asset(Images.moduleIcon, height: 25, width: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
                         ) : const SizedBox(),
-                        SizedBox(width: (splashController.module != null && splashController.configModel!.module == null) ? Dimensions.paddingSizeSmall : 0),
+                        SizedBox(width: (splashController.module != null && splashController.configModel!.module == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? Dimensions.paddingSizeSmall : 0),
 
                         Expanded(child: InkWell(
                           onTap: () => Get.find<LocationController>().navigateToLocationScreen('home'),

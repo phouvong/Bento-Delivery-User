@@ -47,6 +47,8 @@ class Message {
   String? message;
   List<String>? fileFullUrl;
   int? isSeen;
+  int? orderId;
+  Order? order;
   String? createdAt;
   String? updatedAt;
 
@@ -57,6 +59,8 @@ class Message {
     this.message,
     this.fileFullUrl,
     this.isSeen,
+    this.orderId,
+    this.order,
     this.createdAt,
     this.updatedAt,
   });
@@ -75,6 +79,8 @@ class Message {
       });
     }
     isSeen = json['is_seen'];
+    orderId = json['order_id'];
+    order = json['order'] != null ? Order.fromJson(json['order']) : null;
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
   }
@@ -87,8 +93,103 @@ class Message {
     data['message'] = message;
     data['file_full_url'] = fileFullUrl;
     data['is_seen'] = isSeen;
+    data['order_id'] = orderId;
+    if (order != null) {
+      data['order'] = order!.toJson();
+    }
     data['created_at'] = createdAt;
     data['updated_at'] = updatedAt;
+    return data;
+  }
+}
+
+class Order {
+  int? id;
+  double? orderAmount;
+  String? orderStatus;
+  String? createdAt;
+  int? detailsCount;
+  Address? deliveryAddress;
+
+  Order({this.id,
+        this.orderAmount,
+        this.orderStatus,
+        this.createdAt,
+        this.detailsCount,
+        this.deliveryAddress});
+
+  Order.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    orderAmount = json['order_amount']?.toDouble();
+    orderStatus = json['order_status'];
+    createdAt = json['created_at'];
+    detailsCount = json['details_count'];
+    deliveryAddress = json['delivery_address'] != null ? Address.fromJson(json['delivery_address']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['order_amount'] = orderAmount;
+    data['order_status'] = orderStatus;
+    data['created_at'] = createdAt;
+    data['details_count'] = detailsCount;
+    if (deliveryAddress != null) {
+      data['delivery_address'] = deliveryAddress!.toJson();
+    }
+    return data;
+  }
+}
+
+class Address {
+  String? contactPersonName;
+  String? contactPersonNumber;
+  String? contactPersonEmail;
+  String? addressType;
+  String? address;
+  String? floor;
+  String? road;
+  String? house;
+  String? longitude;
+  String? latitude;
+
+  Address(
+      {this.contactPersonName,
+        this.contactPersonNumber,
+        this.contactPersonEmail,
+        this.addressType,
+        this.address,
+        this.floor,
+        this.road,
+        this.house,
+        this.longitude,
+        this.latitude});
+
+  Address.fromJson(Map<String, dynamic> json) {
+    contactPersonName = json['contact_person_name'];
+    contactPersonNumber = json['contact_person_number'];
+    contactPersonEmail = json['contact_person_email'];
+    addressType = json['address_type'];
+    address = json['address'];
+    floor = json['floor'];
+    road = json['road'];
+    house = json['house'];
+    longitude = json['longitude'];
+    latitude = json['latitude'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['contact_person_name'] = contactPersonName;
+    data['contact_person_number'] = contactPersonNumber;
+    data['contact_person_email'] = contactPersonEmail;
+    data['address_type'] = addressType;
+    data['address'] = address;
+    data['floor'] = floor;
+    data['road'] = road;
+    data['house'] = house;
+    data['longitude'] = longitude;
+    data['latitude'] = latitude;
     return data;
   }
 }

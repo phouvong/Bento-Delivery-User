@@ -107,7 +107,7 @@ class _InterestScreenState extends State<InterestScreen> {
                     }
                     categoryController.saveInterest(interests).then((isSuccess) {
                       if(isSuccess) {
-                        if(ResponsiveHelper.isDesktop(context)) {
+                        if(ResponsiveHelper.isDesktop(Get.context)) {
                           Get.offAllNamed(RouteHelper.getInitialRoute());
                         } else {
                           Get.back();

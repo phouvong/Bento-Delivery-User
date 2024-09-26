@@ -10,8 +10,17 @@ class BrandsController extends GetxController implements GetxService {
   List<BrandModel>? _brandList;
   List<BrandModel>? get brandList => _brandList;
 
-  ItemModel? _brandItemModel;
-  ItemModel? get brandItemModel => _brandItemModel;
+  List<Item>? _brandItems;
+  List<Item>? get brandItems => _brandItems;
+
+  int _offset = 1;
+  int get offset => _offset;
+
+  int? _pageSize;
+  int? get pageSize => _pageSize;
+
+  bool _isLoading = false;
+  bool get isLoading => _isLoading;
 
   Future<void> getBrandList() async {
     List<BrandModel>? brandList = await brandsServiceInterface.getBrandList();
@@ -23,8 +32,9 @@ class BrandsController extends GetxController implements GetxService {
   }
 
   Future<void> getBrandItemList(int brandId, int offset, bool notify) async {
-    if(offset == 1 || _brandItemModel == null) {
-      _brandItemModel = null;
+    _offset = offset;
+    if(offset == 1) {
+      _brandItems = null;
       if(notify) {
         update();
       }
@@ -32,13 +42,17 @@ class BrandsController extends GetxController implements GetxService {
     ItemModel? brandItemModel = await brandsServiceInterface.getBrandItemList(brandId: brandId, offset: offset);
     if (brandItemModel != null) {
       if (offset == 1) {
-        _brandItemModel = brandItemModel;
-      }else {
-        _brandItemModel!.items!.addAll(brandItemModel.items!);
-        _brandItemModel!.totalSize = brandItemModel.totalSize;
-        _brandItemModel!.offset = brandItemModel.offset;
+        _brandItems = [];
       }
+      _brandItems!.addAll(brandItemModel.items!);
+      _pageSize = brandItemModel.totalSize;
+      _isLoading = false;
     }
+    update();
+  }
+
+  void showBottomLoader() {
+    _isLoading = true;
     update();
   }
 

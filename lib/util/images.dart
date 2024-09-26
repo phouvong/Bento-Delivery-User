@@ -275,6 +275,8 @@ class Images {
   static const String addressSelect = 'assets/image/address_select.png';
   static const String highlightIcon = 'assets/image/highlight_icon.png';
   static const String languageBackground = 'assets/image/language_bg.png';
+  static const String chatSupport = 'assets/image/chat_support.png';
+  static const String suggestionMessage = 'assets/image/suggestion_message.png';
 
 
   static const String referBg = 'assets/image/refer_bg.svg';

@@ -86,56 +86,51 @@ class VisitAgainShimmerView extends StatelessWidget {
 
         Container(
           height: 150, width: double.infinity,
-          color: Theme.of(context).primaryColor,
+          color: Theme.of(context).cardColor,
         ),
 
         Padding(
           padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-          child: Shimmer(
-            duration: const Duration(seconds: 2),
-            enabled: true,
-            child: Column(children: [
+          child: Column(children: [
 
-              Container(
+            Shimmer(
+              child: Container(
                 height: 10, width: 100,
-                color: Colors.grey[300],
+                color: Theme.of(context).shadowColor,
               ),
-              const SizedBox(height: Dimensions.paddingSizeSmall),
+            ),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
 
-              Container(
+            Shimmer(
+              child: Container(
                 height: 10, width: 200,
-                color: Colors.grey[300],
+                color: Theme.of(context).shadowColor,
               ),
-              const SizedBox(height: Dimensions.paddingSizeSmall),
+            ),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
 
-              CarouselSlider.builder(
-                itemCount: 5,
-                options: CarouselOptions(
-                  aspectRatio: 2.2,
-                  enlargeCenterPage: true,
-                  disableCenter: true,
-                ),
-                itemBuilder: (BuildContext context, int index, int realIndex) {
-                  return Container(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      color: Colors.grey[300],
+            CarouselSlider.builder(
+              itemCount: 5,
+              options: CarouselOptions(
+                aspectRatio: 2.2,
+                enlargeCenterPage: true,
+                disableCenter: true,
+              ),
+              itemBuilder: (BuildContext context, int index, int realIndex) {
+                return ClipRRect(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                  child: Shimmer(
+                    child: Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        color: Theme.of(context).shadowColor,
+                      ),
                     ),
-                  );
-                },
-              ),
-            ]),
-          ),
-        ),
-
-        const Positioned(
-          top: 20, left: 10,
-          child: TriangleWidget(),
-        ),
-
-        const Positioned(
-          top: 10, right: 100,
-          child: TriangleWidget(),
+                  ),
+                );
+              },
+            ),
+          ]),
         ),
       ]),
     );

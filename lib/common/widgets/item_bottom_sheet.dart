@@ -306,6 +306,54 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           ],
                         ) : const SizedBox(),
 
+                        (widget.item!.nutritionsName != null && widget.item!.nutritionsName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('nutrition_details'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(widget.item!.nutritionsName!.length, (index) {
+                              return Text(
+                                '${widget.item!.nutritionsName![index]}${widget.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
+                        (widget.item!.allergiesName != null && widget.item!.allergiesName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('allergic_ingredients'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(widget.item!.allergiesName!.length, (index) {
+                              return Text(
+                                '${widget.item!.allergiesName![index]}${widget.item!.allergiesName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
+                        (widget.item!.genericName != null && widget.item!.genericName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('generic_name'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(widget.item!.genericName!.length, (index) {
+                              return Text(
+                                '${widget.item!.genericName![index]}${widget.item!.genericName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
                         // Variation
                         _newVariation ? NewVariationView(
                           item: widget.item, itemController: itemController,

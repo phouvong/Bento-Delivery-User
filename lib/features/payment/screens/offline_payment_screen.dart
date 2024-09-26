@@ -184,6 +184,7 @@ class _OfflinePaymentScreenState extends State<OfflinePaymentScreen> {
         isLoading: paymentController.isLoading,
         width: ResponsiveHelper.isDesktop(context) ? 300 : 500,
         onPressed: () async {
+          paymentController.changeLoadingStatus(true);
           bool complete = false;
           String text = '';
           for(int i=0; i<methodInformation!.length; i++){

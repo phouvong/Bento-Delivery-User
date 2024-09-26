@@ -11,6 +11,7 @@ import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
+import 'package:sixam_mart/helper/module_helper.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -265,13 +266,17 @@ class _CartScreenState extends State<CartScreen> {
                           Text('item_price'.tr, style: robotoRegular),
                           PriceConverter.convertAnimationPrice(cartController.itemPrice, textStyle: robotoRegular),
                         ]),
-                        SizedBox(height: cartController.variationPrice > 0 ? Dimensions.paddingSizeSmall : 0),
+                        SizedBox(height: cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation!
+                            ? Dimensions.paddingSizeSmall : 0),
 
-                        cartController.variationPrice > 0 ? Row(
+                        cartController.variationPrice > 0 && ModuleHelper.getModuleConfig(cartController.cartList.first.item!.moduleType).newVariation! ? Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text('variations'.tr, style: robotoRegular),
-                            Text('(+) ${PriceConverter.convertPrice(cartController.variationPrice)}', style: robotoRegular, textDirection: TextDirection.ltr),
+                            Text(
+                              '(+) ${PriceConverter.convertPrice(cartController.variationPrice)}',
+                              style: robotoRegular, textDirection: TextDirection.ltr,
+                            ),
                           ],
                         ) : const SizedBox(),
                         const SizedBox(height: Dimensions.paddingSizeSmall),

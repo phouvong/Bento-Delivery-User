@@ -249,6 +249,7 @@ class _ParcelLocationScreenState extends State<ParcelLocationScreen> with Ticker
                   house: _receiverHouseController.text.trim(),
                   floor: _receiverFloorController.text.trim(),
                   email: _guestReceiverEmailController.text.trim(),
+                  zoneData: parcelController.destinationAddress!.zoneData,
                 );
 
                 parcelController.setDestinationAddress(destination);
@@ -306,6 +307,7 @@ class _ParcelLocationScreenState extends State<ParcelLocationScreen> with Ticker
         house: _senderHouseController.text.trim(),
         floor: _senderFloorController.text.trim(),
         email: _guestSenderEmailController.text.trim(),
+        zoneData: parcelController.pickupAddress!.zoneData,
       );
       parcelController.setPickupAddress(pickup, true);
       _tabController!.animateTo(1);

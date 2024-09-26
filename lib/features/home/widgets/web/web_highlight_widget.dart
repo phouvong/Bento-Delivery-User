@@ -17,7 +17,7 @@ class WebHighlightWidget extends StatefulWidget {
 
 class _WebHighlightWidgetState extends State<WebHighlightWidget> {
 
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -69,8 +69,9 @@ class _WebHighlightWidgetState extends State<WebHighlightWidget> {
                   autoPlay: advertisementController.advertisementList!.length > 2 ? advertisementController.autoPlay : false,
                   enlargeCenterPage: false,
                   height: 280,
-                  viewportFraction: 1/3,
+                  viewportFraction: advertisementController.advertisementList!.length == 1 ? 1/2 : 1/3,
                   disableCenter: false,
+                  initialPage: advertisementController.advertisementList!.length == 2 ? 1 : 0,
                   onPageChanged: (index, reason) {
                     advertisementController.setCurrentIndex(index, true);
 

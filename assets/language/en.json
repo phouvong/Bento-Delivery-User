@@ -1287,5 +1287,19 @@
   "sender_email": "Sender Email",
   "receiver_email": "Receiver Email",
   "please_enter_sender_email": "Please enter sender email",
-  "successfully_verified": "Successfully verified"
+  "successfully_verified": "Successfully verified",
+  "message_to": "Message to",
+  "choose_the_reason_for_support": "Choose the Reason for Support",
+  "or_custom_message": "Or Custom Message",
+  "type_here_to_write_a_custom_message": "Type here to write a custom message",
+  "send_message": "Send Message",
+  "custom_message": "Custom Message",
+  "nutrition_details": "Nutrition Details",
+  "allergic_ingredients": "Allergic Ingredients",
+  "generic_name": "Generic Name",
+  "house_name": "House Name",
+  "floor_number": "Floor Number",
+  "road": "Road",
+  "modules_are_available": "Modules are available",
+  "no_modules_are_available": "No modules are available"
 }

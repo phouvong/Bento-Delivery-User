@@ -36,7 +36,7 @@ Future<void> main() async {
   setPathUrlStrategy();
   WidgetsFlutterBinding.ensureInitialized();
 
- /* ///Pass all uncaught "fatal" errors from the framework to Crashlytics
+  /*///Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
     FirebaseCrashlytics.instance.recordFlutterFatalError(errorDetails);
   };

@@ -86,6 +86,15 @@ class CustomTextField extends StatefulWidget {
 class CustomTextFieldState extends State<CustomTextField> {
   bool _obscureText = true;
 
+  void onFocusChanged(){
+    FocusScope.of(context).unfocus();
+    FocusScope.of(Get.context!).requestFocus(widget.focusNode);
+    widget.focusNode?.addListener(() {
+      setState(() {
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -96,6 +105,7 @@ class CustomTextFieldState extends State<CustomTextField> {
         SizedBox(height: widget.showTitle ? ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeDefault : Dimensions.paddingSizeExtraSmall : 0),
 
         TextFormField(
+          onTap: onFocusChanged,
           maxLines: widget.maxLines,
           controller: widget.controller,
           focusNode: widget.focusNode,
@@ -114,7 +124,7 @@ class CustomTextFieldState extends State<CustomTextField> {
           decoration: InputDecoration(
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              borderSide: BorderSide(style: widget.showBorder ? BorderStyle.solid : BorderStyle.none, width: 0.3, color: Theme.of(context).disabledColor),
+              borderSide: BorderSide(style: widget.showBorder ? BorderStyle.solid : BorderStyle.none, width: ResponsiveHelper.isDesktop(context) ? 0.7 : 0.3, color: Theme.of(context).disabledColor),
             ),
             focusedBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
@@ -143,7 +153,13 @@ class CustomTextFieldState extends State<CustomTextField> {
 
             label: widget.showLabelText ? Text.rich(TextSpan(children: [
 
-              TextSpan(text: widget.labelText ?? '', style: robotoRegular.copyWith(fontSize: widget.labelTextSize ?? Dimensions.fontSizeLarge, color: Theme.of(context).hintColor.withOpacity(.75))),
+              TextSpan(
+                text: widget.labelText ?? '',
+                style: robotoRegular.copyWith(
+                  fontSize: widget.labelTextSize ?? Dimensions.fontSizeLarge,
+                  color: ((widget.focusNode?.hasFocus == true || widget.controller!.text.isNotEmpty ) &&  widget.isEnabled) ? Theme.of(context).textTheme.bodyLarge?.color :  Theme.of(context).hintColor.withOpacity(.75),
+                ),
+              ),
 
               if(widget.required && widget.labelText != null)
                 TextSpan(text : ' *', style: robotoRegular.copyWith(color: Theme.of(context).colorScheme.error, fontSize: Dimensions.fontSizeLarge)),
@@ -166,7 +182,6 @@ class CustomTextFieldState extends State<CustomTextField> {
                 padding: const EdgeInsets.only(left: 5),
                 child: Center(
                 child: CodePickerWidget(
-                  countryFilter: [widget.countryDialCode!],
                   boxDecoration: BoxDecoration(color: Theme.of(context).cardColor),
                   flagWidth: 25,
                   padding: EdgeInsets.zero,

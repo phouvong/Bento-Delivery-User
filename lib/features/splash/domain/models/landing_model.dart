@@ -19,6 +19,12 @@ class LandingModel {
   String? downloadUserAppImageFullUrl;
   List<SpecialCriterias>? specialCriterias;
   DownloadUserAppLinks? downloadUserAppLinks;
+  int? availableZoneStatus;
+  String? availableZoneTitle;
+  String? availableZoneShortDescription;
+  String? availableZoneImage;
+  String? availableZoneImageFullUrl;
+  List<AvailableZoneList>? availableZoneList;
 
   LandingModel({
     this.fixedHeaderTitle,
@@ -40,6 +46,12 @@ class LandingModel {
     this.downloadUserAppImageFullUrl,
     this.specialCriterias,
     this.downloadUserAppLinks,
+    this.availableZoneStatus,
+    this.availableZoneTitle,
+    this.availableZoneShortDescription,
+    this.availableZoneImage,
+    this.availableZoneImageFullUrl,
+    this.availableZoneList,
   });
 
   LandingModel.fromJson(Map<String, dynamic> json) {
@@ -67,6 +79,17 @@ class LandingModel {
       });
     }
     downloadUserAppLinks = json['download_user_app_links'] != null ? DownloadUserAppLinks.fromJson(json['download_user_app_links']) : null;
+    availableZoneStatus = json['available_zone_status'];
+    availableZoneTitle = json['available_zone_title'];
+    availableZoneShortDescription = json['available_zone_short_description'];
+    availableZoneImage = json['available_zone_image'];
+    availableZoneImageFullUrl = json['available_zone_image_full_url'];
+    if (json['available_zone_list'] != null) {
+      availableZoneList = <AvailableZoneList>[];
+      json['available_zone_list'].forEach((v) {
+        availableZoneList!.add(AvailableZoneList.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -93,6 +116,14 @@ class LandingModel {
     }
     if (downloadUserAppLinks != null) {
       data['download_user_app_links'] = downloadUserAppLinks!.toJson();
+    }
+    data['available_zone_status'] = availableZoneStatus;
+    data['available_zone_title'] = availableZoneTitle;
+    data['available_zone_short_description'] = availableZoneShortDescription;
+    data['available_zone_image'] = availableZoneImage;
+    data['available_zone_image_full_url'] = availableZoneImageFullUrl;
+    if (availableZoneList != null) {
+      data['available_zone_list'] = availableZoneList!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -219,6 +250,31 @@ class DownloadUserAppLinks {
     data['playstore_url'] = playstoreUrl;
     data['apple_store_url_status'] = appleStoreUrlStatus;
     data['apple_store_url'] = appleStoreUrl;
+    return data;
+  }
+}
+
+class AvailableZoneList {
+  int? id;
+  String? name;
+  String? displayName;
+  List<String>? modules;
+
+  AvailableZoneList({this.id, this.name, this.displayName, this.modules});
+
+  AvailableZoneList.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    displayName = json['display_name'];
+    modules = json['modules'].cast<String>();
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = id;
+    data['name'] = name;
+    data['display_name'] = displayName;
+    data['modules'] = modules;
     return data;
   }
 }

@@ -1,5 +1,5 @@
 import 'package:get/get.dart';
-import 'package:image_compression_flutter/image_compression_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
 import 'package:sixam_mart/features/chat/domain/repositories/chat_repository_interface.dart';
@@ -26,8 +26,8 @@ class ChatService implements ChatServiceInterface {
   }
 
   @override
-  Future<Response> sendMessage(String message, List<MultipartBody> images, int? userID, String userType, int? conversationID) async {
-    return await chatRepositoryInterface.sendMessage(message, images, userID, userType, conversationID);
+  Future<Response> sendMessage(String message, String orderId, List<MultipartBody> images, int? userID, String userType, int? conversationID) async {
+    return await chatRepositoryInterface.sendMessage(message, orderId, images, userID, userType, conversationID);
   }
 
   @override
@@ -72,17 +72,17 @@ class ChatService implements ChatServiceInterface {
     return index0;
   }
 
-  @override
-  Future<XFile> compressImage(XFile file) async {
-    final ImageFile input = ImageFile(filePath: file.path, rawBytes: await file.readAsBytes());
-    final Configuration config = Configuration(
-      outputType: ImageOutputType.webpThenPng,
-      useJpgPngNativeCompressor: false,
-      quality: (input.sizeInBytes/1048576) < 2 ? 50 : (input.sizeInBytes/1048576) < 5 ? 30 : (input.sizeInBytes/1048576) < 10 ? 2 : 1,
-    );
-    final ImageFile output = await compressor.compress(ImageFileConfiguration(input: input, config: config));
-    return XFile.fromData(output.rawBytes);
-  }
+  // @override
+  // Future<XFile> compressImage(XFile file) async {
+  //   final ImageFile input = ImageFile(filePath: file.path, rawBytes: await file.readAsBytes());
+  //   final Configuration config = Configuration(
+  //     outputType: ImageOutputType.webpThenPng,
+  //     useJpgPngNativeCompressor: false,
+  //     quality: (input.sizeInBytes/1048576) < 2 ? 50 : (input.sizeInBytes/1048576) < 5 ? 30 : (input.sizeInBytes/1048576) < 10 ? 2 : 1,
+  //   );
+  //   final ImageFile output = await compressor.compress(ImageFileConfiguration(input: input, config: config));
+  //   return XFile.fromData(output.rawBytes);
+  // }
 
   @override
   List<MultipartBody> processMultipartBody(List<XFile> chatImage) {

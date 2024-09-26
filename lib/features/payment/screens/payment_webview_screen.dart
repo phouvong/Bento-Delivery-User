@@ -82,7 +82,7 @@ class PaymentScreenState extends State<PaymentWebViewScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: false,
-      onPopInvoked: (value) async {
+      onPopInvokedWithResult: (didPop, result) async {
         _exitApp();
       },
       child: Scaffold(

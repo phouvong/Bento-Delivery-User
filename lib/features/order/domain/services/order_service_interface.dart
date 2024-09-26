@@ -7,6 +7,7 @@ import 'package:sixam_mart/features/order/domain/models/order_model.dart';
 abstract class OrderServiceInterface {
   Future<PaginatedOrderModel?> getRunningOrderList(int offset, bool fromDashboard);
   Future<PaginatedOrderModel?> getHistoryOrderList(int offset);
+  Future<List<String?>?> getSupportReasonsList();
   Future<List<OrderDetailsModel>?> getOrderDetails(String orderID, String? guestId);
   Future<List<CancellationData>?> getCancelReasons();
   Future<List<String?>?> getRefundReasons();

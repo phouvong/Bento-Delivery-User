@@ -28,7 +28,8 @@ import 'package:get/get.dart';
 class SignInScreen extends StatefulWidget {
   final bool exitFromApp;
   final bool backFromThis;
-  const SignInScreen({super.key, required this.exitFromApp, required this.backFromThis});
+  final bool fromNotification;
+  const SignInScreen({super.key, required this.exitFromApp, required this.backFromThis, this.fromNotification = false});
 
   @override
   SignInScreenState createState() => SignInScreenState();
@@ -58,8 +59,10 @@ class SignInScreenState extends State<SignInScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: Navigator.canPop(context),
-      onPopInvoked: (value) async {
-        if(widget.exitFromApp) {
+      onPopInvokedWithResult: (didPop, result) async {
+        if(widget.fromNotification) {
+          Navigator.pushNamed(context, RouteHelper.getInitialRoute());
+        } else if(widget.exitFromApp) {
           if (_canExit) {
             if (GetPlatform.isAndroid) {
               SystemNavigator.pop();
@@ -81,7 +84,7 @@ class SignInScreenState extends State<SignInScreen> {
               _canExit = false;
             });
           }
-        }else {
+        } else {
           return;
         }
       },
@@ -89,7 +92,13 @@ class SignInScreenState extends State<SignInScreen> {
         child: Scaffold(
           backgroundColor: ResponsiveHelper.isDesktop(context) ? Colors.transparent : Theme.of(context).cardColor,
           appBar: (ResponsiveHelper.isDesktop(context) ? null : !widget.exitFromApp ? AppBar(leading: IconButton(
-            onPressed: () => Get.back(),
+            onPressed: () {
+              if(widget.fromNotification) {
+                Navigator.pushNamed(context, RouteHelper.getInitialRoute());
+              } else {
+                Get.back();
+              }
+            },
             icon: Icon(Icons.arrow_back_ios_rounded, color: Theme.of(context).textTheme.bodyLarge!.color),
           ), elevation: 0, backgroundColor: Colors.transparent,
           actions: const [SizedBox()],
@@ -311,7 +320,7 @@ class SignInScreenState extends State<SignInScreen> {
             }else {
 
               if(widget.backFromThis) {
-                if(ResponsiveHelper.isDesktop(context)){
+                if(ResponsiveHelper.isDesktop(Get.context)){
                   Get.offAllNamed(RouteHelper.getInitialRoute(fromSplash: false));
                 } else {
                   Get.back();

@@ -172,12 +172,12 @@ class MapScreenState extends State<MapScreen> {
   void _setMarker({AddressModel? address, bool fromCurrentLocation = false}) async {
 
     BitmapDescriptor markerIcon = await MarkerHelper.convertAssetToBitmapDescriptor(
-      width: widget.isFood ? 100 : 150,
+      width: widget.isFood ? 50 : 50,
       imagePath: widget.fromStore ? widget.isFood ? Images.restaurantMarker : Images.markerStore : Images.locationMarker,
     );
 
     BitmapDescriptor myLocationMarkerIcon = await MarkerHelper.convertAssetToBitmapDescriptor(
-      width: 100,
+      width: 50,
       imagePath: Images.userMarker,
     );
 

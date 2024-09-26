@@ -2,8 +2,13 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/chat/controllers/chat_controller.dart';
+import 'package:sixam_mart/features/chat/domain/models/order_chat_model.dart';
 import 'package:sixam_mart/features/chat/enums/user_type_enum.dart';
+import 'package:sixam_mart/features/language/controllers/language_controller.dart';
+import 'package:sixam_mart/features/order/controllers/order_controller.dart';
+import 'package:sixam_mart/features/order/widgets/support_reason_bottom_sheet.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
@@ -27,7 +32,8 @@ class ChatScreen extends StatefulWidget {
   final int? conversationID;
   final int? index;
   final bool fromNotification;
-  const ChatScreen({super.key, required this.notificationBody, required this.user, this.conversationID, this.index, this.fromNotification = false});
+  final OrderChatModel? orderChatModel;
+  const ChatScreen({super.key, required this.notificationBody, required this.user, this.conversationID, this.index, this.fromNotification = false, this.orderChatModel});
 
   @override
   State<ChatScreen> createState() => _ChatScreenState();
@@ -49,10 +55,24 @@ class _ChatScreenState extends State<ChatScreen> {
   void initCall(){
 
     if(AuthHelper.isLoggedIn()) {
+
+      if(widget.orderChatModel != null) {
+        Get.find<ChatController>().sendMessage(
+          message: '${widget.orderChatModel!.reason!}\n${widget.orderChatModel!.customMessage!}',
+          orderId: widget.orderChatModel!.orderId,
+          notificationBody: widget.notificationBody,
+          conversationID: widget.conversationID, index: widget.index,
+        );
+      }
+
       Get.find<ChatController>().getMessages(1, widget.notificationBody, widget.user, widget.conversationID, firstLoad: true);
 
       if(Get.find<ProfileController>().userInfoModel == null || Get.find<ProfileController>().userInfoModel!.userInfo == null) {
         Get.find<ProfileController>().getUserInfo();
+      }
+
+      if(widget.orderChatModel != null) {
+        Get.find<OrderController>().getSupportReasons();
       }
     }
   }
@@ -70,7 +90,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
       return PopScope(
         canPop: true,
-        onPopInvoked: (didPop) async{
+        onPopInvokedWithResult: (didPop, result) async{
           if(widget.fromNotification) {
             Get.offAllNamed(RouteHelper.getInitialRoute());
           } else {
@@ -117,6 +137,39 @@ class _ChatScreenState extends State<ChatScreen> {
               child: SizedBox(
                 width: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth : MediaQuery.of(context).size.width,
                 child: Column(children: [
+
+                  SizedBox(height: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeSmall : 0),
+
+                  ResponsiveHelper.isDesktop(context) ? Container(
+                    color: Theme.of(context).cardColor,
+                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
+                    child: Row(children: [
+
+                      ClipOval(child: CustomImage(
+                        image:'${chatController.messageModel != null ? chatController.messageModel!.conversation!.receiver!.imageFullUrl : ''}',
+                        fit: BoxFit.cover, height: 35, width: 35,
+                      )),
+                      const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                      Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                        chatController.messageModel != null ? Text(
+                          '${chatController.messageModel!.conversation!.receiver!.fName}'
+                              ' ${chatController.messageModel!.conversation!.receiver!.lName}',
+                          style: robotoRegular,
+                        ) : Container(
+                          height: 20, width: 100, color: Theme.of(context).disabledColor,
+                        ),
+
+                        (chatController.messageModel != null && chatController.messageModel!.conversation!.receiver!.phone != null) ? Text(
+                          '${chatController.messageModel!.conversation!.receiver!.phone}',
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+                        ) : const SizedBox(),
+
+                      ]),
+
+                    ]),
+                  ) : const SizedBox(),
 
                   GetBuilder<ChatController>(builder: (chatController) {
                     return Expanded(child: chatController.messageModel != null ? chatController.messageModel!.messages!.isNotEmpty ? SingleChildScrollView(
@@ -202,7 +255,7 @@ class _ChatScreenState extends State<ChatScreen> {
                           },
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
-                            child: Image.asset(Images.image, width: 25, height: 25, color: Theme.of(context).hintColor),
+                            child: Image.asset(Images.image, width: 25, height: 25, color: Theme.of(context).primaryColor),
                           ),
                         ),
 
@@ -243,26 +296,48 @@ class _ChatScreenState extends State<ChatScreen> {
                         ),
 
                         GetBuilder<ChatController>(builder: (chatController) {
+                          bool showMessageSuggestion = (widget.orderChatModel != null && _inputMessageController.text.isEmpty&& chatController.chatImage.isEmpty
+                              && Get.find<OrderController>().supportReasons != null && Get.find<OrderController>().supportReasons!.isNotEmpty);
+
                           return chatController.isLoading ? const Padding(
                             padding: EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                             child: SizedBox(height: 25, width: 25, child: CircularProgressIndicator()),
                           ) : InkWell(
                             onTap: () async {
-                              if(chatController.isSendButtonActive) {
-                                await chatController.sendMessage(
-                                  message: _inputMessageController.text, notificationBody: widget.notificationBody,
-                                  conversationID: widget.conversationID, index: widget.index,
-                                );
-                                _inputMessageController.clear();
-                              }else {
-                                showCustomSnackBar('write_something'.tr);
+                              if(showMessageSuggestion) {
+                                if(ResponsiveHelper.isDesktop(context)) {
+                                  Get.dialog(const MessageSuggestionWidget(), barrierColor: Colors.transparent).then((value) async {
+                                      if(value != null) {
+                                        _inputMessageController.text = value;
+                                        chatController.toggleSendButtonActivity();
+                                      }
+                                  });
+                                } else {
+                                  Get.bottomSheet(const SupportReasonBottomSheet(orderId: null, fromChatPage: true),
+                                      backgroundColor: Colors.transparent, isScrollControlled: true).then((value) async {
+                                        if(value != null) {
+                                          _inputMessageController.text = value;
+                                          chatController.toggleSendButtonActivity();
+                                        }
+                                  });
+                                }
+                              } else{
+                                if(chatController.isSendButtonActive) {
+                                  await chatController.sendMessage(
+                                    message: _inputMessageController.text, notificationBody: widget.notificationBody,
+                                    conversationID: widget.conversationID, index: widget.index,
+                                  );
+                                  _inputMessageController.clear();
+                                }else {
+                                  showCustomSnackBar('write_something'.tr);
+                                }
                               }
                             },
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                               child: Image.asset(
-                                Images.send, width: 25, height: 25,
-                                color: chatController.isSendButtonActive ? Theme.of(context).primaryColor : Theme.of(context).hintColor,
+                               showMessageSuggestion ? Images.suggestionMessage : Images.send, width: 25, height: 25,
+                                color: chatController.isSendButtonActive || showMessageSuggestion ? Theme.of(context).primaryColor : Theme.of(context).hintColor,
                               ),
                             ),
                           );
@@ -280,6 +355,91 @@ class _ChatScreenState extends State<ChatScreen> {
             initCall();
             setState(() {});
           }),
+        ),
+      );
+    });
+  }
+}
+
+class MessageSuggestionWidget extends StatelessWidget {
+  const MessageSuggestionWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return GetBuilder<OrderController>(builder: (orderController) {
+      bool isDesktop = ResponsiveHelper.isDesktop(context);
+
+      return Container(
+        width: Dimensions.webMaxWidth,
+        padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: 50),
+        alignment: Get.find<LocalizationController>().isLtr ? Alignment.bottomRight : Alignment.bottomLeft,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.end,
+          crossAxisAlignment: CrossAxisAlignment.end,
+          children: [
+
+            orderController.supportReasons!.isNotEmpty ? Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  constraints: BoxConstraints(maxHeight: context.height*0.5, minHeight: 30),
+                  width: isDesktop ? 600 : context.width * 0.8,
+                  decoration: BoxDecoration(
+                    color: Theme.of(context).cardColor,
+                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                    boxShadow: const [BoxShadow(color: Colors.black26, blurRadius: 10)],
+                  ),
+                  margin: EdgeInsets.only(right: isDesktop ? context.width * 0.1 : 0),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+
+                      Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+                        const SizedBox(),
+
+                        Padding(
+                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
+                          child: Text('choose_the_reason_for_support'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeDefault)),
+                        ),
+
+                        IconButton(onPressed: ()=> Get.back(), icon: const Icon(Icons.clear)),
+                      ]),
+
+                      Container(
+                        constraints: BoxConstraints(maxHeight: context.height*0.3, minHeight: 30),
+                        child: ListView.builder(
+                            itemCount: orderController.supportReasons!.length,
+                            shrinkWrap: true,
+                            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
+                            itemBuilder: (context, index) {
+                              return InkWell(
+                                onTap: (){
+                                  Get.back(result: orderController.supportReasons![index]);
+                                },
+                                child: TextHover(
+                                  builder: (isHovered) {
+                                    return Container(
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor,
+                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.5), width: 0.3),
+                                        boxShadow: isHovered ? [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.5), blurRadius: 10)] : null,
+                                      ),
+                                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                      margin: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                      child: Text(orderController.supportReasons![index]??'', style: isHovered ? robotoMedium : robotoRegular),
+                                    );
+                                  }
+                                ),
+                              );
+                            }),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ) : const SizedBox(),
+          ],
         ),
       );
     });

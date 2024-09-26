@@ -27,12 +27,12 @@ class ParcelAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
       title: GetBuilder<SplashController>(
         builder: (splashController) {
           return Row(children: [
-            (splashController.module != null && splashController.configModel!.module == null) ? InkWell(
+            (splashController.module != null && splashController.configModel!.module == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? InkWell(
               onTap: () => splashController.removeModule(),
               child: Image.asset(Images.moduleIcon, height: 25, width: 25, color: Theme.of(context).textTheme.bodyLarge!.color),
             ) : const SizedBox(),
             SizedBox(width: (splashController.module != null && splashController.configModel!.module
-                == null) ? Dimensions.paddingSizeSmall : 0),
+                == null && splashController.moduleList != null && splashController.moduleList!.length != 1) ? Dimensions.paddingSizeSmall : 0),
             Expanded(child: InkWell(
               onTap: () => Get.find<LocationController>().navigateToLocationScreen('home'),
               child: Padding(

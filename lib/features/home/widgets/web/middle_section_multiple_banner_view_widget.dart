@@ -23,7 +23,7 @@ class MiddleSectionMultipleBannerViewWidget extends StatelessWidget {
             crossAxisCount: 3,
             crossAxisSpacing: Dimensions.paddingSizeExtremeLarge,
             mainAxisSpacing: Dimensions.paddingSizeExtremeLarge,
-            mainAxisExtent: 230,
+            mainAxisExtent: 130,
           ),
           itemBuilder: (context, index) {
             return InkWell(

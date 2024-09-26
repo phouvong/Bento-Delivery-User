@@ -49,7 +49,13 @@ class ItemWidget extends StatelessWidget {
     double? discount;
     String? discountType;
     bool isAvailable;
-    // bool haveItemImage = (isStore ? true : item!.image != null);
+    String genericName = '';
+
+    if(!isStore && item!.genericName != null && item!.genericName!.isNotEmpty) {
+      for (String name in item!.genericName!) {
+        genericName += name;
+      }
+    }
     if(isStore) {
       discount = store!.discount != null ? store!.discount!.discount : 0;
       discountType = store!.discount != null ? store!.discount!.discountType : 'percent';
@@ -153,6 +159,7 @@ class ItemWidget extends StatelessWidget {
                         !isStore && item!.isStoreHalalActive! && item!.isHalalItem! ? const CustomAssetImageWidget(
                             Images.halalTag, height: 13, width: 13) : const SizedBox(),
 
+                        SizedBox(width: ResponsiveHelper.isDesktop(context) ? 20 : 0),
                       ]),
                       const SizedBox(height: 3),
 
@@ -163,6 +170,20 @@ class ItemWidget extends StatelessWidget {
                           color: Theme.of(context).disabledColor,
                         ),
                         maxLines: 1, overflow: TextOverflow.ellipsis,
+                      ) : const SizedBox(),
+
+                      (genericName.isNotEmpty) ? Flexible(
+                        child: Padding(
+                          padding: const EdgeInsets.only(top: 5.0),
+                          child: Text(
+                            genericName,
+                            style: robotoMedium.copyWith(
+                              fontSize: Dimensions.fontSizeSmall,
+                              color: Theme.of(context).disabledColor,
+                            ),
+                            maxLines: 1, overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
                       ) : const SizedBox(),
                       SizedBox(height: ((desktop || isStore) && (isStore ? store!.address != null : item!.storeName != null)) ? 3 : 3),
 
@@ -184,16 +205,7 @@ class ItemWidget extends StatelessWidget {
 
                       ]) : const SizedBox(),
 
-                      /*!isStore ? RatingBar(
-                        rating: isStore ? store!.avgRating : item!.avgRating, size: desktop ? 15 : 12,
-                        ratingCount: isStore ? store!.ratingCount : item!.ratingCount,
-                      ) : const SizedBox(),*/
                       SizedBox(height: (!isStore && desktop) || (!isStore && (item!.ratingCount! > 0)) ? 3 : 0),
-
-                      /*(Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! && item != null && item!.unitType != null) ? Text(
-                        '(${ item!.unitType ?? ''})',
-                        style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).hintColor),
-                      ) : const SizedBox(),*/
 
                       isStore && (store != null && store!.ratingCount! > 0) ? Row(children: [
 
@@ -242,29 +254,7 @@ class ItemWidget extends StatelessWidget {
                       ),
                       padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                       child: Icon(Icons.add, color: Theme.of(context).cardColor, size: 12),
-                    ) : /*GetBuilder<FavouriteController>(builder: (favouriteController) {
-                      bool isWished = isStore ? favouriteController.wishStoreIdList.contains(store!.id)
-                          : favouriteController.wishItemIdList.contains(item!.id);
-                      return InkWell(
-                        onTap: !favouriteController.isRemoving ? () {
-                          if(AuthHelper.isLoggedIn()) {
-                            isWished ? favouriteController.removeFromFavouriteList(isStore ? store!.id : item!.id, isStore)
-                                : favouriteController.addToFavouriteList(item, store?.id, isStore);
-                          }else {
-                            showCustomSnackBar('you_are_not_logged_in'.tr);
-                          }
-                        } : null,
-                        child: Padding(
-                          padding: EdgeInsets.symmetric(vertical: desktop ? Dimensions.paddingSizeSmall : 0),
-                          child: Icon(
-                            isWished ? Icons.favorite : Icons.favorite_border,  size: desktop ? 30 : 25,
-                            color: isWished ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
-                          ),
-                        ),
-                      );
-                    }),*/
-
-                    GetBuilder<FavouriteController>(builder: (favouriteController) {
+                    ) : GetBuilder<FavouriteController>(builder: (favouriteController) {
                       bool isWished = isStore ? favouriteController.wishStoreIdList.contains(store!.id) : favouriteController.wishItemIdList.contains(item!.id);
                       return CustomFavouriteWidget(
                         isWished: isWished,

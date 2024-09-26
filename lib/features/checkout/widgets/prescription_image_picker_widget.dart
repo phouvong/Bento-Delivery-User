@@ -2,7 +2,7 @@ import 'dart:io';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:image_compression_flutter/image_compression_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart/common/widgets/custom_tool_tip_widget.dart';
 import 'package:sixam_mart/features/checkout/controllers/checkout_controller.dart';
 import 'package:sixam_mart/features/checkout/widgets/prescription_view_dialog_widget.dart';

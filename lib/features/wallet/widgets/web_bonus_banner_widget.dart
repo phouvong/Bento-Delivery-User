@@ -17,7 +17,8 @@ class WebBonusBannerWidget extends StatelessWidget {
     final PageController pageController = PageController();
     return GetBuilder <WalletController> (
       builder: (walletController) {
-        return Container(
+        return walletController.fundBonusList != null && walletController.fundBonusList!.isEmpty ?
+        const SizedBox() : Container(
           padding: const EdgeInsets.symmetric( horizontal: 0, vertical: Dimensions.paddingSizeSmall),
           alignment: Alignment.center,
           child: SizedBox(width: 1210, height: 130, child: walletController.fundBonusList != null ? Stack(

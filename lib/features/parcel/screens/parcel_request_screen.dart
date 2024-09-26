@@ -57,6 +57,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
   bool _isLoggedIn = AuthHelper.isLoggedIn();
   bool? _isCashOnDeliveryActive = false;
   bool? _isDigitalPaymentActive = false;
+  bool _isOfflinePaymentActive = false;
   bool canCheckSmall = false;
   final JustTheController tooltipController = JustTheController();
 
@@ -75,11 +76,12 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
     Get.find<ParcelController>().getDistance(widget.pickedUpAddress, widget.destinationAddress);
     Get.find<ParcelController>().setPayerIndex(0, false);
     Get.find<ParcelController>().startLoader(false, canUpdate: false);
-      for(ZoneData zData in AddressHelper.getUserAddressFromSharedPref()!.zoneData!){
+      for(ZoneData zData in widget.pickedUpAddress.zoneData!){
         if(zData.id == AddressHelper.getUserAddressFromSharedPref()!.zoneId){
           _isCashOnDeliveryActive = zData.cashOnDelivery! && Get.find<SplashController>().configModel!.cashOnDelivery!;
           _isDigitalPaymentActive = zData.digitalPayment! && Get.find<SplashController>().configModel!.digitalPayment!;
-
+          _isOfflinePaymentActive = zData.offlinePayment! && Get.find<SplashController>().configModel!.offlinePaymentStatus!;
+          break;
         }
       }
       if (Get.find<ProfileController>().userInfoModel == null && _isLoggedIn) {
@@ -113,7 +115,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
           double total = 0;
           double dmTips = 0;
           double additionalCharge =  Get.find<SplashController>().configModel!.additionalChargeStatus! ? Get.find<SplashController>().configModel!.additionCharge! : 0;
-          bool isOfflinePaymentActive = Get.find<SplashController>().configModel!.offlinePaymentStatus!/* && CheckoutHelper.checkZoneOfflinePaymentOnOff(addressModel: AddressHelper.getUserAddressFromSharedPref())*/;
+          // bool isOfflinePaymentActive = Get.find<SplashController>().configModel!.offlinePaymentStatus!/* && CheckoutHelper.checkZoneOfflinePaymentOnOff(addressModel: AddressHelper.getUserAddressFromSharedPref())*/;
 
           if(parcelController.distance != -1 && parcelController.extraCharge != null) {
             charge = _calculateParcelDeliveryCharge(parcelController: parcelController, parcelCategory: widget.parcelCategory, zoneId: widget.pickedUpAddress.zoneId!);
@@ -501,7 +503,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                 parcelController.offlineMethodList != null && parcelController.payerIndex == 0 ? OfflinePaymentButton(
                   isSelected: parcelController.paymentIndex == 3,
                   offlineMethodList: parcelController.offlineMethodList!,
-                  isOfflinePaymentActive: isOfflinePaymentActive,
+                  isOfflinePaymentActive: _isOfflinePaymentActive,
                   onTap: () {
                     parcelController.setPaymentIndex(3, true);
                   },

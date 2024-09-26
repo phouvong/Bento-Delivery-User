@@ -1,12 +1,16 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
+import 'package:sixam_mart/features/order/widgets/support_reason_bottom_sheet.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/order/controllers/order_controller.dart';
 import 'package:sixam_mart/features/order/domain/models/order_model.dart';
+import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/features/order/widgets/order_item_widget.dart';
 import 'package:sixam_mart/features/parcel/widgets/details_widget.dart';
@@ -30,12 +34,14 @@ class OrderCalculationWidget extends StatelessWidget {
   final Widget bottomView;
   final double extraPackagingAmount;
   final double referrerBonusAmount;
+  final Function timerCancel;
+  final Function startApiCall;
   const OrderCalculationWidget({
     super.key, required this.orderController, required this.order, required this.ongoing,
     required this.parcel, required this.prescriptionOrder, required this.deliveryCharge,
     required this.itemsPrice, required this.discount, required this.couponDiscount, required this.tax,
     required this.addOns, required this.dmTips, required this.taxIncluded, required this.subTotal,
-    required this.total, required this.bottomView, required this.extraPackagingAmount, required this.referrerBonusAmount,
+    required this.total, required this.bottomView, required this.extraPackagingAmount, required this.referrerBonusAmount, required this.timerCancel, required this.startApiCall,
   });
 
   @override
@@ -273,6 +279,38 @@ class OrderCalculationWidget extends StatelessWidget {
                 ),
               ]),
             ),
+            const SizedBox(height: Dimensions.paddingSizeSmall),
+
+            AuthHelper.isLoggedIn() ? TextButton(
+              onPressed: () async {
+                if(ResponsiveHelper.isDesktop(context)) {
+                  await Get.dialog(Dialog(child: SupportReasonBottomSheet(orderId: order.id!, timerCancel: timerCancel, startApiCall: startApiCall,)));
+                } else {
+                  await Get.bottomSheet(SupportReasonBottomSheet(orderId: order.id!, timerCancel: timerCancel, startApiCall: startApiCall,), backgroundColor: Colors.transparent, isScrollControlled: true,);
+                }
+              },
+              child: Row(
+                mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+
+                  const CustomAssetImageWidget(Images.chatSupport, height: 20, width: 20),
+                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                  Flexible(
+                    child: RichText(text: TextSpan(children: [
+                      TextSpan(
+                        text: '${'message_to'.tr} ',
+                        style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color),
+                      ),
+                      TextSpan(
+                        text: Get.find<SplashController>().configModel!.businessName,
+                        style: robotoMedium.copyWith(color: Colors.blue, fontSize: Dimensions.fontSizeDefault, decoration: TextDecoration.underline),
+                      ),
+                    ]), textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis),
+                  ),
+                ],
+              ),
+            ) : const SizedBox(),
 
             SizedBox(height: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge : 0),
             ResponsiveHelper.isDesktop(context) ? Padding(

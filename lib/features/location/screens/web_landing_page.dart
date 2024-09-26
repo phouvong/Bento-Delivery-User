@@ -4,8 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_tool_tip_widget.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
+import 'package:sixam_mart/features/location/widgets/dynamic_text_color.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
@@ -356,6 +358,90 @@ class _WebLandingPageState extends State<WebLandingPage> {
               ])) : const SizedBox();
             }),
             const SizedBox(height: 40),
+
+            (splashController.landingModel?.availableZoneStatus == 1 && splashController.landingModel!.availableZoneList!.isNotEmpty) ? Row(children: [
+
+              Expanded(
+                flex: 2,
+                child: CustomImage(
+                  height: 350,
+                  image: '${splashController.landingModel?.availableZoneImageFullUrl}',
+                ),
+              ),
+              const SizedBox(width: 100),
+
+              Expanded(
+                flex: 3,
+                child: SizedBox(
+                  height: 350,
+                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                    DynamicTextColor(dynamicText: splashController.landingModel?.availableZoneTitle ?? ''),
+                    const SizedBox(height: Dimensions.paddingSizeDefault),
+
+                    Text(
+                      splashController.landingModel?.availableZoneShortDescription ?? '',
+                      style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
+                    ),
+                    const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
+
+                    Expanded(
+                      child: SingleChildScrollView(
+                        child: Wrap(
+                          children: List.generate(splashController.landingModel?.availableZoneList?.length ?? 0, (index) {
+
+                            var modules = splashController.landingModel?.availableZoneList?[index].modules ?? [];
+                            var modulesText = modules.join(', ');
+
+                            return  Padding(
+                              padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall, bottom: Dimensions.paddingSizeSmall),
+                              child: MouseRegion(
+                                onEnter: (_) => splashController.setHover(index, true),
+                                onExit: (_) => splashController.setHover(index, false),
+                                child: CustomToolTip(
+                                  content: SizedBox(
+                                    width: 200,
+                                    child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                      Text(
+                                        splashController.landingModel?.availableZoneList?[index].displayName ?? '',
+                                        style: robotoBold.copyWith(color: Theme.of(context).cardColor),
+                                      ),
+                                      const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                                      Text(
+                                        modulesText.isEmpty ? 'no_modules_are_available'.tr : '$modulesText ${'modules_are_available'.tr}',
+                                        style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),
+                                      ),
+                                    ]),
+                                  ),
+                                  preferredDirection: AxisDirection.up,
+                                  child: Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).cardColor,
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                      border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6), width: 1),
+                                      boxShadow: splashController.hoverStates[index] ? [const BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)] : [],
+                                    ),
+                                    child: Text(
+                                      splashController.landingModel?.availableZoneList?[index].displayName ?? '',
+                                      style: robotoBold.copyWith(color: splashController.hoverStates[index] ? Theme.of(context).primaryColor :  Theme.of(context).textTheme.bodyMedium!.color!),
+                                      maxLines: 1, overflow: TextOverflow.ellipsis,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            );
+                          }),
+                        ),
+                      ),
+                    ),
+
+                  ]),
+                ),
+              ),
+            ]) : const SizedBox(),
+            SizedBox(height: (splashController.landingModel?.availableZoneStatus == 1 && splashController.landingModel!.availableZoneList!.isNotEmpty) ? 40 : 0),
 
             Row(children: _generateChooseUsList(splashController)),
             SizedBox(height: AppConstants.whyChooseUsList.isNotEmpty ? 40 : 0),

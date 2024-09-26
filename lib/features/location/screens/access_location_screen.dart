@@ -50,7 +50,7 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
   Widget build(BuildContext context) {
     return PopScope(
       canPop: true,
-      onPopInvoked: (didPop) async {
+      onPopInvokedWithResult: (didPop, result) async {
         if (_canExit) {
           if (GetPlatform.isAndroid) {
             SystemNavigator.pop();

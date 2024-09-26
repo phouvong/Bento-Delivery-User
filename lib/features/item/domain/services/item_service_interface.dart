@@ -24,7 +24,7 @@ abstract class ItemServiceInterface {
   List<int> initializeAddonQtyList(List<AddOns>? addOns);
   Future<String> prepareVariationType(List<ChoiceOptions>? choiceOptions, List<int>? variationIndex);
   int setAddOnQuantity(bool isIncrement, int addOnQty);
-  int setQuantity(bool isIncrement, bool moduleStock, int? stock, int qty, int? quantityLimit, {bool getxSnackBar = false});
+  Future<int> setQuantity(bool isIncrement, bool moduleStock, int? stock, int qty, int? quantityLimit, {bool getxSnackBar = false});
   List<List<bool?>> setNewCartVariationIndex(int index, int i, List<FoodVariation>? foodVariations, List<List<bool?>> selectedVariations);
   int selectedVariationLength(List<List<bool?>> selectedVariations, int index);
   double? getStartingPrice(Item item);

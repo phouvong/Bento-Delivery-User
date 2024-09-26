@@ -91,23 +91,35 @@ class MedicineItemCard extends StatelessWidget {
                   Text(
                     item.storeName ?? '',
                     maxLines: 1, overflow: TextOverflow.ellipsis,
-                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                   ),
 
                   Text(item.name ?? '', style: robotoBold,
                     maxLines: 1, overflow: TextOverflow.ellipsis,
                   ),
 
-                  isShop ? Row(mainAxisAlignment: MainAxisAlignment.center, children: [
-                    Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  if(item.genericName != null && item.genericName!.isNotEmpty)
+                    Wrap(
+                      children: List.generate(item.genericName!.length, (index) {
+                        return Text(
+                          '${item.genericName![index]}${item.genericName!.length-1 == index ? '.' : ', '}',
+                          style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5), fontSize: Dimensions.fontSizeSmall),
+                          maxLines: 1, overflow: TextOverflow.ellipsis,
+                        );
+                      }),
+                    ),
 
-                    Text(item.avgRating.toString(), style: robotoRegular),
-                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                  if(isShop)
+                    Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                    Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+                      Text(item.avgRating.toString(), style: robotoRegular),
+                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
-                  ]) : const SizedBox(),
+                      Text("(${item.ratingCount})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+
+                    ]),
 
                   item.discount != null && item.discount! > 0  ? Text(
                     PriceConverter.convertPrice(Get.find<ItemController>().getStartingPrice(item)),

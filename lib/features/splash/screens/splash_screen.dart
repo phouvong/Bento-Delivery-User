@@ -1,5 +1,4 @@
 import 'dart:async';
-
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
@@ -27,29 +26,28 @@ class SplashScreen extends StatefulWidget {
 
 class SplashScreenState extends State<SplashScreen> {
   final GlobalKey<ScaffoldState> _globalKey = GlobalKey();
-  late StreamSubscription<ConnectivityResult> _onConnectivityChanged;
+  StreamSubscription<List<ConnectivityResult>>? _onConnectivityChanged;
 
   @override
   void initState() {
     super.initState();
 
     bool firstTime = true;
-    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+    _onConnectivityChanged = Connectivity().onConnectivityChanged.listen((List<ConnectivityResult> result) {
+      bool isConnected = result.contains(ConnectivityResult.wifi) || result.contains(ConnectivityResult.mobile);
+
       if(!firstTime) {
-        bool isNotConnected = result != ConnectivityResult.wifi && result != ConnectivityResult.mobile;
-        isNotConnected ? const SizedBox() : ScaffoldMessenger.of(context).hideCurrentSnackBar();
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          backgroundColor: isNotConnected ? Colors.red : Colors.green,
-          duration: Duration(seconds: isNotConnected ? 6000 : 3),
-          content: Text(
-            isNotConnected ? 'no_connection'.tr : 'connected'.tr,
-            textAlign: TextAlign.center,
-          ),
+        isConnected ? ScaffoldMessenger.of(Get.context!).hideCurrentSnackBar() : const SizedBox();
+        ScaffoldMessenger.of(Get.context!).showSnackBar(SnackBar(
+          backgroundColor: isConnected ? Colors.green : Colors.red,
+          duration: Duration(seconds: isConnected ? 3 : 6000),
+          content: Text(isConnected ? 'connected'.tr : 'no_connection'.tr, textAlign: TextAlign.center),
         ));
-        if(!isNotConnected) {
+        if(isConnected) {
           _route();
         }
       }
+
       firstTime = false;
     });
 
@@ -65,40 +63,24 @@ class SplashScreenState extends State<SplashScreen> {
   void dispose() {
     super.dispose();
 
-    _onConnectivityChanged.cancel();
+    _onConnectivityChanged?.cancel();
   }
 
   void _route() {
     Get.find<SplashController>().getConfigData().then((isSuccess) {
       if(isSuccess) {
         Timer(const Duration(seconds: 1), () async {
-          double? minimumVersion = 0;
-          if(GetPlatform.isAndroid) {
-            minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
-          }else if(GetPlatform.isIOS) {
-            minimumVersion = Get.find<SplashController>().configModel!.appMinimumVersionIos;
-          }
-          if(AppConstants.appVersion < minimumVersion! || Get.find<SplashController>().configModel!.maintenanceMode!) {
-            Get.offNamed(RouteHelper.getUpdateRoute(AppConstants.appVersion < minimumVersion));
+          double? minimumVersion = _getMinimumVersion();
+          bool isMaintenanceMode = Get.find<SplashController>().configModel!.maintenanceMode!;
+          bool needsUpdate = AppConstants.appVersion < minimumVersion!;
+
+          if(needsUpdate || isMaintenanceMode) {
+            Get.offNamed(RouteHelper.getUpdateRoute(needsUpdate));
           }else {
             if(widget.body != null) {
-              _forNotificationRouteProcess();
+              _forNotificationRouteProcess(widget.body);
             }else {
-              if (AuthHelper.isLoggedIn()) {
-                _forLoggedInUserRouteProcess();
-              } else {
-                if (Get.find<SplashController>().showIntro()!) {
-                  _newlyRegisteredRouteProcess();
-                } else {
-                  if(AuthHelper.isGuestLoggedIn()) {
-                    _forGuestUserRouteProcess();
-                  } else {
-                    await Get.find<AuthController>().guestLogin();
-                    _forGuestUserRouteProcess();
-                    // Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
-                  }
-                }
-              }
+              _handleUserRouting();
             }
           }
         });
@@ -106,14 +88,31 @@ class SplashScreenState extends State<SplashScreen> {
     });
   }
 
-  void _forNotificationRouteProcess() {
-    if (widget.body!.notificationType == NotificationType.order) {
-      Get.offNamed(RouteHelper.getOrderDetailsRoute(widget.body!.orderId, fromNotification: true));
-    }else if(widget.body!.notificationType == NotificationType.general){
-      Get.offNamed(RouteHelper.getNotificationRoute(fromNotification: true));
-    }else {
-      Get.offNamed(RouteHelper.getChatRoute(notificationBody: widget.body, conversationID: widget.body!.conversationId, fromNotification: true));
+  double? _getMinimumVersion() {
+    if (GetPlatform.isAndroid) {
+      return Get.find<SplashController>().configModel!.appMinimumVersionAndroid;
+    } else if (GetPlatform.isIOS) {
+      return Get.find<SplashController>().configModel!.appMinimumVersionIos;
     }
+    return 0;
+  }
+
+  void _forNotificationRouteProcess(NotificationBodyModel? notificationBody) {
+    final notificationType = notificationBody?.notificationType;
+
+    final Map<NotificationType, Function> notificationActions = {
+      NotificationType.order: () => Get.toNamed(RouteHelper.getOrderDetailsRoute(widget.body!.orderId, fromNotification: true)),
+      NotificationType.block: () => Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.notification)),
+      NotificationType.unblock: () => Get.offNamed(RouteHelper.getSignInRoute(RouteHelper.notification)),
+      NotificationType.message: () =>  Get.toNamed(RouteHelper.getChatRoute(notificationBody: widget.body, conversationID: widget.body!.conversationId, fromNotification: true)),
+      NotificationType.otp: () => null,
+      NotificationType.add_fund: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
+      NotificationType.referral_earn: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
+      NotificationType.cashback: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
+      NotificationType.general: () => Get.toNamed(RouteHelper.getNotificationRoute(fromNotification: true)),
+    };
+
+    notificationActions[notificationType]?.call();
   }
 
   Future<void> _forLoggedInUserRouteProcess() async {
@@ -144,6 +143,19 @@ class SplashScreenState extends State<SplashScreen> {
     }
   }
 
+  Future<void> _handleUserRouting() async {
+    if (AuthHelper.isLoggedIn()) {
+      _forLoggedInUserRouteProcess();
+    } else if (Get.find<SplashController>().showIntro() == true) {
+      _newlyRegisteredRouteProcess();
+    } else if (AuthHelper.isGuestLoggedIn()) {
+      _forGuestUserRouteProcess();
+    } else {
+      await Get.find<AuthController>().guestLogin();
+      _forGuestUserRouteProcess();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Get.find<SplashController>().initSharedData();
@@ -160,7 +172,6 @@ class SplashScreenState extends State<SplashScreen> {
             children: [
               Image.asset(Images.logo, width: 200),
               const SizedBox(height: Dimensions.paddingSizeSmall),
-              // Text(AppConstants.APP_NAME, style: robotoMedium.copyWith(fontSize: 25)),
             ],
           ) : NoInternetScreen(child: SplashScreen(body: widget.body)),
         );

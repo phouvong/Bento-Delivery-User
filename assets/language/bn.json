@@ -1274,5 +1274,19 @@
   "sender_email": "প্রেরক ইমেইল",
   "receiver_email": "প্রাপক ইমেইল",
   "please_enter_sender_email": "দয়া করে প্রেরক ইমেইল লিখুন",
-  "successfully_verified": "সফলভাবে যাচাই করা হয়েছে"
+  "successfully_verified": "সফলভাবে যাচাই করা হয়েছে",
+  "message_to": "বার্তা প্রাপক",
+  "choose_the_reason_for_support": "সহায়তার কারণ নির্বাচন করুন",
+  "or_custom_message": "অথবা কাস্টম বার্তা",
+  "type_here_to_write_a_custom_message": "কাস্টম বার্তা লেখার জন্য এখানে টাইপ করুন",
+  "send_message": "বার্তা পাঠান",
+  "custom_message": "কাস্টম বার্তা",
+  "nutrition_details": "পুষ্টি বিবরণ",
+  "allergic_ingredients": "এলার্জি সৃষ্টিকারী উপাদান",
+  "generic_name": "সাধারণ নাম",
+  "house_name": "বাড়ির নাম",
+  "floor_number": "তলার সংখ্যা",
+  "road": "রাস্তা",
+  "modules_are_available": "মডিউলগুলি উপলব্ধ",
+  "no_modules_are_available": "কোন মডিউল উপলব্ধ নেই"
 }

@@ -67,7 +67,7 @@ class _ParcelCategoryScreenState extends State<ParcelCategoryScreen> {
                         itemCount: bannerController.parcelOtherBannerModel!.banners!.length,
                         options: CarouselOptions(
                           autoPlay: true,
-                          height: ResponsiveHelper.isDesktop(context) ? 395 : 150,
+                          height: ResponsiveHelper.isDesktop(context) ? 395 : 120,
                           enlargeCenterPage: true,
                           disableCenter: true,
                           viewportFraction: 1,

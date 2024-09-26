@@ -117,6 +117,20 @@ class ItemTitleViewWidget extends StatelessWidget {
           ]),
           const SizedBox(height: Dimensions.paddingSizeSmall),
 
+          (itemController.item!.genericName != null && itemController.item!.genericName!.isNotEmpty) ? Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Wrap(children: List.generate(itemController.item!.genericName!.length, (index) {
+                return Text(
+                  '${itemController.item!.genericName![index]}${itemController.item!.genericName!.length-1 == index ? '.' : ', '}',
+                  style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                );
+              })),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
+            ],
+          ) : const SizedBox(),
+          const SizedBox(height: Dimensions.paddingSizeSmall),
+
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
@@ -185,53 +199,59 @@ class ItemTitleViewWidget extends StatelessWidget {
           return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
             Row(children: [
-              Flexible(child: Text(
-                item?.name ?? '',
-                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
-                maxLines: 2, overflow: TextOverflow.ellipsis,
-              )),
-              SizedBox(width: item!.isStoreHalalActive! && item!.isHalalItem! ? Dimensions.paddingSizeExtraSmall : 0),
+              Expanded(
+                child: Row(children: [
+                  Flexible(child: Text(
+                    item?.name ?? '',
+                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
+                    maxLines: 2, overflow: TextOverflow.ellipsis,
+                  )),
+                  SizedBox(width: item!.isStoreHalalActive! && item!.isHalalItem! ? Dimensions.paddingSizeExtraSmall : 0),
 
-              item!.isStoreHalalActive! && item!.isHalalItem! ? CustomToolTip(
-                message: 'this_is_a_halal_food'.tr,
-                preferredDirection: AxisDirection.up,
-                child: const CustomAssetImageWidget(Images.halalTag, height: 30, width: 30),
-              ) : const SizedBox(),
-
-              item!.availableTimeStarts != null ? const SizedBox() : GetBuilder<FavouriteController>(
-                  builder: (favouriteController) {
-                    return Row(
-                      children: [
-                        // Text(
-                        //   favouriteController.localWishes.contains(item.id) ? (item.wishlistCount+1).toString() : favouriteController.localRemovedWishes
-                        //       .contains(item.id) ? (item.wishlistCount-1).toString() : item.wishlistCount.toString(),
-                        //   style: robotoMedium.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.FONT_SIZE_EXTRA_LARGE),
-                        // ),
-                        // SizedBox(width: 5),
-
-                        InkWell(
-                          onTap: () {
-                            if(isLoggedIn){
-                              if(favouriteController.wishItemIdList.contains(item!.id)) {
-                                favouriteController.removeFromFavouriteList(item!.id, false);
-                              }else {
-                                favouriteController.addToFavouriteList(item, null, false);
-                              }
-                            }else {
-                              showCustomSnackBar('you_are_not_logged_in'.tr);
-                            }
-                          },
-                          child: Icon(
-                            favouriteController.wishItemIdList.contains(item!.id) ? Icons.favorite : Icons.favorite_border, size: 25,
-                            color: favouriteController.wishItemIdList.contains(item!.id) ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
-                          ),
-                        ),
-                      ],
-                    );
-                  }
+                  item!.isStoreHalalActive! && item!.isHalalItem! ? CustomToolTip(
+                    message: 'this_is_a_halal_food'.tr,
+                    preferredDirection: AxisDirection.up,
+                    child: const CustomAssetImageWidget(Images.halalTag, height: 30, width: 30),
+                  ) : const SizedBox(),
+                  /*item!.availableTimeStarts != null ? const SizedBox() : */
+                ]),
               ),
+
+              GetBuilder<FavouriteController>(builder: (favouriteController) {
+                return InkWell(
+                  onTap: () {
+                    if(isLoggedIn){
+                      if(favouriteController.wishItemIdList.contains(item!.id)) {
+                        favouriteController.removeFromFavouriteList(item!.id, false);
+                      }else {
+                        favouriteController.addToFavouriteList(item, null, false);
+                      }
+                    }else {
+                      showCustomSnackBar('you_are_not_logged_in'.tr);
+                    }
+                  },
+                  child: Icon(
+                    favouriteController.wishItemIdList.contains(item!.id) ? Icons.favorite : Icons.favorite_border, size: 30,
+                    color: favouriteController.wishItemIdList.contains(item!.id) ? Theme.of(context).primaryColor : Theme.of(context).disabledColor,
+                  ),
+                );
+              }),
+
             ]),
             const SizedBox(height: 5),
+
+            (item!.genericName != null && item!.genericName!.isNotEmpty) ? Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Wrap(children: List.generate(item!.genericName!.length, (index) {
+                  return Text(
+                    '${item!.genericName![index]}${item!.genericName!.length-1 == index ? '.' : ', '}',
+                    style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                  );
+                })),
+                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+              ],
+            ) : const SizedBox(),
 
             InkWell(
               onTap: () {

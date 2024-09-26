@@ -104,6 +104,7 @@ class SplashController extends GetxController implements GetxService {
     LandingModel? landingModel = await splashServiceInterface.getLandingPageData();
     if(landingModel != null) {
       _landingModel = landingModel;
+      hoverStates = List<bool>.generate(_landingModel!.availableZoneList!.length, (index) => false);
     }
     update();
   }
@@ -274,6 +275,13 @@ class SplashController extends GetxController implements GetxService {
 
   void getReferBottomSheetStatus(){
     _showReferBottomSheet = splashServiceInterface.getReferBottomSheetStatus();
+  }
+
+  var hoverStates = <bool>[];
+
+  void setHover(int index, bool state) {
+    hoverStates[index] = state;
+    update();
   }
 
 }

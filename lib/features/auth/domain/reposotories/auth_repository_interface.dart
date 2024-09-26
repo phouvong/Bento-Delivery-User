@@ -14,7 +14,7 @@ abstract class AuthRepositoryInterface extends RepositoryInterface{
   String getSharedPrefGuestId();
   Future<bool> clearSharedPrefGuestId();
   bool isGuestLoggedIn();
-  Future<bool> clearSharedData();
+  Future<bool> clearSharedData({bool removeToken = true});
   Future<ResponseModel> guestLogin();
   Future<Response> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout);
   Future<Response> registerWithSocialMedia(SocialLogInBody socialLogInBody);

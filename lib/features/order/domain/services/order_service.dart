@@ -27,6 +27,11 @@ class OrderService implements OrderServiceInterface {
   }
 
   @override
+  Future<List<String?>?> getSupportReasonsList() async {
+    return await orderRepositoryInterface.getList(isSupportReasons: true);
+  }
+
+  @override
   Future<List<OrderDetailsModel>?> getOrderDetails(String orderID, String? guestId) async {
     return await orderRepositoryInterface.get(orderID, guestId: guestId);
   }

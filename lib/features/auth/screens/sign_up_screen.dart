@@ -370,7 +370,7 @@ class SignUpScreenState extends State<SignUpScreen> {
               }
             }else {
               Get.find<LocationController>().navigateToLocationScreen(RouteHelper.signUp);
-              if(ResponsiveHelper.isDesktop(context)){
+              if(ResponsiveHelper.isDesktop(Get.context)){
                 Get.back();
               }
             }

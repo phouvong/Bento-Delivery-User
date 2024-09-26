@@ -166,11 +166,13 @@ class AuthRepository implements AuthRepositoryInterface{
   }
 
   @override
-  Future<bool> clearSharedData() async {
+  Future<bool> clearSharedData({bool removeToken = true}) async {
     if(!GetPlatform.isWeb) {
       FirebaseMessaging.instance.unsubscribeFromTopic(AppConstants.topic);
       FirebaseMessaging.instance.unsubscribeFromTopic('zone_${AddressHelper.getUserAddressFromSharedPref()!.zoneId}_customer');
-      apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": '@'}, handleError: false);
+      if(removeToken){
+        apiClient.postData(AppConstants.tokenUri, {"_method": "put", "cm_firebase_token": '@'}, handleError: false);
+      }
     }
     sharedPreferences.remove(AppConstants.token);
     sharedPreferences.remove(AppConstants.guestId);

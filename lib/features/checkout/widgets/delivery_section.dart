@@ -206,8 +206,8 @@ class DeliverySection extends StatelessWidget {
               children: [
                 isDesktop ? Expanded(
                   child: CustomTextField(
-                    titleText: 'street_number'.tr,
-                    labelText: 'write_street_number'.tr,
+                    titleText: 'write_street_number'.tr,
+                    labelText: 'street_number'.tr,
                     inputType: TextInputType.streetAddress,
                     focusNode: checkoutController.streetNode,
                     nextFocus: checkoutController.houseNode,

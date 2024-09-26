@@ -405,7 +405,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                                         CustomTextField(
                                           showTitle: true,
-                                          hintText: 'write_street_number'.tr,
+                                          hintText: 'street_number'.tr,
                                           titleText: '${'street_number'.tr} (${'optional'.tr})',
                                           showLabelText: false,
                                           inputType: TextInputType.streetAddress,
@@ -419,7 +419,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                           Expanded(
                                             child: CustomTextField(
                                               showTitle: true,
-                                              hintText: 'write_house_number'.tr,
+                                              hintText: 'house_name'.tr,
                                               titleText: '${'house'.tr} (${'optional'.tr})',
                                               showLabelText: false,
                                               inputType: TextInputType.text,
@@ -432,7 +432,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
                                           Expanded(
                                             child: CustomTextField(
-                                              hintText: 'write_floor_number'.tr,
+                                              hintText: 'floor_number'.tr,
                                               showLabelText: false,
                                               showTitle: true,
                                               titleText: "${'floor'.tr} (${'optional'.tr})",

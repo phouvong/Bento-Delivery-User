@@ -29,7 +29,7 @@ class HighlightWidget extends StatefulWidget {
 
 class _HighlightWidgetState extends State<HighlightWidget> {
 
-  final CarouselController _carouselController = CarouselController();
+  final CarouselSliderController _carouselController = CarouselSliderController();
 
   @override
   Widget build(BuildContext context) {
@@ -285,7 +285,7 @@ class _HighlightVideoWidgetState extends State<HighlightVideoWidget> {
     _chewieController = ChewieController(
       videoPlayerController: videoPlayerController,
       autoPlay: true,
-      aspectRatio: videoPlayerController.value.aspectRatio,
+      aspectRatio: videoPlayerController.value.aspectRatio * (ResponsiveHelper.isDesktop(context) ? 1 : 1.3),
     );
     _chewieController?.setVolume(0);
   }
@@ -316,7 +316,7 @@ class _HighlightVideoWidgetState extends State<HighlightVideoWidget> {
                 children: [
                   _chewieController != null &&  _chewieController!.videoPlayerController.value.isInitialized ? Stack(
                     children: [
-                      Chewie(controller: _chewieController!),
+                      Container(color: Colors.black, child: Chewie(controller: _chewieController!)),
                     ],
                   ) : const Center(child: CircularProgressIndicator()),
                 ],

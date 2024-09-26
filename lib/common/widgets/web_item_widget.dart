@@ -41,6 +41,13 @@ class WebItemWidget extends StatelessWidget {
     double? discount;
     String? discountType;
     bool isAvailable;
+    String genericName = '';
+
+    if(!isStore && item!.genericName != null && item!.genericName!.isNotEmpty) {
+      for (String name in item!.genericName!) {
+        genericName += name;
+      }
+    }
     if(isStore) {
       discount = store!.discount != null ? store!.discount!.discount : 0;
       discountType = store!.discount != null ? store!.discount!.discountType : 'percent';
@@ -101,7 +108,7 @@ class WebItemWidget extends StatelessWidget {
                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
                       child: CustomImage(
                         image: '${isStore ? store != null ? store!.logoFullUrl : '' : item!.imageFullUrl}',
-                        height: desktop ? 160 : length == null ? 100 : 65, width: desktop ? isStore ? 275 : 300 : 80, fit: BoxFit.cover,
+                        height: desktop ? 140 : length == null ? 100 : 65, width: desktop ? isStore ? 275 : 300 : 80, fit: BoxFit.cover,
                       ),
                     ),
 
@@ -120,7 +127,7 @@ class WebItemWidget extends StatelessWidget {
                     child: Padding(
                       padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                       child: SizedBox(
-                        width: desktop ? isStore ? 275 :219 : 80,
+                        width: desktop ? isStore ? 275 : 219 : 80,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisSize: MainAxisSize.max ,mainAxisAlignment: MainAxisAlignment.center, children: [
 
                           Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
@@ -136,6 +143,18 @@ class WebItemWidget extends StatelessWidget {
                                 height: 10, width: 10, fit: BoxFit.contain) : const SizedBox(),
                           ]),
                           SizedBox(height: isStore ? Dimensions.paddingSizeExtraSmall : 0),
+
+                          (genericName.isNotEmpty) ? Padding(
+                            padding: const EdgeInsets.only(bottom: 5.0),
+                            child: Text(
+                              genericName,
+                              style: robotoRegular.copyWith(
+                                fontSize: Dimensions.fontSizeOverSmall,
+                                color: Theme.of(context).disabledColor,
+                              ),
+                              maxLines: 1, overflow: TextOverflow.ellipsis,
+                            ),
+                          ) : const SizedBox(),
 
                           (isStore ? store!.address != null : item!.storeName != null) ? Text(
                             isStore ? store!.address ?? '' : item!.storeName ?? '',

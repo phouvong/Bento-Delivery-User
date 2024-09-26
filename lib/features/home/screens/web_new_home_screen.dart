@@ -106,19 +106,15 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                   ),
                   const SizedBox(width: Dimensions.paddingSizeDefault),
 
-                  GetBuilder<StoreController>(
-                      builder: (storeController) {
-                        return GetBuilder<FlashSaleController>(
-                            builder: (flashController) {
-                              bool isFlashSaleActive = (flashController.flashSaleModel?.activeProducts != null && flashController.flashSaleModel!.activeProducts!.isNotEmpty);
-                              return Expanded(
-                                flex: 1,
-                                child: isFlashSaleActive ? const WebFlashSaleViewWidget() : const WebRecommendedStoreView(),
-                              );
-                            }
-                        );
-                      }
-                  ),
+                  GetBuilder<StoreController>(builder: (storeController) {
+                    return GetBuilder<FlashSaleController>(builder: (flashController) {
+                      bool isFlashSaleActive = (flashController.flashSaleModel?.activeProducts != null && flashController.flashSaleModel!.activeProducts!.isNotEmpty);
+                      return Expanded(
+                        flex: 1,
+                        child: isFlashSaleActive ? const WebFlashSaleViewWidget() : const WebRecommendedStoreView(),
+                      );
+                    });
+                  }),
                 ]),
 
                 const BadWeatherWidget(),
@@ -164,14 +160,14 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                 isPharmacy ? const WebCommonConditionViewWidget()
                     : isFood ? const WebJustForYouViewWidget()
                     : isShop ? const WebJustForYouViewWidget()
-                    : /*const WebStoreWiseBannerView(),*/ const SizedBox(),
+                    : const SizedBox(),
 
                 isPharmacy ? const SizedBox()
                     : isFood ? const WebNewOnMartViewWidget()
                     : isShop ? const  WebFeaturedCategoriesViewWidget()
                     : const WebJustForYouViewWidget(),
 
-                (isPharmacy || isFood) ? const SizedBox() : isShop ? /*const WebStoreWiseBannerView()*/ const SizedBox() : const WebItemThatYouLoveViewWidget(),
+                (isPharmacy || isFood) ? const SizedBox() : isShop ? const SizedBox() : const WebItemThatYouLoveViewWidget(),
 
                 (isPharmacy || isFood) ? const SizedBox() : isShop ? const WebItemThatYouLoveForShop() : isLoggedIn ? const WebCouponBannerViewWidget() : const SizedBox(),
 

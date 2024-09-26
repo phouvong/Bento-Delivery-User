@@ -100,6 +100,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                                         id: address.id, addressType: address.addressType, contactPersonNumber: address.contactPersonNumber, contactPersonName: address.contactPersonName,
                                         address: address.address, latitude: address.latitude, longitude: address.longitude, zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0,
                                         zoneIds: address.zoneIds, method: address.method, streetNumber: address.streetNumber, house: address.house, floor: address.floor,
+                                        zoneData: responseModel.zoneData,
                                       );
 
                                       if(parcelController.isPickedUp!) {
@@ -120,6 +121,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                                       id: address.id, addressType: address.addressType, contactPersonNumber: address.contactPersonNumber, contactPersonName: address.contactPersonName,
                                       address: address.address, latitude: address.latitude, longitude: address.longitude, zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0,
                                       zoneIds: responseModel.zoneIds, method: address.method, streetNumber: address.streetNumber, house: address.house, floor: address.floor,
+                                      zoneData: responseModel.zoneData,
                                     );
                                     parcelController.setPickupAddress(pickupAddress, true);
                                     parcelController.setSenderAddressIndex(0);
@@ -129,6 +131,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                                       id: address.id, addressType: address.addressType, contactPersonNumber: address.contactPersonNumber, contactPersonName: address.contactPersonName,
                                       address: address.address, latitude: address.latitude, longitude: address.longitude, zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0,
                                       zoneIds: responseModel.zoneIds, method: address.method, streetNumber: address.streetNumber, house: address.house, floor: address.floor,
+                                      zoneData: responseModel.zoneData,
                                     );
                                     parcelController.setDestinationAddress(a);
                                     parcelController.setReceiverAddressIndex(0);
@@ -159,7 +162,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                                 widget.floorController.text = senderAddress[index].floor ?? '';
                                 widget.nameController.text = senderAddress[index].contactPersonName ?? '';
                                 await _splitPhoneNumber(senderAddress[index].contactPersonNumber??'');
-                                parcelController.setCountryCode(_addressCountryCode!, true);
+                                parcelController.setCountryCode(_addressCountryCode?? _countryCode!, true);
 
                                 // widget.phoneController.text = senderAddress[index].contactPersonNumber ?? '';
                               }else{

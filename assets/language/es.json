@@ -1273,5 +1273,19 @@
   "sender_email": "Correo electrónico del remitente",
   "receiver_email": "Correo electrónico del destinatario",
   "please_enter_sender_email": "Por favor, introduzca el correo electrónico del remitente",
-  "successfully_verified": "Verificado con éxito"
+  "successfully_verified": "Verificado con éxito",
+  "message_to": "Mensaje para",
+  "choose_the_reason_for_support": "Elige el motivo del soporte",
+  "or_custom_message": "O mensaje personalizado",
+  "type_here_to_write_a_custom_message": "Escribe aquí para redactar un mensaje personalizado",
+  "send_message": "Enviar mensaje",
+  "custom_message": "Mensaje personalizado",
+  "nutrition_details": "Detalles nutricionales",
+  "allergic_ingredients": "Ingredientes alérgenos",
+  "generic_name": "Nombre genérico",
+  "house_name": "Nombre de la casa",
+  "floor_number": "Número de piso",
+  "road": "Calle",
+  "modules_are_available": "Los módulos están disponibles",
+  "no_modules_are_available": "No hay módulos disponibles"
 }

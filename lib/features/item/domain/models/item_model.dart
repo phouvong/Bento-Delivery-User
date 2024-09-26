@@ -100,6 +100,9 @@ class Item {
   bool? isStoreHalalActive;
   bool? isHalalItem;
   bool? isPrescriptionRequired;
+  List<String>? nutritionsName;
+  List<String>? allergiesName;
+  List<String>? genericName;
 
   Item({
     this.id,
@@ -137,6 +140,9 @@ class Item {
     this.isStoreHalalActive,
     this.isHalalItem,
     this.isPrescriptionRequired,
+    this.nutritionsName,
+    this.allergiesName,
+    this.genericName,
   });
 
   Item.fromJson(Map<String, dynamic> json) {
@@ -214,6 +220,9 @@ class Item {
     isStoreHalalActive = json['halal_tag_status'] == 1;
     isHalalItem = json['is_halal'] == 1;
     isPrescriptionRequired = json['is_prescription_required'] == 1;
+    nutritionsName = json['nutritions_name']?.cast<String>();
+    allergiesName = json['allergies_name']?.cast<String>();
+    genericName = json['generic_name']?.cast<String>();
   }
 
   Map<String, dynamic> toJson() {
@@ -264,6 +273,9 @@ class Item {
     data['halal_tag_status'] = isStoreHalalActive;
     data['is_halal'] = isHalalItem;
     data['is_prescription_required'] = isPrescriptionRequired;
+    data['nutritions_name'] = nutritionsName;
+    data['allergies_name'] = allergiesName;
+    data['generic_name'] = genericName;
     return data;
   }
 }

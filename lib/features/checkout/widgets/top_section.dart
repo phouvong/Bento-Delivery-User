@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:get/get.dart';
-import 'package:image_compression_flutter/image_compression_flutter.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
 import 'package:sixam_mart/features/checkout/widgets/guest_create_account.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';

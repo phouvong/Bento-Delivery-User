@@ -25,7 +25,6 @@ import 'package:sixam_mart/features/checkout/widgets/order_successfull_dialog.da
 import 'package:sixam_mart/features/checkout/widgets/partial_pay_dialog_widget.dart';
 import 'package:sixam_mart/features/home/screens/home_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
-import 'package:sixam_mart/helper/network_info.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
@@ -350,15 +349,6 @@ class CheckoutController extends GetxController implements GetxService {
     if(canUpdate) {
       update();
     }
-  }
-
-  void pickImage() async {
-    _orderAttachment = await ImagePicker().pickImage(source: ImageSource.gallery, imageQuality: 50);
-    if(_orderAttachment != null) {
-      _orderAttachment = await NetworkInfo.compressImage(_orderAttachment!);
-      _rawAttachment = await _orderAttachment!.readAsBytes();
-    }
-    update();
   }
 
   void setInstruction(int index){

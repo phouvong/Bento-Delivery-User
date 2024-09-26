@@ -13,7 +13,7 @@ abstract class AuthServiceInterface{
   bool isLoggedIn();
   bool isGuestLoggedIn();
   String getSharedPrefGuestId();
-  Future<bool> clearSharedData();
+  Future<bool> clearSharedData({bool removeToken = true});
   Future<bool> clearSharedAddress();
   Future<void> saveUserNumberAndPassword(String number, String password, String countryCode);
   String getUserNumber();

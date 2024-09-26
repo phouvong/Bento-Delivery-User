@@ -53,7 +53,6 @@ class AllStoreFilterWidget extends StatelessWidget {
                   Flexible(
                     child: Text(
                       '${storeController.storeModel?.totalSize ?? 0} ${Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'restaurants_near_you'.tr : 'stores_near_you'.tr}',
-                      // '${storeController.storeModel != null ? storeController.storeModel!.totalSize : 0} ${'restaurants_near_you'.tr}',
                       maxLines: 1, overflow: TextOverflow.ellipsis,
                       style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall),
                     ),
@@ -73,45 +72,50 @@ class AllStoreFilterWidget extends StatelessWidget {
   Widget filter(BuildContext context, StoreController storeController) {
     return SizedBox(
       height: ResponsiveHelper.isDesktop(context) ? 40 : 30,
-      child: ListView(
-        scrollDirection: Axis.horizontal,
-        shrinkWrap: true,
-        children: [
-          ResponsiveHelper.isDesktop(context) ? const SizedBox() : FilterView(storeController: storeController),
-          const SizedBox(width: Dimensions.paddingSizeSmall),
+      child: Align(
+        alignment: Alignment.centerLeft,
+        child: ListView(
+          scrollDirection: Axis.horizontal,
+          shrinkWrap: true,
+          padding: EdgeInsets.zero,
 
-          StoreFilterButtonWidget(
-            buttonText: 'all'.tr,
-            onTap: () => storeController.setStoreType('all'),
-            isSelected: storeController.storeType == 'all',
-          ),
-          const SizedBox(width: Dimensions.paddingSizeSmall),
+          children: [
+            ResponsiveHelper.isDesktop(context) ? const SizedBox() : FilterView(storeController: storeController),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
 
-          StoreFilterButtonWidget(
-            buttonText: 'newly_joined'.tr,
-            onTap: () => storeController.setStoreType('newly_joined'),
-            isSelected: storeController.storeType == 'newly_joined',
-          ),
-          const SizedBox(width: Dimensions.paddingSizeSmall),
+            StoreFilterButtonWidget(
+              buttonText: 'all'.tr,
+              onTap: () => storeController.setStoreType('all'),
+              isSelected: storeController.storeType == 'all',
+            ),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
 
-          StoreFilterButtonWidget(
-            buttonText: 'popular'.tr,
-            onTap: () => storeController.setStoreType('popular'),
-            isSelected: storeController.storeType == 'popular',
-          ),
-          const SizedBox(width: Dimensions.paddingSizeSmall),
+            StoreFilterButtonWidget(
+              buttonText: 'newly_joined'.tr,
+              onTap: () => storeController.setStoreType('newly_joined'),
+              isSelected: storeController.storeType == 'newly_joined',
+            ),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
 
-          StoreFilterButtonWidget(
-            buttonText: 'top_rated'.tr,
-            onTap: () => storeController.setStoreType('top_rated'),
-            isSelected: storeController.storeType == 'top_rated',
-          ),
-          const SizedBox(width: Dimensions.paddingSizeSmall),
+            StoreFilterButtonWidget(
+              buttonText: 'popular'.tr,
+              onTap: () => storeController.setStoreType('popular'),
+              isSelected: storeController.storeType == 'popular',
+            ),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
+
+            StoreFilterButtonWidget(
+              buttonText: 'top_rated'.tr,
+              onTap: () => storeController.setStoreType('top_rated'),
+              isSelected: storeController.storeType == 'top_rated',
+            ),
+            const SizedBox(width: Dimensions.paddingSizeSmall),
 
 
-          ResponsiveHelper.isDesktop(context) ? FilterView(storeController: storeController) : const SizedBox(),
+            ResponsiveHelper.isDesktop(context) ? FilterView(storeController: storeController) : const SizedBox(),
 
-        ],
+          ],
+        ),
       ),
     );
   }

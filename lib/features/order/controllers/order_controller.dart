@@ -57,6 +57,9 @@ class OrderController extends GetxController implements GetxService {
   bool _isExpanded = false;
   bool get isExpanded => _isExpanded;
 
+  List<String?>? _supportReasons;
+  List<String?>? get supportReasons => _supportReasons;
+
   void expandedUpdate(bool status){
     _isExpanded = status;
     update();
@@ -154,6 +157,11 @@ class OrderController extends GetxController implements GetxService {
       }
       update();
     }
+  }
+
+  Future<void> getSupportReasons() async {
+    _supportReasons = await orderServiceInterface.getSupportReasonsList();
+    update();
   }
 
   Future<List<OrderDetailsModel>?> getOrderDetails(String orderID) async {

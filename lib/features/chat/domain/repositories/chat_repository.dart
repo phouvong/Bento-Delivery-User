@@ -45,8 +45,11 @@ class ChatRepository implements ChatRepositoryInterface {
   }
 
   @override
-  Future<Response> sendMessage(String message, List<MultipartBody> images, int? userID, String userType, int? conversationID) async {
+  Future<Response> sendMessage(String message, String orderId, List<MultipartBody> images, int? userID, String userType, int? conversationID) async {
     Map<String, String> fields = {};
+    if(orderId.isNotEmpty) {
+      fields.addAll({'order_id': orderId});
+    }
     fields.addAll({'message': message, 'receiver_type': userType, 'offset': '1', 'limit': '10'});
     if(conversationID != null) {
       fields.addAll({'conversation_id': conversationID.toString()});

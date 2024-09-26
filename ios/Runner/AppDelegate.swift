@@ -4,7 +4,7 @@ import GoogleMaps
 import Firebase
 import FBSDKCoreKit
 
-@UIApplicationMain
+@main
 @objc class AppDelegate: FlutterAppDelegate {
   override func application(
     _ application: UIApplication,
@@ -12,6 +12,9 @@ import FBSDKCoreKit
   ) -> Bool {
     FirebaseApp.configure()
     GMSServices.provideAPIKey("AIzaSyASEynrBVU8QiI6x5BUNnLSxLmi2ER_tb4")
+    if #available(iOS 10.0, *) {
+      UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
+    }
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }

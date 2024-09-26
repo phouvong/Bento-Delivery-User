@@ -118,6 +118,38 @@ class DetailsWebViewWidget extends StatelessWidget {
                           ],
                         ) : const SizedBox(),
 
+                        (itemController.item!.nutritionsName != null && itemController.item!.nutritionsName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('nutrition_details'.tr, style: robotoMedium),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(itemController.item!.nutritionsName!.length, (index) {
+                              return Text(
+                                '${itemController.item!.nutritionsName![index]}${itemController.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
+                        (itemController.item!.allergiesName != null && itemController.item!.allergiesName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('allergic_ingredients'.tr, style: robotoMedium),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(itemController.item!.allergiesName!.length, (index) {
+                              return Text(
+                                '${itemController.item!.allergiesName![index]}${itemController.item!.allergiesName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
                         itemController.item!.isPrescriptionRequired! ? Container(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                           decoration: BoxDecoration(

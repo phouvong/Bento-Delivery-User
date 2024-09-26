@@ -34,6 +34,13 @@ class CartItemWidget extends StatelessWidget {
 
     double? discount = cart.item!.storeDiscount == 0 ? cart.item!.discount : cart.item!.storeDiscount;
     String? discountType = cart.item!.storeDiscount == 0 ? cart.item!.discountType : 'percent';
+    String genericName = '';
+
+    if(cart.item!.genericName != null && cart.item!.genericName!.isNotEmpty) {
+      for (String name in cart.item!.genericName!) {
+        genericName += name;
+      }
+    }
 
     return Padding(
       padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
@@ -137,6 +144,23 @@ class CartItemWidget extends StatelessWidget {
                          Images.halalTag, height: 13, width: 13) : const SizedBox(),
 
                       ]),
+
+                      (genericName.isNotEmpty) ? Padding(
+                        padding: const EdgeInsets.only(top: 2.0),
+                        child: Row(children: [
+                          Flexible(
+                            child: Text(
+                              genericName,
+                              style: robotoMedium.copyWith(
+                                fontSize: Dimensions.fontSizeSmall,
+                                color: Theme.of(context).disabledColor,
+                              ),
+                              maxLines: 1, overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ]),
+                      ) : const SizedBox(),
+
                       const SizedBox(height: 2),
 
                       Wrap(children: [

@@ -223,11 +223,11 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                                     ),
                                   ),
 
-                                  !cartController.isLoading ? Text(
+                                  Text(
                                     itemController.cartIndex != -1 ? cartController.cartList[itemController.cartIndex].quantity.toString()
                                         : itemController.quantity.toString(),
                                     style:robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraLarge),
-                                  ) : const SizedBox(height: 20, width: 20, child: CircularProgressIndicator()),
+                                  ),
 
                                   InkWell(
                                     onTap: cartController.isLoading ? null : () => itemController.cartIndex != -1
@@ -258,6 +258,19 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                         ]),
                         const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
+                        itemController.item!.isPrescriptionRequired! ? Container(
+                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
+                          margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                          ),
+                          child: Text(
+                            '* ${'prescription_required'.tr}',
+                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).colorScheme.error),
+                          ),
+                        ) : const SizedBox(),
+
                         (itemController.item!.description != null && itemController.item!.description!.isNotEmpty) ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
@@ -268,16 +281,36 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           ],
                         ) : const SizedBox(),
 
-                        itemController.item!.isPrescriptionRequired! ? Container(
-                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error.withOpacity(0.1),
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          ),
-                          child: Text(
-                            '* ${'prescription_required'.tr}',
-                            style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).colorScheme.error),
-                          ),
+                        (widget.item!.nutritionsName != null && widget.item!.nutritionsName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('nutrition_details'.tr, style: robotoMedium),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(widget.item!.nutritionsName!.length, (index) {
+                              return Text(
+                                '${widget.item!.nutritionsName![index]}${widget.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
+                        ) : const SizedBox(),
+
+                        (widget.item!.allergiesName != null && widget.item!.allergiesName!.isNotEmpty) ? Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text('allergic_ingredients'.tr, style: robotoMedium),
+                            const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                            Wrap(children: List.generate(widget.item!.allergiesName!.length, (index) {
+                              return Text(
+                                '${widget.item!.allergiesName![index]}${widget.item!.allergiesName!.length-1 == index ? '.' : ', '}',
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                              );
+                            })),
+                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                          ],
                         ) : const SizedBox(),
 
                       ],

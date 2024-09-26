@@ -4,6 +4,7 @@ import 'package:sixam_mart/features/profile/controllers/profile_controller.dart'
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
 import 'package:sixam_mart/features/chat/domain/models/chat_model.dart';
 import 'package:sixam_mart/helper/date_converter.dart';
+import 'package:sixam_mart/helper/price_converter.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -112,6 +113,8 @@ class MessageBubbleWidget extends StatelessWidget {
             Flexible(
               child: Column(mainAxisSize: MainAxisSize.min, crossAxisAlignment: CrossAxisAlignment.end, children: [
 
+                message.order != null ? adminOrderMessage(context, message.order!) : const SizedBox(),
+
                 (message.message != null && message.message!.isNotEmpty) ? Flexible(
                   child: Container(
                     decoration: BoxDecoration(
@@ -195,6 +198,114 @@ class MessageBubbleWidget extends StatelessWidget {
 
         ]);
       }),
+    );
+  }
+
+  Widget adminOrderMessage(BuildContext context, Order order) {
+    return Container(
+      width: ResponsiveHelper.isDesktop(context) ? 400 : 350,
+      decoration: BoxDecoration(
+        color: Theme.of(context).cardColor,
+        border: Border.all(color: Theme.of(context).disabledColor, width: 0.5),
+        borderRadius: const BorderRadius.only(
+          topLeft: Radius.circular(Dimensions.radiusDefault),
+          bottomRight: Radius.circular(Dimensions.radiusDefault),
+          bottomLeft: Radius.circular(Dimensions.radiusDefault),
+        ),
+      ),
+      margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
+      child: Column(children: [
+
+        Container(
+          padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+          decoration: BoxDecoration(
+            color: Theme.of(context).disabledColor.withOpacity(0.2),
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(Dimensions.radiusDefault),
+            ),
+          ),
+          child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                Row(children: [
+                  Text('${'order_id'.tr} ', style: robotoMedium),
+                  Text('#${order.id}', style: robotoBold),
+                ]),
+
+                Text('${'total'.tr}: ${PriceConverter.convertPrice(order.orderAmount ?? 0)}', style: robotoMedium.copyWith(color: Theme.of(context).primaryColor)),
+
+              ]),
+            ),
+
+            Expanded(
+              child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.end, children: [
+                Container(
+                  decoration: BoxDecoration(
+                    color: Colors.deepPurple.withOpacity(0.1),
+                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                  ),
+                  padding: const EdgeInsets.all(4),
+                  margin: const EdgeInsets.only(bottom: 4),
+                  child: Text(
+                    '${order.orderStatus}'.tr, maxLines: 2, overflow: TextOverflow.ellipsis,
+                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Colors.deepPurple),
+                  ),
+                ),
+
+                Text(DateConverter.stringToLocalDateOnly(order.createdAt!), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall)),
+              ]),
+            ),
+
+          ]),
+        ),
+
+        Container(
+          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+          child: Row(children: [
+
+            Expanded(
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                Text('delivery_address'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
+                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                Text(order.deliveryAddress?.contactPersonNumber??'', style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+
+                RichText(
+                  textAlign: TextAlign.start, maxLines: 2, overflow: TextOverflow.ellipsis,
+                  text: TextSpan(
+                    style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color, fontSize: Dimensions.fontSizeSmall,),
+                    children: [
+                      if(order.deliveryAddress != null && order.deliveryAddress!.house != null && order.deliveryAddress!.house!.isNotEmpty)
+                      TextSpan(text: '${'house'.tr}:${order.deliveryAddress?.house ?? 0}, '),
+
+                      if(order.deliveryAddress != null && order.deliveryAddress!.road != null && order.deliveryAddress!.road!.isNotEmpty)
+                      TextSpan(text: '${'road'.tr}:${order.deliveryAddress?.road ?? 0}, '),
+
+                      TextSpan(text: order.deliveryAddress?.address??''),
+                    ],
+                  ),
+                ),
+              ]),
+            ),
+
+            order.detailsCount != null && order.detailsCount! > 0 ? Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                color: Theme.of(context).disabledColor.withOpacity(0.1),
+              ),
+              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+              child: Column(children: [
+                Text('items'.tr, style: robotoRegular),
+                Text(order.detailsCount.toString(), style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeOverLarge)),
+              ]),
+            ) : const SizedBox(),
+
+          ]),
+        ),
+
+      ]),
     );
   }
 }

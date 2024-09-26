@@ -5,7 +5,7 @@ import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
   static const String appName = 'bento';
-  static const double appVersion = 2.9; ///Flutter Version: 3.22.3
+  static const double appVersion = 2.10; ///Flutter Version: 3.24.3
 
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
@@ -96,6 +96,7 @@ class AppConstants {
   static const String storeRegisterUri = '/api/v1/auth/vendor/register';
   static const String dmRegisterUri = '/api/v1/auth/delivery-man/store';
   static const String refundReasonUri = '/api/v1/customer/order/refund-reasons';
+  static const String supportReasonUri = '/api/v1/customer/automated-message';
   static const String refundRequestUri = '/api/v1/customer/order/refund-request';
   static const String directionUri = '/api/v1/config/direction-api';
   static const String vehicleListUri = '/api/v1/vehicles/list';

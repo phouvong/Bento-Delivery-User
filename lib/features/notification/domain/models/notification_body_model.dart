@@ -74,28 +74,20 @@ class NotificationBodyModel {
   }
 
   NotificationType convertToEnum(String? enumString) {
-    if(enumString == NotificationType.general.toString()) {
-      return NotificationType.general;
-    }else if(enumString == NotificationType.order.toString()) {
-      return NotificationType.order;
-    }else if(enumString == NotificationType.message.toString()) {
-      return NotificationType.message;
-    } else if(enumString == NotificationType.referral_code.toString()) {
-      return NotificationType.referral_code;
-    }else if(enumString == NotificationType.otp.toString()) {
-      return NotificationType.otp;
-    }else if(enumString == NotificationType.add_fund.toString()) {
-      return NotificationType.add_fund;
-    }else if(enumString == NotificationType.block.toString()) {
-      return NotificationType.block;
-    }else if(enumString == NotificationType.unblock.toString()) {
-      return NotificationType.unblock;
-    }else if(enumString == NotificationType.referral_earn.toString()) {
-      return NotificationType.referral_earn;
-    }else if(enumString == NotificationType.cashback.toString()) {
-      return NotificationType.cashback;
-    }
-    return NotificationType.general;
+    final Map<String, NotificationType> enumMap = {
+      NotificationType.general.toString(): NotificationType.general,
+      NotificationType.order.toString(): NotificationType.order,
+      NotificationType.message.toString(): NotificationType.message,
+      NotificationType.referral_code.toString(): NotificationType.referral_code,
+      NotificationType.otp.toString(): NotificationType.otp,
+      NotificationType.add_fund.toString(): NotificationType.add_fund,
+      NotificationType.block.toString(): NotificationType.block,
+      NotificationType.unblock.toString(): NotificationType.unblock,
+      NotificationType.referral_earn.toString(): NotificationType.referral_earn,
+      NotificationType.cashback.toString(): NotificationType.cashback,
+    };
+
+    return enumMap[enumString] ?? NotificationType.general;
   }
 
 }

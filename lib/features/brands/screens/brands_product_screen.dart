@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
@@ -20,11 +21,27 @@ class BrandsItemScreen extends StatefulWidget {
 }
 
 class _BrandsItemScreenState extends State<BrandsItemScreen> {
+  final ScrollController scrollController = ScrollController();
 
   @override
   void initState() {
-    Get.find<BrandsController>().getBrandItemList(widget.brandId, 1, false);
     super.initState();
+
+    Get.find<BrandsController>().getBrandItemList(widget.brandId, 1, false);
+    scrollController.addListener(() {
+      if (scrollController.position.pixels == scrollController.position.maxScrollExtent
+          && Get.find<BrandsController>().brandItems != null
+          && !Get.find<BrandsController>().isLoading) {
+        int pageSize = (Get.find<BrandsController>().pageSize! / 10).ceil();
+        if (Get.find<BrandsController>().offset < pageSize) {
+          if (kDebugMode) {
+            print('end of the page');
+          }
+          Get.find<BrandsController>().showBottomLoader();
+          Get.find<BrandsController>().getBrandItemList(widget.brandId, Get.find<BrandsController>().offset+1, true);
+        }
+      }
+    });
   }
 
   @override
@@ -37,6 +54,7 @@ class _BrandsItemScreenState extends State<BrandsItemScreen> {
       endDrawer: const MenuDrawer(), endDrawerEnableOpenDragGesture: false,
       body: GetBuilder<BrandsController>(builder: (brandsController) {
         return SingleChildScrollView(
+          controller: scrollController,
           child: FooterView(
             child: Column(children: [
 
@@ -44,11 +62,17 @@ class _BrandsItemScreenState extends State<BrandsItemScreen> {
 
               SizedBox(
                 width: Dimensions.webMaxWidth,
-                child: brandsController.brandItemModel != null ? brandsController.brandItemModel!.items!.isNotEmpty ? ItemsView(
-                  isStore: false, items: brandsController.brandItemModel!.items, stores: null, noDataText: 'no_brand_item_found'.tr,
-                ) : Center(child: Padding(padding: EdgeInsets.only(top: isDesktop ? context.height * 0.3 : context.height * 0.4), child: Text('no_brand_item_found'.tr))) : const BrandItemScreenShimmer(),
+                child: brandsController.brandItems != null ? brandsController.brandItems!.isNotEmpty
+                    ? ItemsView(isStore: false, items: brandsController.brandItems, stores: null, noDataText: 'no_brand_item_found'.tr)
+                    : Center(child: Padding(padding: EdgeInsets.only(top: isDesktop ? context.height * 0.3 : context.height * 0.4), child: Text('no_brand_item_found'.tr)))
+                    : const BrandItemScreenShimmer(),
 
               ),
+
+              brandsController.isLoading ? Center(child: Padding(
+                padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                child: CircularProgressIndicator(valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor)),
+              )) : const SizedBox(),
             ]),
           ),
         );

@@ -20,7 +20,9 @@ class GuestButtonWidget extends StatelessWidget {
             authController.guestLogin().then((response) {
               if(response.isSuccess) {
                 Get.find<ProfileController>().setForceFullyUserEmpty();
-                Navigator.pushReplacementNamed(context, RouteHelper.getInitialRoute());
+                if(context.mounted){
+                  Navigator.pushReplacementNamed(context, RouteHelper.getInitialRoute());
+                }
               }
             });
           },

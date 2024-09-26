@@ -71,19 +71,23 @@ class BestReviewItemShimmer extends StatelessWidget {
         Padding(
           padding: const EdgeInsets.symmetric(vertical : Dimensions.paddingSizeSmall, horizontal: Dimensions.paddingSizeDefault),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-            Container(
-              height: 20, width: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                color: Colors.grey[300],
+            Shimmer(
+              child: Container(
+                height: 20, width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                  color: Theme.of(context).shadowColor,
+                ),
               ),
             ),
 
-            Container(
-              height: 20, width: 100,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                color: Colors.grey[300],
+            Shimmer(
+              child: Container(
+                height: 20, width: 100,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                  color: Theme.of(context).shadowColor,
+                ),
               ),
             ),
           ]),
@@ -106,7 +110,7 @@ class BestReviewItemShimmer extends StatelessWidget {
                     width: 210, height: 285,
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      color: Colors.grey[300],
+                      color: Theme.of(context).shadowColor,
                     ),
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
@@ -117,7 +121,7 @@ class BestReviewItemShimmer extends StatelessWidget {
                             child: ClipRRect(
                               borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusSmall)),
                               child: Container(
-                                color: Colors.grey[300],
+                                color: Theme.of(context).shadowColor,
                                 width: 210, height: 285,
                               ),
                             ),
@@ -130,7 +134,7 @@ class BestReviewItemShimmer extends StatelessWidget {
 
 
                           Positioned(
-                            bottom: 0, left: 0, right: 0,
+                            bottom: 5, left: 0, right: 0,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault),
                               child: Stack(
@@ -140,20 +144,24 @@ class BestReviewItemShimmer extends StatelessWidget {
                                     height: 100, width: double.infinity,
                                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                                     decoration: BoxDecoration(
-                                        borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
-                                        color: Theme.of(context).cardColor
+                                      borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
+                                      color: Theme.of(context).cardColor.withOpacity(0.7),
                                     ),
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
 
                                       Container(
                                         width: 100, height: 10,
-                                        color: Colors.grey[300],
+                                        color: Theme.of(context).shadowColor,
                                       ),
-                                      const SizedBox(height: Dimensions.paddingSizeSmall),
 
                                       Container(
                                         width: 100, height: 10,
-                                        color: Colors.grey[300],
+                                        color: Theme.of(context).shadowColor,
+                                      ),
+
+                                      Container(
+                                        width: 100, height: 10,
+                                        color: Theme.of(context).shadowColor,
                                       ),
                                     ]),
                                   ),

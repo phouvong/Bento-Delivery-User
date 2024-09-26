@@ -268,7 +268,7 @@ class _PickMapScreenState extends State<PickMapScreen> {
                 Get.find<ProfileController>().setForceFullyUserEmpty();
                 Get.back();
                 locationController.saveAddressAndNavigate(
-                  address, widget.fromSignUp, widget.route, widget.canRoute, ResponsiveHelper.isDesktop(context),
+                  address, widget.fromSignUp, widget.route, widget.canRoute, ResponsiveHelper.isDesktop(Get.context),
                 );
               }
             });

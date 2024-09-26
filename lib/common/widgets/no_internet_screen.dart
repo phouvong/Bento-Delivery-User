@@ -32,9 +32,10 @@ class NoInternetScreen extends StatelessWidget {
 
             GestureDetector(
               onTap: () async {
-                if(await Connectivity().checkConnectivity() != ConnectivityResult.none) {
-                // Get.off((_) => child);
-                Get.off(child);
+                final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+
+                if(!connectivityResult.contains(ConnectivityResult.none)) {
+                  Get.off(child);
                 }
               },
               child: Container(

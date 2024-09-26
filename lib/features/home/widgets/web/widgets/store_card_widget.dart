@@ -18,7 +18,6 @@ import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/common/widgets/discount_tag.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/common/widgets/not_available_widget.dart';
-import 'package:sixam_mart/common/widgets/rating_bar.dart';
 import 'package:sixam_mart/features/store/screens/store_screen.dart';
 
 class StoreCardWidget extends StatelessWidget {
@@ -195,35 +194,41 @@ class StoreCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return  Container(
+      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
       width: 500,
       decoration: BoxDecoration(
-          color: Theme.of(context).cardColor,
-          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 10, spreadRadius: 1)]
+        color: Theme.of(context).cardColor,
+        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
       ),
       child: Shimmer(
         duration: const Duration(seconds: 2),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
           Container(
-            height: 120, width: 500,
+            height: 120, width: 120,
             decoration: BoxDecoration(
-                borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusSmall)),
-                color: Colors.grey[300]
+              borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusSmall)),
+              color: Theme.of(context).shadowColor,
             ),
           ),
+          const SizedBox(width: Dimensions.paddingSizeSmall),
 
           Expanded(
             child: Padding(
               padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                Container(height: 15, width: 100, color: Colors.grey[300]),
+              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.start, children: [
+                Container(height: 15, width: 200, color: Theme.of(context).shadowColor),
                 const SizedBox(height: 5),
 
-                Container(height: 10, width: 130, color: Colors.grey[300]),
+                Container(height: 10, width: 130, color: Theme.of(context).shadowColor),
                 const SizedBox(height: 5),
 
-                const RatingBar(rating: 0.0, size: 12, ratingCount: 0),
+                Row(
+                  children: List.generate(5, (index) {
+                    return Icon(Icons.star, color: Theme.of(context).shadowColor, size: 15);
+                  }),
+                ),
+
               ]),
             ),
           ),

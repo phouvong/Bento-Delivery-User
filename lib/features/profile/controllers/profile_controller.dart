@@ -6,7 +6,6 @@ import 'package:sixam_mart/features/profile/domain/models/userinfo_model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
-import 'package:sixam_mart/helper/network_info.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/profile/domain/services/profile_service_interface.dart';
@@ -80,7 +79,7 @@ class ProfileController extends GetxController implements GetxService {
   void pickImage() async {
     _pickedFile = await ImagePicker().pickImage(source: ImageSource.gallery);
     if(_pickedFile != null) {
-      _pickedFile = await NetworkInfo.compressImage(_pickedFile!);
+      // _pickedFile = await NetworkInfo.compressImage(_pickedFile!);
       _rawFile = await _pickedFile!.readAsBytes();
     }
     update();

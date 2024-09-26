@@ -239,9 +239,9 @@ class ChatController extends GetxController implements GetxService {
           showCustomSnackBar('can_not_add_more_than_3_image'.tr);
           break;
         }else {
-          XFile file = await chatServiceInterface.compressImage(xFile);
-          _chatImage.add(file);
-          _chatRawImage.add(await file.readAsBytes());
+          // XFile file = await chatServiceInterface.compressImage(xFile);
+          _chatImage.add(xFile);
+          _chatRawImage.add(await xFile.readAsBytes());
         }
       }
       _isSendButtonActive = true;
@@ -258,7 +258,7 @@ class ChatController extends GetxController implements GetxService {
     update();
   }
 
-  Future<Response?> sendMessage({required String message, required NotificationBodyModel? notificationBody, required int? conversationID, required int? index}) async {
+  Future<Response?> sendMessage({required String message, required NotificationBodyModel? notificationBody, required int? conversationID, required int? index, String? orderId}) async {
     Response? response;
     _isLoading = true;
     update();
@@ -266,11 +266,11 @@ class ChatController extends GetxController implements GetxService {
     List<MultipartBody> myImages = chatServiceInterface.processMultipartBody(_chatImage);
     
     if(notificationBody == null || notificationBody.adminId != null) {
-      response = await chatServiceInterface.sendMessage(message, myImages, 0, UserType.admin.name, null);
+      response = await chatServiceInterface.sendMessage(message, orderId ?? '', myImages, 0, UserType.admin.name, null);
     } else if(notificationBody.restaurantId != null) {
-      response = await chatServiceInterface.sendMessage(message, myImages, notificationBody.restaurantId, UserType.vendor.name, conversationID);
+      response = await chatServiceInterface.sendMessage(message, '', myImages, notificationBody.restaurantId, UserType.vendor.name, conversationID);
     } else if(notificationBody.deliverymanId != null) {
-      response = await chatServiceInterface.sendMessage(message, myImages, notificationBody.deliverymanId, UserType.delivery_man.name, conversationID);
+      response = await chatServiceInterface.sendMessage(message, '', myImages, notificationBody.deliverymanId, UserType.delivery_man.name, conversationID);
     }
     if (response!.statusCode == 200) {
       _chatImage = [];

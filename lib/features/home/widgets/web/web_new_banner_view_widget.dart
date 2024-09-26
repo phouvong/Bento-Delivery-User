@@ -127,7 +127,7 @@ class WebNewBannerViewWidget extends StatelessWidget {
             enabled: bannerList == null,
             child: Container(margin: const EdgeInsets.only(bottom: 20), decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              color: Colors.grey[300],
+              color: Theme.of(context).shadowColor,
             )),
           ),
         );
