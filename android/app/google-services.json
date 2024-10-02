@@ -14,11 +14,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "787586896333-u2tj8il1od8ts1cm8l42bknqhvqlv6eo.apps.googleusercontent.com",
+          "client_id": "787586896333-fsr32ciqtgmri8dvtnmh6kr8mutrhqus.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unilaos.frider",
-            "certificate_hash": "c583497597a1b5278884226551095cbbbc6782b8"
+            "certificate_hash": "bd035aa793bd2c5d06396a3320be2fea1800205e"
           }
         },
         {
@@ -102,11 +102,11 @@
       },
       "oauth_client": [
         {
-          "client_id": "787586896333-13h8j74hg11j0gunn7mpvlatgl9pfmoe.apps.googleusercontent.com",
+          "client_id": "787586896333-07j5o5c628hhili5h9kgrvol63b6je4j.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.unilaos.fvendor",
-            "certificate_hash": "c583497597a1b5278884226551095cbbbc6782b8"
+            "certificate_hash": "bd035aa793bd2c5d06396a3320be2fea1800205e"
           }
         },
         {
