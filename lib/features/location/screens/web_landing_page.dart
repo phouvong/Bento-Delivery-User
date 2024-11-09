@@ -446,9 +446,8 @@ class _WebLandingPageState extends State<WebLandingPage> {
             Row(children: _generateChooseUsList(splashController)),
             SizedBox(height: AppConstants.whyChooseUsList.isNotEmpty ? 40 : 0),
 
-            RegistrationCardWidget(isStore: true, splashController: splashController),
-            SizedBox(height: splashController.landingModel != null && (splashController.landingModel!.downloadUserAppLinks!.playstoreUrlStatus == '1' || splashController.landingModel!.downloadUserAppLinks!.appleStoreUrlStatus == '1')
-                ? 40 : 0),
+            splashController.landingModel?.joinSellerStatus == 1 ? RegistrationCardWidget(isStore: true, splashController: splashController) : const SizedBox(),
+            SizedBox(height: splashController.landingModel != null && splashController.landingModel!.joinSellerStatus == 1 ? 40 : 0),
 
             splashController.landingModel != null && (splashController.landingModel!.downloadUserAppLinks!.playstoreUrlStatus == '1' || splashController.landingModel!.downloadUserAppLinks!.appleStoreUrlStatus == '1')
             ? Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
@@ -496,8 +495,8 @@ class _WebLandingPageState extends State<WebLandingPage> {
             ]) : const SizedBox(),
             const SizedBox(height: 40),
 
-            RegistrationCardWidget(isStore: false, splashController: splashController),
-            const SizedBox(height: 40),
+            splashController.landingModel?.joinDeliveryManStatus == 1 ? RegistrationCardWidget(isStore: false, splashController: splashController) : const SizedBox(),
+            SizedBox(height: splashController.landingModel?.joinDeliveryManStatus == 1 ? 40 : 0),
 
           ]);
         }

@@ -32,7 +32,7 @@ class DetailsWidget extends StatelessWidget {
           maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
         ) : const SizedBox(),
 
-        (address!.house != null && address!.house!.isNotEmpty) ? Text('${'house'.tr}: ${address!.house!}, ',
+        (address!.house != null && address?.house != 'null' && address!.house!.isNotEmpty) ? Text('${'house'.tr}: ${address!.house!}, ',
           maxLines: 1, overflow: TextOverflow.ellipsis, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
         ) : const SizedBox(),
 

@@ -32,6 +32,11 @@ class StoreService implements StoreServiceInterface {
   }
 
   @override
+  Future<List<Store>?> getTopOfferStoreList() async {
+    return await storeRepositoryInterface.getList(isTopOfferStoreList: true);
+  }
+
+  @override
   Future<Response> getFeaturedStoreList() async {
     return await storeRepositoryInterface.getList(isFeaturedStoreList: true);
   }

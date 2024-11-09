@@ -14,7 +14,7 @@ class ConditionCheckBoxWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(mainAxisAlignment: forDeliveryMan ? MainAxisAlignment.start : MainAxisAlignment.center, children: [
+    return Row(mainAxisAlignment: MainAxisAlignment.start, children: [
 
       forDeliveryMan ? GetBuilder<DeliverymanRegistrationController>(builder: (dmRegController) {
         return GetBuilder<AuthController>(builder: (authController) {
@@ -33,7 +33,7 @@ class ConditionCheckBoxWidget extends StatelessWidget {
         child: RichText(
           text: TextSpan(children: [
             TextSpan(
-              text: forDeliveryMan ? 'i_agree_with_all_the'.tr :'by_login_i_agree_with_all_the'.tr,
+              text: forDeliveryMan ? 'i_agree_with_all_the'.tr :'i_agree_with_all_the'.tr,
               style: robotoRegular.copyWith(color: forDeliveryMan ? Theme.of(context).textTheme.bodyMedium!.color : Theme.of(context).hintColor, fontSize: forDeliveryMan ? Dimensions.fontSizeDefault : Dimensions.fontSizeSmall),
             ),
             const TextSpan(text: ' '),

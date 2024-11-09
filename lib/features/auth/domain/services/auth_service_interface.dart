@@ -4,11 +4,15 @@ import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 
 abstract class AuthServiceInterface{
   bool isSharedPrefNotificationActive();
-  Future<ResponseModel> registration(SignUpBodyModel signUpBody, bool isCustomerVerificationOn);
-  Future<ResponseModel> login({String? phone, String? password, required bool isCustomerVerificationOn});
+  //Future<ResponseModel> registration(SignUpBodyModel signUpBody, bool isCustomerVerificationOn);
+  Future<ResponseModel> registration(SignUpBodyModel signUpBody);
+  //Future<ResponseModel> login({String? phone, String? password, required bool isCustomerVerificationOn});
+  Future<ResponseModel> login({required String emailOrPhone, required String password, required String loginType, required String fieldType, bool alreadyInApp = false});
+  Future<ResponseModel> otpLogin({required String phone, required String otp, required String loginType, required String verified, bool alreadyInApp = false});
+  Future<ResponseModel> updatePersonalInfo({required String name, required String? phone, required String loginType, required String? email, required String? referCode, bool alreadyInApp = false});
   Future<ResponseModel> guestLogin();
-  Future<bool> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout, bool isCustomerVerificationOn);
-  Future<bool> registerWithSocialMedia(SocialLogInBody socialLogInBody, bool isCustomerVerificationOn);
+  //Future<bool> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout, bool isCustomerVerificationOn);
+  Future<ResponseModel> loginWithSocialMedia(SocialLogInBody socialLogInModel, {bool isCustomerVerificationOn = false});
   Future<void> updateToken();
   bool isLoggedIn();
   bool isGuestLoggedIn();

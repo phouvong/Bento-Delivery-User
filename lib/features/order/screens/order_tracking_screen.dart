@@ -4,6 +4,7 @@ import 'dart:collection';
 import 'package:geolocator/geolocator.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
+import 'package:sixam_mart/common/widgets/footer_view.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/location/widgets/permission_dialog_widget.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
@@ -43,6 +44,7 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
   Set<Marker> _markers = HashSet<Marker>();
   Timer? _timer;
   bool showChatPermission = true;
+  bool isHovered = false;
 
   void _loadData() async {
     await Get.find<OrderController>().trackOrder(widget.orderID, null, true, contactNumber: widget.contactNumber);
@@ -73,6 +75,12 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
     _timer?.cancel();
   }
 
+  void onEntered(bool isHovered) {
+    setState(() {
+      this.isHovered = isHovered;
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -96,75 +104,84 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
           }
         }
 
-        return track != null ? Center(child: SizedBox(width: Dimensions.webMaxWidth, child: Stack(children: [
+        return track != null ? SingleChildScrollView(
+          physics: isHovered || !ResponsiveHelper.isDesktop(context) ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
+          child: FooterView(
+            child: Center(child: SizedBox(width: Dimensions.webMaxWidth, height: ResponsiveHelper.isDesktop(context) ? 700 : MediaQuery.of(context).size.height * 0.85, child: Stack(children: [
 
-          GoogleMap(
-            initialCameraPosition: CameraPosition(target: LatLng(
-              double.parse(track.deliveryAddress!.latitude!), double.parse(track.deliveryAddress!.longitude!),
-            ), zoom: 16),
-            minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
-            zoomControlsEnabled: false,
-            markers: _markers,
-            onMapCreated: (GoogleMapController controller) {
-              _controller = controller;
-              _isLoading = false;
-              setMarker(
-                track!.orderType == 'parcel' ? Store(latitude: track.receiverDetails!.latitude, longitude: track.receiverDetails!.longitude,
-                    address: track.receiverDetails!.address, name: track.receiverDetails!.contactPersonName) : track.store, track.deliveryMan,
-                track.orderType == 'take_away' ? Get.find<LocationController>().position.latitude == 0 ? track.deliveryAddress : AddressModel(
-                  latitude: Get.find<LocationController>().position.latitude.toString(),
-                  longitude: Get.find<LocationController>().position.longitude.toString(),
-                  address: Get.find<LocationController>().address,
-                ) : track.deliveryAddress, track.orderType == 'take_away', track.orderType == 'parcel', track.moduleType == 'food',
-              );
-            },
-            style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
-          ),
-
-          _isLoading ? const Center(child: CircularProgressIndicator()) : const SizedBox(),
-
-          Positioned(
-            top: Dimensions.paddingSizeSmall, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
-            child: TrackingStepperWidget(status: track.orderStatus, takeAway: track.orderType == 'take_away'),
-          ),
-
-          Positioned(
-            right: 15, bottom: track.orderType != 'take_away' && track.deliveryMan == null ? 150 : 220,
-            child: InkWell(
-              onTap: () => _checkPermission(() async {
-                AddressModel address = await Get.find<LocationController>().getCurrentLocation(false, mapController: _controller);
-                setMarker(
-                  track!.orderType == 'parcel' ? Store(latitude: track.receiverDetails!.latitude, longitude: track.receiverDetails!.longitude,
-                      address: track.receiverDetails!.address, name: track.receiverDetails!.contactPersonName) : track.store, track.deliveryMan,
-                  track.orderType == 'take_away' ? Get.find<LocationController>().position.latitude == 0 ? track.deliveryAddress : AddressModel(
-                    latitude: Get.find<LocationController>().position.latitude.toString(),
-                    longitude: Get.find<LocationController>().position.longitude.toString(),
-                    address: Get.find<LocationController>().address,
-                  ) : track.deliveryAddress, track.orderType == 'take_away', track.orderType == 'parcel', track.moduleType == 'food',
-                  currentAddress: address, fromCurrentLocation: true,
-                );
-              }),
-              child: Container(
-                padding: const EdgeInsets.all( Dimensions.paddingSizeSmall),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.white),
-                child: Icon(Icons.my_location_outlined, color: Theme.of(context).primaryColor, size: 25),
+              MouseRegion(
+                onEnter: (event) => onEntered(true),
+                onExit: (event) => onEntered(false),
+                child: GoogleMap(
+                  initialCameraPosition: CameraPosition(target: LatLng(
+                    double.parse(track.deliveryAddress!.latitude!), double.parse(track.deliveryAddress!.longitude!),
+                  ), zoom: 16),
+                  minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
+                  zoomControlsEnabled: false,
+                  markers: _markers,
+                  onMapCreated: (GoogleMapController controller) {
+                    _controller = controller;
+                    _isLoading = false;
+                    setMarker(
+                      track!.orderType == 'parcel' ? Store(latitude: track.receiverDetails!.latitude, longitude: track.receiverDetails!.longitude,
+                          address: track.receiverDetails!.address, name: track.receiverDetails!.contactPersonName) : track.store, track.deliveryMan,
+                      track.orderType == 'take_away' ? Get.find<LocationController>().position.latitude == 0 ? track.deliveryAddress : AddressModel(
+                        latitude: Get.find<LocationController>().position.latitude.toString(),
+                        longitude: Get.find<LocationController>().position.longitude.toString(),
+                        address: Get.find<LocationController>().address,
+                      ) : track.deliveryAddress, track.orderType == 'take_away', track.orderType == 'parcel', track.moduleType == 'food',
+                    );
+                  },
+                  style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
+                ),
               ),
-            ),
-          ),
 
-          Positioned(
-            bottom: Dimensions.paddingSizeSmall, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
-            child: TrackDetailsViewWidget(status: track.orderStatus, track: track, showChatPermission: showChatPermission, callback: () async{
-              _timer?.cancel();
-              await Get.toNamed(RouteHelper.getChatRoute(
-                notificationBody: NotificationBodyModel(deliverymanId: track!.deliveryMan!.id, orderId: int.parse(widget.orderID!)),
-                user: User(id: track.deliveryMan!.id, fName: track.deliveryMan!.fName, lName: track.deliveryMan!.lName, imageFullUrl: track.deliveryMan!.imageFullUrl),
-              ));
-              _startApiCall();
-            }),
-          ),
+              _isLoading ? const Center(child: CircularProgressIndicator()) : const SizedBox(),
 
-        ]))) : const Center(child: CircularProgressIndicator());
+              Positioned(
+                top: Dimensions.paddingSizeSmall, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
+                child: TrackingStepperWidget(status: track.orderStatus, takeAway: track.orderType == 'take_away'),
+              ),
+
+              Positioned(
+                right: 15, bottom: track.orderType != 'take_away' && track.deliveryMan == null ? 150 : 220,
+                child: InkWell(
+                  onTap: () => _checkPermission(() async {
+                    AddressModel address = await Get.find<LocationController>().getCurrentLocation(false, mapController: _controller);
+                    setMarker(
+                      track!.orderType == 'parcel' ? Store(latitude: track.receiverDetails!.latitude, longitude: track.receiverDetails!.longitude,
+                          address: track.receiverDetails!.address, name: track.receiverDetails!.contactPersonName) : track.store, track.deliveryMan,
+                      track.orderType == 'take_away' ? Get.find<LocationController>().position.latitude == 0 ? track.deliveryAddress : AddressModel(
+                        latitude: Get.find<LocationController>().position.latitude.toString(),
+                        longitude: Get.find<LocationController>().position.longitude.toString(),
+                        address: Get.find<LocationController>().address,
+                      ) : track.deliveryAddress, track.orderType == 'take_away', track.orderType == 'parcel', track.moduleType == 'food',
+                      currentAddress: address, fromCurrentLocation: true,
+                    );
+                  }),
+                  child: Container(
+                    padding: const EdgeInsets.all( Dimensions.paddingSizeSmall),
+                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Colors.white),
+                    child: Icon(Icons.my_location_outlined, color: Theme.of(context).primaryColor, size: 25),
+                  ),
+                ),
+              ),
+
+              Positioned(
+                bottom: Dimensions.paddingSizeSmall, left: Dimensions.paddingSizeSmall, right: Dimensions.paddingSizeSmall,
+                child: TrackDetailsViewWidget(status: track.orderStatus, track: track, showChatPermission: showChatPermission, callback: () async{
+                  _timer?.cancel();
+                  await Get.toNamed(RouteHelper.getChatRoute(
+                    notificationBody: NotificationBodyModel(deliverymanId: track!.deliveryMan!.id, orderId: int.parse(widget.orderID!)),
+                    user: User(id: track.deliveryMan!.id, fName: track.deliveryMan!.fName, lName: track.deliveryMan!.lName, imageFullUrl: track.deliveryMan!.imageFullUrl),
+                  ));
+                  _startApiCall();
+                }),
+              ),
+
+            ]))),
+          ),
+        ) : const Center(child: CircularProgressIndicator());
       }),
     );
   }

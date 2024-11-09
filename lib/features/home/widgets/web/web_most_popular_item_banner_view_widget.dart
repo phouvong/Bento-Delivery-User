@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/item/controllers/campaign_controller.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -35,28 +36,38 @@ class WebMostPopularItemBannerViewWidget extends StatelessWidget {
 
                   return Row(children: [
 
-                    Expanded(child: InkWell(
-                      onTap: () => _onTap(index1, context),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                        child: CustomImage(
-                          image: '${campaignController.basicCampaignList![index1].imageFullUrl}',
-                          fit: BoxFit.cover, height: 220,
-                        ),
-                      ),
+                    Expanded(child: TextHover(
+                      builder: (hovered) {
+                        return InkWell(
+                          onTap: () => _onTap(index1, context),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                            child: CustomImage(
+                              isHovered: hovered,
+                              image: '${campaignController.basicCampaignList![index1].imageFullUrl}',
+                              fit: BoxFit.cover, height: 220,
+                            ),
+                          ),
+                        );
+                      }
                     )),
 
                     const SizedBox(width: Dimensions.paddingSizeLarge),
 
-                    Expanded(child: hasSecond ? InkWell(
-                      onTap: () => _onTap(index2, context),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                        child: CustomImage(
-                          fit: BoxFit.cover, height: 220,
-                          image: '${campaignController.basicCampaignList![index2].imageFullUrl}',
-                        ),
-                      ),
+                    Expanded(child: hasSecond ? TextHover(
+                      builder: (hovered) {
+                        return InkWell(
+                          onTap: () => _onTap(index2, context),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                            child: CustomImage(
+                              isHovered: hovered,
+                              fit: BoxFit.cover, height: 220,
+                              image: '${campaignController.basicCampaignList![index2].imageFullUrl}',
+                            ),
+                          ),
+                        );
+                      }
                     ) : const SizedBox()),
 
                   ]);

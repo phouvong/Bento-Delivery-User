@@ -2,11 +2,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/auth/widgets/auth_dialog_widget.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
-import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -300,7 +300,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
                   if (authController.isLoggedIn()) {
                     Get.toNamed(RouteHelper.getProfileRoute());
                   }else{
-                    Get.dialog(const SignInScreen(exitFromApp: true, backFromThis: true));
+                    Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: false, backFromThis: false)), barrierDismissible: false,);
                   }
                 },
                 child: Container(

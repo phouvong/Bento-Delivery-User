@@ -820,9 +820,16 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   void _addAddress(AddressModel addressModel) {
     Get.find<AddressController>().addAddress(addressModel, widget.fromCheckout, widget.zoneId).then((response) {
-      if(response.isSuccess) {
+      if(response.isSuccess && !widget.fromCheckout) {
         widget.fromNavBar ? Get.back() : Get.offNamed(RouteHelper.getAddressRoute());
         showCustomSnackBar('new_address_added_successfully'.tr, isError: false);
+      } else if(response.isSuccess && widget.fromCheckout) {
+        AddressModel? addressModel;
+        try{
+          addressModel = Get.find<AddressController>().addressList![0];
+        }catch(_) {}
+        Get.back(result: addressModel);
+        showCustomSnackBar(response.message, isError: false);
       }else {
         showCustomSnackBar(response.message);
       }

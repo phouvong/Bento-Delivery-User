@@ -155,7 +155,14 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                             onChange: (int? value, int index) async {
 
                               if(parcelController.isSender){
-                                parcelController.setPickupAddress(senderAddress[index], true);
+                                ZoneResponseModel responseModel = await Get.find<LocationController>().getZone(senderAddress[index].latitude.toString(), senderAddress[index].longitude.toString(), false);
+                                AddressModel pickupAddress = AddressModel(
+                                  id: senderAddress[index].id, addressType: senderAddress[index].addressType, contactPersonNumber: senderAddress[index].contactPersonNumber, contactPersonName: senderAddress[index].contactPersonName,
+                                  address: senderAddress[index].address, latitude: senderAddress[index].latitude, longitude: senderAddress[index].longitude, zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0,
+                                  zoneIds: responseModel.zoneIds, method: senderAddress[index].method, streetNumber: senderAddress[index].streetNumber, house: senderAddress[index].house, floor: senderAddress[index].floor,
+                                  zoneData: responseModel.zoneData,
+                                );
+                                parcelController.setPickupAddress(pickupAddress, true);
                                 parcelController.setSenderAddressIndex(index);
                                 widget.streetController.text = senderAddress[index].streetNumber ?? '';
                                 widget.houseController.text = senderAddress[index].house ?? '';
@@ -166,7 +173,14 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
 
                                 // widget.phoneController.text = senderAddress[index].contactPersonNumber ?? '';
                               }else{
-                                parcelController.setDestinationAddress(receiverAddress[index]);
+                                ZoneResponseModel responseModel = await Get.find<LocationController>().getZone(receiverAddress[index].latitude.toString(), receiverAddress[index].longitude.toString(), false);
+                                AddressModel a = AddressModel(
+                                  id: receiverAddress[index].id, addressType: receiverAddress[index].addressType, contactPersonNumber: receiverAddress[index].contactPersonNumber, contactPersonName: receiverAddress[index].contactPersonName,
+                                  address: receiverAddress[index].address, latitude: receiverAddress[index].latitude, longitude: receiverAddress[index].longitude, zoneId: responseModel.isSuccess ? responseModel.zoneIds[0] : 0,
+                                  zoneIds: responseModel.zoneIds, method: receiverAddress[index].method, streetNumber: receiverAddress[index].streetNumber, house: receiverAddress[index].house, floor: receiverAddress[index].floor,
+                                  zoneData: responseModel.zoneData,
+                                );
+                                parcelController.setDestinationAddress(a);
                                 parcelController.setReceiverAddressIndex(index);
                                 widget.streetController.text = receiverAddress[index].streetNumber ?? '';
                                 widget.houseController.text = receiverAddress[index].house ?? '';

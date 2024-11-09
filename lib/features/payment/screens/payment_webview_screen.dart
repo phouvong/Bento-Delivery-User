@@ -38,6 +38,7 @@ class PaymentScreenState extends State<PaymentWebViewScreen> {
   double? _maximumCodOrderAmount;
   PullToRefreshController? pullToRefreshController;
   InAppWebViewController? webViewController;
+  final GlobalKey webViewKey = GlobalKey();
 
   @override
   void initState() {
@@ -91,16 +92,16 @@ class PaymentScreenState extends State<PaymentWebViewScreen> {
         body: Stack(
           children: [
             InAppWebView(
-              initialUrlRequest: URLRequest(url: Uri.parse(selectedUrl)),
+              key: webViewKey,
+              initialUrlRequest: URLRequest(url: WebUri(selectedUrl)),
               initialUserScripts: UnmodifiableListView<UserScript>([]),
               pullToRefreshController: pullToRefreshController,
-              initialOptions: InAppWebViewGroupOptions(
-                crossPlatform: InAppWebViewOptions(
-                  useShouldOverrideUrlLoading: true,
-                  mediaPlaybackRequiresUserGesture: false,
-                ),
-                android: AndroidInAppWebViewOptions(useHybridComposition: true),
-                ios: IOSInAppWebViewOptions(allowsInlineMediaPlayback: true),
+              initialSettings: InAppWebViewSettings(
+                isInspectable: kDebugMode,
+                mediaPlaybackRequiresUserGesture: false,
+                allowsInlineMediaPlayback: true,
+                iframeAllow: "camera; microphone",
+                iframeAllowFullscreen: true,
               ),
               onWebViewCreated: (controller) async {
                 webViewController = controller;

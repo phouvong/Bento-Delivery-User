@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/common/widgets/title_widget.dart';
 import 'package:sixam_mart/features/brands/controllers/brands_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
@@ -43,15 +44,20 @@ class WebBrandsViewWidget extends StatelessWidget {
                       color: Theme.of(context).disabledColor.withOpacity(0.1),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                     ),
-                    child: InkWell(
-                      onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                        child: CustomImage(
-                          image: '${brandsController.brandList![index].imageFullUrl}',
-                          height: 100, width: 100, fit: BoxFit.cover,
-                        ),
-                      ),
+                    child: TextHover(
+                      builder: (hovered) {
+                        return InkWell(
+                          onTap: () => Get.toNamed(RouteHelper.getBrandsItemScreen(brandsController.brandList![index].id!, brandsController.brandList![index].name!)),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            child: CustomImage(
+                              isHovered: hovered,
+                              image: '${brandsController.brandList![index].imageFullUrl}',
+                              height: 100, width: 100, fit: BoxFit.cover,
+                            ),
+                          ),
+                        );
+                      }
                     ),
                   ),
                 );

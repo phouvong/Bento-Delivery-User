@@ -97,7 +97,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                         (itemController.item!.description != null && itemController.item!.description!.isNotEmpty) ? Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            const SizedBox(height: Dimensions.paddingSizeLarge),
+                            const SizedBox(height: Dimensions.paddingSizeSmall),
                             Text('description'.tr, style: robotoMedium),
                             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                             Text(
@@ -161,8 +161,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).colorScheme.error),
                           ),
                         ) : const SizedBox(),
-
-                        const SizedBox(height: 35),
+                        const SizedBox(height: 30),
 
                         ListView.builder(
                           shrinkWrap: true,
@@ -215,7 +214,6 @@ class DetailsWebViewWidget extends StatelessWidget {
                             ]);
                           },
                         ),
-
                         const SizedBox(height: 30),
 
                         GetBuilder<CartController>(

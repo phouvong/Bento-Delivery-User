@@ -9,15 +9,21 @@ class CustomImage extends StatelessWidget {
   final BoxFit? fit;
   final bool isNotification;
   final String placeholder;
-  const CustomImage({super.key, required this.image, this.height, this.width, this.fit = BoxFit.cover, this.isNotification = false, this.placeholder = ''});
+  final bool isHovered;
+  const CustomImage({super.key, required this.image, this.height, this.width, this.fit = BoxFit.cover, this.isNotification = false, this.placeholder = '', this.isHovered = false});
 
   @override
   Widget build(BuildContext context) {
 
-    return CachedNetworkImage(
-      imageUrl: image, height: height, width: width, fit: fit,
-      placeholder: (context, url) => Image.asset(placeholder.isNotEmpty ? placeholder : isNotification ? Images.notificationPlaceholder : Images.placeholder, height: height, width: width, fit: fit),
-      errorWidget: (context, url, error) => Image.asset(placeholder.isNotEmpty ? placeholder : isNotification ? Images.notificationPlaceholder : Images.placeholder, height: height, width: width, fit: fit),
+    return AnimatedScale(
+      scale: isHovered ? 1.1 : 1.0,  // Scale to 1.2 when hovered
+      duration: const Duration(milliseconds: 300), // Animation duration
+      curve: Curves.easeInOut,
+      child: CachedNetworkImage(
+        imageUrl: image, height: height, width: width, fit: fit,
+        placeholder: (context, url) => Image.asset(placeholder.isNotEmpty ? placeholder : isNotification ? Images.notificationPlaceholder : Images.placeholder, height: height, width: width, fit: fit),
+        errorWidget: (context, url, error) => Image.asset(placeholder.isNotEmpty ? placeholder : isNotification ? Images.notificationPlaceholder : Images.placeholder, height: height, width: width, fit: fit),
+      ),
     );
   }
 }

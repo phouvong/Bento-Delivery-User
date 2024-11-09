@@ -22,7 +22,7 @@ class StoreRepository implements StoreRepositoryInterface {
   @override
   Future getList({int? offset, bool isStoreList = false, String? filterBy, bool isPopularStoreList = false, String? type, bool isLatestStoreList = false,
     bool isFeaturedStoreList = false, bool isVisitAgainStoreList = false, bool isStoreRecommendedItemList = false, int? storeId,
-    bool isStoreBannerList = false, bool isRecommendedStoreList = false}) async {
+    bool isStoreBannerList = false, bool isRecommendedStoreList = false, bool isTopOfferStoreList = false}) async {
     if(isStoreList){
       return await _getStoreList(offset!, filterBy!, type!);
     }else if(isPopularStoreList){
@@ -39,6 +39,8 @@ class StoreRepository implements StoreRepositoryInterface {
       return await _getStoreBannerList(storeId);
     }else if(isRecommendedStoreList){
       return await _getRecommendedStoreList();
+    }else if(isTopOfferStoreList){
+      return await _getTopOfferStoreList();
     }
   }
 
@@ -69,6 +71,16 @@ class StoreRepository implements StoreRepositoryInterface {
       response.body['stores'].forEach((store) => latestStoreList!.add(Store.fromJson(store)));
     }
     return latestStoreList;
+  }
+
+  Future<List<Store>?> _getTopOfferStoreList() async {
+    List<Store>? topOfferStoreList;
+    Response response = await apiClient.getData(AppConstants.topOfferStoreUri);
+    if (response.statusCode == 200) {
+      topOfferStoreList = [];
+      response.body['stores'].forEach((store) => topOfferStoreList!.add(Store.fromJson(store)));
+    }
+    return topOfferStoreList;
   }
 
   Future<Response> _getFeaturedStoreList() async {

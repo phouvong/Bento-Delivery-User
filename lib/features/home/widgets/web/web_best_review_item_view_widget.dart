@@ -88,7 +88,6 @@ class _WebBestReviewItemViewWidgetState extends State<WebBestReviewItemViewWidge
                 controller: scrollController,
                 scrollDirection: Axis.horizontal,
                 physics: const BouncingScrollPhysics(),
-                //padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
                 itemCount: reviewItemList.length,
                 itemBuilder: (context, index) {
                   return Padding(

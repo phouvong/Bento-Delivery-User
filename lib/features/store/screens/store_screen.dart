@@ -129,9 +129,35 @@ class _StoreScreenState extends State<StoreScreen> {
                       Expanded(
                         child: ClipRRect(
                           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          child: CustomImage(
-                            fit: BoxFit.cover, height: 240, width: 590,
-                            image: store?.coverPhotoFullUrl ?? '',
+                          child: Stack(
+                            children: [
+                              CustomImage(
+                                fit: BoxFit.cover, height: 240, width: 590,
+                                image: store?.coverPhotoFullUrl ?? '',
+                              ),
+
+                              store?.discount != null ? Positioned(
+                                bottom: 0, left: 0, right: 0,
+                                child: Container(
+                                  width: double.infinity,
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
+                                  child: Text('${store?.discount!.discountType == 'percent' ? '${store?.discount!.discount}% ${'off'.tr}'
+                                      : '${PriceConverter.convertPrice(store?.discount!.discount)} ${'off'.tr}'} '
+                                      '${'on_all_products'.tr}, ${'after_minimum_purchase'.tr} ${PriceConverter.convertPrice(store?.discount!.minPurchase)},'
+                                      ' ${'daily_time'.tr}: ${DateConverter.convertTimeToTime(store!.discount!.startTime!)} '
+                                      '- ${DateConverter.convertTimeToTime(store.discount!.endTime!)}',
+                                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,
+                                      color: Colors.black,
+                                    ),
+                                    textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
+                                  ),
+                                ),
+                              ) : const SizedBox(),
+
+                            ],
                           ),
                         ),
                       ),
@@ -330,12 +356,14 @@ class _StoreScreenState extends State<StoreScreen> {
                   child: Center(
                     child: SizedBox(
                       width: Dimensions.webMaxWidth,
-                      height: ResponsiveHelper.isDesktop(context) ? 300 : 125,
+                      height: ResponsiveHelper.isDesktop(context) ? 325 : 125,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          const SizedBox(height: Dimensions.paddingSizeSmall),
+                          Text('recommended_for_you'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w700)),
                           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-                          Text('recommended'.tr, style: robotoMedium),
+                          Text('here_is_what_you_might_like'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
                           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                           SizedBox(
@@ -517,23 +545,20 @@ class _StoreScreenState extends State<StoreScreen> {
                                       padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
                                       physics: const NeverScrollableScrollPhysics(),
                                       itemBuilder: (context, index) {
-                                        return InkWell(
-                                          // onTap: () => storeController.setCategoryIndex(index),
-                                          child: Padding(
-                                            padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
-                                            child:  CustomCheckBoxWidget(
-                                              title: Get.find<ItemController>().itemTypeList[index].tr,
-                                              value: storeController.type == Get.find<ItemController>().itemTypeList[index],
-                                              onClick: () {
-                                                if(storeController.isSearching){
-                                                  storeController.getStoreSearchItemList(
-                                                    storeController.searchText, widget.store!.id.toString(), 1, Get.find<ItemController>().itemTypeList[index],
-                                                  );
-                                                } else {
-                                                  storeController.getStoreItemList(storeController.store!.id, 1, Get.find<ItemController>().itemTypeList[index], true);
-                                                }
-                                              },
-                                            ),
+                                        return Padding(
+                                          padding: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
+                                          child:  CustomCheckBoxWidget(
+                                            title: Get.find<ItemController>().itemTypeList[index].tr,
+                                            value: storeController.type == Get.find<ItemController>().itemTypeList[index],
+                                            onClick: () {
+                                              if(storeController.isSearching){
+                                                storeController.getStoreSearchItemList(
+                                                  storeController.searchText, widget.store!.id.toString(), 1, Get.find<ItemController>().itemTypeList[index],
+                                                );
+                                              } else {
+                                                storeController.getStoreItemList(storeController.store!.id, 1, Get.find<ItemController>().itemTypeList[index], true);
+                                              }
+                                            },
                                           ),
                                         );
                                       },
@@ -617,7 +642,7 @@ class _StoreScreenState extends State<StoreScreen> {
                   (!ResponsiveHelper.isDesktop(context) && storeController.recommendedItemModel != null && storeController.recommendedItemModel!.items!.isNotEmpty) ? Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('recommended_items'.tr, style: robotoMedium),
+                      Text('recommended_for_you'.tr, style: robotoMedium),
                       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                       SizedBox(

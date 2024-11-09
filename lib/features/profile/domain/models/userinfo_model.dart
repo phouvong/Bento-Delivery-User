@@ -21,6 +21,8 @@ class UserInfoModel {
   String? discountAmountType;
   String? validity;
   List<int>? selectedModuleForInterest;
+  bool? isPhoneVerified;
+  bool? isEmailVerified;
 
   UserInfoModel({
     this.id,
@@ -43,6 +45,8 @@ class UserInfoModel {
     this.discountAmountType,
     this.validity,
     this.selectedModuleForInterest,
+    this.isPhoneVerified,
+    this.isEmailVerified,
   });
 
   UserInfoModel.fromJson(Map<String, dynamic> json) {
@@ -73,6 +77,8 @@ class UserInfoModel {
         }
       });
     }
+    isPhoneVerified = json['is_phone_verified'] == 1;
+    isEmailVerified = json['is_email_verified'] == 1;
   }
 
   Map<String, dynamic> toJson() {
@@ -98,6 +104,8 @@ class UserInfoModel {
     data['discount_amount_type'] = discountAmountType;
     data['validity'] = validity;
     data['selected_modules_for_interest'] = selectedModuleForInterest;
+    data['is_phone_verified'] = isPhoneVerified;
+    data['is_email_verified'] = isEmailVerified;
     return data;
   }
 }

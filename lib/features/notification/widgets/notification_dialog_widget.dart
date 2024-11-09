@@ -1,5 +1,6 @@
 import 'package:sixam_mart/features/notification/domain/models/notification_model.dart';
 import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
 import 'package:flutter/material.dart';
@@ -30,13 +31,13 @@ class NotificationDialogWidget extends StatelessWidget {
               ),
 
               (notificationModel.imageFullUrl != null && notificationModel.imageFullUrl!.isNotEmpty) ? Container(
-                width: MediaQuery.of(context).size.width,
+                width: MediaQuery.of(context).size.width, height: 150,
                 margin: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
-                decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color: Theme.of(context).primaryColor.withOpacity(0.20)),
+                decoration: BoxDecoration(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), color: Theme.of(context).primaryColor.withOpacity(0.05)),
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   child: CustomImage(
-                    isNotification: true,
+                    placeholder: Images.placeholder,
                     image: '${notificationModel.imageFullUrl}',
                     width: MediaQuery.of(context).size.width, fit: BoxFit.contain,
                   ),

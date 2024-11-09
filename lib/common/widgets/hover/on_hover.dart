@@ -20,7 +20,7 @@ class _OnHoverState extends State<OnHover> {
     final hoverTransformed = Matrix4.identity()..scale(1.05, 1.03);
     final transform = isHovered ? hoverTransformed : Matrix4.identity();
     final shadow1 = BoxDecoration(
-      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+      borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
       color: widget.fromMenu ? Theme.of(context).primaryColor.withOpacity(0.10) : Theme.of(context).cardColor,
       boxShadow: [
         widget.fromMenu ? const BoxShadow(color: Colors.transparent) :
@@ -32,7 +32,7 @@ class _OnHoverState extends State<OnHover> {
       ],
     );
     final shadow2 = BoxDecoration(
-      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+      borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
       boxShadow: const [
         BoxShadow(
           color: Colors.transparent,

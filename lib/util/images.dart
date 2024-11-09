@@ -6,8 +6,7 @@ class Images {
   static const String bengali = 'assets/image/bangla.png';
   static const String call = 'assets/image/call.png';
   static const String checked = 'assets/image/checked.png';
-  static const String english = 'assets/image/eng.png';
-  static const String lao = 'assets/image/lao.png';
+  static const String english = 'assets/image/english.png';
   static const String spanish = 'assets/image/spanish.png';
   static const String locationMarker = 'assets/image/location_marker.png';
   static const String lock = 'assets/image/lock.png';
@@ -277,6 +276,12 @@ class Images {
   static const String languageBackground = 'assets/image/language_bg.png';
   static const String chatSupport = 'assets/image/chat_support.png';
   static const String suggestionMessage = 'assets/image/suggestion_message.png';
+  static const String otp = 'assets/image/otp.png';
+  static const String verifiedIcon = 'assets/image/verified.png';
+  static const String unverifiedIcon = 'assets/image/unverified.png';
+  static const String fireIcon = 'assets/image/fire.png';
+  static const String orderPlaceHolder = 'assets/image/order_place_holder.png';
+  static const String emailWithPhoneIcon = 'assets/image/email_with_phone.png';
 
 
   static const String referBg = 'assets/image/refer_bg.svg';
@@ -293,5 +298,9 @@ class Images {
   static const String favouriteIcon = 'assets/image/favourite_icon.svg';
   static const String unFavouriteIcon = 'assets/image/unfavourite_icon.svg';
   static const String languageBg = 'assets/image/language_bg.svg';
-
+  static const String orderConfirmIcon = 'assets/image/order_confirm_icon.svg';
+  static const String pushNotificationIcon = 'assets/image/push_notification.svg';
+  static const String referEarnIcon = 'assets/image/refer_earn_icon.svg';
+  static const String otpVerification = 'assets/image/otp_verification.svg';
+  static const String emailVerifiedIcon = 'assets/image/email_verification.svg';
 }

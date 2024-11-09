@@ -46,6 +46,7 @@ class NotificationHelper {
             NotificationType.add_fund: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.referral_earn: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.cashback: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
+            NotificationType.loyalty_point: () => Get.toNamed(RouteHelper.getLoyaltyRoute(fromNotification: true)),
             NotificationType.general: () => Get.toNamed(RouteHelper.getNotificationRoute(fromNotification: true)),
           };
 
@@ -83,6 +84,7 @@ class NotificationHelper {
           Get.find<ChatController>().getConversationList(1);
         }
         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
+      }else if(message.data['type'] == 'demo_reset'){
       }else {
         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
         if(AuthHelper.isLoggedIn()) {
@@ -126,6 +128,7 @@ class NotificationHelper {
             NotificationType.add_fund: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.referral_earn: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.cashback: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
+            NotificationType.loyalty_point: () => Get.toNamed(RouteHelper.getLoyaltyRoute(fromNotification: true)),
             NotificationType.general: () => Get.toNamed(RouteHelper.getNotificationRoute(fromNotification: true)),
           };
 
@@ -163,7 +166,7 @@ class NotificationHelper {
 
   static Future<void> showTextNotification(String title, String body, String orderID, NotificationBodyModel? notificationBody, FlutterLocalNotificationsPlugin fln) async {
     const AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '6ammart', '6ammart', playSound: true,
+      '6ammart', AppConstants.appName, playSound: true,
       importance: Importance.max, priority: Priority.max, sound: RawResourceAndroidNotificationSound('notification'),
     );
     const NotificationDetails platformChannelSpecifics = NotificationDetails(android: androidPlatformChannelSpecifics);
@@ -176,7 +179,7 @@ class NotificationHelper {
       contentTitle: title, htmlFormatContentTitle: true,
     );
     AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '6ammart', '6ammart', importance: Importance.max,
+      '6ammart', AppConstants.appName, importance: Importance.max,
       styleInformation: bigTextStyleInformation, priority: Priority.max, playSound: true,
       sound: const RawResourceAndroidNotificationSound('notification'),
     );
@@ -193,7 +196,7 @@ class NotificationHelper {
       summaryText: body, htmlFormatSummaryText: true,
     );
     final AndroidNotificationDetails androidPlatformChannelSpecifics = AndroidNotificationDetails(
-      '6ammart', '6ammart',
+      '6ammart', AppConstants.appName,
       largeIcon: FilePathAndroidBitmap(largeIconPath), priority: Priority.max, playSound: true,
       styleInformation: bigPictureStyleInformation, importance: Importance.max,
       sound: const RawResourceAndroidNotificationSound('notification'),
@@ -221,6 +224,8 @@ class NotificationHelper {
         return NotificationBodyModel(notificationType: NotificationType.referral_earn);
       case 'cashback':
         return NotificationBodyModel(notificationType: NotificationType.cashback);
+      case 'loyalty_point':
+        return NotificationBodyModel(notificationType: NotificationType.loyalty_point);
       case 'otp':
         return NotificationBodyModel(notificationType: NotificationType.otp);
       case 'add_fund':

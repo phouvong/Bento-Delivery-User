@@ -176,18 +176,27 @@ class _OfflinePaymentScreenState extends State<OfflinePaymentScreen> {
     );
   }
 
-  Widget completeButton(PaymentController paymentController, List<MethodInformations>? methodInformation, ) {
+  Widget completeButton(PaymentController paymentController, List<MethodInformations>? methodInformation) {
+
+    bool allFieldsFilled = true;
+    for (int i = 0; i < methodInformation!.length; i++) {
+      if (methodInformation[i].isRequired! && paymentController.informationControllerList[i].text.isEmpty) {
+        allFieldsFilled = false;
+        break;
+      }
+    }
+
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
       child: CustomButton(
         buttonText: 'complete'.tr,
         isLoading: paymentController.isLoading,
         width: ResponsiveHelper.isDesktop(context) ? 300 : 500,
-        onPressed: () async {
+        onPressed: !allFieldsFilled ? null : () async {
           paymentController.changeLoadingStatus(true);
           bool complete = false;
           String text = '';
-          for(int i=0; i<methodInformation!.length; i++){
+          for(int i=0; i<methodInformation.length; i++){
             if(methodInformation[i].isRequired!) {
               if(paymentController.informationControllerList[i].text.isEmpty){
                 complete = false;

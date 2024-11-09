@@ -46,7 +46,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
       },
       child: SingleChildScrollView(
         controller: widget.scrollController,
-        physics: const NeverScrollableScrollPhysics(),
+        // physics: const NeverScrollableScrollPhysics(),
         padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
         child: SizedBox(width: Dimensions.webMaxWidth, child: PaginatedListView(
           scrollController: widget.scrollController,
@@ -58,7 +58,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
             itemCount: widget.conversation!.conversations!.length,
             physics: const NeverScrollableScrollPhysics(),
             shrinkWrap: true,
-            padding: EdgeInsets.zero,
+            padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
             itemBuilder: (context, index) {
 
               String? type;
@@ -106,7 +106,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
                           }
                           widget.chatController.setNotificationBody(
                             NotificationBodyModel(
-                              type: widget.conversation!.conversations![index]!.senderType,
+                              type: type,
                               notificationType: NotificationType.message,
                               adminId: type == UserType.admin.name ? 0 : null,
                               restaurantId: type == UserType.vendor.name ? user?.id : null,

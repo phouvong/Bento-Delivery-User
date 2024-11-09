@@ -39,6 +39,9 @@ class StoreController extends GetxController implements GetxService {
   List<Store>? _latestStoreList;
   List<Store>? get latestStoreList => _latestStoreList;
 
+  List<Store>? _topOfferStoreList;
+  List<Store>? get topOfferStoreList => _topOfferStoreList;
+
   List<Store>? _featuredStoreList;
   List<Store>? get featuredStoreList => _featuredStoreList;
 
@@ -243,6 +246,23 @@ class StoreController extends GetxController implements GetxService {
       if (latestStoreList != null) {
         _latestStoreList = [];
         _latestStoreList!.addAll(latestStoreList);
+      }
+      update();
+    }
+  }
+
+  Future<void> getTopOfferStoreList(bool reload, bool notify) async {
+    if(reload){
+      _topOfferStoreList = null;
+    }
+    if(notify) {
+      update();
+    }
+    if(_topOfferStoreList == null || reload) {
+      List<Store>? latestStoreList = await storeServiceInterface.getTopOfferStoreList();
+      if (latestStoreList != null) {
+        _topOfferStoreList = [];
+        _topOfferStoreList!.addAll(latestStoreList);
       }
       update();
     }

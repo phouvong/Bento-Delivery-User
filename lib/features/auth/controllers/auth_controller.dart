@@ -1,15 +1,19 @@
+import 'package:country_code_picker/country_code_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
-import 'package:sixam_mart/features/location/controllers/location_controller.dart';
+import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
+import 'package:sixam_mart/features/profile/domain/models/update_user_model.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 import 'package:sixam_mart/features/auth/domain/models/signup_body_model.dart';
 import 'package:sixam_mart/features/auth/domain/services/auth_service_interface.dart';
+import 'package:sixam_mart/features/verification/screens/verification_screen.dart';
+import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 
 class AuthController extends GetxController implements GetxService {
@@ -36,17 +40,12 @@ class AuthController extends GetxController implements GetxService {
   bool _notificationLoading = false;
   bool get notificationLoading => _notificationLoading;
 
-  void toggleRememberMe() {
-    _isActiveRememberMe = !_isActiveRememberMe;
-    update();
-  }
+  bool _isNumberLogin = false;
+  bool get isNumberLogin => _isNumberLogin;
 
-  void toggleTerms() {
-    _acceptTerms = !_acceptTerms;
-    update();
-  }
+  var countryDialCode= "+880";
 
-  Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
+/*  Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
     _isLoading = true;
     update();
     ResponseModel responseModel = await authServiceInterface.registration(signUpBody, Get.find<SplashController>().configModel!.customerVerification!);
@@ -56,15 +55,32 @@ class AuthController extends GetxController implements GetxService {
     _isLoading = false;
     update();
     return responseModel;
-  }
+  }*/
 
-  Future<ResponseModel> login(String? phone, String password) async {
+  Future<ResponseModel> registration(SignUpBodyModel signUpBody) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await authServiceInterface.login(phone: phone, password: password, isCustomerVerificationOn: Get.find<SplashController>().configModel!.customerVerification!);
-    if (responseModel.isSuccess && !Get.find<SplashController>().configModel!.customerVerification! && responseModel.isPhoneVerified!) {
-      Get.find<ProfileController>().getUserInfo();
-    }
+    ResponseModel responseModel = await authServiceInterface.registration(signUpBody);
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  Future<ResponseModel> login({required String emailOrPhone, required String password, required String loginType, required String fieldType, bool alreadyInApp = false}) async {
+    _isLoading = true;
+    update();
+    ResponseModel responseModel = await authServiceInterface.login(emailOrPhone: emailOrPhone, password: password, loginType: loginType, fieldType: fieldType, alreadyInApp: alreadyInApp);
+    _getUserAndCartData(responseModel);
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  Future<ResponseModel> otpLogin({required String phone, required String loginType, required String otp, required String verified, bool alreadyInApp = false}) async {
+    _isLoading = true;
+    update();
+    ResponseModel responseModel = await authServiceInterface.otpLogin(phone: phone, otp: otp, loginType: loginType, verified: verified, alreadyInApp: alreadyInApp);
+    _getUserAndCartData(responseModel);
     _isLoading = false;
     update();
     return responseModel;
@@ -79,7 +95,7 @@ class AuthController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
+  /*Future<void> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
     bool canNavigateToLocation = await authServiceInterface.loginWithSocialMedia(socialLogInBody, 60, Get.find<SplashController>().configModel!.customerVerification!);
@@ -88,16 +104,60 @@ class AuthController extends GetxController implements GetxService {
     }
     _isLoading = false;
     update();
-  }
+  }*/
 
-  Future<void> registerWithSocialMedia(SocialLogInBody socialLogInBody) async {
+  Future<ResponseModel> loginWithSocialMedia(SocialLogInBody socialLogInBody) async {
     _isLoading = true;
     update();
-    bool canNavigateToLocationScreen = await authServiceInterface.registerWithSocialMedia(socialLogInBody, Get.find<SplashController>().configModel!.customerVerification!);
-    if(canNavigateToLocationScreen) {
-      Get.find<LocationController>().navigateToLocationScreen('sign-in');
-    }
+    ResponseModel responseModel = await authServiceInterface.loginWithSocialMedia(socialLogInBody, isCustomerVerificationOn: Get.find<SplashController>().configModel!.customerVerification!);
+    _getUserAndCartData(responseModel);
     _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  void toggleIsNumberLogin({bool? value, bool willUpdate = true}){
+    if(value == null){
+      _isNumberLogin = !_isNumberLogin;
+    }else{
+      _isNumberLogin = value;
+    }
+    initCountryCode();
+    if(willUpdate){
+      update();
+    }
+  }
+
+  Future<ResponseModel> updatePersonalInfo({required String name, required String? phone, required String loginType, required String? email, required String? referCode, bool alreadyInApp = false}) async {
+    _isLoading = true;
+    update();
+    ResponseModel responseModel = await authServiceInterface.updatePersonalInfo(name: name, phone: phone, email: email, loginType: loginType, referCode: referCode, alreadyInApp: alreadyInApp);
+    _getUserAndCartData(responseModel);
+    _isLoading = false;
+    update();
+    return responseModel;
+  }
+
+  void _getUserAndCartData(ResponseModel responseModel) {
+    if(responseModel.isSuccess && responseModel.authResponseModel != null && responseModel.authResponseModel!.isPhoneVerified!
+        && responseModel.authResponseModel!.isEmailVerified! && responseModel.authResponseModel!.isPersonalInfo!
+        && responseModel.authResponseModel!.isExistUser == null) {
+      Get.find<ProfileController>().getUserInfo();
+      Get.find<CartController>().getCartDataOnline();
+    }
+  }
+
+  void initCountryCode({String? countryCode}){
+    countryDialCode = countryCode ?? CountryCode.fromCountryCode(Get.find<SplashController>().configModel!.country ?? "BD").dialCode ?? "+880";
+  }
+
+  void toggleRememberMe() {
+    _isActiveRememberMe = !_isActiveRememberMe;
+    update();
+  }
+
+  void toggleTerms() {
+    _acceptTerms = !_acceptTerms;
     update();
   }
 
@@ -110,7 +170,7 @@ class AuthController extends GetxController implements GetxService {
   }
 
   bool isGuestLoggedIn() {
-    return authServiceInterface.isGuestLoggedIn();
+    return authServiceInterface.isGuestLoggedIn() && !authServiceInterface.isLoggedIn();
   }
 
   String getGuestId() {
@@ -118,7 +178,9 @@ class AuthController extends GetxController implements GetxService {
   }
 
   Future<bool> clearSharedData({bool removeToken = true}) async {
-    Get.find<SplashController>().setModule(null);
+    if(!ResponsiveHelper.isDesktop(Get.context)){
+      Get.find<SplashController>().setModule(null);
+    }
     return await authServiceInterface.clearSharedData(removeToken: removeToken);
   }
 
@@ -148,6 +210,10 @@ class AuthController extends GetxController implements GetxService {
     return authServiceInterface.getUserPassword();
   }
 
+  void saveUserNumberAndPassword(String number, String password, String countryCode) {
+    authServiceInterface.saveUserNumberAndPassword(number, password, countryCode);
+  }
+
   Future<bool> clearUserNumberAndPassword() async {
     return authServiceInterface.clearUserNumberAndPassword();
   }
@@ -168,7 +234,6 @@ class AuthController extends GetxController implements GetxService {
     return authServiceInterface.getGuestContactNumber();
   }
 
-  ///TODO: need to move these in required controller..
   Future<void> saveDmTipIndex(String i) async {
     await authServiceInterface.saveDmTipIndex(i);
   }
@@ -199,7 +264,7 @@ class AuthController extends GetxController implements GetxService {
     return await authServiceInterface.saveDeviceToken();
   }
 
-  Future<void> firebaseVerifyPhoneNumber(String phoneNumber, String? token, {bool fromSignUp = true, bool canRoute = true})async {
+  Future<void> firebaseVerifyPhoneNumber(String phoneNumber, String? token, String loginType, {bool fromSignUp = true, bool canRoute = true, UpdateUserModel? updateUserModel})async {
     _isLoading = true;
     update();
 
@@ -210,6 +275,10 @@ class AuthController extends GetxController implements GetxService {
         _isLoading = false;
         update();
 
+        if(Get.isDialogOpen!) {
+          Get.back();
+        }
+
         if(e.code == 'invalid-phone-number') {
           showCustomSnackBar('please_submit_a_valid_phone_number'.tr);
         }else{
@@ -219,14 +288,38 @@ class AuthController extends GetxController implements GetxService {
       },
       codeSent: (String vId, int? resendToken) {
 
+        if(Get.isDialogOpen!) {
+          Get.back();
+        }
+
         _isLoading = false;
         update();
+        if(updateUserModel != null) {
+          updateUserModel.sessionInfo = vId;
+        }
 
         if(canRoute) {
-          Get.toNamed(RouteHelper.getVerificationRoute(phoneNumber, token, fromSignUp ? RouteHelper.signUp : RouteHelper.forgotPassword, '', session: vId));
+          if(ResponsiveHelper.isDesktop(Get.context)) {
+
+            Get.back();
+            Get.dialog(VerificationScreen(
+              number: phoneNumber, email: null, token: token, fromSignUp: fromSignUp, fromForgetPassword: !fromSignUp,
+              loginType: loginType, password: '', firebaseSession: vId, userModel: updateUserModel,
+            ));
+          } else {
+            Get.toNamed(RouteHelper.getVerificationRoute(
+              phoneNumber, '', token, fromSignUp ? RouteHelper.signUp : RouteHelper.forgotPassword, '', loginType,
+              session: vId, updateUserModel: updateUserModel,
+            ));
+          }
         }
       },
-      codeAutoRetrievalTimeout: (String verificationId) {},
+      codeAutoRetrievalTimeout: (String verificationId) {
+        if(Get.isDialogOpen!) {
+          Get.back();
+        }
+        showCustomSnackBar('timed_out_please_try_again_after_few_minutes'.tr);
+      },
     );
 
   }

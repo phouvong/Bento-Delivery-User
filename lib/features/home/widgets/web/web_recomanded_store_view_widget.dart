@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -54,19 +55,24 @@ class WebRecommendedStoreView extends StatelessWidget {
                       arguments: StoreScreen(store: storeController.recommendedStoreList![index], fromModule: false),
                     );
                   },
-                  child: Container(
-                    padding: const EdgeInsets.all(2),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.15),
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      child: CustomImage(
-                        image: '${storeController.recommendedStoreList![index].logoFullUrl}',
-                        fit: BoxFit.cover, height: 60, width: double.infinity,
-                      ),
-                    ),
+                  child: TextHover(
+                    builder: (hovered) {
+                      return Container(
+                        padding: const EdgeInsets.all(2),
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).primaryColor.withOpacity(0.15),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        ),
+                        child: ClipRRect(
+                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                          child: CustomImage(
+                            isHovered: hovered,
+                            image: '${storeController.recommendedStoreList![index].logoFullUrl}',
+                            fit: BoxFit.cover, height: 60, width: double.infinity,
+                          ),
+                        ),
+                      );
+                    }
                   ),
                 );
               },

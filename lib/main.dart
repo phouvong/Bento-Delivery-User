@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
@@ -30,11 +31,12 @@ import 'helper/get_di.dart' as di;
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
 Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
   if(ResponsiveHelper.isMobilePhone()) {
     HttpOverrides.global = MyHttpOverrides();
   }
   setPathUrlStrategy();
-  WidgetsFlutterBinding.ensureInitialized();
 
   /*///Pass all uncaught "fatal" errors from the framework to Crashlytics
   FlutterError.onError = (errorDetails) {
@@ -92,6 +94,8 @@ Future<void> main() async {
       version: "v15.0",
     );
   }
+  handleError();
+
   runApp(MyApp(languages: languages, body: body));
 }
 
@@ -190,4 +194,35 @@ class MyHttpOverrides extends HttpOverrides {
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
+}
+
+void handleError() {
+  FlutterError.onError = (FlutterErrorDetails details) {
+    if (kDebugMode) {
+      print("Caught an error in a widget: ${details.exceptionAsString()}");
+    }
+    FlutterError.presentError(details);
+  };
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Center(
+      child: Column(mainAxisSize: MainAxisSize.min, children: [
+        const Icon(Icons.error_outline_outlined, color: Colors.red, size: 34),
+        const SizedBox(height: 10),
+
+        const Text(
+          'Oops! Something went wrong.',
+          style: TextStyle(fontWeight: FontWeight.bold),
+          textAlign: TextAlign.center,
+        ),
+        const SizedBox(height: 10),
+
+        Text(
+          '${details.exception}',
+          style: const TextStyle(color: Colors.red),
+          textAlign: TextAlign.center,
+        ),
+      ]),
+    );
+  };
 }

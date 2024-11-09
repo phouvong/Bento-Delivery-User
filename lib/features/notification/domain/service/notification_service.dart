@@ -21,4 +21,14 @@ class NotificationService implements NotificationServiceInterface {
     return notificationRepositoryInterface.getSeenNotificationCount();
   }
 
+  @override
+  List<int> getNotificationIdList() {
+    return notificationRepositoryInterface.getNotificationIdList();
+  }
+
+  @override
+  void addSeenNotificationIdList(List<int> notificationList) {
+    notificationRepositoryInterface.addSeenNotificationIdList(notificationList);
+  }
+
 }

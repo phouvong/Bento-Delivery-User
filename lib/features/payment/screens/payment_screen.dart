@@ -81,18 +81,32 @@ class PaymentScreenState extends State<PaymentScreen> {
       guestId: widget.guestId,
     );
 
-    if(!GetPlatform.isIOS) {
-      await AndroidInAppWebViewController.setWebContentsDebuggingEnabled(true);
+    if(GetPlatform.isAndroid){
+      await InAppWebViewController.setWebContentsDebuggingEnabled(kDebugMode);
+
+      bool swAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_BASIC_USAGE);
+      bool swInterceptAvailable = await WebViewFeature.isFeatureSupported(WebViewFeature.SERVICE_WORKER_SHOULD_INTERCEPT_REQUEST);
+
+      if (swAvailable && swInterceptAvailable) {
+        ServiceWorkerController serviceWorkerController = ServiceWorkerController.instance();
+        await serviceWorkerController.setServiceWorkerClient(ServiceWorkerClient(
+          shouldInterceptRequest: (request) async {
+            if (kDebugMode) {
+              print(request);
+            }
+            return null;
+          },
+        ));
+      }
     }
 
-    var options = InAppBrowserClassOptions(
-        crossPlatform: InAppBrowserOptions(hideUrlBar: true, hideToolbarTop: GetPlatform.isAndroid),
-        inAppWebViewGroupOptions: InAppWebViewGroupOptions(
-            crossPlatform: InAppWebViewOptions(useShouldOverrideUrlLoading: true, useOnLoadResource: true, javaScriptEnabled: true)));
-
     await browser.openUrlRequest(
-        urlRequest: URLRequest(url: Uri.parse(selectedUrl)),
-        options: options);
+      urlRequest: URLRequest(url: WebUri(selectedUrl)),
+      settings: InAppBrowserClassSettings(
+        webViewSettings: InAppWebViewSettings(useShouldOverrideUrlLoading: true, useOnLoadResource: true),
+        browserSettings: InAppBrowserSettings(hideUrlBar: true, hideToolbarTop: GetPlatform.isAndroid),
+      ),
+    );
 
   }
 

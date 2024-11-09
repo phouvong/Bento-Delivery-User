@@ -48,7 +48,7 @@ class OrderBannerViewWidget extends StatelessWidget {
         const SizedBox(height: Dimensions.paddingSizeExtraLarge),
 
       ]) : CustomImage(
-        image: '${order.store!.coverPhotoFullUrl}',
+        image: '${order.store?.coverPhotoFullUrl}',
         height: 150, width: double.infinity,
       ) : const SizedBox(),
 

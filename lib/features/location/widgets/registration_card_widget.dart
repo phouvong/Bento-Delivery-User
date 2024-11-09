@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
+import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_button.dart';
-import 'package:url_launcher/url_launcher_string.dart';
 
 class RegistrationCardWidget extends StatelessWidget {
   final bool isStore;
@@ -46,9 +46,10 @@ class RegistrationCardWidget extends StatelessWidget {
                 buttonText: isStore ? splashController.landingModel!.joinSellerButtonName ?? '' : splashController.landingModel!.joinDeliveryManButtonName ?? '', fontSize: Dimensions.fontSizeSmall,
                 width: 100, height: 40,
                 onPressed: () async {
-                  String url = isStore ? splashController.landingModel!.joinSellerButtonUrl ?? '' : splashController.landingModel!.joinDeliveryManButtonUrl ?? '';
-                  if(await canLaunchUrlString(url)) {
-                    launchUrlString(url);
+                  if(isStore) {
+                    Get.toNamed(RouteHelper.getRestaurantRegistrationRoute());
+                  } else {
+                    Get.toNamed(RouteHelper.getDeliverymanRegistrationRoute());
                   }
                 },
               ) : const SizedBox(),

@@ -11,6 +11,7 @@ abstract class StoreServiceInterface {
   Future<StoreModel?> getStoreList(int offset, String filterBy, String storeType);
   Future<List<Store>?> getPopularStoreList(String type);
   Future<List<Store>?> getLatestStoreList(String type);
+  Future<List<Store>?> getTopOfferStoreList();
   Future<Response> getFeaturedStoreList();
   Future<Response> getVisitAgainStoreList();
   Future<Store?> getStoreDetails(String storeID, bool fromCart, String slug, String languageCode, ModuleModel? module, int? cacheModuleId, int? moduleId);

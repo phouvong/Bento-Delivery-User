@@ -80,6 +80,7 @@ class ConfigModel {
   String? subscriptionFreeTrialType;
   bool? countryPickerStatus;
   bool? firebaseOtpVerification;
+  CentralizeLoginSetup? centralizeLoginSetup;
 
   ConfigModel({
     this.businessName,
@@ -159,6 +160,7 @@ class ConfigModel {
     this.subscriptionFreeTrialType,
     this.countryPickerStatus,
     this.firebaseOtpVerification,
+    this.centralizeLoginSetup,
   });
 
   ConfigModel.fromJson(Map<String, dynamic> json) {
@@ -265,6 +267,7 @@ class ConfigModel {
     subscriptionFreeTrialType = json['subscription_free_trial_type'];
     countryPickerStatus = json['country_picker_status'] == 1;
     firebaseOtpVerification = json['firebase_otp_verification'] == 1;
+    centralizeLoginSetup = json['centralize_login'] != null ? CentralizeLoginSetup.fromJson(json['centralize_login']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -365,6 +368,9 @@ class ConfigModel {
     data['subscription_free_trial_type'] = subscriptionFreeTrialType;
     data['country_picker_status'] = countryPickerStatus;
     data['firebase_otp_verification'] = firebaseOtpVerification;
+    if (centralizeLoginSetup != null) {
+      data['centralize_login'] = centralizeLoginSetup!.toJson();
+    }
     return data;
   }
 }
@@ -687,13 +693,15 @@ class SocialLogin {
   String? loginMedium;
   bool? status;
   String? clientId;
+  String? redirectUrl;
 
-  SocialLogin({this.loginMedium, this.status, this.clientId});
+  SocialLogin({this.loginMedium, this.status, this.clientId, this.redirectUrl});
 
   SocialLogin.fromJson(Map<String, dynamic> json) {
     loginMedium = json['login_medium'];
     status = json['status'];
     clientId = json['client_id'];
+    redirectUrl = json['redirect_url_flutter'];
   }
 
   Map<String, dynamic> toJson() {
@@ -701,6 +709,7 @@ class SocialLogin {
     data['login_medium'] = loginMedium;
     data['status'] = status;
     data['client_id'] = clientId;
+    data['redirect_url_flutter'] = redirectUrl;
     return data;
   }
 }
@@ -764,6 +773,52 @@ class BusinessPlan {
     final Map<String, dynamic> data = <String, dynamic>{};
     data['commission'] = commission;
     data['subscription'] = subscription;
+    return data;
+  }
+}
+
+class CentralizeLoginSetup {
+  bool? manualLoginStatus;
+  bool? otpLoginStatus;
+  bool? socialLoginStatus;
+  bool? googleLoginStatus;
+  bool? facebookLoginStatus;
+  bool? appleLoginStatus;
+  bool? emailVerificationStatus;
+  bool? phoneVerificationStatus;
+
+  CentralizeLoginSetup({
+    this.manualLoginStatus,
+    this.otpLoginStatus,
+    this.socialLoginStatus,
+    this.googleLoginStatus,
+    this.facebookLoginStatus,
+    this.appleLoginStatus,
+    this.emailVerificationStatus,
+    this.phoneVerificationStatus,
+  });
+
+  CentralizeLoginSetup.fromJson(Map<String, dynamic> json) {
+    manualLoginStatus = json['manual_login_status'] == 1;
+    otpLoginStatus = json['otp_login_status'] == 1;
+    socialLoginStatus = json['social_login_status'] == 1;
+    googleLoginStatus = json['google_login_status'] == 1;
+    facebookLoginStatus = json['facebook_login_status'] == 1;
+    appleLoginStatus = json['apple_login_status'] == 1;
+    emailVerificationStatus = json['email_verification_status'] == 1;
+    phoneVerificationStatus = json['phone_verification_status'] == 1;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['manual_login_status'] = manualLoginStatus;
+    data['otp_login_status'] = otpLoginStatus;
+    data['social_login_status'] = socialLoginStatus;
+    data['google_login_status'] = googleLoginStatus;
+    data['facebook_login_status'] = facebookLoginStatus;
+    data['apple_login_status'] = appleLoginStatus;
+    data['email_verification_status'] = emailVerificationStatus;
+    data['phone_verification_status'] = phoneVerificationStatus;
     return data;
   }
 }

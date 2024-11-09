@@ -43,4 +43,16 @@ class NotificationController extends GetxController implements GetxService {
     _notificationList = null;
   }
 
+  List<int>? getSeenNotificationIdList() {
+    return notificationServiceInterface.getNotificationIdList();
+  }
+
+  void addSeenNotificationId(int id) {
+    List<int> idList = [];
+    idList.addAll(notificationServiceInterface.getNotificationIdList());
+    idList.add(id);
+    notificationServiceInterface.addSeenNotificationIdList(idList);
+    update();
+  }
+
 }

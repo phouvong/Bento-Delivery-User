@@ -1,6 +1,7 @@
 import 'package:geolocator/geolocator.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
+import 'package:sixam_mart/common/widgets/footer_view.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/location/widgets/permission_dialog_widget.dart';
@@ -33,6 +34,7 @@ class MapScreenState extends State<MapScreen> {
   late LatLng _latLng;
   Set<Marker> _markers = {};
   GoogleMapController? _mapController;
+  bool isHovered = false;
 
   @override
   void initState() {
@@ -42,128 +44,145 @@ class MapScreenState extends State<MapScreen> {
     // _setMarker();
   }
 
+  void onEntered(bool isHovered) {
+    setState(() {
+      this.isHovered = isHovered;
+    });
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CustomAppBar(title: widget.storeName.isNotEmpty ? widget.storeName : 'location'.tr),
+      appBar: CustomAppBar(title: widget.storeName != 'null' && widget.storeName.isNotEmpty ? widget.storeName : 'location'.tr),
       endDrawer: const MenuDrawer(),endDrawerEnableOpenDragGesture: false,
-      body: Center(
-        child: SizedBox(
-          width: Dimensions.webMaxWidth,
-          child: Stack(children: [
-            GoogleMap(
-              initialCameraPosition: CameraPosition(target: _latLng, zoom: 16),
-              minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
-              zoomGesturesEnabled: true,
-              myLocationButtonEnabled: false,
-              zoomControlsEnabled: false,
-              indoorViewEnabled: true,
-              markers:_markers,
-              onMapCreated: (controller) {
-                _mapController = controller;
-                _setMarker();
-              },
-              style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
-            ),
-
-            Positioned(
-              left: Dimensions.paddingSizeLarge, right: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge,
-              child: Column(
-                children: [
-
-                  Align(
-                    alignment: Alignment.centerRight,
-                    child: InkWell(
-                      onTap: () => _checkPermission(() async {
-                        AddressModel address = await Get.find<LocationController>().getCurrentLocation(false, mapController: _mapController);
-                        _setMarker(address: address, fromCurrentLocation: true);
-                      }),
-                      child: Container(
-                        padding: const EdgeInsets.all( Dimensions.paddingSizeSmall),
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).cardColor),
-                        child: Icon(Icons.my_location_outlined, color: Theme.of(context).primaryColor, size: 25),
-                      ),
-                    ),
-                  ),
-                  const SizedBox(height: Dimensions.paddingSizeLarge),
-
-                  InkWell(
-                    onTap: () {
-                      if(_mapController != null) {
-                        _mapController!.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _latLng, zoom: 17)));
-                      }
+      body: SingleChildScrollView(
+        physics: isHovered || !ResponsiveHelper.isDesktop(context) ? const NeverScrollableScrollPhysics() : const AlwaysScrollableScrollPhysics(),
+        child: FooterView(
+          child: Center(
+            child: SizedBox(
+              width: Dimensions.webMaxWidth,
+              height: ResponsiveHelper.isDesktop(context) ? 600 : MediaQuery.of(context).size.height * 0.85,
+              child: Stack(children: [
+                MouseRegion(
+                  onEnter: (event) => onEntered(true),
+                  onExit: (event) => onEntered(false),
+                  child: GoogleMap(
+                    initialCameraPosition: CameraPosition(target: _latLng, zoom: 16),
+                    minMaxZoomPreference: const MinMaxZoomPreference(0, 16),
+                    zoomGesturesEnabled: true,
+                    myLocationButtonEnabled: false,
+                    zoomControlsEnabled: false,
+                    indoorViewEnabled: true,
+                    markers:_markers,
+                    onMapCreated: (controller) {
+                      _mapController = controller;
+                      _setMarker();
                     },
-                    child: Container(
-                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                        color: Theme.of(context).cardColor,
-                        // boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.3), spreadRadius: 3, blurRadius: 10)],
-                      ),
-                      child: widget.fromStore ? Row(children: [
-                        Expanded(
-                          child: Text(widget.address.address ?? '', style: robotoMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
-                        ),
-                        const SizedBox(width: Dimensions.paddingSizeDefault),
-
-                        InkWell(
-                          onTap: () async {
-                            String url ='https://www.google.com/maps/dir/?api=1&destination=${widget.address.latitude}'
-                                ',${widget.address.longitude}&mode=d';
-                            if (await canLaunchUrlString(url)) {
-                              await launchUrlString(url, mode: LaunchMode.externalApplication);
-                            }else {
-                              showCustomSnackBar('unable_to_launch_google_map'.tr);
-                            }
-                          },
-                          child: const Icon(Icons.directions),
-                        ),
-
-                      ]) : Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-
-                          Row(children: [
-
-                            Icon(
-                              widget.address.addressType == 'home' ? Icons.home_outlined : widget.address.addressType == 'office'
-                                  ? Icons.work_outline : Icons.location_on,
-                              size: 30, color: Theme.of(context).primaryColor,
-                            ),
-                            const SizedBox(width: Dimensions.paddingSizeSmall),
-
-                            Expanded(
-                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-
-                                Text(widget.address.addressType!.tr, style: robotoRegular.copyWith(
-                                  fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
-                                )),
-                                const SizedBox(height: Dimensions.paddingSizeExtraSmall),
-
-                                AddressDetailsWidget(addressDetails: widget.address),
-
-                              ]),
-                            ),
-                          ]),
-                          const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                          Text('- ${widget.address.contactPersonName}', style: robotoMedium.copyWith(
-                            color: Theme.of(context).primaryColor,
-                            fontSize: Dimensions.fontSizeLarge,
-                          )),
-
-                          Text('- ${widget.address.contactPersonNumber}', style: robotoRegular),
-
-                        ],
-                      ),
-                    ),
+                    style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
                   ),
-                ],
-              ),
+                ),
+
+                Positioned(
+                  left: Dimensions.paddingSizeLarge, right: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge,
+                  child: Column(
+                    children: [
+
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: InkWell(
+                          onTap: () => _checkPermission(() async {
+                            AddressModel address = await Get.find<LocationController>().getCurrentLocation(false, mapController: _mapController);
+                            _setMarker(address: address, fromCurrentLocation: true);
+                          }),
+                          child: Container(
+                            padding: const EdgeInsets.all( Dimensions.paddingSizeSmall),
+                            decoration: BoxDecoration(borderRadius: BorderRadius.circular(50), color: Theme.of(context).cardColor),
+                            child: Icon(Icons.my_location_outlined, color: Theme.of(context).primaryColor, size: 25),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: Dimensions.paddingSizeLarge),
+
+                      InkWell(
+                        onTap: () {
+                          if(_mapController != null) {
+                            _mapController!.animateCamera(CameraUpdate.newCameraPosition(CameraPosition(target: _latLng, zoom: 17)));
+                          }
+                        },
+                        child: Container(
+                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                            color: Theme.of(context).cardColor,
+                            // boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.3), spreadRadius: 3, blurRadius: 10)],
+                          ),
+                          child: widget.fromStore ? Row(children: [
+                            Expanded(
+                              child: Text(widget.address.address ?? '', style: robotoMedium, maxLines: 2, overflow: TextOverflow.ellipsis),
+                            ),
+                            const SizedBox(width: Dimensions.paddingSizeDefault),
+
+                            InkWell(
+                              onTap: () async {
+                                String url ='https://www.google.com/maps/dir/?api=1&destination=${widget.address.latitude}'
+                                    ',${widget.address.longitude}&mode=d';
+                                if (await canLaunchUrlString(url)) {
+                                  await launchUrlString(url, mode: LaunchMode.externalApplication);
+                                }else {
+                                  showCustomSnackBar('unable_to_launch_google_map'.tr);
+                                }
+                              },
+                              child: const Icon(Icons.directions),
+                            ),
+
+                          ]) : Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+
+                              Row(children: [
+
+                                Icon(
+                                  widget.address.addressType == 'home' ? Icons.home_outlined : widget.address.addressType == 'office'
+                                      ? Icons.work_outline : Icons.location_on,
+                                  size: 30, color: Theme.of(context).primaryColor,
+                                ),
+                                const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                                Expanded(
+                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
+
+                                    Text(widget.address.addressType!.tr, style: robotoRegular.copyWith(
+                                      fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor,
+                                    )),
+                                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                                    AddressDetailsWidget(addressDetails: widget.address),
+
+                                  ]),
+                                ),
+                              ]),
+                              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                              Text('- ${widget.address.contactPersonName}', style: robotoMedium.copyWith(
+                                color: Theme.of(context).primaryColor,
+                                fontSize: Dimensions.fontSizeLarge,
+                              )),
+
+                              Text('- ${widget.address.contactPersonNumber}', style: robotoRegular),
+
+                            ],
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+
+
+              ]),
             ),
-
-
-          ]),
+          ),
         ),
       ),
     );

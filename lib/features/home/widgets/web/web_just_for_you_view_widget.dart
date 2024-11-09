@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/item/controllers/campaign_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
@@ -82,26 +83,31 @@ class _WebJustForYouViewWidgetState extends State<WebJustForYouViewWidget> {
                     left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
                     right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
                   ),
-                  child: OnHover(
-                    isItem: true,
-                    child: InkWell(
-                      hoverColor: Colors.transparent,
-                      onTap: () => Get.find<ItemController>().navigateToItemPage(campaignController.itemCampaignList![index], context, isCampaign: true),
-                      child: Container(
-                        height: 185, width: 185,
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          child: CustomImage(
-                            image: '${campaignController.itemCampaignList![index].imageFullUrl}',
-                            fit: BoxFit.cover, height: 185, width: 185,
+                  child: TextHover(
+                    builder: (hovered) {
+                      return OnHover(
+                        isItem: true,
+                        child: InkWell(
+                          hoverColor: Colors.transparent,
+                          onTap: () => Get.find<ItemController>().navigateToItemPage(campaignController.itemCampaignList![index], context, isCampaign: true),
+                          child: Container(
+                            height: 185, width: 185,
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              child: CustomImage(
+                                isHovered: hovered,
+                                image: '${campaignController.itemCampaignList![index].imageFullUrl}',
+                                fit: BoxFit.cover, height: 185, width: 185,
+                              ),
+                            ),
                           ),
                         ),
-                      ),
-                    ),
+                      );
+                    }
                   ),
                 );
               },

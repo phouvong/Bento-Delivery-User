@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/banner/controllers/banner_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
@@ -81,21 +82,26 @@ class WebNewBannerViewWidget extends StatelessWidget {
                           }
                         }
                       },
-                      child: Container(
-                        decoration: BoxDecoration(
-                          color: Theme.of(context).cardColor,
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                        ),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          child: GetBuilder<SplashController>(builder: (splashController) {
-                            return CustomImage(
-                              image: '${bannerList[index]}',
-                              fit: BoxFit.cover,
-                            );
-                          }),
-                        ),
+                      child: TextHover(
+                        builder: (hovered) {
+                          return Container(
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                            ),
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                              child: GetBuilder<SplashController>(builder: (splashController) {
+                                return CustomImage(
+                                  isHovered: hovered,
+                                  image: '${bannerList[index]}',
+                                  fit: BoxFit.cover,
+                                );
+                              }),
+                            ),
+                          );
+                        }
                       ),
                     );
                   },

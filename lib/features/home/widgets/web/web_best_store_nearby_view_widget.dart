@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
@@ -151,133 +152,138 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
                             left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
                             right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
                           ),
-                          child: OnHover(
-                            isItem: true,
-                            child: isPharmacy ? StoreCard(store: storeList[index]) : InkWell(
-                              hoverColor: Colors.transparent,
-                              onTap: () {
-                                if(Get.find<SplashController>().moduleList != null) {
-                                  for(ModuleModel module in Get.find<SplashController>().moduleList!) {
-                                    if(module.id == storeList[index].moduleId) {
-                                      Get.find<SplashController>().setModule(module);
-                                      break;
+                          child: TextHover(
+                            builder: (hovered) {
+                              return OnHover(
+                                isItem: true,
+                                child: isPharmacy ? StoreCard(store: storeList[index]) : InkWell(
+                                  hoverColor: Colors.transparent,
+                                  onTap: () {
+                                    if(Get.find<SplashController>().moduleList != null) {
+                                      for(ModuleModel module in Get.find<SplashController>().moduleList!) {
+                                        if(module.id == storeList[index].moduleId) {
+                                          Get.find<SplashController>().setModule(module);
+                                          break;
+                                        }
+                                      }
                                     }
-                                  }
-                                }
-                                Get.toNamed(
-                                  RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
-                                  arguments: StoreScreen(store: storeList[index], fromModule: true),
-                                );
-                              },
-                              child: Stack(children: [
+                                    Get.toNamed(
+                                      RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
+                                      arguments: StoreScreen(store: storeList[index], fromModule: true),
+                                    );
+                                  },
+                                  child: Stack(children: [
 
-                                Container(
-                                  height: 160, width: 275,
-                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                  decoration: BoxDecoration(
-                                    color: Theme.of(context).cardColor,
-                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                    border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
-                                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                                  ),
-                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                    Expanded(
-                                      flex: 6,
-                                      child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                        Container(
-                                          height: 70, width: 70,
-                                          decoration: BoxDecoration(
-                                            color: Theme.of(context).cardColor,
-                                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                            border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
-                                          ),
-                                          child: Stack(children: [
-                                            ClipRRect(
-                                              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                              child: CustomImage(
-                                                image: '${storeList[index].logoFullUrl}',
-                                                fit: BoxFit.cover, height: double.infinity, width: double.infinity,
-                                              ),
-                                            ),
-
-                                            DiscountTag(
-                                              discount: storeController.getDiscount(storeList[index]),
-                                              discountType: storeController.getDiscountType(storeList[index]),
-                                              freeDelivery: storeList[index].freeDelivery,
-                                            ),
-
-                                          ]),
-                                        ),
-                                        const SizedBox(width: Dimensions.paddingSizeDefault),
+                                    Container(
+                                      height: 160, width: 275,
+                                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                      decoration: BoxDecoration(
+                                        color: Theme.of(context).cardColor,
+                                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                        border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
+                                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                      ),
+                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                         Expanded(
-                                          flex: 9,
-                                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                                            Row(children: [
-
-                                              Text('start_from'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
-                                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                              Text(PriceConverter.convertPrice(storeList[index].minimumOrder), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
-
-                                            ]),
-
-                                            Row(children: [
-
-                                              Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                              Text(storeList[index].avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                              Text("(${storeList[index].ratingCount.toString()})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-
-                                            ]),
+                                          flex: 6,
+                                          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                             Container(
-                                              padding: const EdgeInsets.symmetric(vertical: 3),
+                                              height: 70, width: 70,
                                               decoration: BoxDecoration(
                                                 color: Theme.of(context).cardColor,
-                                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                                // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                                border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
                                               ),
-                                              child: Row(children: [
+                                              child: Stack(children: [
+                                                ClipRRect(
+                                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                                  child: CustomImage(
+                                                    isHovered: hovered,
+                                                    image: '${storeList[index].logoFullUrl}',
+                                                    fit: BoxFit.cover, height: double.infinity, width: double.infinity,
+                                                  ),
+                                                ),
 
-                                                Image.asset(Images.distanceLine, height: 15, width: 15),
-                                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                                DiscountTag(
+                                                  discount: storeController.getDiscount(storeList[index]),
+                                                  discountType: storeController.getDiscountType(storeList[index]),
+                                                  freeDelivery: storeList[index].freeDelivery,
+                                                ),
 
-                                                Text('${distance > 10 ? '10+' : distance.toStringAsFixed(1)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
-                                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                              ]),
+                                            ),
+                                            const SizedBox(width: Dimensions.paddingSizeDefault),
 
-                                                Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                            Expanded(
+                                              flex: 9,
+                                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+                                                Row(children: [
+
+                                                  Text('start_from'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
+                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                  Text(PriceConverter.convertPrice(storeList[index].minimumOrder), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
+
+                                                ]),
+
+                                                Row(children: [
+
+                                                  Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                  Text(storeList[index].avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                  Text("(${storeList[index].ratingCount.toString()})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+
+                                                ]),
+
+                                                Container(
+                                                  padding: const EdgeInsets.symmetric(vertical: 3),
+                                                  decoration: BoxDecoration(
+                                                    color: Theme.of(context).cardColor,
+                                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                                    // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                                  ),
+                                                  child: Row(children: [
+
+                                                    Image.asset(Images.distanceLine, height: 15, width: 15),
+                                                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                    Text('${distance > 10 ? '10+' : distance.toStringAsFixed(1)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                    Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                                  ]),
+                                                ),
+
                                               ]),
                                             ),
 
                                           ]),
                                         ),
+                                        const SizedBox(height: Dimensions.paddingSizeSmall),
 
+                                        Expanded(
+                                          flex: 2,
+                                          child: Text(storeList[index].name!, style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                        ),
                                       ]),
                                     ),
-                                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                    Expanded(
-                                      flex: 2,
-                                      child: Text(storeList[index].name!, style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                    AddFavouriteView(
+                                      left: Get.find<LocalizationController>().isLtr ? null : 15,
+                                      right: Get.find<LocalizationController>().isLtr ? 15 : null,
+                                      item: Item(id: storeList[index].id),
                                     ),
+
                                   ]),
                                 ),
-
-                                AddFavouriteView(
-                                  left: Get.find<LocalizationController>().isLtr ? null : 15,
-                                  right: Get.find<LocalizationController>().isLtr ? 15 : null,
-                                  item: Item(id: storeList[index].id),
-                                ),
-
-                              ]),
-                            ),
+                              );
+                            }
                           ),
                         );
                       },

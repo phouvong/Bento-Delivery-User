@@ -173,13 +173,9 @@ class DateConverter {
     final now = DateTime.now();
     final createdAtDate = DateTime.parse(createdAt).toLocal();
 
-    if (createdAtDate.year == now.year &&
-        createdAtDate.month == now.month &&
-        createdAtDate.day == now.day) {
+    if (createdAtDate.year == now.year && createdAtDate.month == now.month && createdAtDate.day == now.day) {
       return 'Today, ${DateFormat.jm().format(createdAtDate)}';
-    } else if (createdAtDate.year == now.year &&
-        createdAtDate.month == now.month &&
-        createdAtDate.day == now.day - 1) {
+    } else if (createdAtDate.year == now.year && createdAtDate.month == now.month && createdAtDate.day == now.day - 1) {
       return 'Yesterday, ${DateFormat.jm().format(createdAtDate)}';
     } else {
       return DateConverter.localDateToIsoStringAMPM(createdAtDate);
@@ -201,6 +197,10 @@ class DateConverter {
 
   static String convertRestaurantOpenTime(String time) {
     return DateFormat('hh:mm a').format(DateFormat('HH:mm:ss').parse(time).toLocal());
+  }
+
+  static String dateTimeStringToFormattedTime(String dateTime) {
+    return DateFormat(_timeFormatter()).format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime));
   }
 
 }

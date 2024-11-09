@@ -22,7 +22,7 @@ class AddressController extends GetxController implements GetxService {
     _isLoading = true;
     update();
     ResponseModel responseModel = await addressServiceInterface.addAddress(addressModel);
-    responseModel = _processSuccessResponse(responseModel, fromCheckout, storeZoneId);
+    responseModel = await _processSuccessResponse(responseModel, fromCheckout, storeZoneId);
     _isLoading = false;
     update();
     return responseModel;
@@ -63,13 +63,13 @@ class AddressController extends GetxController implements GetxService {
     return responseModel;
   }
 
-  ResponseModel _processSuccessResponse(ResponseModel responseModel, bool fromCheckout, int? storeZoneId) {
+  Future<ResponseModel> _processSuccessResponse(ResponseModel responseModel, bool fromCheckout, int? storeZoneId) async {
     if (responseModel.isSuccess) {
       if(fromCheckout && !responseModel.zoneIds!.contains(storeZoneId)) {
         responseModel = ResponseModel(false, (Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'your_selected_location_is_from_different_zone'.tr : 'your_selected_location_is_from_different_zone_store'.tr));
       }else {
-        getAddressList();
-        Get.find<CheckoutController>().setAddressIndex(0);
+        await getAddressList();
+        Get.find<CheckoutController>().setAddressIndex(1);
         responseModel = ResponseModel(true, responseModel.message);
       }
     }

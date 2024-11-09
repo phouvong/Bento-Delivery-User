@@ -1,5 +1,5 @@
 import 'dart:async';
-import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
+import 'package:sixam_mart/features/auth/widgets/auth_dialog_widget.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/features/location/domain/models/zone_response_model.dart';
@@ -118,7 +118,7 @@ class _OrderSuccessfulScreenState extends State<OrderSuccessfulScreen> {
                     InkWell(
                       onTap: () {
                         if(ResponsiveHelper.isDesktop(context)){
-                          Get.dialog(const SignInScreen(exitFromApp: false, backFromThis: false));
+                          Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: false, backFromThis: false)));
                         }else{
                           Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.splash));
                         }

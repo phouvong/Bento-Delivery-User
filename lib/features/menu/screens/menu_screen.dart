@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer_animation/shimmer_animation.dart';
+import 'package:sixam_mart/features/auth/widgets/auth_dialog_widget.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/home/controllers/home_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
@@ -8,7 +10,6 @@ import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
-import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/date_converter.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
@@ -64,13 +65,29 @@ class _MenuScreenState extends State<MenuScreen> {
 
                 Expanded(
                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                    Text(
-                      isLoggedIn ? '${profileController.userInfoModel?.fName} ${profileController.userInfoModel?.lName ?? ''}' : 'guest_user'.tr,
+                    isLoggedIn && profileController.userInfoModel == null ? Shimmer(
+                      child: Container(
+                        height: 15, width: 150,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ) : Text(
+                      isLoggedIn ? '${profileController.userInfoModel?.fName ?? ''} ${profileController.userInfoModel?.lName ?? ''}' : 'guest_user'.tr,
                       style: robotoBold.copyWith(fontSize: Dimensions.fontSizeExtraLarge, color: Theme.of(context).cardColor),
                     ),
-                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+                    SizedBox(height: isLoggedIn && profileController.userInfoModel == null ? Dimensions.paddingSizeSmall : Dimensions.paddingSizeExtraSmall),
 
-                    isLoggedIn ? Text(
+                    isLoggedIn && profileController.userInfoModel == null ? Shimmer(
+                      child: Container(
+                        height: 15, width: 100,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                      ),
+                    ) : isLoggedIn ? Text(
                       profileController.userInfoModel != null ? DateConverter.containTAndZToUTCFormat(profileController.userInfoModel!.createdAt!) : '',
                       style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).cardColor),
                     ) : InkWell(
@@ -81,7 +98,7 @@ class _MenuScreenState extends State<MenuScreen> {
                             profileController.getUserInfo();
                           }
                         }else{
-                          Get.dialog(const SignInScreen(exitFromApp: true, backFromThis: true));
+                          Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: true, backFromThis: true)));
                         }
                       },
                       child: Text(

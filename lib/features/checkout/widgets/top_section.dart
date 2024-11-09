@@ -264,11 +264,11 @@ class TopSection extends StatelessWidget {
 
         ///Create Account with existing info
 
-        isGuestLoggedIn ? GuestCreateAccount(
+        isGuestLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? GuestCreateAccount(
           guestPasswordController: guestPasswordController, guestConfirmPasswordController: guestConfirmPasswordController,
           guestPasswordNode: guestPasswordNode, guestConfirmPasswordNode: guestConfirmPasswordNode,
         ) : const SizedBox(),
-        SizedBox(height: isGuestLoggedIn ? Dimensions.paddingSizeSmall : 0),
+        SizedBox(height: isGuestLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? Dimensions.paddingSizeSmall : 0),
 
         /// Time Slot
         TimeSlotSection(

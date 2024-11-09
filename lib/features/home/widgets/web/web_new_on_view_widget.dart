@@ -80,7 +80,6 @@ class _WebNewOnViewWidgetState extends State<WebNewOnViewWidget> {
               controller: scrollController,
               physics: const BouncingScrollPhysics(),
               scrollDirection: Axis.horizontal,
-              //padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
               itemCount: storeList.length,
               itemBuilder: (context, index){
                 return Padding(

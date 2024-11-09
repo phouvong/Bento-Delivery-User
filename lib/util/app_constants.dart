@@ -5,7 +5,7 @@ import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
   static const String appName = 'bento';
-  static const double appVersion = 2.10; ///Flutter Version: 3.24.3
+  static const double appVersion = 2.11; ///Flutter Version: 3.24.4
 
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
@@ -65,6 +65,7 @@ class AppConstants {
   static const String storeUri = '/api/v1/stores/get-stores';
   static const String popularStoreUri = '/api/v1/stores/popular';
   static const String latestStoreUri = '/api/v1/stores/latest';
+  static const String topOfferStoreUri = '/api/v1/stores/top-offer-near-me';
   static const String storeDetailsUri = '/api/v1/stores/details/';
   static const String basicCampaignUri = '/api/v1/campaigns/basic';
   static const String itemCampaignUri = '/api/v1/campaigns/item';
@@ -81,12 +82,12 @@ class AppConstants {
   static const String updateZoneUri = '/api/v1/customer/update-zone';
   static const String moduleUri = '/api/v1/module';
   static const String parcelCategoryUri = '/api/v1/parcel-category';
-  static const String aboutUsUri = '/about-us';
-  static const String privacyPolicyUri = '/privacy-policy';
-  static const String termsAndConditionUri = '/terms-and-conditions';
-  static const String cancellationUri = '/cancelation';
-  static const String refundUri = '/refund';
-  static const String shippingPolicyUri = '/shipping-policy';
+  static const String aboutUsUri = '/api/v1/about-us';
+  static const String privacyPolicyUri = '/api/v1/privacy-policy';
+  static const String termsAndConditionUri = '/api/v1/terms-and-conditions';
+  static const String cancellationUri = '/api/v1/cancelation';
+  static const String refundUri = '/api/v1/refund-policy';
+  static const String shippingPolicyUri = '/api/v1/shipping-policy';
   static const String subscriptionUri = '/api/v1/newsletter/subscribe';
   static const String customerRemoveUri = '/api/v1/customer/remove-account';
   static const String walletTransactionUri = '/api/v1/customer/wallet/transactions';
@@ -144,6 +145,8 @@ class AppConstants {
   static const String searchSuggestionsUri = '/api/v1/items/item-or-store-search';
   static const String searchPopularCategoriesUri = '/api/v1/categories/popular';
   static const String firebaseAuthVerify = '/api/v1/auth/firebase-verify-token';
+  static const String personalInformationUri = '/api/v1/auth/update-info';
+  static const String firebaseResetPassword = '/api/v1/auth/firebase-reset-password';
 
   ///Subscription
   static const String businessPlanUri = '/api/v1/vendor/business_plan';
@@ -176,6 +179,7 @@ class AppConstants {
   static const String userNumber = '6ammart_user_number';
   static const String userCountryCode = '6ammart_user_country_code';
   static const String notification = '6ammart_notification';
+  static const String notificationIdList = 'notification_id_list';
   static const String searchHistory = '6ammart_search_history';
   static const String intro = '6ammart_intro';
   static const String notificationCount = '6ammart_notification_count';

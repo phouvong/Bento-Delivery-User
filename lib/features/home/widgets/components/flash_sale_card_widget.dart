@@ -1,6 +1,7 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/flash_sale/controllers/flash_sale_controller.dart';
 import 'package:sixam_mart/features/item/controllers/item_controller.dart';
 import 'package:sixam_mart/features/flash_sale/domain/models/flash_sale_model.dart';
@@ -96,93 +97,98 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
               child: InkWell(
                 hoverColor: Colors.transparent,
                 onTap: widget.soldOut ? null : () => Get.find<ItemController>().navigateToItemPage(activeProduct.item, context),
-                child: Container(
-                  decoration: BoxDecoration(
-                    border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
-                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                    color: Theme.of(context).cardColor,
-                  ),
-                  child: Stack(
-                    clipBehavior: Clip.none,
-                    children: [
-                      ClipRRect(
+                child: TextHover(
+                  builder: (hovered) {
+                    return Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                        child: CustomImage(
-                          image: '${activeProduct.item!.imageFullUrl}',
-                          fit: BoxFit.cover, width: double.infinity, height: double.infinity,
-                        ),
+                        color: Theme.of(context).cardColor,
                       ),
-
-                      DiscountTag(
-                        discount: discount,
-                        discountType: discountType,
-                        freeDelivery: false,
-                        isFloating: true,
-                      ),
-
-                      OrganicTag(item: activeProduct.item!, placeInImage: false),
-
-                      ResponsiveHelper.isMobile(context) ? Positioned(
-                        bottom: -15, left: 0, right: 0,
-                        child: widget.soldOut ? Center(
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 80, height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(112),
-                              color: Theme.of(context).cardColor,
-                              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            child: CustomImage(
+                              isHovered: hovered,
+                              image: '${activeProduct.item!.imageFullUrl}',
+                              fit: BoxFit.cover, width: double.infinity, height: double.infinity,
                             ),
-                            child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
                           ),
-                        ) : CartCountView(
-                          item: activeProduct.item!,
-                          index: index,
-                          child: Center(
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 65, height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(112),
-                                color: Theme.of(context).cardColor,
-                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+
+                          DiscountTag(
+                            discount: discount,
+                            discountType: discountType,
+                            freeDelivery: false,
+                            isFloating: true,
+                          ),
+
+                          OrganicTag(item: activeProduct.item!, placeInImage: false),
+
+                          ResponsiveHelper.isMobile(context) ? Positioned(
+                            bottom: -15, left: 0, right: 0,
+                            child: widget.soldOut ? Center(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 80, height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(112),
+                                  color: Theme.of(context).cardColor,
+                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                ),
+                                child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
                               ),
-                              child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
-                            ),
-                          ),
-                        ),
-                      ) : Positioned(
-                        bottom: 0, left: 0, right: 0,
-                        child: widget.soldOut ? Center(
-                          child: Container(
-                            alignment: Alignment.center,
-                            width: 80, height: 30,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(112),
-                              color: Theme.of(context).cardColor,
-                              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
-                            ),
-                            child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
-                          ),
-                        ) : CartCountView(
-                          item: activeProduct.item!,
-                          index: index,
-                          child: Center(
-                            child: Container(
-                              alignment: Alignment.center,
-                              width: 65, height: 30,
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(112),
-                                color: Theme.of(context).cardColor,
-                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                            ) : CartCountView(
+                              item: activeProduct.item!,
+                              index: index,
+                              child: Center(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 65, height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(112),
+                                    color: Theme.of(context).cardColor,
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                  ),
+                                  child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
+                                ),
                               ),
-                              child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
+                            ),
+                          ) : Positioned(
+                            bottom: 0, left: 0, right: 0,
+                            child: widget.soldOut ? Center(
+                              child: Container(
+                                alignment: Alignment.center,
+                                width: 80, height: 30,
+                                decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(112),
+                                  color: Theme.of(context).cardColor,
+                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                ),
+                                child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
+                              ),
+                            ) : CartCountView(
+                              item: activeProduct.item!,
+                              index: index,
+                              child: Center(
+                                child: Container(
+                                  alignment: Alignment.center,
+                                  width: 65, height: 30,
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(112),
+                                    color: Theme.of(context).cardColor,
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                  ),
+                                  child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
+                                ),
+                              ),
                             ),
                           ),
-                        ),
+                        ],
                       ),
-                    ],
-                  ),
+                    );
+                  }
                 ),
               ),
             ),

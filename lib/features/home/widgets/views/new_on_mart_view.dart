@@ -21,7 +21,7 @@ class NewOnMartView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetBuilder<StoreController>(builder: (storeController) {
-      List<Store>? storeList = /*(isNewStore || isPharmacy || isShop) ?*/ storeController.latestStoreList/* : storeController.popularStoreList*/;
+      List<Store>? storeList = storeController.latestStoreList;
 
       return storeList != null ? storeList.isNotEmpty ? Padding(
         padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
@@ -60,7 +60,7 @@ class NewOnMartView extends StatelessWidget {
               itemBuilder: (context, index){
                 return Padding(
                   padding: const EdgeInsets.only(right: Dimensions.paddingSizeDefault, bottom: Dimensions.paddingSizeSmall, top: Dimensions.paddingSizeSmall),
-                  child: StoreCard(store: storeList[index], isNewStore: isNewStore),
+                  child: StoreCard(store: storeList[index]),
                 );
               },
             ),

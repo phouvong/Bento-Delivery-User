@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/features/chat/widgets/image_file_view_widget.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
 import 'package:sixam_mart/features/chat/domain/models/chat_model.dart';
@@ -9,7 +10,6 @@ import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
-import 'package:sixam_mart/features/chat/widgets/image_dialog_widget.dart';
 
 class MessageBubbleWidget extends StatelessWidget {
   final Message message;
@@ -57,38 +57,13 @@ class MessageBubbleWidget extends StatelessWidget {
               ),
               const SizedBox(height: 8.0),
 
-              (message.fileFullUrl != null && message.fileFullUrl!.isNotEmpty) ? GridView.builder(
-                  gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                    childAspectRatio: 1,
-                    crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : 3,
-                    mainAxisSpacing: 10,
-                    crossAxisSpacing: 5,
+              (message.fileFullUrl != null && message.fileFullUrl!.isNotEmpty) ? SizedBox(
+                width: 200,
+                child: ImageFileViewWidget(
+                  currentMessage: message,
+                  isRightMessage: true,
                   ),
-                  shrinkWrap: true,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: message.fileFullUrl!.length,
-                  itemBuilder: (BuildContext context, index) {
-                    return  message.fileFullUrl!.isNotEmpty ? Padding(
-                      padding: const EdgeInsets.only(right: 8),
-                      child: InkWell(
-                        hoverColor: Colors.transparent,
-                        onTap: () => showDialog(context: context, builder: (context) {
-                          return ImageDialogWidget(
-                            imageUrl: message.fileFullUrl![index],
-                          );
-                        }),
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.paddingSizeSmall),
-                          child: CustomImage(
-                            height: 100, width: 100, fit: BoxFit.cover,
-                            image: message.fileFullUrl?[index] ?? '',
-                          ),
-                        ),
-                      ),
-                    ) : const SizedBox();
-
-                  }) : const SizedBox(),
-
+                ) : const SizedBox(),
             ]),
           ),
         ]),
@@ -117,57 +92,28 @@ class MessageBubbleWidget extends StatelessWidget {
 
                 (message.message != null && message.message!.isNotEmpty) ? Flexible(
                   child: Container(
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor,
-                      borderRadius: const BorderRadius.only(
-                        topLeft: Radius.circular(Dimensions.radiusDefault),
-                        bottomRight: Radius.circular(Dimensions.radiusDefault),
-                        bottomLeft: Radius.circular(Dimensions.radiusDefault),
-                      ),
+                    decoration: const BoxDecoration(
+                      color: Color(0xffE8EEFA),
+                      borderRadius: BorderRadius.all(Radius.circular(50)),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(message.message != null ? Dimensions.paddingSizeDefault : 0),
-                      child: Text(message.message ?? '', style: robotoRegular.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall),),
+                      child: Text(message.message ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: Dimensions.fontSizeSmall),),
                     ),
                   ),
                 ) : const SizedBox(),
 
+                SizedBox(height: (message.message != null && message.message!.isNotEmpty) ? Dimensions.paddingSizeSmall : 0),
+
                 (message.fileFullUrl != null && message.fileFullUrl!.isNotEmpty) ? Directionality(
                   textDirection: TextDirection.rtl,
-                  child: GridView.builder(
-                      reverse: true,
-                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        childAspectRatio: 1,
-                        crossAxisCount: ResponsiveHelper.isDesktop(context) ? 8 : 3,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 5,
-                      ),
-                      shrinkWrap: true,
-                      padding: EdgeInsets.zero,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: message.fileFullUrl!.length,
-                      itemBuilder: (BuildContext context, index){
-                        return  message.fileFullUrl!.isNotEmpty ?
-                        InkWell(
-                          onTap: () => showDialog(context: context, builder: (context) {
-                            return ImageDialogWidget(
-                              imageUrl: message.fileFullUrl![index],
-                            );
-                          }),
-                          child: Padding(
-                            padding: EdgeInsets.only(
-                                left: Dimensions.paddingSizeSmall , right:  0,
-                                top: (message.message != null && message.message!.isNotEmpty) ? Dimensions.paddingSizeSmall : 0),
-                            child: ClipRRect(
-                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                              child: CustomImage(
-                                height: 100, width: 100, fit: BoxFit.cover,
-                                image: message.fileFullUrl![index],
-                              ),
-                            ),
-                          ),
-                        ) : const SizedBox();
-                      }),
+                  child: SizedBox(
+                    width: 200,
+                    child: ImageFileViewWidget(
+                      currentMessage: message,
+                      isRightMessage: true,
+                    ),
+                  ),
                 ) : const SizedBox(),
               ]),
             ),
@@ -207,10 +153,8 @@ class MessageBubbleWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         border: Border.all(color: Theme.of(context).disabledColor, width: 0.5),
-        borderRadius: const BorderRadius.only(
-          topLeft: Radius.circular(Dimensions.radiusDefault),
-          bottomRight: Radius.circular(Dimensions.radiusDefault),
-          bottomLeft: Radius.circular(Dimensions.radiusDefault),
+        borderRadius: const BorderRadius.all(
+          Radius.circular(Dimensions.radiusDefault),
         ),
       ),
       margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),

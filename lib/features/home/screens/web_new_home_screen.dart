@@ -2,6 +2,7 @@ import 'package:sixam_mart/features/banner/controllers/banner_controller.dart';
 import 'package:sixam_mart/features/home/widgets/all_store_filter_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_brands_view_widget.dart';
 import 'package:sixam_mart/features/home/widgets/web/web_highlight_widget.dart';
+import 'package:sixam_mart/features/home/widgets/web/web_top_offers_near_me.dart';
 import 'package:sixam_mart/features/item/controllers/campaign_controller.dart';
 import 'package:sixam_mart/features/category/controllers/category_controller.dart';
 import 'package:sixam_mart/features/flash_sale/controllers/flash_sale_controller.dart';
@@ -147,7 +148,7 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isFood ? const WebItemThatYouLoveViewWidget()
                     : isShop ? const WebSpecialOfferView(isFood: false, isShop: true)
                     : GetBuilder<CampaignController>(builder: (campaignController) {
-                  return campaignController.basicCampaignList == null ?  WebMostPopularItemBannerViewWidget(campaignController: campaignController)
+                      return campaignController.basicCampaignList == null ?  WebMostPopularItemBannerViewWidget(campaignController: campaignController)
                       : campaignController.basicCampaignList!.isEmpty ? const SizedBox()
                       : WebMostPopularItemBannerViewWidget(campaignController: campaignController);
                 }),
@@ -162,6 +163,8 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
                     : isShop ? const WebJustForYouViewWidget()
                     : const SizedBox(),
 
+                WebTopOffersNearMe(isFood: isFood, isPharmacy: isPharmacy, isShop: isShop),
+
                 isPharmacy ? const SizedBox()
                     : isFood ? const WebNewOnMartViewWidget()
                     : isShop ? const  WebFeaturedCategoriesViewWidget()
@@ -175,46 +178,6 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
 
                 isFood ? const SizedBox() : const WebPromotionalBannerView(),
 
-                // Padding(
-                //   padding: const EdgeInsets.fromLTRB(10, 20, 0, 5),
-                //   child: GetBuilder<StoreController>(builder: (storeController) {
-                //     return Row(children: [
-                //       Expanded(child: Text(
-                //         '${storeController.storeModel?.totalSize ?? 0} ${Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'restaurants'.tr : 'stores'.tr}',
-                //         style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
-                //       )),
-                //
-                //       storeController.storeModel != null ? Row(children: [
-                //         InkWell(
-                //           onTap: () => storeController.setFilterType('all'),
-                //           child: StoreSortingButton(
-                //             storeType: 'all',
-                //             storeTypeText: 'all'.tr,
-                //           ),
-                //         ),
-                //         const SizedBox(width: Dimensions.paddingSizeSmall),
-                //
-                //         InkWell(
-                //           onTap: () => storeController.setFilterType('delivery'),
-                //           child: StoreSortingButton(
-                //             storeType: 'delivery',
-                //             storeTypeText: 'delivery'.tr,
-                //           ),
-                //         ),
-                //         const SizedBox(width: Dimensions.paddingSizeSmall),
-                //
-                //         InkWell(
-                //           onTap: () => storeController.setFilterType('take_away'),
-                //           child: StoreSortingButton(
-                //             storeType: 'take_away',
-                //             storeTypeText: 'take_away'.tr,
-                //           ),
-                //         ),
-                //       ]) : const SizedBox(),
-                //     ]);
-                //   }),
-                // ),
-
               ])),
             ),
           ),
@@ -223,9 +186,6 @@ class _WebNewHomeScreenState extends State<WebNewHomeScreen> {
             pinned: true,
             delegate: SliverDelegate(
               height: 85,
-              // callback: (val) {
-              //   searchBgShow = val;
-              // },
               child: const AllStoreFilterWidget(),
             ),
           ),

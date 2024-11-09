@@ -1,9 +1,9 @@
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
-import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -103,143 +103,148 @@ class _WebNewOnMartViewWidgetState extends State<WebNewOnMartViewWidget> {
                       left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
                       right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
                     ),
-                    child: InkWell(
-                      hoverColor: Colors.transparent,
-                      onTap: () {
-                        if(Get.find<SplashController>().moduleList != null) {
-                          for(ModuleModel module in Get.find<SplashController>().moduleList!) {
-                            if(module.id == storeList[index].moduleId) {
-                              Get.find<SplashController>().setModule(module);
-                              break;
+                    child: TextHover(
+                      builder: (hovered) {
+                        return InkWell(
+                          hoverColor: Colors.transparent,
+                          onTap: () {
+                            if(Get.find<SplashController>().moduleList != null) {
+                              for(ModuleModel module in Get.find<SplashController>().moduleList!) {
+                                if(module.id == storeList[index].moduleId) {
+                                  Get.find<SplashController>().setModule(module);
+                                  break;
+                                }
+                              }
                             }
-                          }
-                        }
-                        Get.toNamed(
-                          RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
-                          arguments: StoreScreen(store: storeList[index], fromModule: false),
-                        );
-                      },
-                      child: Stack(
-                        children: [
+                            Get.toNamed(
+                              RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
+                              arguments: StoreScreen(store: storeList[index], fromModule: false),
+                            );
+                          },
+                          child: Stack(
+                            children: [
 
-                          OnHover(
-                            isItem: true,
-                            child: Container(
-                              height: 160, width: 300,
-                              padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
-                                borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                              ),
-                              child: Column(children: [
+                              OnHover(
+                                isItem: true,
+                                child: Container(
+                                  height: 160, width: 300,
+                                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                  decoration: BoxDecoration(
+                                    color: Theme.of(context).cardColor,
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                  ),
+                                  child: Column(children: [
 
-                                Expanded(
-                                    flex: 6,
-                                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    Expanded(
+                                        flex: 6,
+                                        child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                        child: CustomImage(
-                                          image: '${storeList[index].logoFullUrl}',
-                                          height: 90, width: 90, fit: BoxFit.cover,
-                                        ),
-                                      ),
-                                      const SizedBox(width: Dimensions.paddingSizeSmall),
-
-                                      Expanded(
-                                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                                          SizedBox(
-                                            width: 150,
-                                            child: Text(storeList[index].name ?? '', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
-                                              maxLines: 1, overflow: TextOverflow.ellipsis,
+                                          ClipRRect(
+                                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                            child: CustomImage(
+                                              isHovered: hovered,
+                                              image: '${storeList[index].logoFullUrl}',
+                                              height: 90, width: 90, fit: BoxFit.cover,
                                             ),
                                           ),
+                                          const SizedBox(width: Dimensions.paddingSizeSmall),
 
-                                          RatingBar(
-                                            rating: storeList[index].avgRating,
-                                            ratingCount: storeList[index].ratingCount,
-                                            size: 12,
-                                          ),
+                                          Expanded(
+                                            child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
 
-                                          Row(mainAxisAlignment: MainAxisAlignment.start, children: [
-
-                                            Image.asset(Images.clockIcon, height: 15, width: 15, color: storeController.isOpenNow(storeList[index]) ? const Color(0xffECA507) : Theme.of(context).colorScheme.error),
-                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                            Text(storeController.isOpenNow(storeList[index]) ? 'open_now'.tr : 'closed_now'.tr, style: robotoRegular.copyWith(color: storeController.isOpenNow(storeList[index]) ? const Color(0xffECA507) : Theme.of(context).colorScheme.error, fontSize: Dimensions.fontSizeSmall)),
-                                          ]),
-
-                                          Row(children: [
-
-                                            Icon(Icons.storefront, size: 15, color: Theme.of(context).primaryColor),
-                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                            Expanded(
-                                              child: Text(storeList[index].address ?? '',
-                                                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
-                                                maxLines: 1, overflow: TextOverflow.ellipsis,
+                                              SizedBox(
+                                                width: 150,
+                                                child: Text(storeList[index].name ?? '', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                                                  maxLines: 1, overflow: TextOverflow.ellipsis,
+                                                ),
                                               ),
-                                            ),
-                                          ]),
+
+                                              RatingBar(
+                                                rating: storeList[index].avgRating,
+                                                ratingCount: storeList[index].ratingCount,
+                                                size: 12,
+                                              ),
+
+                                              Row(mainAxisAlignment: MainAxisAlignment.start, children: [
+
+                                                Image.asset(Images.clockIcon, height: 15, width: 15, color: storeController.isOpenNow(storeList[index]) ? const Color(0xffECA507) : Theme.of(context).colorScheme.error),
+                                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                Text(storeController.isOpenNow(storeList[index]) ? 'open_now'.tr : 'closed_now'.tr, style: robotoRegular.copyWith(color: storeController.isOpenNow(storeList[index]) ? const Color(0xffECA507) : Theme.of(context).colorScheme.error, fontSize: Dimensions.fontSizeSmall)),
+                                              ]),
+
+                                              Row(children: [
+
+                                                Icon(Icons.storefront, size: 15, color: Theme.of(context).primaryColor),
+                                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                Expanded(
+                                                  child: Text(storeList[index].address ?? '',
+                                                    style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor),
+                                                    maxLines: 1, overflow: TextOverflow.ellipsis,
+                                                  ),
+                                                ),
+                                              ]),
+
+                                            ]),
+                                          ),
 
                                         ]),
-                                      ),
+                                    ),
+                                    const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                    ]),
-                                ),
-                                const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                                Expanded(
-                                  flex: 2,
-                                  child: Row(children: [
-
-                                    Container(
-                                      padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor.withOpacity(0.1),
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-                                      ),
+                                    Expanded(
+                                      flex: 2,
                                       child: Row(children: [
 
-                                        Image.asset(Images.distanceLine, height: 15, width: 15),
-                                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                        Container(
+                                          padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                            borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                                          ),
+                                          child: Row(children: [
 
-                                        Text(
-                                          '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
-                                          style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
+                                            Image.asset(Images.distanceLine, height: 15, width: 15),
+                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                            Text(
+                                              '${distance > 100 ? '100+' : distance.toStringAsFixed(2)} ${'km'.tr}',
+                                              style: robotoBold.copyWith(color: Theme.of(context).primaryColor),
+                                            ),
+                                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                            Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
+                                          ]),
                                         ),
-                                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                        Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor)),
                                       ]),
                                     ),
                                   ]),
                                 ),
-                              ]),
-                            ),
-                          ),
-
-                          Positioned(
-                            top: 7, left: Get.find<LocalizationController>().isLtr ? 0 : null,
-                            right: Get.find<LocalizationController>().isLtr ? null : 0,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 2),
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
-                                color: Theme.of(context).primaryColor,
                               ),
-                              child: Text('new'.tr, style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall)),
-                            ),
-                          ),
 
-                          AddFavouriteView(
-                            left: Get.find<LocalizationController>().isLtr ? null : 15,
-                            right: Get.find<LocalizationController>().isLtr ? 15 : null,
-                            item: Item(id: storeList[index].id),
+                              Positioned(
+                                top: 7, left: Get.find<LocalizationController>().isLtr ? 0 : null,
+                                right: Get.find<LocalizationController>().isLtr ? null : 0,
+                                child: Container(
+                                  padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 2),
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
+                                    color: Theme.of(context).primaryColor,
+                                  ),
+                                  child: Text('new'.tr, style: robotoMedium.copyWith(color: Theme.of(context).cardColor, fontSize: Dimensions.fontSizeSmall)),
+                                ),
+                              ),
+
+                              AddFavouriteView(
+                                left: Get.find<LocalizationController>().isLtr ? null : 15,
+                                right: Get.find<LocalizationController>().isLtr ? 15 : null,
+                                item: null, storeId: storeList[index].id,
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
+                        );
+                      }
                     ),
                   );
                 },

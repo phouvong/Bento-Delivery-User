@@ -2,12 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/hover/on_hover.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/auth/widgets/auth_dialog_widget.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
-import 'package:sixam_mart/features/auth/screens/sign_in_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
@@ -130,9 +130,9 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
     _menuList.add(Menu(icon: Images.logOut, title: AuthHelper.isLoggedIn() ? 'logout'.tr : 'sign_in'.tr, onTap: () {
       Get.back();
       if(AuthHelper.isLoggedIn()) {
-        Get.dialog(ConfirmationDialog(icon: Images.support, description: 'are_you_sure_to_logout'.tr, isLogOut: true, onYesPressed: () {
+        Get.dialog(ConfirmationDialog(icon: Images.support, description: 'are_you_sure_to_logout'.tr, isLogOut: true, onYesPressed: () async {
           Get.find<ProfileController>().clearUserInfo();
-          Get.find<AuthController>().clearSharedData();
+          await Get.find<AuthController>().clearSharedData();
           Get.find<CartController>().clearCartList();
           Get.find<AuthController>().socialLogout();
           Get.find<FavouriteController>().removeFavourite();
@@ -145,7 +145,7 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
       }else {
         Get.find<FavouriteController>().removeFavourite();
         if(ResponsiveHelper.isDesktop(context)){
-          Get.dialog(const SignInScreen(exitFromApp: false, backFromThis: false));
+          Get.dialog(const Center(child: AuthDialogWidget(exitFromApp: false, backFromThis: false)), barrierDismissible: false);
         }else{
           Get.toNamed(RouteHelper.getSignInRoute(RouteHelper.main));
         }

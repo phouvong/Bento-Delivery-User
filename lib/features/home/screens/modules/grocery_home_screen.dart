@@ -14,6 +14,7 @@ import 'package:sixam_mart/features/home/widgets/views/new_on_mart_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/middle_section_banner_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/special_offer_view.dart';
 import 'package:sixam_mart/features/home/widgets/views/promotional_banner_view.dart';
+import 'package:sixam_mart/features/home/widgets/views/top_offers_near_me.dart';
 import 'package:sixam_mart/features/home/widgets/views/visit_again_view.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 
@@ -49,6 +50,7 @@ class GroceryHomeScreen extends StatelessWidget {
       const MiddleSectionBannerView(),
       const BestReviewItemView(),
       const JustForYouView(),
+      const TopOffersNearMe(),
       const ItemThatYouLoveView(forShop: false),
       isLoggedIn ? const PromoCodeBannerView() : const SizedBox(),
       const NewOnMartView(isPharmacy: false, isShop: false),

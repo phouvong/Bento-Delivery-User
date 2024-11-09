@@ -129,7 +129,7 @@ class ItemTitleViewWidget extends StatelessWidget {
               const SizedBox(height: Dimensions.paddingSizeLarge),
             ],
           ) : const SizedBox(),
-          const SizedBox(height: Dimensions.paddingSizeSmall),
+          SizedBox(height: (itemController.item!.genericName != null && itemController.item!.genericName!.isNotEmpty) ? Dimensions.paddingSizeSmall : 0),
 
           Row(crossAxisAlignment: CrossAxisAlignment.center, children: [
             Container(
@@ -164,10 +164,11 @@ class ItemTitleViewWidget extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: Dimensions.paddingSizeSmall),
+          //const SizedBox(height: Dimensions.paddingSizeSmall),
 
-          RatingBar(rating: item!.avgRating, ratingCount: item!.ratingCount, size: 18),
-          const SizedBox(height: Dimensions.paddingSizeSmall),
+          if(item!.ratingCount! > 0)
+            RatingBar(rating: item!.avgRating, ratingCount: item!.ratingCount, size: 18),
+          SizedBox(height: item!.ratingCount! > 0 ? Dimensions.paddingSizeSmall : 0),
 
           Row(children: [
             discount! > 0 ? Flexible(
@@ -181,7 +182,7 @@ class ItemTitleViewWidget extends StatelessWidget {
                 ),
               ),
             ) : const SizedBox(),
-            const SizedBox(width: 10),
+            SizedBox(width: discount > 0 ? 10 : 0),
 
             Text(
               '${PriceConverter.convertPrice(startingPrice, discount: discount, discountType: discountType)}'

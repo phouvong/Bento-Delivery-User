@@ -43,14 +43,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/module_view.dart';
 import 'package:sixam_mart/features/parcel/screens/parcel_category_screen.dart';
+import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
 
   static Future<void> loadData(bool reload, {bool fromModule = false}) async {
-    Get.find<LocationController>().syncZoneData();
+    await Get.find<LocationController>().syncZoneData();
     Get.find<FlashSaleController>().setEmptyFlashSale(fromModule: fromModule);
+    await Get.find<CartController>().getCartDataOnline();
     if(Get.find<SplashController>().module != null && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isParcel!) {
       Get.find<BannerController>().getBannerList(reload);
       if(Get.find<SplashController>().module!.moduleType.toString() == AppConstants.grocery) {
@@ -69,6 +71,7 @@ class HomeScreen extends StatefulWidget {
       Get.find<CampaignController>().getItemCampaignList(reload);
       Get.find<ItemController>().getPopularItemList(reload, 'all', false);
       Get.find<StoreController>().getLatestStoreList(reload, 'all', false);
+      Get.find<StoreController>().getTopOfferStoreList(reload, false);
       Get.find<ItemController>().getReviewedItemList(reload, 'all', false);
       Get.find<ItemController>().getRecommendedItemList(reload, 'all', false);
       Get.find<StoreController>().getStoreList(1, reload);
@@ -212,6 +215,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   Get.find<CampaignController>().getBasicCampaignList(true);
                   await Get.find<ItemController>().getPopularItemList(true, 'all', false);
                   await Get.find<StoreController>().getLatestStoreList(true, 'all', false);
+                  await Get.find<StoreController>().getTopOfferStoreList(true, false);
                   await Get.find<ItemController>().getReviewedItemList(true, 'all', false);
                   await Get.find<StoreController>().getStoreList(1, true);
                   Get.find<AdvertisementController>().getAdvertisementList();

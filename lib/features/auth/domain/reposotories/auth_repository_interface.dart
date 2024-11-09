@@ -6,9 +6,13 @@ import 'package:sixam_mart/interfaces/repository_interface.dart';
 
 abstract class AuthRepositoryInterface extends RepositoryInterface{
   bool isSharedPrefNotificationActive();
-  Future<ResponseModel> registration(SignUpBodyModel signUpBody);
-  Future<Response> login({String? phone, String? password});
-  Future<bool> saveUserToken(String token);
+  Future<Response> registration(SignUpBodyModel signUpBody);
+  //Future<Response> login({String? phone, String? password});
+  Future<Response> login({required String emailOrPhone, required String password, required String loginType, required String fieldType});
+  Future<Response> otpLogin({required String phone, required String otp, required String loginType, required String verified});
+  Future<Response> updatePersonalInfo({required String name, required String? phone, required String loginType, required String? email, required String? referCode});
+  //Future<bool> saveUserToken(String token);
+  Future<bool> saveUserToken(String token, {bool alreadyInApp = false});
   Future<Response> updateToken({String notificationDeviceToken = ''});
   Future<bool> saveSharedPrefGuestId(String id);
   String getSharedPrefGuestId();
@@ -16,8 +20,8 @@ abstract class AuthRepositoryInterface extends RepositoryInterface{
   bool isGuestLoggedIn();
   Future<bool> clearSharedData({bool removeToken = true});
   Future<ResponseModel> guestLogin();
-  Future<Response> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout);
-  Future<Response> registerWithSocialMedia(SocialLogInBody socialLogInBody);
+  //Future<Response> loginWithSocialMedia(SocialLogInBody socialLogInBody, int timeout);
+  Future<Response> loginWithSocialMedia(SocialLogInBody socialLogInModel);
   bool isLoggedIn();
   Future<bool> clearSharedAddress();
   Future<void> saveUserNumberAndPassword(String number, String password, String countryCode);

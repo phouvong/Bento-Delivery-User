@@ -105,6 +105,7 @@ class _WebCategoryViewWidgetState extends State<WebCategoryViewWidget> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                               child: CustomImage(
+                                isHovered: hovered,
                                 image: '${widget.categoryController.categoryList![index].imageFullUrl}',
                                 height: 80, width: double.infinity, fit: BoxFit.cover,
                               ),
@@ -222,43 +223,48 @@ class _PharmacyCategoryViewState extends State<PharmacyCategoryView> {
                       left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
                       right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
                     ),
-                    child: InkWell(
-                      hoverColor: Colors.transparent,
-                      onTap: () => Get.toNamed(RouteHelper.getCategoryItemRoute(
-                        widget.categoryController.categoryList![index].id, widget.categoryController.categoryList![index].name!,
-                      )),
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      child: Container(
-                        width: 100,
-                        decoration: BoxDecoration(
-                          borderRadius: const BorderRadius.only(topLeft: Radius.circular(100), topRight: Radius.circular(100)),
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Theme.of(context).primaryColor.withOpacity(0.3),
-                              Theme.of(context).cardColor.withOpacity(0.3),
-                            ],
-                          ),
-                        ),
-                        child: Column(children: [
-
-                          ClipRRect(
-                            borderRadius: const BorderRadius.only(topLeft: Radius.circular(100), topRight: Radius.circular(100)),
-                            child: CustomImage(
-                              image: '${widget.categoryController.categoryList![index].imageFullUrl}',
-                              height: 80, width: double.infinity, fit: BoxFit.cover,
-                            ),
-                          ),
-                          const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                          Expanded(child: Text(
-                            widget.categoryController.categoryList![index].name!,
-                            style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
-                            maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                    child: TextHover(
+                      builder: (hovered) {
+                        return InkWell(
+                          hoverColor: Colors.transparent,
+                          onTap: () => Get.toNamed(RouteHelper.getCategoryItemRoute(
+                            widget.categoryController.categoryList![index].id, widget.categoryController.categoryList![index].name!,
                           )),
-                        ]),
-                      ),
+                          borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                          child: Container(
+                            width: 100,
+                            decoration: BoxDecoration(
+                              borderRadius: const BorderRadius.only(topLeft: Radius.circular(100), topRight: Radius.circular(100)),
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Theme.of(context).primaryColor.withOpacity(0.3),
+                                  Theme.of(context).cardColor.withOpacity(0.3),
+                                ],
+                              ),
+                            ),
+                            child: Column(children: [
+
+                              ClipRRect(
+                                borderRadius: const BorderRadius.only(topLeft: Radius.circular(100), topRight: Radius.circular(100)),
+                                child: CustomImage(
+                                  isHovered: hovered,
+                                  image: '${widget.categoryController.categoryList![index].imageFullUrl}',
+                                  height: 80, width: double.infinity, fit: BoxFit.cover,
+                                ),
+                              ),
+                              const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                              Expanded(child: Text(
+                                widget.categoryController.categoryList![index].name!,
+                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
+                                maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                              )),
+                            ]),
+                          ),
+                        );
+                      }
                     ),
                   );
                 },
@@ -360,38 +366,43 @@ class _FoodCategoryViewState extends State<FoodCategoryView> {
                     left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
                     right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
                   ),
-                  child: InkWell(
-                    hoverColor: Colors.transparent,
-                    onTap: () => Get.toNamed(RouteHelper.getCategoryItemRoute(
-                      widget.categoryController.categoryList![index].id, widget.categoryController.categoryList![index].name!,
-                    )),
-                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    child: SizedBox(
-                      width: 120,
-                      child: Column(children: [
-
-                        Container(
-                          decoration: BoxDecoration(
-                            borderRadius: const BorderRadius.all(Radius.circular(100)),
-                            color: Theme.of(context).cardColor,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: const BorderRadius.all(Radius.circular(100)),
-                            child: CustomImage(
-                              image: '${widget.categoryController.categoryList![index].imageFullUrl}',
-                              height: 120, width: double.infinity, fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                        const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                        Expanded(child: Text(
-                          widget.categoryController.categoryList![index].name!,
-                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
-                          maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                  child: TextHover(
+                    builder: (hovered) {
+                      return InkWell(
+                        hoverColor: Colors.transparent,
+                        onTap: () => Get.toNamed(RouteHelper.getCategoryItemRoute(
+                          widget.categoryController.categoryList![index].id, widget.categoryController.categoryList![index].name!,
                         )),
-                      ]),
-                    ),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        child: SizedBox(
+                          width: 120,
+                          child: Column(children: [
+
+                            Container(
+                              decoration: BoxDecoration(
+                                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                                color: Theme.of(context).cardColor,
+                              ),
+                              child: ClipRRect(
+                                borderRadius: const BorderRadius.all(Radius.circular(100)),
+                                child: CustomImage(
+                                  isHovered: hovered,
+                                  image: '${widget.categoryController.categoryList![index].imageFullUrl}',
+                                  height: 120, width: double.infinity, fit: BoxFit.cover,
+                                ),
+                              ),
+                            ),
+                            const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                            Expanded(child: Text(
+                              widget.categoryController.categoryList![index].name!,
+                              style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color),
+                              maxLines: 2, overflow: TextOverflow.ellipsis, textAlign: TextAlign.center,
+                            )),
+                          ]),
+                        ),
+                      );
+                    }
                   ),
                 );
               },

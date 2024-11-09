@@ -13,6 +13,8 @@ enum NotificationType{
   referral_earn,
   //ignore: constant_identifier_names
   cashback,
+  //ignore: constant_identifier_names
+  loyalty_point
 }
 
 class NotificationBodyModel {
@@ -85,6 +87,7 @@ class NotificationBodyModel {
       NotificationType.unblock.toString(): NotificationType.unblock,
       NotificationType.referral_earn.toString(): NotificationType.referral_earn,
       NotificationType.cashback.toString(): NotificationType.cashback,
+      NotificationType.loyalty_point.toString(): NotificationType.loyalty_point,
     };
 
     return enumMap[enumString] ?? NotificationType.general;

@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
 import 'package:sixam_mart/features/home/widgets/highlight_widget.dart';
 import 'package:sixam_mart/features/home/widgets/views/category_view.dart';
+import 'package:sixam_mart/features/home/widgets/views/top_offers_near_me.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/features/home/widgets/bad_weather_widget.dart';
@@ -46,6 +47,7 @@ class FoodHomeScreen extends StatelessWidget {
       isLoggedIn ? const VisitAgainView(fromFood: true) : const SizedBox(),
       const SpecialOfferView(isFood: true, isShop: false),
       const HighlightWidget(),
+      const TopOffersNearMe(),
       const BestReviewItemView(),
       const BestStoreNearbyView(),
       const ItemThatYouLoveView(forShop: false),

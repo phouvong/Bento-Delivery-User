@@ -1,16 +1,17 @@
 import 'dart:convert';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/auth/screens/new_user_setup_screen.dart';
 import 'package:sixam_mart/features/brands/screens/brands_product_screen.dart';
 import 'package:sixam_mart/features/brands/screens/brands_screen.dart';
 import 'package:sixam_mart/features/business/screens/subscription_payment_screen.dart';
 import 'package:sixam_mart/features/business/screens/subscription_success_or_failed_screen.dart';
 import 'package:sixam_mart/features/chat/domain/models/order_chat_model.dart';
 import 'package:sixam_mart/features/loyalty/screens/loyalty_screen.dart';
+import 'package:sixam_mart/features/profile/domain/models/update_user_model.dart';
 import 'package:sixam_mart/features/refer_and_earn/screens/refer_and_earn_screen.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/features/checkout/domain/models/place_order_body_model.dart';
-import 'package:sixam_mart/features/auth/domain/models/social_log_in_body.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_campaign_model.dart';
 import 'package:sixam_mart/features/chat/domain/models/conversation_model.dart';
@@ -146,8 +147,8 @@ class RouteHelper {
   static const String brandsItemScreen = '/brands-item-screen';
 
   static const String subscriptionSuccess = '/subscription-success';
-  // static const String businessPlan = '/business-plan';
   static const String subscriptionPayment = '/subscription-payment';
+  static const String newUserSetupScreen = '/new-user-setup-screen';
 
 
   static String getInitialRoute({bool fromSplash = false}) => '$initial?from-splash=$fromSplash';
@@ -163,24 +164,41 @@ class RouteHelper {
   static String getOnBoardingRoute() => onBoarding;
   static String getSignInRoute(String page) => '$signIn?page=$page';
   static String getSignUpRoute() => signUp;
-  static String getVerificationRoute(String? number, String? token, String page, String pass, {String? session}) {
+  /*static String getVerificationRoute(String? number, String? token, String page, String pass, {String? session}) {
     String? authSession;
     if(session != null) {
       authSession = base64Url.encode(utf8.encode(session));
     }
     return '$verification?page=$page&number=$number&token=$token&pass=$pass&session=$authSession';
+  }*/
+
+  static String getVerificationRoute(String? number, String? email, String? token, String page, String? pass, String loginType, {String? session, UpdateUserModel? updateUserModel}) {
+    String? authSession;
+    String? userModel;
+    if(session != null) {
+      authSession = base64Url.encode(utf8.encode(session));
+    }
+    if(updateUserModel != null) {
+      List<int> encoded = utf8.encode(jsonEncode(updateUserModel.toJson()));
+      userModel = base64Encode(encoded);
+    }
+    return '$verification?page=$page&number=$number&email=$email&token=$token&pass=$pass&login_type=$loginType&session=$authSession&user_model=$userModel';
   }
+
   static String getAccessLocationRoute(String page) => '$accessLocation?page=$page';
   static String getPickMapRoute(String? page, bool canRoute) => '$pickMap?page=$page&route=${canRoute.toString()}';
   static String getInterestRoute() => interest;
   static String getMainRoute(String page) => '$main?page=$page';
-  static String getForgotPassRoute(bool fromSocialLogin, SocialLogInBody? socialLogInBody) {
+  /*static String getForgotPassRoute(bool fromSocialLogin, SocialLogInBody? socialLogInBody) {
     String? data;
     if(fromSocialLogin) {
       data = base64Encode(utf8.encode(jsonEncode(socialLogInBody!.toJson())));
     }
     return '$forgotPassword?page=${fromSocialLogin ? 'social-login' : 'forgot-password'}&data=${fromSocialLogin ? data : 'null'}';
-  }
+  }*/
+
+  static String getForgotPassRoute() => forgotPassword;
+
   static String getResetPasswordRoute(String? phone, String token, String page) => '$resetPassword?phone=$phone&token=$token&page=$page';
   static String getSearchRoute({String? queryText}) => '$search?query=${queryText ?? ''}';
   static String getStoreRoute({required int? id, required String page}) {
@@ -255,7 +273,7 @@ class RouteHelper {
   static String getOrderRoute() => order;
   static String getItemDetailsRoute(int? itemID, bool isRestaurant) => '$itemDetails?id=$itemID&page=${isRestaurant ? 'restaurant' : 'item'}';
   static String getWalletRoute({String? fundStatus, String? token,  bool fromNotification = false}) => '$wallet?payment_status=$fundStatus&token=$token&from_notification=$fromNotification';
-  static String getLoyaltyRoute() => loyalty;
+  static String getLoyaltyRoute({bool fromNotification = false}) => '$loyalty?from_notification=$fromNotification';
   static String getReferAndEarnRoute() => referAndEarn;
   static String getChatRoute({required NotificationBodyModel? notificationBody, User? user, int? conversationID, int? index, bool? fromNotification, OrderChatModel? orderChatModel}) {
     String notificationBody0 = 'null';
@@ -293,9 +311,10 @@ class RouteHelper {
   static String getBrandsItemScreen(int brandId, String brandName) => '$brandsItemScreen?brandId=$brandId&brandName=$brandName';
 
   static String getSubscriptionSuccessRoute({String? status, required bool fromSubscription, int? storeId}) => '$subscriptionSuccess?flag=$status&from_subscription=$fromSubscription&store_id=$storeId';
-  //static String getBusinessPlanRoute(int? storeId) => '$businessPlan?id=$storeId';
-  // static String getBusinessPlanRoute(int? storeId, int? packageId) => '$businessPlan?id=$storeId&packageId=$packageId';
   static String getSubscriptionPaymentRoute({required int? storeId, required int? packageId}) => '$subscriptionPayment?store-id=$storeId&package-id=$packageId';
+  static String getNewUserSetupScreen({required String name, required String loginType, required String? phone, required String? email}) {
+    return '$newUserSetupScreen?name=$name&login_type=$loginType&phone=$phone&email=$email';
+  }
 
   static List<GetPage> routes = [
     GetPage(name: initial, page: () => getRoute(DashboardScreen(pageIndex: 0, fromSplash: Get.parameters['from-splash'] == 'true'))),
@@ -312,10 +331,10 @@ class RouteHelper {
     GetPage(name: signIn, page: () => SignInScreen(
       exitFromApp: Get.parameters['page'] == signUp || Get.parameters['page'] == splash || Get.parameters['page'] == onBoarding,
       backFromThis: Get.parameters['page'] != splash && Get.parameters['page'] != onBoarding,
-      fromNotification: Get.parameters['page'] == notification,
+      fromNotification: Get.parameters['page'] == notification, fromResetPassword: Get.parameters['page'] == resetPassword,
     )),
     GetPage(name: signUp, page: () => const SignUpScreen()),
-    GetPage(name: verification, page: () {
+    /*GetPage(name: verification, page: () {
       List<int> decode = base64Decode(Get.parameters['pass']!.replaceAll(' ', '+'));
       String data = utf8.decode(decode);
       String? session;
@@ -326,7 +345,31 @@ class RouteHelper {
         number: Get.parameters['number'], fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token'],
         password: data, firebaseSession: session,
       );
+    }),*/
+
+    GetPage(name: verification, page: () {
+      String? pass;
+      if(Get.parameters['pass'] != 'null') {
+        List<int> decode = base64Decode(Get.parameters['pass']!.replaceAll(' ', '+'));
+        pass = utf8.decode(decode);
+      }
+      String? session;
+      if(Get.parameters['session'] != null && Get.parameters['session'] != 'null') {
+        session = utf8.decode(base64Url.decode(Get.parameters['session'] ?? ''));
+      }
+      UpdateUserModel? userModel;
+      if(Get.parameters['user_model'] != null && Get.parameters['user_model'] != 'null') {
+        List<int> decode = base64Decode(Get.parameters['user_model'] != null ? Get.parameters['user_model']!.replaceAll(' ', '+') : '');
+        userModel = UpdateUserModel.fromJson(jsonDecode(utf8.decode(decode)));
+      }
+      return VerificationScreen(
+        number: Get.parameters['number'] != '' && Get.parameters['number'] != 'null' ? Get.parameters['number'] : null,
+        fromSignUp: Get.parameters['page'] == signUp, token: Get.parameters['token'], password: pass,
+        email: Get.parameters['email'] != '' && Get.parameters['email'] != 'null' ? Get.parameters['email'] : null, loginType: Get.parameters['login_type']!,
+        firebaseSession: session, fromForgetPassword: Get.parameters['page'] == forgotPassword, userModel: userModel,
+      );
     }),
+
     GetPage(name: accessLocation, page: () => AccessLocationScreen(
       fromSignUp: Get.parameters['page'] == signUp, fromHome: Get.parameters['page'] == 'home', route: null,
     )),
@@ -344,14 +387,18 @@ class RouteHelper {
       pageIndex: Get.parameters['page'] == 'home' ? 0 : Get.parameters['page'] == 'favourite' ? 1
           : Get.parameters['page'] == 'cart' ? 2 : Get.parameters['page'] == 'order' ? 3 : Get.parameters['page'] == 'menu' ? 4 : 0,
     ))),
-    GetPage(name: forgotPassword, page: () {
+
+    /*GetPage(name: forgotPassword, page: () {
       SocialLogInBody? data;
       if(Get.parameters['page'] == 'social-login') {
         List<int> decode = base64Decode(Get.parameters['data']!.replaceAll(' ', '+'));
         data = SocialLogInBody.fromJson(jsonDecode(utf8.decode(decode)));
       }
       return ForgetPassScreen(fromSocialLogin: Get.parameters['page'] == 'social-login', socialLogInBody: data);
-    }),
+    }),*/
+
+    GetPage(name: forgotPassword, page: () => const ForgetPassScreen()),
+
     GetPage(name: resetPassword, page: () => NewPassScreen(
       resetToken: Get.parameters['token'], number: Get.parameters['phone'], fromPasswordChange: Get.parameters['page'] == 'password-change',
     )),
@@ -462,7 +509,8 @@ class RouteHelper {
     GetPage(name: rateReview, page: () => getRoute(Get.arguments ?? const NotFound())),
     GetPage(name: storeReview, page: () => getRoute(ReviewScreen(storeID: Get.parameters['storeID'], storeName: Get.parameters['storeName'], store: Store.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['store']!.replaceAll(' ', '+')))))))),
     GetPage(name: allStores, page: () => getRoute(AllStoreScreen(
-      isPopular: Get.parameters['page'] == 'popular', isFeatured: Get.parameters['page'] == 'featured', isNearbyStore: Get.parameters['nearby'] == 'true',
+      isPopular: Get.parameters['page'] == 'popular', isFeatured: Get.parameters['page'] == 'featured',
+      isTopOfferStore: Get.parameters['page'] == 'topOffer', isNearbyStore: Get.parameters['nearby'] == 'true',
     ))),
     GetPage(name: itemImages, page: () => getRoute(ImageViewerScreen(
       item: Item.fromJson(jsonDecode(utf8.decode(base64Url.decode(Get.parameters['item']!.replaceAll(' ', '+'))))),
@@ -486,7 +534,7 @@ class RouteHelper {
         fromNotification: Get.parameters['from_notification'] == 'true',
       ));
     }),
-    GetPage(name: loyalty, page: () => getRoute(const LoyaltyScreen())),
+    GetPage(name: loyalty, page: () => getRoute(LoyaltyScreen(fromNotification: Get.parameters['from_notification'] == 'true'))),
     GetPage(name: referAndEarn, page: () => getRoute(const ReferAndEarnScreen())),
     GetPage(name: messages, page: () {
       NotificationBodyModel? notificationBody;
@@ -534,9 +582,12 @@ class RouteHelper {
     )),
 
     GetPage(name: subscriptionSuccess, page: () => SubscriptionSuccessOrFailedScreen(success: Get.parameters['flag'] == 'success', fromSubscription: Get.parameters['from_subscription'] == 'true', storeId: (Get.parameters['store_id'] != null && Get.parameters['store_id'] != 'null') ? int.parse(Get.parameters['store_id']!) : null)),
-    //GetPage(name: businessPlan, page: () => BusinessPlanScreen(storeId: int.parse(Get.parameters['id']!))),
-    // GetPage(name: businessPlan, page: () => BusinessPlanScreen(storeId: int.parse(Get.parameters['id']!), packageId: Get.parameters['id'] != 'null' ? int.parse(Get.parameters['id']!) : null)),
     GetPage(name: subscriptionPayment, page: () => SubscriptionPaymentScreen(storeId: int.parse(Get.parameters['store-id']!), packageId: int.parse(Get.parameters['package-id']!))),
+    GetPage(name: newUserSetupScreen, page: () => NewUserSetupScreen(
+      name: Get.parameters['name']!, loginType: Get.parameters['login_type']!,
+      phone: Get.parameters['phone'] != '' && Get.parameters['phone'] != 'null' ? Get.parameters['phone']!.replaceAll(' ', '+') : null,
+      email: Get.parameters['email'] != '' && Get.parameters['email'] != 'null' ? Get.parameters['email']!.replaceAll(' ', '+') : null,
+    )),
   ];
 
   static Widget getRoute(Widget navigateTo, {AccessLocationScreen? locationScreen, bool byPuss = false}) {

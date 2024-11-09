@@ -6,6 +6,7 @@ import 'package:shimmer_animation/shimmer_animation.dart';
 import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_favourite_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
+import 'package:sixam_mart/common/widgets/hover/text_hover.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/features/store/screens/store_screen.dart';
@@ -124,114 +125,119 @@ class HighlightStoreWidget extends StatelessWidget {
         color: Theme.of(context).cardColor,
         border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.07), width: 2),
       ),
-      child: InkWell(
-        onTap: (){
-          Get.toNamed(RouteHelper.getStoreRoute(id: advertisement.storeId, page: 'store'),
-            arguments: StoreScreen(store: Store(id: advertisement.storeId), fromModule: false),
-          );
-        },
-        child: Column(children: [
+      child: TextHover(
+        builder: (hovered) {
+          return InkWell(
+            onTap: (){
+              Get.toNamed(RouteHelper.getStoreRoute(id: advertisement.storeId, page: 'store'),
+                arguments: StoreScreen(store: Store(id: advertisement.storeId), fromModule: false),
+              );
+            },
+            child: Column(children: [
 
-          Expanded(
-            flex: 5,
-            child: ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusDefault)),
-              child: Stack(
-                children: [
-                  CustomImage(
-                    image: advertisement.coverImageFullUrl ?? '',
-                    fit: BoxFit.cover, height: 160, width: double.infinity,
-                  ),
-
-                  (advertisement.isRatingActive == 1 || advertisement.isReviewActive == 1) ? Positioned(
-                    right: 10, bottom: 10,
-                    child: Container(
-                      padding: const EdgeInsets.all(5),
-                      decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor,
-                        borderRadius: BorderRadius.circular(50),
-                        border: Border.all(color: Theme.of(context).cardColor, width: 2),
-                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 0)],
+              Expanded(
+                flex: 5,
+                child: ClipRRect(
+                  borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusDefault)),
+                  child: Stack(
+                    children: [
+                      CustomImage(
+                        isHovered: hovered,
+                        image: advertisement.coverImageFullUrl ?? '',
+                        fit: BoxFit.cover, height: 160, width: double.infinity,
                       ),
-                      child: Row(
-                        children: [
-                          advertisement.isRatingActive == 1 ? Icon(Icons.star, color: Theme.of(context).cardColor, size: 15) : const SizedBox(),
-                          SizedBox(width: advertisement.isRatingActive == 1 ? 5 : 0),
 
-                          advertisement.isRatingActive == 1 ? Text('${advertisement.averageRating?.toStringAsFixed(1)}', style: robotoBold.copyWith(color: Theme.of(context).cardColor)) : const SizedBox(),
-                          SizedBox(width: advertisement.isRatingActive == 1 ? 5 : 0),
+                      (advertisement.isRatingActive == 1 || advertisement.isReviewActive == 1) ? Positioned(
+                        right: 10, bottom: 10,
+                        child: Container(
+                          padding: const EdgeInsets.all(5),
+                          decoration: BoxDecoration(
+                            color: Theme.of(context).primaryColor,
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border.all(color: Theme.of(context).cardColor, width: 2),
+                            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 0)],
+                          ),
+                          child: Row(
+                            children: [
+                              advertisement.isRatingActive == 1 ? Icon(Icons.star, color: Theme.of(context).cardColor, size: 15) : const SizedBox(),
+                              SizedBox(width: advertisement.isRatingActive == 1 ? 5 : 0),
 
-                          advertisement.isReviewActive == 1 ? Text('(${advertisement.reviewsCommentsCount})', style: robotoRegular.copyWith(color: Theme.of(context).cardColor)) : const SizedBox(),
-                        ],
-                      ),
-                    ),
-                  ) : const SizedBox(),
+                              advertisement.isRatingActive == 1 ? Text('${advertisement.averageRating?.toStringAsFixed(1)}', style: robotoBold.copyWith(color: Theme.of(context).cardColor)) : const SizedBox(),
+                              SizedBox(width: advertisement.isRatingActive == 1 ? 5 : 0),
 
-                ],
-              ),
-            ),
-          ),
+                              advertisement.isReviewActive == 1 ? Text('(${advertisement.reviewsCommentsCount})', style: robotoRegular.copyWith(color: Theme.of(context).cardColor)) : const SizedBox(),
+                            ],
+                          ),
+                        ),
+                      ) : const SizedBox(),
 
-          Expanded(
-            flex: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(12),
-              child: Row(children: [
-
-                Container(
-                  decoration: BoxDecoration(
-                    color: Theme.of(context).cardColor,
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1), width: 2),
-                  ),
-                  child: ClipOval(
-                    child: CustomImage(
-                      image: advertisement.profileImageFullUrl ?? '',
-                      height: 60, width: 60, fit: BoxFit.cover,
-                    ),
+                    ],
                   ),
                 ),
-                const SizedBox(width: Dimensions.paddingSizeSmall),
+              ),
 
-                Flexible(
-                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Expanded(
+                flex: 3,
+                child: Padding(
+                  padding: const EdgeInsets.all(12),
+                  child: Row(children: [
 
-                    Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                      Flexible(
-                        child: Text(
-                          advertisement.title ?? '', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600),
-                          maxLines: 1, overflow: TextOverflow.ellipsis
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Theme.of(context).cardColor,
+                        shape: BoxShape.circle,
+                        border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1), width: 2),
+                      ),
+                      child: ClipOval(
+                        child: CustomImage(
+                          image: advertisement.profileImageFullUrl ?? '',
+                          height: 60, width: 60, fit: BoxFit.cover,
                         ),
                       ),
-
-                      GetBuilder<FavouriteController>(builder: (favouriteController) {
-                        bool isWished = favouriteController.wishStoreIdList.contains(advertisement.storeId);
-                        return CustomFavouriteWidget(
-                          isWished: isWished,
-                          isStore: true,
-                          storeId: advertisement.storeId,
-                        );
-                      }),
-
-                    ]),
-                    const SizedBox(height: 3),
-
-                    Text(
-                      advertisement.description ?? '',
-                      style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
-                      maxLines: 2, overflow: TextOverflow.ellipsis,
                     ),
+                    const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                    Flexible(
+                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                        Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+                          Flexible(
+                            child: Text(
+                              advertisement.title ?? '', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge, fontWeight: FontWeight.w600),
+                              maxLines: 1, overflow: TextOverflow.ellipsis
+                            ),
+                          ),
+
+                          GetBuilder<FavouriteController>(builder: (favouriteController) {
+                            bool isWished = favouriteController.wishStoreIdList.contains(advertisement.storeId);
+                            return CustomFavouriteWidget(
+                              isWished: isWished,
+                              isStore: true,
+                              storeId: advertisement.storeId,
+                            );
+                          }),
+
+                        ]),
+                        const SizedBox(height: 3),
+
+                        Text(
+                          advertisement.description ?? '',
+                          style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
+                          maxLines: 2, overflow: TextOverflow.ellipsis,
+                        ),
+
+                      ]),
+                    ),
+
 
                   ]),
                 ),
+              ),
 
-
-              ]),
-            ),
-          ),
-
-        ]),
+            ]),
+          );
+        }
       ),
     );
   }

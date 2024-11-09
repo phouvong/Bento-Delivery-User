@@ -235,7 +235,7 @@ class ChatController extends GetxController implements GetxService {
     }else {
       List<XFile> imageFiles = await ImagePicker().pickMultiImage(imageQuality: 40);
       for(XFile xFile in imageFiles) {
-        if(_chatImage.length >= 3) {
+        if(_chatImage.length >= 5) {
           showCustomSnackBar('can_not_add_more_than_3_image'.tr);
           break;
         }else {

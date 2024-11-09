@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/api/api_client.dart';
@@ -30,6 +31,28 @@ class NotificationRepository implements NotificationRepositoryInterface {
   @override
   int? getSeenNotificationCount() {
     return sharedPreferences.getInt(AppConstants.notificationCount);
+  }
+
+  @override
+  List<int> getNotificationIdList() {
+    List<String>? list = [];
+    if(sharedPreferences.containsKey(AppConstants.notificationIdList)) {
+      list = sharedPreferences.getStringList(AppConstants.notificationIdList);
+    }
+    List<int> notificationIdList = [];
+    for (var id in list!) {
+      notificationIdList.add(jsonDecode(id));
+    }
+    return notificationIdList;
+  }
+
+  @override
+  void addSeenNotificationIdList(List<int> notificationList) {
+    List<String> list = [];
+    for (int id in notificationList) {
+      list.add(jsonEncode(id));
+    }
+    sharedPreferences.setStringList(AppConstants.notificationIdList, list);
   }
 
   @override

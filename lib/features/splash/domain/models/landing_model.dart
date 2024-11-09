@@ -25,6 +25,8 @@ class LandingModel {
   String? availableZoneImage;
   String? availableZoneImageFullUrl;
   List<AvailableZoneList>? availableZoneList;
+  int? joinSellerStatus;
+  int? joinDeliveryManStatus;
 
   LandingModel({
     this.fixedHeaderTitle,
@@ -52,6 +54,8 @@ class LandingModel {
     this.availableZoneImage,
     this.availableZoneImageFullUrl,
     this.availableZoneList,
+    this.joinSellerStatus,
+    this.joinDeliveryManStatus,
   });
 
   LandingModel.fromJson(Map<String, dynamic> json) {
@@ -90,6 +94,8 @@ class LandingModel {
         availableZoneList!.add(AvailableZoneList.fromJson(v));
       });
     }
+    joinSellerStatus = json['join_seller_status'];
+    joinDeliveryManStatus = json['join_delivery_man_status'];
   }
 
   Map<String, dynamic> toJson() {
@@ -125,6 +131,8 @@ class LandingModel {
     if (availableZoneList != null) {
       data['available_zone_list'] = availableZoneList!.map((v) => v.toJson()).toList();
     }
+    data['join_seller_status'] = joinSellerStatus;
+    data['join_delivery_man_status'] = joinDeliveryManStatus;
     return data;
   }
 }

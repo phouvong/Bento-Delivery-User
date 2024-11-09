@@ -12,7 +12,9 @@ class ApiChecker {
         Get.offAllNamed(RouteHelper.getInitialRoute());
       });
     }else {
-      showCustomSnackBar(response.statusText, getXSnackBar: getXSnackBar);
+      if(response.statusText != 'The guest id field is required.') {
+        showCustomSnackBar(response.statusText, getXSnackBar: getXSnackBar);
+      }
     }
   }
 }

@@ -5,17 +5,19 @@ class CustomValidator {
 
   static Future<PhoneValid> isPhoneValid(String number) async {
     String phone = '';
-    bool isValid = false;
-      try {
-        PhoneNumber phoneNumber = PhoneNumber.parse(number);
-        isValid = phoneNumber.isValid(type: PhoneNumberType.mobile);
-        if(isValid){
-          phone = '+${phoneNumber.countryCode}${phoneNumber.nsn}';
-        }
-      } catch (e) {
-        debugPrint('Phone Number is not parsing: $e');
+    String countryCode = '';
+    bool isValid = true;
+    try {
+      PhoneNumber phoneNumber = PhoneNumber.parse(number);
+      isValid = phoneNumber.isValid(type: PhoneNumberType.mobile);
+      countryCode = phoneNumber.countryCode;
+      if(isValid) {
+        phone = '+${phoneNumber.countryCode}${phoneNumber.nsn}';
       }
-    return PhoneValid(isValid: isValid, phone: phone);
+    } catch (e) {
+      debugPrint('Phone Number is not parsing: $e');
+    }
+    return PhoneValid(isValid: isValid, countryCode: countryCode,  phone: phone);
   }
 
   static bool isEmailValid(String email) {
@@ -35,6 +37,7 @@ class CustomValidator {
 
 class PhoneValid {
   bool isValid;
+  String countryCode;
   String phone;
-  PhoneValid({required this.isValid, required this.phone});
+  PhoneValid({required this.isValid, required this.countryCode, required this.phone});
 }

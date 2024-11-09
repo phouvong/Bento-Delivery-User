@@ -1,9 +1,14 @@
+import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
+import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
 import 'package:sixam_mart/features/notification/controllers/notification_controller.dart';
+import 'package:sixam_mart/features/notification/widgets/notification_bottom_sheet.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/date_converter.dart';
+import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
+import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
 import 'package:sixam_mart/common/widgets/custom_image.dart';
@@ -74,66 +79,136 @@ class _NotificationScreenState extends State<NotificationScreen> {
             child: SingleChildScrollView(
               physics: const AlwaysScrollableScrollPhysics(),
               child: FooterView(
-                child: SizedBox(width: Dimensions.webMaxWidth, child: ListView.builder(
-                  itemCount: notificationController.notificationList!.length,
-                  padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                  physics: const NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    DateTime originalDateTime = DateConverter.dateTimeStringToDate(notificationController.notificationList![index].createdAt!);
-                    DateTime convertedDate = DateTime(originalDateTime.year, originalDateTime.month, originalDateTime.day);
-                    bool addTitle = false;
-                    if(!dateTimeList.contains(convertedDate)) {
-                      addTitle = true;
-                      dateTimeList.add(convertedDate);
-                    }
-                    return Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                child: Column(children: [
+                  WebScreenTitleWidget(title: 'notification'.tr),
 
-                      addTitle ? Padding(
-                        padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeExtraSmall),
-                        child: Text(DateConverter.dateTimeStringToDateOnly(notificationController.notificationList![index].createdAt!)),
-                      ) : const SizedBox(),
+                  Center(
+                    child: SizedBox(width: Dimensions.webMaxWidth, child: ListView.builder(
+                      itemCount: notificationController.notificationList!.length,
+                      padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                      physics: const NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemBuilder: (context, index) {
+                        DateTime originalDateTime = DateConverter.dateTimeStringToDate(notificationController.notificationList![index].createdAt!);
+                        DateTime convertedDate = DateTime(originalDateTime.year, originalDateTime.month, originalDateTime.day);
+                        bool addTitle = false;
+                        if(!dateTimeList.contains(convertedDate)) {
+                          addTitle = true;
+                          dateTimeList.add(convertedDate);
+                        }
 
-                      InkWell(
-                        onTap: () {
-                          showDialog(context: context, builder: (BuildContext context) {
-                            return NotificationDialogWidget(notificationModel: notificationController.notificationList![index]);
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-                          child: Row(children: [
+                        bool isSeen = notificationController.getSeenNotificationIdList()!.contains(notificationController.notificationList![index].id);
 
-                            ClipOval(child: CustomImage(
-                              isNotification: true,
-                              height: 40, width: 40, fit: BoxFit.cover,
-                              image: '${notificationController.notificationList![index].imageFullUrl}',
-                            )),
-                            const SizedBox(width: Dimensions.paddingSizeSmall),
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                            Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                              Text(
-                                notificationController.notificationList![index].data!.title ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                                style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall),
+                            addTitle ? Padding(
+                              padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
+                              child: Text(
+                                DateConverter.dateTimeStringToDateOnly(notificationController.notificationList![index].createdAt!),
+                                style: robotoMedium.copyWith(color: Theme.of(context).hintColor),
                               ),
-                              Text(
-                                notificationController.notificationList![index].data!.description ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                                style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall),
+                            ) : const SizedBox(),
+
+                            InkWell(
+                              onTap: () {
+                                notificationController.addSeenNotificationId(notificationController.notificationList![index].id!);
+
+                                ResponsiveHelper.isDesktop(context) ? showDialog(context: context, builder: (BuildContext context) {
+                                  return NotificationDialogWidget(notificationModel: notificationController.notificationList![index]);
+                                }) : showModalBottomSheet(
+                                  isScrollControlled: true, useRootNavigator: true, context: Get.context!,
+                                  backgroundColor: Colors.white,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusExtraLarge), topRight: Radius.circular(Dimensions.radiusExtraLarge)),
+                                  ),
+                                  builder: (context) {
+                                    return ConstrainedBox(
+                                      constraints: BoxConstraints(maxHeight: MediaQuery.of(context).size.height * 0.8),
+                                      child: NotificationBottomSheet(notificationModel: notificationController.notificationList![index]),
+                                    );
+                                  },
+                                );
+
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: isSeen ? Theme.of(context).cardColor : Theme.of(context).hintColor.withOpacity(0.05),
+                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                ),
+                                padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+                                child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                    ),
+                                    padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall + 1),
+                                    child: CustomAssetImageWidget(
+                                      notificationController.notificationList![index].data!.type == 'push_notification' ? Images.pushNotificationIcon
+                                      : notificationController.notificationList![index].data!.type == 'order_status' ? Images.orderConfirmIcon : Images.referEarnIcon,
+                                      height: 30, width: 30, fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                                  Expanded(child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                    Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+
+                                      Expanded(
+                                        child: Text(
+                                          notificationController.notificationList![index].data!.title ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
+                                          style: robotoBold.copyWith(color: isSeen ? Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.5) : Theme.of(context).textTheme.bodyLarge?.color,
+                                            fontWeight: isSeen ? FontWeight.w500 : FontWeight.w700,
+                                          ),
+                                        ),
+                                      ),
+
+                                      Padding(
+                                        padding: const EdgeInsets.only(left: Dimensions.paddingSizeSmall),
+                                        child: Text(
+                                          DateConverter.dateTimeStringToFormattedTime(notificationController.notificationList![index].createdAt!),
+                                          style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: Dimensions.fontSizeSmall),
+                                        ),
+                                      ),
+
+                                    ]),
+                                    const SizedBox(height: Dimensions.paddingSizeExtraSmall),
+
+                                    Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                                      Expanded(
+                                        child: Text(
+                                          notificationController.notificationList![index].data!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
+                                          style: robotoRegular.copyWith(color: isSeen ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7)),
+                                        ),
+                                      ),
+                                      const SizedBox(width: Dimensions.paddingSizeSmall),
+
+                                      notificationController.notificationList![index].data!.type == 'push_notification' ? ClipRRect(
+                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                        child: CustomImage(
+                                          placeholder: Images.placeholder,
+                                          image: '${notificationController.notificationList![index].imageFullUrl}',
+                                          height: 45, width: 75, fit: BoxFit.cover,
+                                        ),
+                                      ) : const SizedBox.shrink(),
+
+                                    ]),
+
+                                  ])),
+
+                                ]),
                               ),
-                            ])),
+                            ),
 
                           ]),
-                        ),
-                      ),
-
-                      Padding(
-                        padding: const EdgeInsets.only(left: 50),
-                        child: Divider(color: Theme.of(context).disabledColor, thickness: 1),
-                      ),
-
-                    ]);
-                  },
-                )),
+                        );
+                      },
+                    )),
+                  ),
+                ]),
               ),
             ),
           ) : NoDataScreen(text: 'no_notification_found'.tr, showFooter: true) : const Center(child: CircularProgressIndicator());

@@ -65,7 +65,7 @@ class BannerRepository implements BannerRepositoryInterface {
   Future<PromotionalBanner?> _getPromotionalBannerList() async {
     PromotionalBanner? promotionalBanner;
     Response response = await apiClient.getData(AppConstants.promotionalBannerUri);
-    if (response.statusCode == 200) {
+    if (response.statusCode == 200 && response.body is Map) {
       promotionalBanner = PromotionalBanner.fromJson(response.body);
     }
     return promotionalBanner;
