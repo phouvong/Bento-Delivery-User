@@ -2,7 +2,7 @@ import UIKit
 import Flutter
 import GoogleMaps
 import Firebase
-//import FBSDKCoreKit
+import FBSDKCoreKit
 
 @main
 @objc class AppDelegate: FlutterAppDelegate {

@@ -6,7 +6,8 @@ class Images {
   static const String bengali = 'assets/image/bangla.png';
   static const String call = 'assets/image/call.png';
   static const String checked = 'assets/image/checked.png';
-  static const String english = 'assets/image/english.png';
+  static const String english = 'assets/image/eng.png';
+  static const String lao = 'assets/image/lao.png';
   static const String spanish = 'assets/image/spanish.png';
   static const String locationMarker = 'assets/image/location_marker.png';
   static const String lock = 'assets/image/lock.png';

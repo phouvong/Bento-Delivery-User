@@ -2,7 +2,7 @@
   "project_info": {
     "project_number": "787586896333",
     "project_id": "bento-delivery-service",
-    "storage_bucket": "bento-delivery-service.appspot.com"
+    "storage_bucket": "bento-delivery-service.firebasestorage.app"
   },
   "client": [
     {
@@ -35,7 +35,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
+              "client_id": "787586896333-j8qti02vftjh2k4g1hso5ttlt2b57m8j.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -79,7 +79,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
+              "client_id": "787586896333-j8qti02vftjh2k4g1hso5ttlt2b57m8j.apps.googleusercontent.com",
               "client_type": 3
             },
             {
@@ -123,7 +123,7 @@
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "787586896333-nujda5kkqloq7vmao6emu73oahp8ctso.apps.googleusercontent.com",
+              "client_id": "787586896333-j8qti02vftjh2k4g1hso5ttlt2b57m8j.apps.googleusercontent.com",
               "client_type": 3
             },
             {
