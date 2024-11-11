@@ -56,14 +56,15 @@ Future<void> main() async {
         authDomain: "bento-delivery-service.firebaseapp.com",
         projectId: "bento-delivery-service",
         storageBucket: "bento-delivery-service.appspot.com",
+        storageBucket: "bento-delivery-service.firebasestorage.app",
         messagingSenderId: "787586896333",
-        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
     ));
   } else if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
       options: const FirebaseOptions(
         apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
         appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
+        appId: "1:787586896333:android:d1f7f473916bfe70c6b484",
         messagingSenderId: "787586896333",
         projectId: "bento-delivery-service",
       ),
