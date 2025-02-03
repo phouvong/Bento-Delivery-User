@@ -18,11 +18,13 @@ class SpecialOfferView extends StatelessWidget {
   Widget build(BuildContext context) {
     return GetBuilder<ItemController>(builder: (itemController) {
       List<Item>? discountedItemList = itemController.discountedItemList;
+      
+      // print()
 
       return discountedItemList != null ? discountedItemList.isNotEmpty ? Padding(
         padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
         child: Container(
-          color: Theme.of(context).disabledColor.withOpacity(0.1),
+          color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
           child: Column(children: [
 
             Padding(
@@ -65,7 +67,7 @@ class ItemShimmerView extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
       child: Container(
-        color: Theme.of(context).disabledColor.withOpacity(0.1),
+        color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
         child: Column(children: [
 
           Padding(

@@ -39,7 +39,7 @@ class DeliverySection extends StatelessWidget {
       ) : !takeAway ? Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
         ),
         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -69,7 +69,7 @@ class DeliverySection extends StatelessWidget {
               constraints: const BoxConstraints(minHeight:  90),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               ),
               child: Container(
                 height: 45,
@@ -151,7 +151,7 @@ class DeliverySection extends StatelessWidget {
             constraints: BoxConstraints(minHeight: ResponsiveHelper.isDesktop(context) ? 90 : 75),
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             ),
             child: CustomDropdown<int>(
 

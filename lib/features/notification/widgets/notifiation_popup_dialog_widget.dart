@@ -88,7 +88,7 @@ class _NewRequestDialogState extends State<NotificationPopUpDialogWidget> {
               child: SizedBox(width: 120, height: 40,child: TextButton(
                 onPressed: () => Get.back(),
                 style: TextButton.styleFrom(
-                  backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), padding: EdgeInsets.zero,
+                  backgroundColor: Theme.of(context).disabledColor.withValues(alpha: 0.3), padding: EdgeInsets.zero,
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
                 ),
                 child: Text(

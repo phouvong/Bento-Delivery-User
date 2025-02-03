@@ -49,7 +49,7 @@ class StoreDescriptionViewWidget extends StatelessWidget {
                 alignment: Alignment.center,
                 decoration: BoxDecoration(
                   borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Dimensions.radiusSmall)),
-                  color: Colors.black.withOpacity(0.6),
+                  color: Colors.black.withValues(alpha: 0.6),
                 ),
                 child: Text(
                   'closed_now'.tr, textAlign: TextAlign.center,
@@ -123,7 +123,7 @@ class StoreDescriptionViewWidget extends StatelessWidget {
               },
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.5),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 ),
                 padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

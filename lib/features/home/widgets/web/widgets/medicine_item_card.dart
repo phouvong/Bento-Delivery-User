@@ -107,7 +107,7 @@ class MedicineItemCard extends StatelessWidget {
                           children: List.generate(item.genericName!.length, (index) {
                             return Text(
                               '${item.genericName![index]}${item.genericName!.length-1 == index ? '.' : ', '}',
-                              style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5), fontSize: Dimensions.fontSizeSmall),
+                              style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5), fontSize: Dimensions.fontSizeSmall),
                               maxLines: 1, overflow: TextOverflow.ellipsis,
                             );
                           }),

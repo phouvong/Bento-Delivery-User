@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/custom_button.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
-import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/styles.dart';
 
@@ -43,17 +42,14 @@ class _DemoResetDialogWidgetState extends State<DemoResetDialogWidget> {
           ),
           const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
-          CustomButton(isLoading: _isLoading, buttonText: 'okay'.tr, onPressed: () {
+          CustomButton(isLoading: _isLoading, buttonText: 'okay'.tr, onPressed: () async {
             setState(() {
               _isLoading = true;
             });
-            Get.find<SplashController>().getConfigData().then((isSuccess) {
-              if(isSuccess) {
-                setState(() {
-                  _isLoading = false;
-                });
-                Get.offAllNamed(RouteHelper.getInitialRoute(fromSplash: true));
-              }
+            await Get.find<SplashController>().getConfigData(fromDemoReset: true);
+
+            setState(() {
+              _isLoading = false;
             });
           }),
         ]),

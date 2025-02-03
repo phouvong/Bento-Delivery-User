@@ -430,11 +430,9 @@
   "track_delivery": "ຕິດຕາມການຈັດສົ່ງ",
   "cancel_delivery": "ຍົກເລີກການຈັດສົ່ງ",
   "delivery_id": "ເລກທີການຈັດສົ່ງ",
-
   "version_1.1": "ເວີຊັ່ນ 1.1",
   "featured_stores": "ຮ້ານຄ້າແນະນຳ",
   "max_size_2_mb": "ຂະໜາດໃຫຍ່ສຸດ 2MB",
-
   "version_1.2": "ເວີຊັ່ນ 1.2",
   "no_parcel_category_data_found": "ບໍ່ພົບເຫັນຂໍ້ມູນໝວດໝູ່ພັດສະດຸ",
   "search_item_in_store": "ຄົ້ນຫາສິນຄ້າໃນຮ້ານຄ້າ...",
@@ -454,7 +452,6 @@
   "terms_and_condition": "ຂໍກຳໜົດ & ເງື່ອນໄຂ",
   "add_address": "ເພີ່ມທີ່ຢູ່",
   "subscribed_successfully": "ສະໝັກສຳເລັດແລ້ວ",
-
   "landing_page_texts": "ຂໍ້ຄວາມໜ້າ Landing",
   "more_than_just_a_reliable_ecommerce_platform": "ເປັນຫຼາຍກວ່າແພຣດຟອມອີຄອມເມີດທີ່ໜ້າເຊື່ອຖື",
   "choose_your_location_to_start_shopping": "ເລືອກສະຖານທີ່ຂອງທ່ານເພື່ອເລີ່ມຊັອບປິ້ງ",
@@ -474,7 +471,6 @@
   "pick_from_map": "ເລືອກຈາກແຜນທີ່",
   "register": "ລົງທະບຽນ",
   "register_as_delivery_man_and_earn_money": "ລົງທະບຽນເປັນໄຣເດີ້ແລະເລີ່ມສ້າງລາຍຮັບເລີຍ",
-
   "version_1.4": "ເວີຊັ່ນ 1.4",
   "street_number": "ເລກຖະໜົນ",
   "house": "ເຮືອນ",
@@ -493,14 +489,12 @@
   "item_details": "ລາຍລະອຽດເຄື່ອງ",
   "enter_sender_name": "ລະບຸຊື່ຜູ້ສົ່ງ",
   "enter_sender_phone_number": "ລະບຸເບີຜູ້ສົ່ງ",
-
   "your_account_remove_successfully": "ບັນຊີຂອງທ່ານໄດ້ຖືກລົບອອກສຳເລັດແລ້ວ",
   "there_is_a_problem_on_removing_your_account": "ມີປັນຫາການລົບບັນຊີຂອງທ່ານ",
   "delete_account": "ລົບບັນຊີ",
   "are_you_sure_to_delete_account": "ທ່ານແນ່ໃຈບໍ່ວ່າລຶບບັນຊີຂອງທ່ານ?",
   "it_will_remove_your_all_information": "ມັນຈະລຶບຂໍ້ມູນທັງໝົດຂອງທ່ານອອກ.",
   "no_restaurant_data_found": "ບໍ່ພົບຂໍ້ມູນຮ້ານອາຫານ",
-
   "loyalty_points": "ຄະແນນສະມາຊິກ",
   "wallet_amount": "ຈຳນວນເງິນໃນກະເປົາ",
   "convert_to_currency": "ປ່ຽນເປັນຕົວເງິນ",
@@ -540,7 +534,6 @@
   "debit": "ອອກ",
   "you_do_not_have_sufficient_balance_in_wallet": "ທ່ານບໍ່ມີຍອດເງິນພຽງພໍໃນກະເປົາ",
   "write_somethings": "ຂຽນບາງຢ່າງ",
-
   "version_5.8": "ເວີຊັ່ນ 5.8",
   "write_something": "ຂຽນບາງຢ່າງ...",
   "live_chat": "ສົນທະນາ",
@@ -661,7 +654,6 @@
   "please_accept_privacy_policy_trams_conditions_refund_policy_first": "ກະລຸນາຍອມຮັບນະໂຍບາຍຄວາມເປັນສ່ວນຕົວ, ຂໍ້ກຳໜົດ & ເງື່ອນໄຂ ແລະ ນະໂຍບາຍການຂໍເງິນຄືນ",
   "add_voucher": "ເພີ່ມບັດ Voucher",
   "promo_code": "ລະຫັດໂປຣໂມ",
-
   "ride_sharing": "ແບ່ງປັນການຂັບຂີ່",
   "where_to_go": "ຢາກໄປໃສ?",
   "trip_history":"ປະຫວັດການເດີນທາງ",
@@ -773,7 +765,6 @@
   "switch_to_cod": "ປ່ຽນໄປເປັນ COD",
   "cancellation_note": "ບັນທຶກການຍົກເລີກ",
   "enter_pickup": "ເຂົ້າໄປເອົາ",
-
   "do_not_have_account": "ບໍ່ມີບັນຊີຜູ້ໃຊ້?",
   "already_have_account": "ມີບັນຊີຜູ້ໃຊ້ແລ້ວ?",
   "if_you_have_any_queries_feel_free_to_contact_with_our": "ຖ້າທ່ານມີຄຳຖາມໃດໆ ກະລຸນາຕິດຕໍ່ຫາພວກເຮົາ",
@@ -882,7 +873,6 @@
   "organic": "ອໍແກນິກ",
   "completed": "ສຳເລັດແລ້ວ",
   "all_products": "ສິນຄ້າທັງໝົດ",
-
   "Remove it from my cart": "ລົບອອກຈາກກະຕ່າ",
   "I’ll wait until it’s restocked": "ຂ້ອຍຈະຖ້າຈົນກວ່າຈະມີສິນຄ້າເຂົ້າມາຕື່ມ",
   "Please cancel the order": "ກະລຸນາຍົກເລີກການສັ່ງຊື້",
@@ -916,7 +906,6 @@
   "avoid_calling_phone": "ຫຼີກລ້ຽງການໂທຫາ",
   "come_with_no_sound": "ເຂົ້າມາໂດຍບໍ່ໃຊ້ສຽງ",
   "you_have_earned": "ທ່ານໄດ້ລາຍຮັບ",
-
   "service_charge": "ຄ່າບໍລິການ",
   "add_fund": "ເຕີມຍອດເງິນ",
   "add_fund_from_your_digital_account": "ເຕີມເງິນໂດຍບັນຊີດິຈິຕ້ອນຂອງທ່ານ",
@@ -982,7 +971,6 @@
   "convert_your_loyalty_points_into_wallet_money": "ປ່ຽນຄະແນນສະມາຊິກ ໄປເປັນຍອດເງິນໃນກະເປົາ",
   "amin_also_reward_their_top_customers_with_wallet_money": "ແອັດມິນຍັງໄດ້ໃຫ້ລາງວັນກັບລູກຄ້າດ້ວຍເງິນໃນກະເປົາອີກດ້ວຍ",
   "send_your_wallet_money_while_order": "ສົ່ງເງິນໃນກະເປົາຂອງທ່ານໃນລະຫວ່າງທີ່ກຳລັງອໍເດີ້",
-
   "valid_till": "ໃຊ້ໄດ້ຮອດ",
   "and_enjoy": "ແລະເພີດເພີນ",
   "bonus": "ໂບນັສ",
@@ -1016,7 +1004,6 @@
   "spend_on_order": "ໃຊ້ຈ່າຍໃນອໍເດີ້",
   "add_payment_method": "ເພີ່ມຊ່ອງທາງການຊຳລະ",
   "how_to_use": "ການນຳໃຊ້",
-
   "messages" : "ຂໍ້ຄວາມ",
   "search_" : "ຄົ້ນຫາ...",
   "start_a_new_message" : "ເລີ່ມສົ່ງຂໍ້ຄວາມໃໝ່",
@@ -1063,7 +1050,6 @@
   "order_is_on_the_way" : "ຄຳສັ່ງທີ່ຢູ່ລະຫວ່າງທາງ",
   "your_delivery_man_is_coming" : "ຜູ້ຈັດສົ່ງຂອງທ່ານກຳລັງມາ",
   "order_delivered" : "ຄຳສັ່ງທີ່ຈັດສົ່ງແລ້ວ",
-
   "bringing_happiness_from_door_to_door" : "ນຳສົ່ງຄວາມສຸກຮອດປະຕູເຮືອນທ່ານ",
   "ready_to_send_something_special" : "ພ້ອມຈະສົ່ງສິນຄ້ານຳເຮົາແລ້ວບໍ່?",
   "easiest_way_to_get_services" : "ຊ່ອງທາງຮັບການບໍລິການງ່າຍໆ",
@@ -1076,7 +1062,7 @@
   "mins" : "ນາທີ",
   "sec" : "ວິນາທີ",
   "most_popular_items" : "ສິນຄ້າທີ່ກຳລັງນິຍົມ",
-  "from_you" : "ໄກຈາກທ່ານ",
+  "কাছা": "From You",
   "open_now" : "ເປີດຢູ່",
   "item_that_you_love" : "ສິນຄ້າທີ່ທ່ານຕ້ອງມັກ",
   "best_store_nearby" : "ຮ້ານດັງທີ່ຢູ່ໃກ້ທ່ານ",
@@ -1147,8 +1133,6 @@
   "time_unit_can_not_be_empty" : "ຫົວໜ່ວຍເວລາບໍ່ສາມາດວ່າງເປົ່າ",
   "please_upload_identity_image" : "ກະລຸນາອັພໂຫລດຮູບການຢືນຢັນ",
   "please_select_deliveryman_type" : "ກະລຸນາເລືອກປະເພດຜູ້ຈັດສົ່ງ",
-
-
   "welcome_to" : "ຍິນດີຕ້ອນຮັບສູ່",
   "get_ready_for_a_special_welcome_gift_enjoy_a_special_discount_on_your_first_order_within" : "ກຽມພ້ອມເພື່ອທີ່ຈະຮັບເອົາຂອງຂວັນສຸດພິເສດ, ເພີດເພີນໄປກັບສ່ວນຫຼຸດພິເສດໃນຄໍາສັ່ງທໍາອິດຂອງທ່ານພາຍໃນ",
   "months" : "ເດືອນ.",
@@ -1178,7 +1162,6 @@
   "show_more" : "ສະແດງເພີ່ມເຕີມ",
   "show_less" : "ຫຍໍ້ການສະແດງ",
   "reviews" : "ຣີວິວ",
-
   "business_plan" : "ແຜນທຸລະກິດ",
   "store_info" : "ຂໍ້ມູນຮ້ານຄ້າ",
   "email_field_is_required" : "ຕ້ອງລະບຸອີເມວ",
@@ -1244,7 +1227,6 @@
   "write_street_number" : "ຂຽນເລກຖະໜົນ",
   "write_house_number" : "ຂຽນເລກທີເຮືອນ",
   "write_floor_number" : "ຂຽນຊັ້ນ",
-
   "write_level_name" : "ຂຽນລະດັບ",
   "write_delivery_address" : "ຂຽນທີ່ຢູ່ຈັດສົ່ງ",
   "write_name" : "ຂຽນຊື່",
@@ -1276,7 +1258,7 @@
   "no_category_available" : "ບໍ່ພົບເຫັນໝວດໝູ່",
   "restaurants_near_you" : "ຮ້ານອາຫານໃກ້ໆທ່ານ",
   "stores_near_you" : "ຮ້ານຄ້າໃກ້ທ່ານ",
-  "open_at" : "ເປີດເມື່ອ",
+  "open_at" : "ຈະເປີດເວລາ",
   "newly_joined" : "ເຂົ້າຮ່ວມໃໝ່",
   "popular" : "ທີ່ນິຍົມ",
   "and_create_account_successfully" : "ແລະສ້າງບັນຊີສຳເລັດແລ້ວ",
@@ -1302,8 +1284,6 @@
   "road": "ຖະໜົນ",
   "modules_are_available": "ມີໂມດູນສາມາດໃຊ້ໄດ້",
   "no_modules_are_available": "ບໍ່ມີໂມດູນທີ່ໃຊ້ໄດ້",
-  
-  
   "email_or_phone" : "ອີເມວ/ໂທລະສັບ",
   "enter_email_or_phone" : "ໃສ່ອີເມວຫລືເບີໂທ",
   "enter_valid_phone_number" : "ໃສ່ເບີໂທທີ່ຖືກຕ້ອງ",
@@ -1337,5 +1317,6 @@
   "we_have_a_verification_code" : "ພວກເຮົາໄດ້ສົ່ງລະຫັດຢືນຢັນໄປໃຫ້",
   "password_reset_successfully" : "ຣີເຊັດລະຫັດຜ່ານສຳເລັດແລ້ວ",
   "enter_name" : "ໃສ່ຊື່",
-  "timed_out_please_try_again_after_few_minutes" : "ໝົດເວລາ. ກະລຸນາລອງອີກຄັ້ງຫຼັງຈາກສອງສາມນາທີ"
+  "timed_out_please_try_again_after_few_minutes" : "ໝົດເວລາ. ກະລຸນາລອງອີກຄັ້ງຫຼັງຈາກສອງສາມນາທີ",
+  "from_you": "ຈາກທ່ານ"
 }

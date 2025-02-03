@@ -40,7 +40,7 @@ class ReviewItemCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               color: Theme.of(context).cardColor,
-              boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+              boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
             ),
             child: CustomInkWell(
               onTap: () => Get.find<ItemController>().navigateToItemPage(item, context),
@@ -126,7 +126,7 @@ class ReviewItemCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               color: Theme.of(context).cardColor,
-              boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+              boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
             ),
             child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
@@ -179,7 +179,7 @@ class ReviewItemCard extends StatelessWidget {
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
                               color: Theme.of(context).cardColor,
-                              boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                              boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.05), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                             ),
                             child: isFood ? Column(
                               crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -275,7 +275,7 @@ class ReviewItemCard extends StatelessWidget {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(112),
                                     color: Theme.of(context).cardColor,
-                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                                   ),
                                   child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
                                 ),

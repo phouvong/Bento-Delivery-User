@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_typeahead/flutter_typeahead.dart';
 import 'package:flutter_widget_from_html_core/flutter_widget_from_html_core.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_tool_tip_widget.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
@@ -84,7 +85,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
               height: 250,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                color: Theme.of(context).primaryColor.withOpacity(0.05),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
               ),
               child: Row(children: [
                 const SizedBox(width: 40),
@@ -115,19 +116,22 @@ class _WebLandingPageState extends State<WebLandingPage> {
             Stack(children: [
               ClipRRect(
                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                child: Opacity(opacity: 0.05, child: Image.asset(Images.landingBg, height: 130, width: context.width, fit: BoxFit.fill)),
+                child: Opacity(opacity: 0.05, child: SizedBox(
+                  height: 130, width: context.width,
+                  child: CustomAssetImageWidget(Images.landingBg, height: 130, width: context.width, fit: BoxFit.fill),
+                )),
               ),
               Container(
                 height: 130,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  color: Theme.of(context).primaryColor.withOpacity(0.05),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                 ),
                 child: Row(children: [
                   Expanded(flex: 3, child: Padding(
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                    child: Column(children: [
-                      Image.asset(Images.landingChooseLocation, height: 70, width: 70),
+                    child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
+                      const CustomAssetImageWidget(Images.landingChooseLocation, height: 70, width: 70),
                       const SizedBox(height: Dimensions.paddingSizeExtraSmall),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
@@ -151,11 +155,11 @@ class _WebLandingPageState extends State<WebLandingPage> {
                             hintText: 'search_location'.tr,
                             border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 1),
                             ),
                             enabledBorder: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(10),
-                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                              borderSide: BorderSide(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 1),
                             ),
                             hintStyle: Theme.of(context).textTheme.displayMedium!.copyWith(
                               fontSize: Dimensions.fontSizeDefault, color: Theme.of(context).disabledColor,
@@ -307,7 +311,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                             child: HtmlWidget(
                               splashController.moduleList![index].description ?? '',
                               key: Key(widget.route.toString()),
-                              textStyle: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.6)),
+                              textStyle: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.6)),
                               onTapUrl: (String url){
                                 return launchUrlString(url);
                               },
@@ -420,7 +424,7 @@ class _WebLandingPageState extends State<WebLandingPage> {
                                     decoration: BoxDecoration(
                                       color: Theme.of(context).cardColor,
                                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                      border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6), width: 1),
+                                      border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.6), width: 1),
                                       boxShadow: splashController.hoverStates[index] ? [const BoxShadow(color: Colors.black12, spreadRadius: 1, blurRadius: 5)] : [],
                                     ),
                                     child: Text(

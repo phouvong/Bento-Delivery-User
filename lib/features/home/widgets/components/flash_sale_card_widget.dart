@@ -101,7 +101,7 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                   builder: (hovered) {
                     return Container(
                       decoration: BoxDecoration(
-                        border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
+                        border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                         color: Theme.of(context).cardColor,
                       ),
@@ -135,7 +135,7 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(112),
                                   color: Theme.of(context).cardColor,
-                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                                 ),
                                 child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
                               ),
@@ -149,7 +149,7 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(112),
                                     color: Theme.of(context).cardColor,
-                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                                   ),
                                   child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
                                 ),
@@ -164,7 +164,7 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(112),
                                   color: Theme.of(context).cardColor,
-                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                  boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                                 ),
                                 child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
                               ),
@@ -178,7 +178,7 @@ class _FlashSaleCardState extends State<FlashSaleCard> {
                                   decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(112),
                                     color: Theme.of(context).cardColor,
-                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                                   ),
                                   child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
                                 ),

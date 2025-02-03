@@ -45,7 +45,7 @@ class _DeliveryInstructionBottomSheetWidgetState extends State<DeliveryInstructi
               Container(
                 height: 5, width: 40,
                 decoration: BoxDecoration(
-                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                  color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 ),
               ),
@@ -133,7 +133,7 @@ class SelectedCardWidget extends StatelessWidget {
       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-        border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.2)),
+        border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.2)),
       ),
       child: Row(children: [
     

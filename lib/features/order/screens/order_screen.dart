@@ -48,7 +48,7 @@ class OrderScreenState extends State<OrderScreen> with TickerProviderStateMixin 
           return _isLoggedIn ? Column(children: [
 
             Container(
-              color: ResponsiveHelper.isDesktop(context) ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+              color: ResponsiveHelper.isDesktop(context) ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.transparent,
               child: Column(children: [
                 ResponsiveHelper.isDesktop(context) ? Center(child: Padding(
                   padding: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),

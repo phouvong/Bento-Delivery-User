@@ -19,7 +19,7 @@ class WebPaymentButton extends StatelessWidget {
         child: Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            border: Border.all(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).disabledColor.withOpacity(0.30) ),
+            border: Border.all(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).disabledColor.withValues(alpha: 0.30) ),
             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
           ),

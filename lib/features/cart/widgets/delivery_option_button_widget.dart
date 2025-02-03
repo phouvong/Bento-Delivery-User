@@ -64,7 +64,7 @@ class _DeliveryOptionButtonWidgetState extends State<DeliveryOptionButtonWidget>
           },
           child: Container(
             decoration: BoxDecoration(
-              color: select  ? widget.fromWeb ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor : Colors.transparent,
+              color: select  ? widget.fromWeb ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Theme.of(context).cardColor : Colors.transparent,
               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
               border: Border.all(color: select ? Theme.of(context).primaryColor : Colors.transparent),
             ),

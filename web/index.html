@@ -32,7 +32,7 @@
     var serviceWorkerVersion = {{flutter_service_worker_version}};
   </script>
   <!-- This script adds the flutter initialization JS code -->
-  <script src="flutter.js?version=2.11.0" defer></script>
+  <script src="flutter.js?version=2.12.0" defer></script>
 </head>
 
 <body>
@@ -139,8 +139,39 @@
   });
   </script>
 
+<!--  <script>-->
+<!--    {{flutter_bootstrap_js}}-->
+<!--  </script>-->
+
   <script>
-    {{flutter_bootstrap_js}}
+    window.addEventListener('load', function(ev) {
+       {{flutter_js}}
+       {{flutter_build_config}}
+
+       _flutter.loader.load({
+         serviceWorker: {
+           serviceWorkerVersion: {{flutter_service_worker_version}},
+         },
+         onEntrypointLoaded: function(engineInitializer) {
+         let config = { renderer: 'html' };
+           engineInitializer.initializeEngine(config).then(function(appRunner) {
+             if(document.getElementById('splash'))
+               document.getElementById('splash').remove();
+             appRunner.runApp();
+           });
+         }
+       });
+     });
+  </script>
+
+  <script>
+    // Delay the removal of the preloader by 500 milliseconds
+    function removePreloader() {
+      const preloader = document.querySelector('.preloader');
+      if (preloader) {
+        preloader.remove();
+      }
+    }
   </script>
 
   <script>

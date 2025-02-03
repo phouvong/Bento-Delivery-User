@@ -65,6 +65,8 @@ class ApiClient extends GetxService {
     return header;
   }
 
+  Map<String, String> getHeader() => _mainHeaders;
+
   Future<Response> getData(String uri, {Map<String, dynamic>? query, Map<String, String>? headers, bool handleError = true}) async {
     try {
       if (kDebugMode) {

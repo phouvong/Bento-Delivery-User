@@ -99,7 +99,7 @@ class _WebCategoryViewWidgetState extends State<WebCategoryViewWidget> {
                           Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                              color: Theme.of(context).disabledColor.withOpacity(0.3),
+                              color: Theme.of(context).disabledColor.withValues(alpha: 0.3),
                               border: Border.all(color: hovered ? Theme.of(context).primaryColor : Theme.of(context).cardColor, width: hovered ? 1 : 0),
                             ),
                             child: ClipRRect(
@@ -239,8 +239,8 @@ class _PharmacyCategoryViewState extends State<PharmacyCategoryView> {
                                 begin: Alignment.topCenter,
                                 end: Alignment.bottomCenter,
                                 colors: [
-                                  Theme.of(context).primaryColor.withOpacity(0.3),
-                                  Theme.of(context).cardColor.withOpacity(0.3),
+                                  Theme.of(context).primaryColor.withValues(alpha: 0.3),
+                                  Theme.of(context).cardColor.withValues(alpha: 0.3),
                                 ],
                               ),
                             ),

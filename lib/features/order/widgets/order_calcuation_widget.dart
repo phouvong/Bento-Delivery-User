@@ -61,7 +61,7 @@ class OrderCalculationWidget extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusDefault)),
                 color: Theme.of(context).cardColor,
-                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
               ),
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
               child: parcel ? Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -134,7 +134,7 @@ class OrderCalculationWidget extends StatelessWidget {
                       ],
                     ) : const SizedBox(),
 
-                    Get.find<SplashController>().getModuleConfig(order.moduleType).addOn! ? Divider(thickness: 1, color: Theme.of(context).hintColor.withOpacity(0.5),) : const SizedBox(),
+                    Get.find<SplashController>().getModuleConfig(order.moduleType).addOn! ? Divider(thickness: 1, color: Theme.of(context).hintColor.withValues(alpha: 0.5),) : const SizedBox(),
 
                     Get.find<SplashController>().getModuleConfig(order.moduleType).addOn! ? Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -213,14 +213,14 @@ class OrderCalculationWidget extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-              child: Divider(thickness: 1, color: Theme.of(context).hintColor.withOpacity(0.5)),
+              child: Divider(thickness: 1, color: Theme.of(context).hintColor.withValues(alpha: 0.5)),
             ),
 
             order.paymentMethod == 'partial_payment' ? Container(
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
               child: Container(
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.05),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                 ),
                 child: DottedBorder(

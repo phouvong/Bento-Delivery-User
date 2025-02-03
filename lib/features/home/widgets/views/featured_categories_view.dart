@@ -38,7 +38,7 @@ class FeaturedCategoriesView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             ),
             child: Column(children: [
               Padding(
@@ -120,7 +120,7 @@ class FeaturedCategoriesShimmerView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         ),
         child: Column(children: [
           Padding(
@@ -161,7 +161,7 @@ class FeaturedCategoriesShimmerView extends StatelessWidget {
                       Container(
                         height: 100,
                         decoration: BoxDecoration(
-                          color: Theme.of(context).disabledColor.withOpacity(0.2),
+                          color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                           borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusSmall), topRight: Radius.circular(Dimensions.radiusSmall)),
                         ),
                       ),
@@ -175,7 +175,7 @@ class FeaturedCategoriesShimmerView extends StatelessWidget {
                               Container(
                                 height: 10, width: 100,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                 ),
                               ),
@@ -183,7 +183,7 @@ class FeaturedCategoriesShimmerView extends StatelessWidget {
                               Container(
                                 height: 10, width: 50,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                 ),
                               ),
@@ -191,7 +191,7 @@ class FeaturedCategoriesShimmerView extends StatelessWidget {
                               Container(
                                 height: 10, width: 80,
                                 decoration: BoxDecoration(
-                                  color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                  color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                 ),
                               ),

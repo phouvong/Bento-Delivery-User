@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/splash/domain/models/landing_model.dart';
@@ -16,16 +18,45 @@ class SplashRepository implements SplashRepositoryInterface {
   SplashRepository({required this.apiClient, required this.sharedPreferences});
 
   @override
-  Future<Response> getConfigData() async {
-    return await apiClient.getData(AppConstants.configUri);
+  Future<Response> getConfigData({required DataSourceEnum source}) async {
+    Response responseData = const Response(statusCode: 00, body: null);
+    String cacheId = AppConstants.configUri;
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.configUri);
+        if (response.statusCode == 200) {
+          responseData = Response(statusCode: 200, body: response.body);
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          responseData = Response(statusCode: 200, body: jsonDecode(cacheResponseData));
+        }
+    }
+    return responseData;
   }
 
   @override
-  Future<LandingModel?> getLandingPageData() async {
+  Future<LandingModel?> getLandingPageData({required DataSourceEnum source}) async {
     LandingModel? landingModel;
-    Response response = await apiClient.getData(AppConstants.landingPageUri);
-    if(response.statusCode == 200) {
-      landingModel = LandingModel.fromJson(response.body);
+    String cacheId = AppConstants.landingPageUri;
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.landingPageUri);
+        if(response.statusCode == 200) {
+          landingModel = LandingModel.fromJson(response.body);
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          landingModel = LandingModel.fromJson(jsonDecode(cacheResponseData));
+        }
     }
     return landingModel;
   }
@@ -100,13 +131,27 @@ class SplashRepository implements SplashRepositoryInterface {
   }
 
   @override
-  Future<List<ModuleModel>?> getModules({Map<String, String>? headers}) async {
+  Future<List<ModuleModel>?> getModules({Map<String, String>? headers, required DataSourceEnum source}) async {
     List<ModuleModel>? moduleList;
-    Response response = await apiClient.getData(AppConstants.moduleUri, headers: headers);
-    if (response.statusCode == 200) {
-      moduleList = [];
-      response.body.forEach((storeCategory) => moduleList!.add(ModuleModel.fromJson(storeCategory)));
+    String cacheId = AppConstants.moduleUri;
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.moduleUri, headers: headers);
+        if (response.statusCode == 200) {
+          moduleList = [];
+          response.body.forEach((storeCategory) => moduleList!.add(ModuleModel.fromJson(storeCategory)));
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          moduleList = [];
+          jsonDecode(cacheResponseData).forEach((storeCategory) => moduleList!.add(ModuleModel.fromJson(storeCategory)));
+        }
     }
+
     return moduleList;
   }
 

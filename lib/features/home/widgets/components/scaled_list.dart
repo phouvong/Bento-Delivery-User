@@ -167,7 +167,7 @@ class ScaledListState extends State<ScaledList> {
           //backgroundColor: Colors.white,
           valueColor: AlwaysStoppedAnimation<Color>(index == _selectedIndex
               ? const Color(0xff1B7FED)
-              : const Color(0xff1B7FED).withOpacity(0.5)),
+              : const Color(0xff1B7FED).withValues(alpha: 0.5)),
         ),
       ),
     );

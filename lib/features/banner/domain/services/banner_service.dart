@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/banner/domain/models/banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/others_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/promotional_banner_model.dart';
@@ -11,8 +12,8 @@ class BannerService implements BannerServiceInterface {
   BannerService({required this.bannerRepositoryInterface});
 
   @override
-  Future<BannerModel?> getBannerList() async {
-    return await bannerRepositoryInterface.getList(isBanner: true);
+  Future<BannerModel?> getBannerList({required DataSourceEnum source}) async {
+    return await bannerRepositoryInterface.getList(isBanner: true, source: source);
   }
 
   @override
@@ -26,8 +27,8 @@ class BannerService implements BannerServiceInterface {
   }
 
   @override
-  Future<ParcelOtherBannerModel?> getParcelOtherBannerList() async {
-    return await bannerRepositoryInterface.getList(isParcelOtherBanner: true);
+  Future<ParcelOtherBannerModel?> getParcelOtherBannerList({required DataSourceEnum source}) async {
+    return await bannerRepositoryInterface.getList(isParcelOtherBanner: true, source: source);
   }
 
   @override

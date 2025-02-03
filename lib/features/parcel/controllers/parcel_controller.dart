@@ -2,6 +2,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/checkout/controllers/checkout_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
@@ -242,14 +243,26 @@ class ParcelController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> getWhyChooseDetails() async {
-    _whyChooseDetails = await parcelServiceInterface.getWhyChooseDetails();
-    update();
+  Future<void> getWhyChooseDetails({DataSourceEnum source = DataSourceEnum.local}) async {
+    if(source == DataSourceEnum.local) {
+      _whyChooseDetails = await parcelServiceInterface.getWhyChooseDetails(source: source);
+      update();
+      getWhyChooseDetails(source: DataSourceEnum.client);
+    } else {
+      _whyChooseDetails = await parcelServiceInterface.getWhyChooseDetails(source: source);
+      update();
+    }
   }
 
-  Future<void> getVideoContentDetails() async {
-    _videoContentDetails = await parcelServiceInterface.getVideoContentDetails();
-    update();
+  Future<void> getVideoContentDetails({DataSourceEnum source = DataSourceEnum.local}) async {
+    if(source == DataSourceEnum.local) {
+      _videoContentDetails = await parcelServiceInterface.getVideoContentDetails(source: source);
+      update();
+      getVideoContentDetails(source: DataSourceEnum.client);
+    } else {
+      _videoContentDetails = await parcelServiceInterface.getVideoContentDetails(source: source);
+      update();
+    }
   }
 
   void setIsPickedUp(bool? isPickedUp, bool notify) {

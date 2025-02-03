@@ -145,7 +145,7 @@ class BestReviewItemShimmer extends StatelessWidget {
                                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                                     decoration: BoxDecoration(
                                       borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
-                                      color: Theme.of(context).cardColor.withOpacity(0.7),
+                                      color: Theme.of(context).cardColor.withValues(alpha: 0.7),
                                     ),
                                     child: Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
 

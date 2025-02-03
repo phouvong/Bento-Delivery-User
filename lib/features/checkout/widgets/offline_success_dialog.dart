@@ -36,9 +36,9 @@ class OfflineSuccessDialog extends StatelessWidget {
               const SizedBox(height: Dimensions.paddingSizeDefault),
 
               RichText(textAlign: TextAlign.center, text: TextSpan(children: [
-                TextSpan(text: 'your_payment_has_been_successfully_processed_and_your_order'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.4))),
+                TextSpan(text: 'your_payment_has_been_successfully_processed_and_your_order'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withValues(alpha: 0.4))),
                 TextSpan(text: ' #$orderId ', style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
-                TextSpan(text: 'has_been_placed'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.4))),
+                TextSpan(text: 'has_been_placed'.tr, style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyMedium!.color!.withValues(alpha: 0.4))),
               ])),
               const SizedBox(height: Dimensions.paddingSizeLarge),
 
@@ -46,9 +46,9 @@ class OfflineSuccessDialog extends StatelessWidget {
                 builder: (orderController) {
                   return Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-                      border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.5)),
+                      border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.5)),
                     ),
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                     child: orderController.trackModel != null ? ListView.builder(

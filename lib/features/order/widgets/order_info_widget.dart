@@ -90,7 +90,7 @@ class OrderInfoWidget extends StatelessWidget {
 
                 Text('#${order.id}', style: robotoBold),
               ]),
-              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
               Row(children: [
                 Text('order_date'.tr, style: robotoRegular),
@@ -102,7 +102,7 @@ class OrderInfoWidget extends StatelessWidget {
                 ),
               ]),
 
-              order.scheduled == 1 ? Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)) : const SizedBox(),
+              order.scheduled == 1 ? Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)) : const SizedBox(),
               order.scheduled == 1 ? Row(children: [
                 Text('${'scheduled_at'.tr}:', style: robotoRegular),
                 const Expanded(child: SizedBox()),
@@ -115,7 +115,7 @@ class OrderInfoWidget extends StatelessWidget {
                 const Expanded(child: SizedBox()),
                 Text(order.otp!, style: robotoMedium),
               ]) : const SizedBox(),
-              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
               Row(children: [
                 Text(order.orderType!.tr, style: robotoMedium),
@@ -123,7 +123,7 @@ class OrderInfoWidget extends StatelessWidget {
                 Container(
                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(0.1), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1), borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   ),
                   child: Text( order.paymentMethod == 'cash_on_delivery' ? 'cash_on_delivery'.tr
                       : order.paymentMethod == 'wallet' ? 'wallet_payment'.tr
@@ -133,7 +133,7 @@ class OrderInfoWidget extends StatelessWidget {
                   ),
                 ),
               ]),
-              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+              Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
               Padding(
                 padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
@@ -163,7 +163,7 @@ class OrderInfoWidget extends StatelessWidget {
               ),
 
               Get.find<SplashController>().getModuleConfig(order.moduleType).newVariation! ? Column(children: [
-                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
                 Row(children: [
                   Text('${'cutlery'.tr}: ', style: robotoRegular),
@@ -178,7 +178,7 @@ class OrderInfoWidget extends StatelessWidget {
 
               order.unavailableItemNote != null ? Column(
                 children: [
-                  Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+                  Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
                   Row(children: [
                     Text('${'unavailable_item_note'.tr}: ', style: robotoMedium),
@@ -192,7 +192,7 @@ class OrderInfoWidget extends StatelessWidget {
               ) : const SizedBox(),
 
               order.deliveryInstruction != null ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
                 RichText(
                   text: TextSpan(
@@ -208,7 +208,7 @@ class OrderInfoWidget extends StatelessWidget {
               SizedBox(height: order.deliveryInstruction != null ? Dimensions.paddingSizeSmall : 0),
 
               order.orderStatus == 'canceled' ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
                 Text('${'cancellation_note'.tr}:', style: robotoMedium),
                 const SizedBox(height: Dimensions.paddingSizeSmall),
 
@@ -222,7 +222,7 @@ class OrderInfoWidget extends StatelessWidget {
               ]) : const SizedBox(),
 
               (order.orderStatus == 'refund_requested' || order.orderStatus == 'refund_request_canceled') ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withOpacity(0.30)),
+                Divider(height: Dimensions.paddingSizeLarge, color: Theme.of(context).disabledColor.withValues(alpha: 0.30)),
 
                 order.orderStatus == 'refund_requested' ? Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                   RichText(text: TextSpan(children: [
@@ -274,7 +274,7 @@ class OrderInfoWidget extends StatelessWidget {
           !isDesktop ? (parcel || orderController.orderDetails!.isNotEmpty) ? Container(
             decoration: BoxDecoration(
               color: Theme.of(context).cardColor,
-              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
             ),
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
             child: parcel ? Column(crossAxisAlignment: CrossAxisAlignment.stretch, children: [
@@ -370,7 +370,7 @@ class OrderInfoWidget extends StatelessWidget {
         (order.orderStatus == 'delivered' && order.orderProofFullUrl != null && order.orderProofFullUrl!.isNotEmpty) ? Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           ),
           margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),

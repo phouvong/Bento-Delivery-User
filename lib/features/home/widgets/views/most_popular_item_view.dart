@@ -26,7 +26,7 @@ class MostPopularItemView extends StatelessWidget {
         List<Item>? itemList = itemController.popularItemList;
 
           return (itemList != null) ? itemList.isNotEmpty ? Container(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             child: Column(children: [
 
               Padding(

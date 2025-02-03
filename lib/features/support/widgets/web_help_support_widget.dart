@@ -20,7 +20,7 @@ class WebSupportScreen extends StatelessWidget {
         children: [
           Positioned(
             child: Column(children: [
-              Expanded(flex: 1, child: Container(color: Theme.of(context).primaryColor.withOpacity(0.10))),
+              Expanded(flex: 1, child: Container(color: Theme.of(context).primaryColor.withValues(alpha: 0.10))),
               Expanded(flex: 4, child: Container(color: Theme.of(context).primaryColor)),
               Expanded(flex: 7, child: Container(color: Theme.of(context).cardColor)),
             ]),
@@ -132,8 +132,8 @@ class WebSupportScreen extends StatelessWidget {
             colors: [
               Theme.of(context).cardColor,
               Theme.of(context).cardColor,
-              Theme.of(context).primaryColor.withOpacity(0.2),
-              Theme.of(context).primaryColor.withOpacity(0.5),
+              Theme.of(context).primaryColor.withValues(alpha: 0.2),
+              Theme.of(context).primaryColor.withValues(alpha: 0.5),
               Theme.of(context).primaryColor,
             ],
             begin: Alignment.topCenter, end: Alignment.bottomCenter,

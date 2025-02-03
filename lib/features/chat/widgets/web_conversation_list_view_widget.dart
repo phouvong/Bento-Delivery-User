@@ -76,7 +76,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
 
                   Container(
                     decoration: BoxDecoration(
-                      color: (widget.chatController.selectedIndex == index && widget.chatController.type == type) ? Theme.of(context).primaryColor.withOpacity(0.10) : Theme.of(context).cardColor,
+                      color: (widget.chatController.selectedIndex == index && widget.chatController.type == type) ? Theme.of(context).primaryColor.withValues(alpha: 0.10) : Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     ),
                     child: CustomInkWell(
@@ -124,7 +124,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
                         }
 
                       },
-                      highlightColor: Theme.of(context).colorScheme.surface.withOpacity(0.1),
+                      highlightColor: Theme.of(context).colorScheme.surface.withValues(alpha: 0.1),
                       radius: Dimensions.radiusSmall,
                       child: Stack(children: [
                         Padding(
@@ -178,7 +178,7 @@ class _WebConversationListViewWidgetState extends State<WebConversationListViewW
                     ),
                   ),
 
-                  index + 1 == widget.conversation!.conversations!.length ? const SizedBox() : Divider(color: Theme.of(context).disabledColor.withOpacity(.5)),
+                  index + 1 == widget.conversation!.conversations!.length ? const SizedBox() : Divider(color: Theme.of(context).disabledColor.withValues(alpha: .5)),
 
                 ],
               );
@@ -229,7 +229,7 @@ class ConversationShimmer extends StatelessWidget {
                     ])),
                   ]),
 
-                  Divider(color: Theme.of(context).disabledColor.withOpacity(.5)),
+                  Divider(color: Theme.of(context).disabledColor.withValues(alpha: .5)),
 
                 ],
               ),

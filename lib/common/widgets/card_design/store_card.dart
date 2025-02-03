@@ -47,7 +47,7 @@ class StoreCard extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          boxShadow: ResponsiveHelper.isMobile(context) ? [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.2), blurRadius: 5, spreadRadius: 1)] : null,
+          boxShadow: ResponsiveHelper.isMobile(context) ? [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), blurRadius: 5, spreadRadius: 1)] : null,
         ),
         child: CustomInkWell(
           onTap: () {
@@ -145,7 +145,7 @@ class StoreCard extends StatelessWidget {
                     child: isTopOffers! ? Container(
                       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall, vertical: 3),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).primaryColor.withOpacity(0.1),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
                       ),
                       child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
@@ -181,7 +181,7 @@ class StoreCard extends StatelessWidget {
                       Container(
                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
                         ),
                         child: Row(children: [

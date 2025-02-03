@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/category/domain/models/category_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
@@ -56,20 +57,38 @@ class CategoryController extends GetxController implements GetxService {
   int _offset = 1;
   int get offset => _offset;
 
-  Future<void> getCategoryList(bool reload, {bool allCategory = false}) async {
-    if(_categoryList == null || reload) {
-      _categoryList = null;
-      List<CategoryModel>? categoryList = await categoryServiceInterface.getCategoryList(allCategory);
-      if (categoryList != null) {
-        _categoryList = [];
-        _interestSelectedList = [];
-        _categoryList!.addAll(categoryList);
-        for(int i = 0; i < _categoryList!.length; i++) {
-          _interestSelectedList!.add(false);
-        }
+  void clearCategoryList() {
+    _categoryList = null;
+  }
+
+  Future<void> getCategoryList(bool reload, {bool allCategory = false, DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    if(_categoryList == null || reload || fromRecall) {
+      if(reload) {
+        _categoryList = null;
       }
-      update();
+      List<CategoryModel>? categoryList;
+      if(dataSource == DataSourceEnum.local) {
+        categoryList = await categoryServiceInterface.getCategoryList(allCategory, source: DataSourceEnum.local);
+        _prepareCategoryList(categoryList);
+        getCategoryList(false, fromRecall: true, allCategory: allCategory, dataSource: DataSourceEnum.client);
+      } else {
+        categoryList = await categoryServiceInterface.getCategoryList(allCategory, source: DataSourceEnum.client);
+        _prepareCategoryList(categoryList);
+      }
+
     }
+  }
+
+  _prepareCategoryList(List<CategoryModel>? categoryList) {
+    if (categoryList != null) {
+      _categoryList = [];
+      _interestSelectedList = [];
+      _categoryList!.addAll(categoryList);
+      for(int i = 0; i < _categoryList!.length; i++) {
+        _interestSelectedList!.add(false);
+      }
+    }
+    update();
   }
 
   void getSubCategoryList(String? categoryID) async {

@@ -132,7 +132,7 @@ class NewOnShimmerView extends StatelessWidget {
                 child: Stack(clipBehavior: Clip.none, children: [
                   Container(
                     height: double.infinity, width: double.infinity,
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   ),
 
                   Positioned(
@@ -141,7 +141,7 @@ class NewOnShimmerView extends StatelessWidget {
                       padding: const EdgeInsets.all(2),
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Theme.of(context).cardColor.withOpacity(0.8),
+                        color: Theme.of(context).cardColor.withValues(alpha: 0.8),
                       ),
                       child: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor, size: 20),
                     ),
@@ -189,7 +189,7 @@ class NewOnShimmerView extends StatelessWidget {
                         height: 10, width: 70,
                         padding: const EdgeInsets.symmetric(vertical: 3, horizontal: Dimensions.paddingSizeSmall),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                           borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                         ),
                       ),

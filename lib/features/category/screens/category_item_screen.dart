@@ -115,7 +115,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
           appBar: (ResponsiveHelper.isDesktop(context) ? const WebMenuBar() : AppBar(
             backgroundColor: Theme.of(context).cardColor,
             surfaceTintColor: Theme.of(context).cardColor,
-            shadowColor: Theme.of(context).disabledColor.withOpacity(0.5),
+            shadowColor: Theme.of(context).disabledColor.withValues(alpha: 0.5),
             elevation: 2,
             title: catController.isSearching ? SizedBox(
               height: 45,
@@ -227,7 +227,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                             margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                              color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+                              color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.transparent,
                             ),
                             child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                               Text(
@@ -343,7 +343,7 @@ class CategoryItemScreenState extends State<CategoryItemScreen> with TickerProvi
                         margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                          color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+                          color: index == catController.subCategoryIndex ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.transparent,
                         ),
                         child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                           Text(

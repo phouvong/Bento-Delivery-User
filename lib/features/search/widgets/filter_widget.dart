@@ -75,7 +75,7 @@ class FilterWidget extends StatelessWidget {
                             : Theme.of(context).disabledColor),
                         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                         color: (isStore ? searchController.storeSortIndex == index : searchController.sortIndex == index) ? Theme.of(context).primaryColor
-                            : Theme.of(context).disabledColor.withOpacity(0.1),
+                            : Theme.of(context).disabledColor.withValues(alpha: 0.1),
                       ),
                       child: Text(
                         searchController.sortList[index],
@@ -144,7 +144,7 @@ class FilterWidget extends StatelessWidget {
                   min: 0,
                   divisions: maxValue!.toInt(),
                   activeColor: Theme.of(context).primaryColor,
-                  inactiveColor: Theme.of(context).primaryColor.withOpacity(0.3),
+                  inactiveColor: Theme.of(context).primaryColor.withValues(alpha: 0.3),
                   labels: RangeLabels(searchController.lowerValue.toString(), searchController.upperValue.toString()),
                   onChanged: (RangeValues rangeValues) {
                     searchController.setLowerAndUpperValue(rangeValues.start, rangeValues.end);

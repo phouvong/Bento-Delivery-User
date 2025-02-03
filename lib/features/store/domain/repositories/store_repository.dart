@@ -1,6 +1,10 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sixam_mart/api/api_client.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/domain/models/cart_suggested_item_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
@@ -22,76 +26,169 @@ class StoreRepository implements StoreRepositoryInterface {
   @override
   Future getList({int? offset, bool isStoreList = false, String? filterBy, bool isPopularStoreList = false, String? type, bool isLatestStoreList = false,
     bool isFeaturedStoreList = false, bool isVisitAgainStoreList = false, bool isStoreRecommendedItemList = false, int? storeId,
-    bool isStoreBannerList = false, bool isRecommendedStoreList = false, bool isTopOfferStoreList = false}) async {
+    bool isStoreBannerList = false, bool isRecommendedStoreList = false, bool isTopOfferStoreList = false, DataSourceEnum? source}) async {
     if(isStoreList){
-      return await _getStoreList(offset!, filterBy!, type!);
+      return await _getStoreList(offset!, filterBy!, type!, source: source ?? DataSourceEnum.client);
     }else if(isPopularStoreList){
-      return await _getPopularStoreList(type!);
+      return await _getPopularStoreList(type!, source: source ?? DataSourceEnum.client);
     }else if(isLatestStoreList){
-      return await _getLatestStoreList(type!);
+      return await _getLatestStoreList(type!, source: source ?? DataSourceEnum.client);
     }else if(isFeaturedStoreList){
-      return await _getFeaturedStoreList();
+      return await _getFeaturedStoreList(source: source ?? DataSourceEnum.client);
     }else if(isVisitAgainStoreList){
-      return await _getVisitAgainStoreList();
+      return await _getVisitAgainStoreList(source: source ?? DataSourceEnum.client);
     }else if(isStoreRecommendedItemList){
       return await _getStoreRecommendedItemList(storeId);
     }else if(isStoreBannerList){
       return await _getStoreBannerList(storeId);
     }else if(isRecommendedStoreList){
-      return await _getRecommendedStoreList();
+      return await _getRecommendedStoreList(source: source ?? DataSourceEnum.client);
     }else if(isTopOfferStoreList){
-      return await _getTopOfferStoreList();
+      return await _getTopOfferStoreList(source: source ?? DataSourceEnum.client);
     }
   }
 
-  Future<StoreModel?> _getStoreList(int offset, String filterBy, String storeType) async {
+  Future<StoreModel?> _getStoreList(int offset, String filterBy, String storeType, {required DataSourceEnum source}) async {
     StoreModel? storeModel;
-    Response response = await apiClient.getData('${AppConstants.storeUri}/$filterBy?store_type=$storeType&offset=$offset&limit=12');
-    if(response.statusCode == 200){
-      storeModel = StoreModel.fromJson(response.body);
+    String cacheId = '${AppConstants.storeUri}/$filterBy?store_type=$storeType&offset=$offset&limit=12-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData('${AppConstants.storeUri}/$filterBy?store_type=$storeType&offset=$offset&limit=12');
+        if(response.statusCode == 200){
+          storeModel = StoreModel.fromJson(response.body);
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          storeModel = StoreModel.fromJson(jsonDecode(cacheResponseData));
+        }
     }
     return storeModel;
   }
 
-  Future<List<Store>?> _getPopularStoreList(String type) async {
+  Future<List<Store>?> _getPopularStoreList(String type, {required DataSourceEnum source}) async {
     List<Store>? popularStoreList;
-    Response response = await apiClient.getData('${AppConstants.popularStoreUri}?type=$type');
-    if (response.statusCode == 200) {
-      popularStoreList = [];
-      response.body['stores'].forEach((store) => popularStoreList!.add(Store.fromJson(store)));
+    String cacheId = '${AppConstants.popularStoreUri}?type=$type}-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData('${AppConstants.popularStoreUri}?type=$type');
+        if (response.statusCode == 200) {
+          popularStoreList = [];
+          response.body['stores'].forEach((store) => popularStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body['stores']), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          popularStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => popularStoreList!.add(Store.fromJson(store)));
+        }
     }
     return popularStoreList;
   }
 
-  Future<List<Store>?> _getLatestStoreList(String type) async {
+  Future<List<Store>?> _getLatestStoreList(String type, {required DataSourceEnum source}) async {
     List<Store>? latestStoreList;
-    Response response = await apiClient.getData('${AppConstants.latestStoreUri}?type=$type');
-    if (response.statusCode == 200) {
-      latestStoreList = [];
-      response.body['stores'].forEach((store) => latestStoreList!.add(Store.fromJson(store)));
+    String cacheId = '${AppConstants.popularStoreUri}?type=$type-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData('${AppConstants.latestStoreUri}?type=$type');
+        if (response.statusCode == 200) {
+          latestStoreList = [];
+          response.body['stores'].forEach((store) => latestStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body['stores']), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          latestStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => latestStoreList!.add(Store.fromJson(store)));
+        }
     }
+
     return latestStoreList;
   }
 
-  Future<List<Store>?> _getTopOfferStoreList() async {
+  Future<List<Store>?> _getTopOfferStoreList({required DataSourceEnum source}) async {
     List<Store>? topOfferStoreList;
-    Response response = await apiClient.getData(AppConstants.topOfferStoreUri);
-    if (response.statusCode == 200) {
-      topOfferStoreList = [];
-      response.body['stores'].forEach((store) => topOfferStoreList!.add(Store.fromJson(store)));
+    String cacheId = '${AppConstants.topOfferStoreUri}-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.topOfferStoreUri);
+        if (response.statusCode == 200) {
+          topOfferStoreList = [];
+          response.body['stores'].forEach((store) => topOfferStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body['stores']), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          topOfferStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => topOfferStoreList!.add(Store.fromJson(store)));
+        }
     }
     return topOfferStoreList;
   }
 
-  Future<Response> _getFeaturedStoreList() async {
-    return await apiClient.getData(
-      '${AppConstants.storeUri}/all?featured=1&offset=1&limit=50',
-      headers: Get.find<SplashController>().module == null && Get.find<SplashController>().configModel!.module == null ? HeaderHelper.featuredHeader() : null,
-    );
+  Future<List<Store>?> _getFeaturedStoreList({required DataSourceEnum source}) async {
+    List<Store>? featuredStoreList;
+    String cacheId = '${AppConstants.storeUri}/all?featured=1&offset=1&limit=50-${Get.find<SplashController>().module?.id??''}';
+    Map<String, String> header = (Get.find<SplashController>().module == null && Get.find<SplashController>().configModel!.module == null) ? HeaderHelper.featuredHeader() : apiClient.getHeader();
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(
+          '${AppConstants.storeUri}/all?featured=1&offset=1&limit=50',
+          headers: Get.find<SplashController>().module == null && Get.find<SplashController>().configModel!.module == null ? HeaderHelper.featuredHeader() : null,
+        );
+        if (response.statusCode == 200) {
+          featuredStoreList = [];
+          response.body['stores'].forEach((store) => featuredStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body['stores']), header);
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          featuredStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => featuredStoreList!.add(Store.fromJson(store)));
+        }
+    }
+    return featuredStoreList;
   }
 
-  Future<Response> _getVisitAgainStoreList() async {
-    return await apiClient.getData(AppConstants.visitAgainStoreUri);
+  Future<List<Store>?> _getVisitAgainStoreList({required DataSourceEnum source}) async {
+    List<Store>? visitAgainStoreList;
+    String cacheId = AppConstants.visitAgainStoreUri;
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.visitAgainStoreUri);
+        if (response.statusCode == 200) {
+          visitAgainStoreList = [];
+          response.body.forEach((store) => visitAgainStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          visitAgainStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => visitAgainStoreList!.add(Store.fromJson(store)));
+        }
+    }
+    return visitAgainStoreList;
   }
 
   @override
@@ -176,13 +273,27 @@ class StoreRepository implements StoreRepositoryInterface {
     return storeBanners;
   }
 
-  Future<List<Store>?> _getRecommendedStoreList() async {
+  Future<List<Store>?> _getRecommendedStoreList({required DataSourceEnum source}) async {
     List<Store>? recommendedStoreList;
-    Response response = await apiClient.getData(AppConstants.recommendedStoreUri);
-    if (response.statusCode == 200) {
-      recommendedStoreList = [];
-      response.body['stores'].forEach((store) => recommendedStoreList!.add(Store.fromJson(store)));
+    String cacheId = '${AppConstants.storeUri}/all?featured=1&offset=1&limit=50-${Get.find<SplashController>().module?.id??''}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.recommendedStoreUri);
+        if (response.statusCode == 200) {
+          recommendedStoreList = [];
+          response.body['stores'].forEach((store) => recommendedStoreList!.add(Store.fromJson(store)));
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body['stores']), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          recommendedStoreList = [];
+          jsonDecode(cacheResponseData).forEach((store) => recommendedStoreList!.add(Store.fromJson(store)));
+        }
     }
+
     return recommendedStoreList;
   }
 

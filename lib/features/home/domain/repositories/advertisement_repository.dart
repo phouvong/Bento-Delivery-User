@@ -1,7 +1,12 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/home/domain/models/advertisement_model.dart';
 import 'package:sixam_mart/features/home/domain/repositories/advertisement_repository_interface.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
 class AdvertisementRepository implements AdvertisementRepositoryInterface {
@@ -9,8 +14,30 @@ class AdvertisementRepository implements AdvertisementRepositoryInterface {
   AdvertisementRepository({required this.apiClient});
 
   @override
-  Future<List<AdvertisementModel>?> getList({int? offset}) async {
+  Future<List<AdvertisementModel>?> getList({int? offset, DataSourceEnum source = DataSourceEnum.client}) async {
     List<AdvertisementModel>? advertisementList;
+    String cacheId = '${AppConstants.advertisementListUri}-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.advertisementListUri);
+        if(response.statusCode == 200) {
+          advertisementList = [];
+          response.body.forEach((data) {
+            advertisementList?.add(AdvertisementModel.fromJson(data));
+          });
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          advertisementList = [];
+          jsonDecode(cacheResponseData).forEach((data) {
+            advertisementList?.add(AdvertisementModel.fromJson(data));
+          });
+        }
+    }
     Response response = await apiClient.getData(AppConstants.advertisementListUri);
     if(response.statusCode == 200) {
       advertisementList = [];

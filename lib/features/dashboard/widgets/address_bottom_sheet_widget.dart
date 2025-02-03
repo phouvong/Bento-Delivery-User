@@ -142,7 +142,7 @@ class AddressBottomSheetWidget extends StatelessWidget {
 
                   addressController.addressList != null ? addressController.addressList!.isNotEmpty ? Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                     ),
                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeSmall),

@@ -1,8 +1,13 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/brands/domain/models/brands_model.dart';
 import 'package:sixam_mart/features/brands/domain/repositories/brands_repository_interface.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
 class BrandsRepository implements BrandsRepositoryInterface{
@@ -10,13 +15,27 @@ class BrandsRepository implements BrandsRepositoryInterface{
   BrandsRepository({required this.apiClient});
 
   @override
-  Future<List<BrandModel>?> getList({int? offset}) async {
+  Future<List<BrandModel>?> getBrandList({required DataSourceEnum source}) async {
     List<BrandModel>? brandList;
-    Response response = await apiClient.getData(AppConstants.brandListUri);
-    if (response.statusCode == 200) {
-      brandList = [];
-      response.body.forEach((brand) => brandList!.add(BrandModel.fromJson(brand)));
+    String cacheId = '${AppConstants.brandListUri}-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.brandListUri);
+        if (response.statusCode == 200) {
+          brandList = [];
+          response.body.forEach((brand) => brandList!.add(BrandModel.fromJson(brand)));
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          brandList = [];
+          jsonDecode(cacheResponseData).forEach((brand) => brandList!.add(BrandModel.fromJson(brand)));
+        }
     }
+
     return brandList;
   }
 
@@ -47,6 +66,12 @@ class BrandsRepository implements BrandsRepositoryInterface{
 
   @override
   Future update(Map<String, dynamic> body, int? id) {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future getList({int? offset}) {
+    // TODO: implement getList
     throw UnimplementedError();
   }
 

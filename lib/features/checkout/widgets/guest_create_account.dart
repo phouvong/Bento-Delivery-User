@@ -26,7 +26,7 @@ class GuestCreateAccount extends StatelessWidget {
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-          boxShadow: fromParcel ? [const BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)] : [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+          boxShadow: fromParcel ? [const BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)] : [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
         ),
         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeLarge),
         child: Column(children: [

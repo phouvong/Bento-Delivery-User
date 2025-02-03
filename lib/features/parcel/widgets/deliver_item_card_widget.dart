@@ -16,8 +16,8 @@ class DeliverItemCardWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
       decoration: BoxDecoration(
-        color: isDeliverItem ? Theme.of(context).primaryColor.withOpacity(0.05) : Theme.of(context).cardColor.withOpacity(0.5),
-        border: Border.all(color: isDeliverItem ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor),
+        color: isDeliverItem ? Theme.of(context).primaryColor.withValues(alpha: 0.05) : Theme.of(context).cardColor.withValues(alpha: 0.5),
+        border: Border.all(color: isDeliverItem ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Theme.of(context).cardColor),
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
       ),
       child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [

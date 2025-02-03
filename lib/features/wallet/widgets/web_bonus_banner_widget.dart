@@ -47,7 +47,7 @@ class WebBonusBannerWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                           border: Border.all(color: Theme.of(context).primaryColor),
-                          color: Theme.of(context).primaryColor.withOpacity(0.03),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.03),
                         ),
                         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                         child: Row(children: [
@@ -83,7 +83,7 @@ class WebBonusBannerWidget extends StatelessWidget {
                         decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                           border: Border.all(color: Theme.of(context).primaryColor),
-                          color: Theme.of(context).primaryColor.withOpacity(0.03),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.03),
                         ),
                         padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                         child: Row(children: [

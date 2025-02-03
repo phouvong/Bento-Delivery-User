@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -18,14 +19,17 @@ class RegistrationCardWidget extends StatelessWidget {
 
       ClipRRect(
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-        child: Opacity(opacity: 0.05, child: Image.asset(Images.landingBg, height: 200, width: context.width, fit: BoxFit.fill)),
+        child: Opacity(opacity: 0.05, child: SizedBox(
+          height: 200, width: context.width,
+          child: CustomAssetImageWidget(isStore ? Images.landingSellerBg : Images.landingDeliverymanBg, height: 200, width: context.width, fit: BoxFit.fill),
+        )),
       ),
 
       Container(
         height: 200,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          color: Theme.of(context).primaryColor.withOpacity(0.05),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
         ),
         child: Row(children: [
           Expanded(flex: 6, child: Padding(
@@ -55,9 +59,11 @@ class RegistrationCardWidget extends StatelessWidget {
               ) : const SizedBox(),
             ]),
           )),
-          Expanded(flex: 4, child: Padding(
-            padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
-            child: Image.asset(isStore ? Images.landingStoreOpen : Images.landingDeliveryMan, height: 200, width: 200),
+          Expanded(flex: 2, child: Padding(
+            padding: const EdgeInsets.only(
+              top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge, left: Dimensions.paddingSizeLarge, right: 100,
+            ),
+            child: CustomAssetImageWidget(isStore ? Images.landingStoreOpen : Images.landingDeliveryman, fit: BoxFit.fill),
           )),
         ]),
       ),

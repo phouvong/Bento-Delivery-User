@@ -101,7 +101,7 @@ class WebItemWidget extends StatelessWidget {
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                     color: Theme.of(context).cardColor,
-                    border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.1)),
+                    border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.1)),
                   ),
                   padding: const EdgeInsets.all(1),
                   child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -207,7 +207,7 @@ class WebItemWidget extends StatelessWidget {
                                 Container(
                                   padding: const EdgeInsets.symmetric(vertical: 3, horizontal: Dimensions.paddingSizeSmall),
                                   decoration: BoxDecoration(
-                                    color: Theme.of(context).primaryColor.withOpacity(0.10),
+                                    color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
                                     borderRadius: BorderRadius.circular(50)
                                   ),
                                   child: Row(

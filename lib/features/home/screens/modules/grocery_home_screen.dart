@@ -29,7 +29,7 @@ class GroceryHomeScreen extends StatelessWidget {
 
       Container(
         width: MediaQuery.of(context).size.width,
-        color: Theme.of(context).disabledColor.withOpacity(0.1),
+        color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
         child:  const Column(
           children: [
             BadWeatherWidget(),

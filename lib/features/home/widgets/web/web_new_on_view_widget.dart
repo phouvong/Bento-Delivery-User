@@ -166,7 +166,7 @@ class WebNewOnShimmerView extends StatelessWidget {
                                   padding: const EdgeInsets.all(2),
                                   decoration: BoxDecoration(
                                     shape: BoxShape.circle,
-                                    color: Theme.of(context).cardColor.withOpacity(0.8),
+                                    color: Theme.of(context).cardColor.withValues(alpha: 0.8),
                                   ),
                                   child: Icon(Icons.favorite_border, color: Colors.grey[300], size: 20),
                                 ),
@@ -214,7 +214,7 @@ class WebNewOnShimmerView extends StatelessWidget {
                                     height: 10, width: 70,
                                     padding: const EdgeInsets.symmetric(vertical: 3, horizontal: Dimensions.paddingSizeSmall),
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                       borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                                     ),
                                   ),

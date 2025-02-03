@@ -91,7 +91,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
             return Column(children: [
               ResponsiveHelper.isDesktop(context) ? Container(
                 width : double.infinity,
-                color: Theme.of(context).primaryColor.withOpacity(0.10),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
                 child: SizedBox(
                   width: Dimensions.webMaxWidth,
                   child: Column(
@@ -175,7 +175,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                 width: Dimensions.webMaxWidth,
                 decoration: BoxDecoration(
                   color: Get.find<ThemeController>().darkTheme ? Colors.black12 : Theme.of(context).cardColor,
-                  boxShadow: Get.find<ThemeController>().darkTheme ? null : [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.2), blurRadius: 3, offset: const Offset(0, 5))]
+                  boxShadow: Get.find<ThemeController>().darkTheme ? null : [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.2), blurRadius: 3, offset: const Offset(0, 5))]
                 ),
               padding: const EdgeInsets.only(bottom: 5),
               child: Row(children: [
@@ -201,7 +201,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                   child: SearchFieldWidget(
                     controller: _searchController,
                     radius: 50,
-                    filledColor: Theme.of(context).disabledColor.withOpacity(0.1),
+                    filledColor: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                     hint: Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
                         ? 'search_food_or_restaurant'.tr : 'search_item_or_store'.tr,
                     suffixIcon: _searchController.text.isNotEmpty ? Icons.clear : null,
@@ -262,7 +262,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                             margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                              padding: const EdgeInsets.symmetric(horizontal : Dimensions.paddingSizeDefault),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(0.10),
+                                color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
                                 border: Border.all(color: Theme.of(context).primaryColor),
                                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                               ),
@@ -334,7 +334,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.1), blurRadius: 10)]
+                            boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.1), blurRadius: 10)]
                           ),
                           child: CustomInkWell(
                             onTap: () {
@@ -382,7 +382,7 @@ class SearchScreenState extends State<SearchScreen> with TickerProviderStateMixi
                             child: Container(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).disabledColor.withOpacity(0.2),
+                                color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
                                 borderRadius: BorderRadius.circular(50),
                                 border: Border.all(color: Theme.of(context).disabledColor, width: 0.1),
                               ),

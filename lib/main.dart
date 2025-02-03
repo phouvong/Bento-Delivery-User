@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
-import 'package:flutter/foundation.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/common/controllers/theme_controller.dart';
-import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
@@ -27,6 +25,15 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/cookies_view.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
+
+// import 'package:js/js.dart';
+//
+// @JS('removePreloader') // Link to the JavaScript function
+// external void removePreloader();
+//
+// void callPreloaderRemoveScript() {
+//   removePreloader();
+// }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -55,15 +62,15 @@ Future<void> main() async {
         apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
         authDomain: "bento-delivery-service.firebaseapp.com",
         projectId: "bento-delivery-service",
-        storageBucket: "bento-delivery-service.appspot.com",
         storageBucket: "bento-delivery-service.firebasestorage.app",
         messagingSenderId: "787586896333",
+        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
     ));
   } else if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
+      name: 'bentodelivery',
       options: const FirebaseOptions(
         apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
-        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
         appId: "1:787586896333:android:d1f7f473916bfe70c6b484",
         messagingSenderId: "787586896333",
         projectId: "bento-delivery-service",
@@ -95,7 +102,6 @@ Future<void> main() async {
       version: "v15.0",
     );
   }
-  handleError();
 
   runApp(MyApp(languages: languages, body: body));
 }
@@ -133,17 +139,9 @@ class _MyAppState extends State<MyApp> {
         Get.find<CartController>().getCartDataOnline();
       }
 
+      Get.find<SplashController>().getConfigData(loadLandingData: (GetPlatform.isWeb && AddressHelper.getUserAddressFromSharedPref() == null), fromMainFunction: true);
+
     }
-    Get.find<SplashController>().getConfigData(loadLandingData: GetPlatform.isWeb).then((bool isSuccess) async {
-      if (isSuccess) {
-        if (Get.find<AuthController>().isLoggedIn()) {
-          Get.find<AuthController>().updateToken();
-          if(Get.find<SplashController>().module != null) {
-            await Get.find<FavouriteController>().getFavouriteList();
-          }
-        }
-      }
-    });
   }
 
   @override
@@ -195,35 +193,4 @@ class MyHttpOverrides extends HttpOverrides {
   HttpClient createHttpClient(SecurityContext? context) {
     return super.createHttpClient(context)..badCertificateCallback = (X509Certificate cert, String host, int port) => true;
   }
-}
-
-void handleError() {
-  FlutterError.onError = (FlutterErrorDetails details) {
-    if (kDebugMode) {
-      print("Caught an error in a widget: ${details.exceptionAsString()}");
-    }
-    FlutterError.presentError(details);
-  };
-
-  ErrorWidget.builder = (FlutterErrorDetails details) {
-    return Center(
-      child: Column(mainAxisSize: MainAxisSize.min, children: [
-        const Icon(Icons.error_outline_outlined, color: Colors.red, size: 34),
-        const SizedBox(height: 10),
-
-        const Text(
-          'Oops! Something went wrong.',
-          style: TextStyle(fontWeight: FontWeight.bold),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 10),
-
-        Text(
-          '${details.exception}',
-          style: const TextStyle(color: Colors.red),
-          textAlign: TextAlign.center,
-        ),
-      ]),
-    );
-  };
 }

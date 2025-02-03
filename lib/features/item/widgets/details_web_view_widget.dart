@@ -127,7 +127,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                             Wrap(children: List.generate(itemController.item!.nutritionsName!.length, (index) {
                               return Text(
                                 '${itemController.item!.nutritionsName![index]}${itemController.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -143,7 +143,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                             Wrap(children: List.generate(itemController.item!.allergiesName!.length, (index) {
                               return Text(
                                 '${itemController.item!.allergiesName![index]}${itemController.item!.allergiesName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -153,7 +153,7 @@ class DetailsWebViewWidget extends StatelessWidget {
                         itemController.item!.isPrescriptionRequired! ? Container(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                            color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           ),
                           child: Text(

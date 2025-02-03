@@ -171,7 +171,7 @@ class WebJustForYouShimmerView extends StatelessWidget {
                   child: Container(
                     height: 185, width: 185,
                     decoration: BoxDecoration(
-                      color: Colors.grey.withOpacity(0.3),
+                      color: Colors.grey.withValues(alpha: 0.3),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                     ),
                   ),

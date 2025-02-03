@@ -70,7 +70,7 @@ class MyTextFieldState extends State<MyTextField> {
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), borderSide: BorderSide.none),
         hintStyle: robotoRegular.copyWith(color: Theme.of(context).hintColor),
         suffixIcon: widget.isPassword ? IconButton(
-          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
+          icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withValues(alpha: 0.3)),
           onPressed: _toggle,
         ) : null,
       ),

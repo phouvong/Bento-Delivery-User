@@ -1,4 +1,6 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
+import 'package:sixam_mart/common/models/config_model.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/splash/domain/models/landing_model.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
@@ -10,13 +12,23 @@ class SplashService implements SplashServiceInterface {
   SplashService({required this.splashRepositoryInterface});
 
   @override
-  Future<Response> getConfigData() async {
-    return await splashRepositoryInterface.getConfigData();
+  Future<Response> getConfigData({required DataSourceEnum source}) async {
+    Response response = await splashRepositoryInterface.getConfigData(source: source);
+    return response;
   }
 
   @override
-  Future<LandingModel?> getLandingPageData() async {
-    return await splashRepositoryInterface.getLandingPageData();
+  ConfigModel? prepareConfigData(Response response){
+    ConfigModel? configModel;
+    if(response.statusCode == 200) {
+      configModel = ConfigModel.fromJson(response.body);
+    }
+    return configModel;
+  }
+
+  @override
+  Future<LandingModel?> getLandingPageData({required DataSourceEnum source}) async {
+    return await splashRepositoryInterface.getLandingPageData(source: source);
   }
 
   @override
@@ -40,8 +52,8 @@ class SplashService implements SplashServiceInterface {
   }
 
   @override
-  Future<List<ModuleModel>?> getModules({Map<String, String>? headers}) async {
-    return await splashRepositoryInterface.getModules(headers: headers);
+  Future<List<ModuleModel>?> getModules({Map<String, String>? headers, required DataSourceEnum source}) async {
+    return await splashRepositoryInterface.getModules(headers: headers, source: source);
   }
 
   @override

@@ -1,16 +1,19 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
+import 'package:sixam_mart/common/models/config_model.dart';
 import 'package:sixam_mart/common/models/response_model.dart';
 import 'package:sixam_mart/features/splash/domain/models/landing_model.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 
 abstract class SplashServiceInterface {
-  Future<Response> getConfigData();
-  Future<LandingModel?> getLandingPageData();
+  Future<Response> getConfigData({required DataSourceEnum source});
+  ConfigModel? prepareConfigData(Response response);
+  Future<LandingModel?> getLandingPageData({required DataSourceEnum source});
   Future<ModuleModel?> initSharedData();
   void disableIntro();
   bool? showIntro();
   Future<void> setStoreCategory(int storeCategoryID);
-  Future<List<ModuleModel>?> getModules({Map<String, String>? headers});
+  Future<List<ModuleModel>?> getModules({Map<String, String>? headers, required DataSourceEnum source});
   Future<void> setModule(ModuleModel? module);
   Future<void> setCacheModule(ModuleModel? module);
   ModuleModel? getCacheModule();

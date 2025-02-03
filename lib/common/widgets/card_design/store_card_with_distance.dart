@@ -96,7 +96,7 @@ class StoreCardWithDistance extends StatelessWidget {
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 2),
                             decoration: BoxDecoration(
                               borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault)),
-                              color: Theme.of(context).colorScheme.error.withOpacity(0.8),
+                              color: Theme.of(context).colorScheme.error.withValues(alpha: 0.8),
                             ),
                             child: Text(
                               discount > 0 ? '${(isRightSide || discountType == 'percent') ? '' : currencySymbol}$discount${discountType == 'percent' ? '%'
@@ -209,7 +209,7 @@ class StoreCardWithDistance extends StatelessWidget {
                             Container(
                               padding: const EdgeInsets.symmetric(vertical: 3, horizontal: Dimensions.paddingSizeSmall),
                               decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                 borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                               ),
                               child: Row(children: [

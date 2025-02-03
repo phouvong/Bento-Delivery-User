@@ -53,7 +53,7 @@ class OrderItemWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
       ),
       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
       margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
@@ -97,7 +97,7 @@ class OrderItemWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall, horizontal: Dimensions.paddingSizeSmall),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   ),
                   child: Text(
                     orderDetails.itemDetails!.unitType ?? '',

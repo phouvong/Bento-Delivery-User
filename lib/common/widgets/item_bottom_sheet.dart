@@ -243,7 +243,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 child: Container(
                                   decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                      color: Theme.of(context).primaryColor.withOpacity(0.05)
+                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.05)
                                   ),
                                   padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                                   margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
@@ -285,7 +285,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                                 decoration: BoxDecoration(
                                     borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
                                     color: Theme.of(context).cardColor,
-                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.2), blurRadius: 5)]
+                                    boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), blurRadius: 5)]
                                 ),
                                 child: Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! ? Text(
                                   widget.item!.unitType ?? '',
@@ -301,7 +301,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             ]),
                             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
-                            Text(widget.item!.description!, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5))),
+                            Text(widget.item!.description!, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5))),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
                           ],
                         ) : const SizedBox(),
@@ -315,7 +315,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             Wrap(children: List.generate(widget.item!.nutritionsName!.length, (index) {
                               return Text(
                                 '${widget.item!.nutritionsName![index]}${widget.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -331,7 +331,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             Wrap(children: List.generate(widget.item!.allergiesName!.length, (index) {
                               return Text(
                                 '${widget.item!.allergiesName![index]}${widget.item!.allergiesName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -347,7 +347,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                             Wrap(children: List.generate(widget.item!.genericName!.length, (index) {
                               return Text(
                                 '${widget.item!.genericName![index]}${widget.item!.genericName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -374,7 +374,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                           margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                           ),
                           child: Column(children: [
                             Text('not_available_now'.tr, style: robotoMedium.copyWith(
@@ -576,7 +576,7 @@ class _ItemBottomSheetState extends State<ItemBottomSheet> {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         shape: BoxShape.circle,
-                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.3), blurRadius: 5)],
+                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), blurRadius: 5)],
                       ),
                       child: const Icon(Icons.close, size: 14),
                   ),
@@ -639,7 +639,7 @@ class AddonView extends StatelessWidget {
 
           Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).disabledColor.withOpacity(0.1),
+              color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             ),
             padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
@@ -838,7 +838,7 @@ class NewVariationView extends StatelessWidget {
           padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
           margin: EdgeInsets.only(bottom: index != item!.foodVariations!.length - 1 ? Dimensions.paddingSizeLarge : 0),
           decoration: BoxDecoration(
-            color: itemController.selectedVariations[index].contains(true) ? Theme.of(context).primaryColor.withOpacity(0.01) : Theme.of(context).disabledColor.withOpacity(0.05),
+            color: itemController.selectedVariations[index].contains(true) ? Theme.of(context).primaryColor.withValues(alpha: 0.01) : Theme.of(context).disabledColor.withValues(alpha: 0.05),
             border: Border.all(color: itemController.selectedVariations[index].contains(true) ? Theme.of(context).primaryColor : Theme.of(context).disabledColor, width: 0.5),
             borderRadius: BorderRadius.circular(Dimensions.radiusDefault)
           ),
@@ -849,7 +849,7 @@ class NewVariationView extends StatelessWidget {
 
               Container(
                 decoration: BoxDecoration(
-                  color: item!.foodVariations![index].required! && (item!.foodVariations![index].multiSelect! ? item!.foodVariations![index].min! : 1) > selectedCount ? Theme.of(context).colorScheme.error.withOpacity(0.1) : Theme.of(context).disabledColor.withOpacity(0.1),
+                  color: item!.foodVariations![index].required! && (item!.foodVariations![index].multiSelect! ? item!.foodVariations![index].min! : 1) > selectedCount ? Theme.of(context).colorScheme.error.withValues(alpha: 0.1) : Theme.of(context).disabledColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 ),
                 padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

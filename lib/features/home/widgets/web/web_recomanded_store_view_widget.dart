@@ -24,9 +24,9 @@ class WebRecommendedStoreView extends StatelessWidget {
         width: Get.width, height: 302,
         padding: const EdgeInsets.all(11),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 2),
+          border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 2),
         ),
         child: Column(children: [
           Text(isFood ? 'recommended_restaurants'.tr : 'recommended_stores'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge)),
@@ -60,7 +60,7 @@ class WebRecommendedStoreView extends StatelessWidget {
                       return Container(
                         padding: const EdgeInsets.all(2),
                         decoration: BoxDecoration(
-                          color: Theme.of(context).primaryColor.withOpacity(0.15),
+                          color: Theme.of(context).primaryColor.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                         ),
                         child: ClipRRect(

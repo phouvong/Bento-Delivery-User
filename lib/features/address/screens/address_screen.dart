@@ -104,7 +104,7 @@ class _AddressScreenState extends State<AddressScreen> {
                                       decoration:  BoxDecoration(
                                         color: Theme.of(context).cardColor,
                                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), blurRadius: 5, spreadRadius: 1)],
+                                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), blurRadius: 5, spreadRadius: 1)],
                                       ),
                                       child: CustomInkWell(
                                         onTap: () => Get.toNamed(RouteHelper.getAddAddressRoute(false, false, 0)),

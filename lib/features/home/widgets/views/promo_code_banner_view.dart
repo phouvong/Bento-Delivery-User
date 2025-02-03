@@ -49,7 +49,7 @@ class _PromoCodeBannerViewState extends State<PromoCodeBannerView> {
                 height: 135, width: double.infinity,
                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
                 decoration: BoxDecoration(
-                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   image: const DecorationImage(
                     image: AssetImage(Images.promoCodeBg),
@@ -68,7 +68,7 @@ class _PromoCodeBannerViewState extends State<PromoCodeBannerView> {
                       Text(
                         '${couponController.couponList![itemIndex].title ?? ''} ${'min_order_of'.tr} ${PriceConverter.convertPrice(couponController.couponList![itemIndex].minPurchase)}',
                           textAlign: TextAlign.center,
-                          style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.8)),
+                          style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge, color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.8)),
                       ),
                       const SizedBox(height: Dimensions.paddingSizeSmall),
 
@@ -128,7 +128,7 @@ class _PromoCodeBannerViewState extends State<PromoCodeBannerView> {
                   ),
                 ) : Container(
                   height: 5, width: 6,
-                  decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                  decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
                 ),
               );
             }).toList(),

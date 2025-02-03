@@ -1,6 +1,11 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/category/domain/models/category_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/features/language/controllers/language_controller.dart';
 import 'package:sixam_mart/api/api_client.dart';
@@ -13,9 +18,9 @@ class CategoryRepository implements CategoryRepositoryInterface {
 
   @override
   Future getList({int? offset, bool categoryList = false, bool subCategoryList = false, bool categoryItemList = false, bool categoryStoreList = false,
-    bool? allCategory, String? id, String? type}) async {
+    bool? allCategory, String? id, String? type, DataSourceEnum? source}) async {
     if (categoryList) {
-      return await _getCategoryList(allCategory!);
+      return await _getCategoryList(allCategory!, source ?? DataSourceEnum.client);
     } else if (subCategoryList) {
       return await _getSubCategoryList(id);
     } else if (categoryItemList) {
@@ -25,17 +30,39 @@ class CategoryRepository implements CategoryRepositoryInterface {
     }
   }
 
-  Future<List<CategoryModel>?> _getCategoryList(bool allCategory) async {
+  Future<List<CategoryModel>?> _getCategoryList(bool allCategory, DataSourceEnum source) async {
     List<CategoryModel>? categoryList;
-    Response response = await apiClient.getData(AppConstants.categoryUri, headers: allCategory ? {
+    Map<String, String>? header = allCategory ? {
       'Content-Type': 'application/json; charset=UTF-8',
-      AppConstants.localizationKey: Get.find<LocalizationController>().locale.languageCode} : null);
-    if (response.statusCode == 200) {
-      categoryList = [];
-      response.body.forEach((category) {
-        categoryList!.add(CategoryModel.fromJson(category));
-      });
+      AppConstants.localizationKey: Get.find<LocalizationController>().locale.languageCode,
+    } : null;
+
+    Map<String, String>? cacheHeader = header ?? apiClient.getHeader();
+
+    String cacheId = AppConstants.categoryUri + Get.find<SplashController>().module!.id!.toString();
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.categoryUri, headers: header);
+        if (response.statusCode == 200) {
+          categoryList = [];
+          response.body.forEach((category) {
+            categoryList!.add(CategoryModel.fromJson(category));
+          });
+          LocalClient.organize(DataSourceEnum.client, cacheId, jsonEncode(response.body), cacheHeader);
+
+        }
+
+      case DataSourceEnum.local:
+        String? cacheResponseData = await LocalClient.organize(DataSourceEnum.local, cacheId, null, null);
+        if(cacheResponseData != null) {
+          categoryList = [];
+          jsonDecode(cacheResponseData).forEach((category) {
+            categoryList!.add(CategoryModel.fromJson(category));
+          });
+        }
     }
+
     return categoryList;
   }
 

@@ -176,7 +176,7 @@ class PopularStoreShimmer extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                                  border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 1),
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),

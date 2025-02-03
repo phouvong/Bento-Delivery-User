@@ -269,7 +269,7 @@ class LocationController extends GetxController implements GetxService {
       }
       Get.dialog(ModuleDialogWidget(callback: () {
         _saveDataAndFirebaseConfig(address, fromSignUp, route, canRoute, isDesktop);
-      }), barrierDismissible: false, barrierColor: Colors.black.withOpacity(0.7));
+      }), barrierDismissible: false, barrierColor: Colors.black.withValues(alpha: 0.7));
     } else {
       _saveDataAndFirebaseConfig(address!, fromSignUp, route, canRoute, isDesktop);
     }

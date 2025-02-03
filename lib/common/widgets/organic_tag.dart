@@ -18,7 +18,7 @@ class OrganicTag extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
       margin: EdgeInsets.only(bottom: fromDetails ? Dimensions.paddingSizeSmall : 0),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.05),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
       ),
       child: Text(

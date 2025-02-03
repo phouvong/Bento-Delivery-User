@@ -43,18 +43,22 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/module_view.dart';
 import 'package:sixam_mart/features/parcel/screens/parcel_category_screen.dart';
-import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
 
 
   static Future<void> loadData(bool reload, {bool fromModule = false}) async {
-    await Get.find<LocationController>().syncZoneData();
+    Get.find<LocationController>().syncZoneData();
     Get.find<FlashSaleController>().setEmptyFlashSale(fromModule: fromModule);
-    await Get.find<CartController>().getCartDataOnline();
+    // print('------------call from home');
+    // await Get.find<CartController>().getCartDataOnline();
+    if(AuthHelper.isLoggedIn()) {
+      Get.find<StoreController>().getVisitAgainStoreList(fromModule: fromModule);
+    }
     if(Get.find<SplashController>().module != null && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isParcel!) {
       Get.find<BannerController>().getBannerList(reload);
+      Get.find<StoreController>().getRecommendedStoreList();
       if(Get.find<SplashController>().module!.moduleType.toString() == AppConstants.grocery) {
         Get.find<FlashSaleController>().getFlashSale(reload, false);
       }
@@ -75,11 +79,10 @@ class HomeScreen extends StatefulWidget {
       Get.find<ItemController>().getReviewedItemList(reload, 'all', false);
       Get.find<ItemController>().getRecommendedItemList(reload, 'all', false);
       Get.find<StoreController>().getStoreList(1, reload);
-      Get.find<StoreController>().getRecommendedStoreList();
       Get.find<AdvertisementController>().getAdvertisementList();
     }
     if(AuthHelper.isLoggedIn()) {
-      Get.find<StoreController>().getVisitAgainStoreList(fromModule: fromModule);
+      // Get.find<StoreController>().getVisitAgainStoreList(fromModule: fromModule);
       await Get.find<ProfileController>().getUserInfo();
       Get.find<NotificationController>().getNotificationList(reload);
       Get.find<CouponController>().getCouponList();
@@ -334,7 +337,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           margin: const EdgeInsets.symmetric(vertical: 3),
                           decoration: BoxDecoration(
                             color: Theme.of(context).cardColor,
-                            border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
+                            border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 1),
                             borderRadius: BorderRadius.circular(25),
                             boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                           ),

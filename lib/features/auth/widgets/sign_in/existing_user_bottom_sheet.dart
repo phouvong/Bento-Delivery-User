@@ -45,7 +45,7 @@ class ExistingUserBottomSheet extends StatelessWidget {
         ) : Container(
           height: 5, width: 35,
           decoration: BoxDecoration(
-            color: Theme.of(context).disabledColor.withOpacity(0.2),
+            color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
             borderRadius: BorderRadius.circular(5),
           ),
         ),
@@ -87,7 +87,7 @@ class ExistingUserBottomSheet extends StatelessWidget {
 
               Expanded(child: CustomButton(
                 buttonText: 'no'.tr,
-                color: Theme.of(context).disabledColor.withOpacity(0.5),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.5),
                 fontSize: Dimensions.fontSizeDefault,
                 textColor: Theme.of(context).textTheme.bodyLarge!.color,
                 onPressed: () {

@@ -164,7 +164,7 @@ class _CodePickerWidgetState extends State<CodePickerWidget> {
   void showCountryCodePickerDialog() {
     if (!GetPlatform.isAndroid && !GetPlatform.isIOS) {
       showDialog(
-        barrierColor: widget.barrierColor ?? Colors.grey.withOpacity(0.5),
+        barrierColor: widget.barrierColor ?? Colors.grey.withValues(alpha: 0.5),
         // backgroundColor: widgets.backgroundColor ?? Colors.transparent,
         context: context,
         builder: (context) => Center(
@@ -203,7 +203,7 @@ class _CodePickerWidgetState extends State<CodePickerWidget> {
       });
     } else {
       showModalBottomSheet(
-        barrierColor: widget.barrierColor ?? Colors.grey.withOpacity(0.5),
+        barrierColor: widget.barrierColor ?? Colors.grey.withValues(alpha: 0.5),
         backgroundColor: widget.backgroundColor ?? Colors.transparent,
         context: context,
         builder: (context) => Center(

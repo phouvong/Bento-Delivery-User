@@ -126,7 +126,7 @@ class WalletStepper extends StatelessWidget {
               Expanded(
                 child: VerticalDivider(
                   thickness: 3,
-                  color: Theme.of(context).primaryColor.withOpacity(0.30),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.30),
                 ),
               ),
 
@@ -142,7 +142,7 @@ class WalletStepper extends StatelessWidget {
               Expanded(
                 child: VerticalDivider(
                   thickness: 3,
-                  color: Theme.of(context).primaryColor.withOpacity(0.30),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.30),
                 ),
               ),
 
@@ -158,7 +158,7 @@ class WalletStepper extends StatelessWidget {
               Expanded(
                 child: VerticalDivider(
                   thickness: 3,
-                  color: Theme.of(context).primaryColor.withOpacity(0.30),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.30),
                 ),
               ),
 

@@ -74,7 +74,7 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
     return Container(
       margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge),
       decoration: BoxDecoration(
-        color: isPharmacy ? null : Theme.of(context).disabledColor.withOpacity(0.1),
+        color: isPharmacy ? null : Theme.of(context).disabledColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(isPharmacy ? 0 : Dimensions.radiusSmall),
       ),
       child: Column(children: [
@@ -92,9 +92,9 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
 
               Container(
                 height: 2, width: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth * 0.88 : Get.width * 0.75,
-                color: Theme.of(context).primaryColor.withOpacity(0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
-              Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withOpacity(0.5))),
+              Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withValues(alpha: 0.5))),
 
               InkWell(
                 onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('popular', isNearbyStore: true)),
@@ -180,7 +180,7 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
                                       decoration: BoxDecoration(
                                         color: Theme.of(context).cardColor,
                                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                        border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
+                                        border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
                                         boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                                       ),
                                       child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -194,7 +194,7 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
                                               decoration: BoxDecoration(
                                                 color: Theme.of(context).cardColor,
                                                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                                border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
+                                                border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
                                               ),
                                               child: Stack(children: [
                                                 ClipRRect(

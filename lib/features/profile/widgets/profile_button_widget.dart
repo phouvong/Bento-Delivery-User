@@ -25,7 +25,7 @@ class ProfileButtonWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           border: Border.all(color: Theme.of(context).primaryColor, width: 0.1),
-          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5)],
+          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5)],
         ),
         child: Row(children: [
           iconImage != null ? Image.asset(iconImage!, height: 18, width: 25) : Icon(icon, size: 25, color: color ?? Theme.of(context).textTheme.bodyMedium!.color),
@@ -37,9 +37,9 @@ class ProfileButtonWidget extends StatelessWidget {
             scale: 0.7,
             child: CupertinoSwitch(
               value: isButtonActive!,
-              activeColor: Theme.of(context).primaryColor,
+              activeTrackColor: Theme.of(context).primaryColor,
               onChanged: (bool? value) => onTap(),
-              trackColor: Theme.of(context).primaryColor.withOpacity(0.5),
+              inactiveTrackColor: Theme.of(context).primaryColor.withValues(alpha: 0.5),
             ),
           ) : const SizedBox()
         ]),

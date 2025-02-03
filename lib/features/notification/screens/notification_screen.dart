@@ -134,7 +134,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: isSeen ? Theme.of(context).cardColor : Theme.of(context).hintColor.withOpacity(0.05),
+                                  color: isSeen ? Theme.of(context).cardColor : Theme.of(context).hintColor.withValues(alpha: 0.05),
                                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                 ),
                                 padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
@@ -142,7 +142,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                                   Container(
                                     decoration: BoxDecoration(
-                                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                     ),
                                     padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall + 1),
@@ -160,7 +160,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       Expanded(
                                         child: Text(
                                           notificationController.notificationList![index].data!.title ?? '', maxLines: 1, overflow: TextOverflow.ellipsis,
-                                          style: robotoBold.copyWith(color: isSeen ? Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.5) : Theme.of(context).textTheme.bodyLarge?.color,
+                                          style: robotoBold.copyWith(color: isSeen ? Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.5) : Theme.of(context).textTheme.bodyLarge?.color,
                                             fontWeight: isSeen ? FontWeight.w500 : FontWeight.w700,
                                           ),
                                         ),
@@ -181,7 +181,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
                                       Expanded(
                                         child: Text(
                                           notificationController.notificationList![index].data!.description ?? '', maxLines: 2, overflow: TextOverflow.ellipsis,
-                                          style: robotoRegular.copyWith(color: isSeen ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyLarge?.color?.withOpacity(0.7)),
+                                          style: robotoRegular.copyWith(color: isSeen ? Theme.of(context).disabledColor : Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)),
                                         ),
                                       ),
                                       const SizedBox(width: Dimensions.paddingSizeSmall),

@@ -64,7 +64,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
       children: [
         Container(
           height: 64,
-          color: Theme.of(context).primaryColor.withOpacity(0.10),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
           child: Center(child: Text('live_chat'.tr, style: robotoMedium)),
         ),
         const SizedBox(height: 40),
@@ -85,12 +85,12 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                   decoration: ShapeDecoration(
                     color: Theme.of(context).cardColor,
                     shape: RoundedRectangleBorder(
-                      side: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.04)),
+                      side: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: .04)),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                     ),
                     shadows: [
                       BoxShadow(
-                        color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
+                        color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.05),
                         blurRadius: 5,
                         offset: const Offset(0, 5),
                         spreadRadius: 0,
@@ -184,7 +184,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                                     return Container(
                                       decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                        color: widget.chatController.selectedIndex == -1 ? Theme.of(context).primaryColor.withOpacity(0.10) : Theme.of(context).cardColor,
+                                        color: widget.chatController.selectedIndex == -1 ? Theme.of(context).primaryColor.withValues(alpha: 0.10) : Theme.of(context).cardColor,
                                       ),
                                       margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
                                       child: Column(children: [
@@ -213,7 +213,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                                 ),
                               ),
                             ),
-                            Divider(color: Theme.of(context).disabledColor.withOpacity(.5)),
+                            Divider(color: Theme.of(context).disabledColor.withValues(alpha: .5)),
 
                             /// TabBar
                             Padding(
@@ -297,12 +297,12 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                     decoration: ShapeDecoration(
                       color: Theme.of(context).cardColor,
                       shape: RoundedRectangleBorder(
-                        side: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(.04)),
+                        side: BorderSide(width: 1, color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: .04)),
                         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                       ),
                       shadows: [
                         BoxShadow(
-                          color: Theme.of(context).textTheme.bodyLarge!.color!.withOpacity(0.05),
+                          color: Theme.of(context).textTheme.bodyLarge!.color!.withValues(alpha: 0.05),
                           blurRadius: 5,
                           offset: const Offset(0, 5),
                           spreadRadius: 0,
@@ -349,7 +349,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                             ]),
                             const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
-                            Divider(color: Theme.of(context).disabledColor.withOpacity(.5)),
+                            Divider(color: Theme.of(context).disabledColor.withValues(alpha: .5)),
 
                           ],
                         ),
@@ -400,7 +400,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault)),
-                                border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6)),
+                                border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
                               ),
                               child: Padding(
                                 padding: const EdgeInsets.only(left: Dimensions.paddingSizeDefault),
@@ -494,7 +494,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                               decoration: BoxDecoration(
                                 color: Theme.of(context).cardColor,
                                 borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault)),
-                                border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6)),
+                                border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
                               ),
                               child: Image.asset(Images.image, width: 25, height: 25, color: widget.chatController.chatImage.isNotEmpty ? Theme.of(context).primaryColor : Theme.of(context).hintColor,),
                             ),
@@ -520,7 +520,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).cardColor,
                                   borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault)),
-                                  border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6)),
+                                  border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
                                 ),
                                 child: chatController.isLoading ? const SizedBox(height: 25, width: 25, child: CircularProgressIndicator()) : Image.asset(
                                   Images.sendIconWeb, width: 25, height: 25,

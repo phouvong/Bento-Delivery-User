@@ -21,7 +21,7 @@ class ParcelAppBarWidget extends StatelessWidget implements PreferredSizeWidget 
       shape: Border(
         bottom: BorderSide(
         width: .4,
-        color: Theme.of(context).primaryColorLight.withOpacity(.2)),
+        color: Theme.of(context).primaryColorLight.withValues(alpha: .2)),
       ),
       elevation: 0, leadingWidth: backButton! ? Dimensions.paddingSizeLarge : 0,
       title: GetBuilder<SplashController>(

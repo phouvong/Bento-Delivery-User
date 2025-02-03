@@ -66,7 +66,7 @@ class _WebCommonConditionViewWidgetState extends State<WebCommonConditionViewWid
       return (itemController.commonConditions != null && itemController.commonConditions!.isNotEmpty) ? Container(
         margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge),
         decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           ),
         child: Column(children: [
@@ -105,7 +105,7 @@ class _WebCommonConditionViewWidgetState extends State<WebCommonConditionViewWid
 
           Stack(children: [
               SizedBox(
-                height: 250, width: Get.width,
+                height: 280, width: Get.width,
                 child: itemController.conditionWiseProduct != null ? itemController.conditionWiseProduct!.isNotEmpty ? ListView.builder(
                   controller: scrollController,
                   scrollDirection: Axis.horizontal,

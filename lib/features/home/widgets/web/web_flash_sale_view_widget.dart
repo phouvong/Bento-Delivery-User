@@ -41,9 +41,9 @@ class _WebFlashSaleViewWidgetState extends State<WebFlashSaleViewWidget> {
         width: Get.width,
         margin: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-          border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 2),
+          border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 2),
         ),
         child: Column(children: [
 
@@ -108,7 +108,7 @@ class _WebFlashSaleViewWidgetState extends State<WebFlashSaleViewWidget> {
               minHeight: 5,
               value: remaining / stock,
               valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-              backgroundColor: Theme.of(context).primaryColor.withOpacity(0.25),
+              backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.25),
             ),
           ),*/
 

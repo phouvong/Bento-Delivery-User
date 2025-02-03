@@ -80,7 +80,7 @@ class OrderViewWidget extends StatelessWidget {
                           margin: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall) : null,
                           decoration: ResponsiveHelper.isDesktop(context) ? BoxDecoration(
                             color: Theme.of(context).cardColor, borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 5))],
+                            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10, offset: const Offset(0, 5))],
                           ) : null,
                           child: CustomInkWell(
                             onTap: () {
@@ -102,7 +102,7 @@ class OrderViewWidget extends StatelessWidget {
                                     height: ResponsiveHelper.isDesktop(context) ? 80 : 60, width: ResponsiveHelper.isDesktop(context) ? 80 : 60, alignment: Alignment.center,
                                     decoration: isParcel ? BoxDecoration(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      color: Theme.of(context).primaryColor.withOpacity(0.2),
+                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                                     ) : null,
                                     child: ClipRRect(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
@@ -156,7 +156,7 @@ class OrderViewWidget extends StatelessWidget {
                                         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                                         decoration: BoxDecoration(
                                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                         ),
                                         child: Text(paginatedOrderModel.orders![index].orderStatus!.tr, style: robotoMedium.copyWith(
                                           fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor,
@@ -177,7 +177,7 @@ class OrderViewWidget extends StatelessWidget {
                                     padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                      color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                      color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                     ),
                                     child: Text(paginatedOrderModel.orders![index].orderStatus!.tr, style: robotoMedium.copyWith(
                                       fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).primaryColor,

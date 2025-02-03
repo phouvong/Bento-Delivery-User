@@ -41,7 +41,7 @@ class BestStoreNearbyView extends StatelessWidget {
       return storeList != null ? storeList.isNotEmpty ? Padding(
         padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
         child: Container(
-          color: isPharmacy ? null : Theme.of(context).disabledColor.withOpacity(0.1),
+          color: isPharmacy ? null : Theme.of(context).disabledColor.withValues(alpha: 0.1),
           child: Column(children: [
 
             (isPharmacy || isFood) ? Padding(
@@ -58,9 +58,9 @@ class BestStoreNearbyView extends StatelessWidget {
 
                   Container(
                     height: 2, width: context.width * 0.75,
-                    color: Theme.of(context).primaryColor.withOpacity(0.2),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   ),
-                  Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withOpacity(0.5))),
+                  Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withValues(alpha: 0.5))),
 
 
                   InkWell(
@@ -229,7 +229,7 @@ class BestStoreNearbyView extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   color: Theme.of(context).cardColor,
                                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), spreadRadius: 1, blurRadius: 7, offset: const Offset(0, 3))],
+                                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), spreadRadius: 1, blurRadius: 7, offset: const Offset(0, 3))],
                                 ),
                                 child: Padding(
                                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
@@ -338,9 +338,9 @@ class BestStoreNearbyShimmer extends StatelessWidget {
 
               Container(
                 height: 2, width: context.width * 0.75,
-                color: Theme.of(context).primaryColor.withOpacity(0.2),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
               ),
-              Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withOpacity(0.5))),
+              Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withValues(alpha: 0.5))),
 
 
               Padding(
@@ -447,7 +447,7 @@ class BestStoreNearbyShimmer extends StatelessWidget {
                           Container(
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: 3),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor.withOpacity(0.1),
+                              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(Dimensions.radiusExtraLarge),
                             ),
                             child: Row(children: [
@@ -522,7 +522,7 @@ class BestStoreNearbyShimmer extends StatelessWidget {
                               child: Stack(clipBehavior: Clip.none, children: [
                                 Container(
                                   height: double.infinity, width: double.infinity,
-                                  color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                  color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                 ),
 
                                 Positioned(
@@ -531,7 +531,7 @@ class BestStoreNearbyShimmer extends StatelessWidget {
                                     padding: const EdgeInsets.all(2),
                                     decoration: BoxDecoration(
                                       shape: BoxShape.circle,
-                                      color: Theme.of(context).cardColor.withOpacity(0.8),
+                                      color: Theme.of(context).cardColor.withValues(alpha: 0.8),
                                     ),
                                     child: Icon(Icons.favorite_border, color: Theme.of(context).primaryColor, size: 20),
                                   ),
@@ -579,7 +579,7 @@ class BestStoreNearbyShimmer extends StatelessWidget {
                                       height: 10, width: 70,
                                       padding: const EdgeInsets.symmetric(vertical: 3, horizontal: Dimensions.paddingSizeSmall),
                                       decoration: BoxDecoration(
-                                        color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                         borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                                       ),
                                     ),

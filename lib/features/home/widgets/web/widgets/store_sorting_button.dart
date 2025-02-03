@@ -16,7 +16,7 @@ class StoreSortingButton extends StatelessWidget {
       return Container(
         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraSmall, vertical: Dimensions.paddingSizeExtraSmall),
         decoration: BoxDecoration(
-          color: storeController.filterType == storeType ? Theme.of(context).primaryColor.withOpacity(0.1) : Theme.of(context).cardColor,
+          color: storeController.filterType == storeType ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           border: Border.all(color: storeController.filterType == storeType ? Theme.of(context).primaryColor : Theme.of(context).disabledColor),
         ),

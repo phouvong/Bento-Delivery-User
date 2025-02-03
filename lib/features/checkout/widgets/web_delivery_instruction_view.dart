@@ -23,9 +23,9 @@ class _WebDeliveryInstructionViewState extends State<WebDeliveryInstructionView>
       child: Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          // boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+          // boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-          border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.20)),
+          border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.20)),
         ),
         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeExtraSmall),
         child: GetBuilder<CheckoutController>(
@@ -65,7 +65,7 @@ class _WebDeliveryInstructionViewState extends State<WebDeliveryInstructionView>
                       child: Container(
                         padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                         decoration: BoxDecoration(
-                          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.05) : Colors.grey[200],
+                          color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.05) : Colors.grey[200],
                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           border: Border.all(color: isSelected ?  Theme.of(context).primaryColor : Colors.transparent),
                         ),
@@ -111,7 +111,7 @@ class _WebDeliveryInstructionViewState extends State<WebDeliveryInstructionView>
                 //           },
                 //           child: Container(
                 //             decoration: BoxDecoration(
-                //               color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.5) : Colors.grey[200],
+                //               color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.5) : Colors.grey[200],
                 //               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                 //               // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                 //             ),

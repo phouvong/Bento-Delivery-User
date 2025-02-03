@@ -54,7 +54,7 @@ class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
               height: 50,
               child: Container(
                 height: 40,
-                color: widget.fromShop ? Theme.of(context).disabledColor.withOpacity(0.1) : Theme.of(context).primaryColor.withOpacity(0.1),
+                color: widget.fromShop ? Theme.of(context).disabledColor.withValues(alpha: 0.1) : Theme.of(context).primaryColor.withValues(alpha: 0.1),
                 child: ListView.builder(
                   itemCount: categories.length,
                   shrinkWrap: true,
@@ -100,7 +100,7 @@ class _ProductWithCategoriesViewState extends State<ProductWithCategoriesView> {
 
             Container(
               decoration: BoxDecoration(
-                color: widget.fromShop ? Theme.of(context).disabledColor.withOpacity(0.1) : Theme.of(context).primaryColor.withOpacity(0.1),
+                color: widget.fromShop ? Theme.of(context).disabledColor.withValues(alpha: 0.1) : Theme.of(context).primaryColor.withValues(alpha: 0.1),
               ),
               child: SizedBox(
                 height: ResponsiveHelper.isDesktop(context) ? widget.fromShop ? 290 : 260 : widget.fromShop ? 292 : 250, width: Get.width,

@@ -17,7 +17,7 @@ class BottomCartWidget extends StatelessWidget {
           height: GetPlatform.isIOS ? 100 : 70, width: Get.width,
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeExtraLarge,/* vertical: Dimensions.PADDING_SIZE_SMALL*/),
           decoration: BoxDecoration(
-              color: Theme.of(context).cardColor, boxShadow: [BoxShadow(color: const Color(0xFF2A2A2A).withOpacity(0.1), blurRadius: 10, offset: const Offset(0, -5))],
+              color: Theme.of(context).cardColor, boxShadow: [BoxShadow(color: const Color(0xFF2A2A2A).withValues(alpha: 0.1), blurRadius: 10, offset: const Offset(0, -5))],
           ),
           child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
 

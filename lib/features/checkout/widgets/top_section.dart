@@ -93,7 +93,7 @@ class TopSection extends StatelessWidget {
         storeId != null ? Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           ),
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -207,7 +207,7 @@ class TopSection extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           ),
           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
           width: double.infinity,
@@ -292,7 +292,7 @@ class TopSection extends StatelessWidget {
         Container(
           decoration: isDesktop ? const BoxDecoration() : BoxDecoration(
             color: Theme.of(context).cardColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           ),
           padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge, horizontal: Dimensions.paddingSizeLarge),
           child: Column(children: [

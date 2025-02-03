@@ -162,7 +162,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Theme.of(context).cardColor,
-                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.2), blurRadius: 5)],
+                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), blurRadius: 5)],
                               ),
                               padding: const EdgeInsets.all(7),
                               child: const Icon(Icons.share),
@@ -205,7 +205,7 @@ class _ReferAndEarnScreenState extends State<ReferAndEarnScreen> {
             constraints: const BoxConstraints.expand(height: 60),
             decoration: BoxDecoration(
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.paddingSizeExtraLarge), topRight: Radius.circular(Dimensions.paddingSizeExtraLarge)),
-              color: Theme.of(context).primaryColor.withOpacity(0.1),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               border: Border(
                 top: BorderSide(color: Theme.of(context).primaryColor, width: 0.3),
               ),

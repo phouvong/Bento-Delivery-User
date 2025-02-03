@@ -123,7 +123,7 @@ class HighlightStoreWidget extends StatelessWidget {
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
         color: Theme.of(context).cardColor,
-        border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.07), width: 2),
+        border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.07), width: 2),
       ),
       child: TextHover(
         builder: (hovered) {
@@ -186,7 +186,7 @@ class HighlightStoreWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
                         shape: BoxShape.circle,
-                        border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.1), width: 2),
+                        border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), width: 2),
                       ),
                       child: ClipOval(
                         child: CustomImage(
@@ -310,7 +310,7 @@ class _HighlightVideoWidgetState extends State<HighlightVideoWidget> {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
           color: Theme.of(context).cardColor,
-          border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.07), width: 2),
+          border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.07), width: 2),
         ),
         child: Column(children: [
 
@@ -428,7 +428,7 @@ class AdvertisementIndicator extends StatelessWidget {
             dotWidth: 7,
             spacing: 5,
             activeDotColor: Theme.of(context).colorScheme.primary,
-            dotColor: Theme.of(context).hintColor.withOpacity(0.6),
+            dotColor: Theme.of(context).hintColor.withValues(alpha: 0.6),
           ),
         ),
       ): const SizedBox();
@@ -444,7 +444,7 @@ class AdvertisementShimmer extends StatelessWidget {
     return Shimmer(
       child: Container(
         decoration: BoxDecoration(
-          color: Colors.blue.withOpacity(0.05),
+          color: Colors.blue.withValues(alpha: 0.05),
         ),
         margin:  EdgeInsets.only(
           top: ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeLarge * 3.5 : 0 ,
@@ -493,7 +493,7 @@ class AdvertisementShimmer extends StatelessWidget {
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                                 color: Theme.of(context).shadowColor,
-                                border: Border.all(color: Theme.of(context).hintColor.withOpacity(0.2),),
+                                border: Border.all(color: Theme.of(context).hintColor.withValues(alpha: 0.2),),
                               ),
                               padding: const EdgeInsets.only(bottom: 25),
                               child: const Center(child: Icon(Icons.play_circle, color: Colors.white,size: 45,),),
@@ -553,7 +553,7 @@ class AdvertisementShimmer extends StatelessWidget {
                                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                       color: Theme.of(context).shadowColor,
                                     ),
-                                    child:  Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white.withOpacity(0.8),),
+                                    child:  Icon(Icons.arrow_forward_rounded, size: 20, color: Colors.white.withValues(alpha: 0.8),),
                                   ),
                                 )
                               ],)
@@ -578,7 +578,7 @@ class AdvertisementShimmer extends StatelessWidget {
                     dotWidth: 7,
                     spacing: 5,
                     activeDotColor: Theme.of(context).disabledColor,
-                    dotColor: Theme.of(context).hintColor.withOpacity(0.6),
+                    dotColor: Theme.of(context).hintColor.withValues(alpha: 0.6),
                   ),
                 ),
               ),

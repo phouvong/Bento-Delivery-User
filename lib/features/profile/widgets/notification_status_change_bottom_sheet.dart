@@ -29,7 +29,7 @@ class NotificationStatusChangeBottomSheet extends StatelessWidget {
               Align(alignment: Alignment.topRight, child: IconButton(onPressed: ()=> Get.back(), icon: const Icon(Icons.clear))) : Container(
             height: 5, width: 50,
             decoration: BoxDecoration(
-              color: Theme.of(context).hintColor.withOpacity(0.2),
+              color: Theme.of(context).hintColor.withValues(alpha: 0.2),
               borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
             ),
           ),
@@ -72,7 +72,7 @@ class NotificationStatusChangeBottomSheet extends StatelessWidget {
                   Get.back();
                 },
                 buttonText: 'no'.tr,
-                color: Theme.of(context).disabledColor.withOpacity(0.5),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.5),
                 textColor: Theme.of(context).textTheme.bodyLarge!.color,
               ),
             ),

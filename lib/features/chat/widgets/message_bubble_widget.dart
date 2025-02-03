@@ -44,7 +44,7 @@ class MessageBubbleWidget extends StatelessWidget {
               if(message.message != null) Flexible(
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Theme.of(context).primaryColor.withOpacity(.10),
+                    color: Theme.of(context).primaryColor.withValues(alpha: .10),
                     borderRadius: const BorderRadius.only(
                       bottomRight: Radius.circular(Dimensions.radiusDefault),
                       topRight: Radius.circular(Dimensions.radiusDefault),
@@ -163,7 +163,7 @@ class MessageBubbleWidget extends StatelessWidget {
         Container(
           padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
-            color: Theme.of(context).disabledColor.withOpacity(0.2),
+            color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
             borderRadius: const BorderRadius.only(
               topLeft: Radius.circular(Dimensions.radiusDefault),
             ),
@@ -187,7 +187,7 @@ class MessageBubbleWidget extends StatelessWidget {
               child: Column(mainAxisAlignment: MainAxisAlignment.start, crossAxisAlignment: CrossAxisAlignment.end, children: [
                 Container(
                   decoration: BoxDecoration(
-                    color: Colors.deepPurple.withOpacity(0.1),
+                    color: Colors.deepPurple.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                   ),
                   padding: const EdgeInsets.all(4),
@@ -237,7 +237,7 @@ class MessageBubbleWidget extends StatelessWidget {
             order.detailsCount != null && order.detailsCount! > 0 ? Container(
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                color: Theme.of(context).disabledColor.withOpacity(0.1),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
               ),
               padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
               child: Column(children: [

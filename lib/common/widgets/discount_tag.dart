@@ -28,7 +28,7 @@ class DiscountTag extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
         decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.error.withOpacity(0.8),
+          color: Theme.of(context).colorScheme.error.withValues(alpha: 0.8),
           borderRadius: BorderRadius.horizontal(
             right: Radius.circular(isFloating! ? Dimensions.radiusLarge : inLeft ? Dimensions.radiusSmall : 0),
             left: Radius.circular(isFloating! ? Dimensions.radiusLarge : inLeft ? 0 : Dimensions.radiusSmall),

@@ -28,7 +28,7 @@ class GuestDeliveryAddress extends StatelessWidget {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
       ),
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
       child: Column(children: [
@@ -116,7 +116,7 @@ class GuestDeliveryAddress extends StatelessWidget {
           const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
           Row(children: [
-            Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor.withOpacity(0.5)),
+            Icon(Icons.location_on, size: 16, color: Theme.of(context).primaryColor.withValues(alpha: 0.5)),
             const SizedBox(width: Dimensions.paddingSizeSmall),
 
             Flexible(child: Text(

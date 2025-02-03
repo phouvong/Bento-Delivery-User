@@ -18,7 +18,7 @@ class TopOffersNearMe extends StatelessWidget {
 
       return storeList != null ? storeList.isNotEmpty ? Container(
         padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
-        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         child: Column(children: [
 
           Padding(

@@ -59,7 +59,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               child: FooterView(
                 minHeight: isLoggedIn ?  ResponsiveHelper.isDesktop(context) ? 0.4 : 0.6 : 0.35,
                 child:(isLoggedIn && ResponsiveHelper.isDesktop(context)) ? const WebProfileWidget() : Container(
-                  color: Theme.of(context).primaryColor.withOpacity(0.2),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   width: Dimensions.webMaxWidth, height: context.height,
                   child: Center(
                     child: Column(children: [
@@ -126,7 +126,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               decoration: BoxDecoration(
                                 shape: BoxShape.circle,
                                 color: Theme.of(context).cardColor,
-                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 5, spreadRadius: 1, offset: const Offset(3, 3))]
+                                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 5, spreadRadius: 1, offset: const Offset(3, 3))]
                               ),
                               padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                               child: const Icon(Icons.edit_outlined, size: 24, color: Colors.blue),

@@ -65,7 +65,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                         Container(
                           padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).disabledColor.withOpacity(0.1),
+                            color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                           ),
                           child: ClipRRect(
@@ -79,7 +79,7 @@ class _BrandsScreenState extends State<BrandsScreen> {
                         const SizedBox(width: Dimensions.paddingSizeSmall),
 
                         Flexible(
-                          child: Text(brandsController.brandList![index].name ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.7))),
+                          child: Text(brandsController.brandList![index].name ?? '', style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.7))),
                         ),
 
                       ]),

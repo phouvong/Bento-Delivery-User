@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_medicine_model.dart';
 import 'package:sixam_mart/features/item/domain/models/common_condition_model.dart';
@@ -13,28 +14,28 @@ class ItemService implements ItemServiceInterface {
   ItemService({required this.itemRepositoryInterface});
 
   @override
-  Future<List<Item>?> getPopularItemList(String type) async {
-    return await itemRepositoryInterface.getList(type: type, isPopularItem: true);
+  Future<List<Item>?> getPopularItemList(String type, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(type: type, isPopularItem: true, source: source);
   }
 
   @override
-  Future<ItemModel?> getReviewedItemList(String type) async {
-    return await itemRepositoryInterface.getList(type: type, isReviewedItem: true);
+  Future<ItemModel?> getReviewedItemList(String type, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(type: type, isReviewedItem: true, source: source);
   }
 
   @override
-  Future<ItemModel?> getFeaturedCategoriesItemList() async {
-    return await itemRepositoryInterface.getList(isFeaturedCategoryItems: true);
+  Future<ItemModel?> getFeaturedCategoriesItemList(DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(isFeaturedCategoryItems: true, source: source);
   }
 
   @override
-  Future<List<Item>?> getRecommendedItemList(String type) async {
-    return await itemRepositoryInterface.getList(type: type, isRecommendedItems: true);
+  Future<List<Item>?> getRecommendedItemList(String type, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(type: type, isRecommendedItems: true, source: source);
   }
 
   @override
-  Future<List<Item>?> getDiscountedItemList(String type) async {
-    return await itemRepositoryInterface.getList(isDiscountedItems: true, type: type);
+  Future<List<Item>?> getDiscountedItemList(String type, DataSourceEnum? source) async {
+    return await itemRepositoryInterface.getList(isDiscountedItems: true, type: type, source: source);
   }
 
   @override
@@ -43,8 +44,8 @@ class ItemService implements ItemServiceInterface {
   }
 
   @override
-  Future<BasicMedicineModel?> getBasicMedicine() async {
-    return await itemRepositoryInterface.getBasicMedicine();
+  Future<BasicMedicineModel?> getBasicMedicine(DataSourceEnum source) async {
+    return await itemRepositoryInterface.getBasicMedicine(source);
   }
 
   @override

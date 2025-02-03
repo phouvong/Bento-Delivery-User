@@ -103,9 +103,9 @@ class BrandItemScreenShimmer extends StatelessWidget {
             margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(
-              color: Get.isDarkMode ? Colors.white.withOpacity(0.05) : Colors.grey[300],
+              color: Get.isDarkMode ? Colors.white.withValues(alpha: 0.05) : Colors.grey[300],
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              boxShadow: [BoxShadow(color: Get.isDarkMode ? Colors.black12 : Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+              boxShadow: [BoxShadow(color: Get.isDarkMode ? Colors.black12 : Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
             ),
             child: Row(children: [
 
@@ -113,18 +113,18 @@ class BrandItemScreenShimmer extends StatelessWidget {
                 height: 80, width: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor,
+                  color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor,
                 ),
               ),
               const SizedBox(width: Dimensions.paddingSizeSmall),
 
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(height: 20, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 20, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                 ]),
               ),
 
@@ -146,9 +146,9 @@ class BrandItemScreenShimmer extends StatelessWidget {
             margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
             decoration: BoxDecoration(
-              color: Get.isDarkMode ? Colors.white.withOpacity(0.05) : Colors.grey[300],
+              color: Get.isDarkMode ? Colors.white.withValues(alpha: 0.05) : Colors.grey[300],
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              boxShadow: [BoxShadow(color: Get.isDarkMode ? Colors.black12 : Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+              boxShadow: [BoxShadow(color: Get.isDarkMode ? Colors.black12 : Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
             ),
             child: Row(children: [
 
@@ -156,18 +156,18 @@ class BrandItemScreenShimmer extends StatelessWidget {
                 height: 80, width: 80,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor,
+                  color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor,
                 ),
               ),
               const SizedBox(width: Dimensions.paddingSizeSmall),
 
               Expanded(
                 child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.center, children: [
-                  Container(height: 20, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 20, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                   const SizedBox(height: Dimensions.paddingSizeSmall),
-                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withOpacity(0.2) : Theme.of(context).cardColor),
+                  Container(height: 15, width: double.maxFinite, color: Get.isDarkMode ? Theme.of(context).disabledColor.withValues(alpha: 0.2) : Theme.of(context).cardColor),
                 ]),
               ),
 

@@ -44,7 +44,7 @@ class _BadWeatherWidgetState extends State<BadWeatherWidget> {
     return _showAlert && _message != null && _message!.isNotEmpty ? Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-        color: Theme.of(context).primaryColor.withOpacity(0.7),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.7),
       ),
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
       margin: EdgeInsets.symmetric(horizontal: ResponsiveHelper.isDesktop(context) ? 0 : widget.inParcel ? 0 : Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeLarge),

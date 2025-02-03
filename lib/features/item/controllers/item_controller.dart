@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/checkout/domain/models/place_order_body_model.dart';
@@ -135,7 +136,15 @@ class ItemController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> getPopularItemList(bool reload, String type, bool notify) async {
+  void clearItemLists() {
+    _popularItemList = null;
+    _reviewedItemList = null;
+    _discountedItemList = null;
+    _featuredCategoriesItem = null;
+    _recommendedItemList = null;
+  }
+
+  Future<void> getPopularItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     _popularType = type;
     if(reload) {
       _popularItemList = null;
@@ -143,18 +152,30 @@ class ItemController extends GetxController implements GetxService {
     if(notify) {
       update();
     }
-    if(_popularItemList == null || reload) {
-      List<Item>? items = await itemServiceInterface.getPopularItemList(type);
-      if (items != null) {
-        _popularItemList = [];
-        _popularItemList!.addAll(items);
-        _isLoading = false;
+    if(_popularItemList == null || reload || fromRecall) {
+      List<Item>? items;
+      if(dataSource == DataSourceEnum.local) {
+        items = await itemServiceInterface.getPopularItemList(type, dataSource);
+        _preparePopularItems(items);
+        getPopularItemList(false, type, notify, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        items = await itemServiceInterface.getPopularItemList(type, dataSource);
+        _preparePopularItems(items);
       }
-      update();
+
     }
   }
 
-  Future<void> getReviewedItemList(bool reload, String type, bool notify) async {
+  _preparePopularItems(List<Item>? items) {
+    if (items != null) {
+      _popularItemList = [];
+      _popularItemList!.addAll(items);
+      _isLoading = false;
+    }
+    update();
+  }
+
+  Future<void> getReviewedItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     _reviewedType = type;
     if(reload) {
       _reviewedItemList = null;
@@ -162,20 +183,32 @@ class ItemController extends GetxController implements GetxService {
     if(notify) {
       update();
     }
-    if(_reviewedItemList == null || reload) {
-      ItemModel? itemModel = await itemServiceInterface.getReviewedItemList(type);
-      if (itemModel != null) {
-        _reviewedItemList = [];
-        _reviewedCategoriesList = [];
-        _reviewedItemList!.addAll(itemModel.items!);
-        _reviewedCategoriesList!.addAll(itemModel.categories!);
-        _isLoading = false;
+    if(_reviewedItemList == null || reload || fromRecall) {
+      ItemModel? itemModel;
+      if(dataSource == DataSourceEnum.local) {
+        itemModel = await itemServiceInterface.getReviewedItemList(type, dataSource);
+        _preparedReviewedItems(itemModel);
+        getReviewedItemList(false, type, notify, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        itemModel = await itemServiceInterface.getReviewedItemList(type, dataSource);
+        _preparedReviewedItems(itemModel);
       }
-      update();
+
     }
   }
 
-  Future<void> getDiscountedItemList(bool reload, bool notify, String type) async {
+  _preparedReviewedItems(ItemModel? itemModel) {
+    if (itemModel != null) {
+      _reviewedItemList = [];
+      _reviewedCategoriesList = [];
+      _reviewedItemList!.addAll(itemModel.items!);
+      _reviewedCategoriesList!.addAll(itemModel.categories!);
+      _isLoading = false;
+    }
+    update();
+  }
+
+  Future<void> getDiscountedItemList(bool reload, bool notify, String type, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     _discountedType = type;
     if(reload) {
       _discountedItemList = null;
@@ -183,59 +216,98 @@ class ItemController extends GetxController implements GetxService {
     if(notify) {
       update();
     }
-    if(_discountedItemList == null || reload) {
-      List<Item>? items = await itemServiceInterface.getDiscountedItemList(type);
-      if (items != null) {
-        _discountedItemList = [];
-        _discountedItemList!.addAll(items);
-        _isLoading = false;
+    if(_discountedItemList == null || reload || fromRecall) {
+
+      List<Item>? items;
+      if(dataSource == DataSourceEnum.local) {
+        items = await itemServiceInterface.getDiscountedItemList(type, dataSource);
+        if (items != null) {
+          _discountedItemList = [];
+          _discountedItemList!.addAll(items);
+          _isLoading = false;
+        }
+        update();
+        getDiscountedItemList(false, notify, type, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        items = await itemServiceInterface.getDiscountedItemList(type, dataSource);
+        if (items != null) {
+          _discountedItemList = [];
+          _discountedItemList!.addAll(items);
+          _isLoading = false;
+        }
+        update();
       }
-      update();
     }
   }
 
-  Future<void> getFeaturedCategoriesItemList(bool reload, bool notify) async {
+  Future<void> getFeaturedCategoriesItemList(bool reload, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     if(reload) {
       _featuredCategoriesItem = null;
     }
     if(notify) {
       update();
     }
-    if(_featuredCategoriesItem == null || reload) {
-      _featuredCategoriesItem = await itemServiceInterface.getFeaturedCategoriesItemList();
-      update();
+    if(_featuredCategoriesItem == null || reload || fromRecall) {
+      if(dataSource == DataSourceEnum.local) {
+        _featuredCategoriesItem = await itemServiceInterface.getFeaturedCategoriesItemList(dataSource);
+        update();
+        getFeaturedCategoriesItemList(false, notify, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        _featuredCategoriesItem = await itemServiceInterface.getFeaturedCategoriesItemList(dataSource);
+        update();
+      }
     }
   }
 
-  Future<void> getRecommendedItemList(bool reload, String type, bool notify) async {
+  Future<void> getRecommendedItemList(bool reload, String type, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     if(reload) {
       _recommendedItemList = null;
     }
     if(notify) {
       update();
     }
-    if(_recommendedItemList == null || reload) {
-      List<Item>? items = await itemServiceInterface.getRecommendedItemList(type);
-      if (items != null) {
-        _recommendedItemList = [];
-        _recommendedItemList!.addAll(items);
-        _isLoading = false;
+    if(_recommendedItemList == null || reload || fromRecall) {
+      List<Item>? items;
+      if(dataSource == DataSourceEnum.local) {
+        items = await itemServiceInterface.getRecommendedItemList(type, dataSource);
+        _prepareRecommendedItems(items);
+
+        getRecommendedItemList(false, type, notify, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        items = await itemServiceInterface.getRecommendedItemList(type, dataSource);
+        _prepareRecommendedItems(items);
       }
-      update();
+
     }
   }
 
-  Future<void> getBasicMedicine(bool reload, bool notify) async {
+  _prepareRecommendedItems(List<Item>? items) {
+    if (items != null) {
+      _recommendedItemList = [];
+      _recommendedItemList!.addAll(items);
+      _isLoading = false;
+    }
+    update();
+  }
+
+  Future<void> getBasicMedicine(bool reload, bool notify, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
     if(reload) {
       _basicMedicineModel = null;
     }
     if(notify) {
       update();
     }
-    if(_basicMedicineModel == null || reload) {
-      _basicMedicineModel = await itemServiceInterface.getBasicMedicine();
-      _isLoading = false;
-      update();
+    if(_basicMedicineModel == null || reload || fromRecall) {
+      if(dataSource == DataSourceEnum.local) {
+        _basicMedicineModel = await itemServiceInterface.getBasicMedicine(DataSourceEnum.local);
+        _isLoading = false;
+        update();
+        getBasicMedicine(false, notify, fromRecall: true, dataSource: DataSourceEnum.client);
+      } else {
+        _basicMedicineModel = await itemServiceInterface.getBasicMedicine(DataSourceEnum.client);
+        _isLoading = false;
+        update();
+      }
     }
   }
 

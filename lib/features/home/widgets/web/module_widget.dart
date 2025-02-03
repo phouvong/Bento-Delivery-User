@@ -46,7 +46,7 @@ class ModuleWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
                         color: (splashController.module != null && splashController.moduleList![index].id == splashController.module!.id)
-                            ? Theme.of(context).primaryColor.withOpacity(0.2) : Theme.of(context).disabledColor.withOpacity(0.2),
+                            ? Theme.of(context).primaryColor.withValues(alpha: 0.2) : Theme.of(context).disabledColor.withValues(alpha: 0.2),
                         border: (splashController.module != null && splashController.moduleList![index].id == splashController.module!.id)
                             ? Border.all(color: Theme.of(context).primaryColor) : null,
                       ),

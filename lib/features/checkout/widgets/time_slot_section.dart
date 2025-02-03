@@ -29,7 +29,7 @@ class TimeSlotSection extends StatelessWidget {
       !isGuestLoggedIn && storeId == null && checkoutController.store!.scheduleOrder! && cartList!.isNotEmpty && cartList![0]!.item!.availableDateStarts == null ? Container(
         decoration: BoxDecoration(
           color: Theme.of(context).cardColor,
-          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
         ),
         padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeSmall),
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

@@ -136,7 +136,7 @@ class _ParcelCategoryScreenState extends State<ParcelCategoryScreen> {
                       const SizedBox(height: Dimensions.paddingSizeLarge),
 
                       parcelController.whyChooseDetails != null ? Container(
-                        color: Theme.of(context).primaryColor.withOpacity(0.02),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.02),
                         child: GridView.builder(
                           controller: ScrollController(),
                           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(

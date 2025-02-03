@@ -48,7 +48,7 @@ class PaymentSection extends StatelessWidget {
         decoration: ResponsiveHelper.isDesktop(context) ? BoxDecoration(
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           color: Theme.of(context).cardColor,
-          border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.3), width: 1),
+          border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.3), width: 1),
         ) : const BoxDecoration(),
         padding: ResponsiveHelper.isDesktop(context) ? const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall, horizontal: Dimensions.radiusDefault) : EdgeInsets.zero,
         child: storeId != null ? checkoutController.paymentMethodIndex == 0 ? Row(children: [

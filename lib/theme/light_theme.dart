@@ -9,7 +9,7 @@ ThemeData light({Color color = const Color(0xFF039D55)}) => ThemeData(
   brightness: Brightness.light,
   hintColor: const Color(0xFF9F9F9F),
   cardColor: Colors.white,
-  shadowColor: Colors.black.withOpacity(0.03),
+  shadowColor: Colors.black.withValues(alpha: 0.03),
   textButtonTheme: TextButtonThemeData(style: TextButton.styleFrom(foregroundColor: color)),
   colorScheme: ColorScheme.light(primary: color, secondary: color).copyWith(
       surface: const Color(0xFFFCFCFC)).copyWith(error: const Color(0xFFE84D4F)),

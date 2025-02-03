@@ -28,7 +28,7 @@ class WebMenuBar extends StatelessWidget implements PreferredSizeWidget {
 
         Container(
           height: 40, width: double.infinity,
-          color: Theme.of(context).primaryColor.withOpacity(0.05),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
           child: Center(
             child: SizedBox(
               width: Dimensions.webMaxWidth,

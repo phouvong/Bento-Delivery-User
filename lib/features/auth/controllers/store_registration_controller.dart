@@ -192,7 +192,7 @@ class StoreRegistrationController extends GetxController implements GetxService 
   Future<void> getZoneList() async {
     _pickedLogo = null;
     _pickedCover = null;
-    _selectedZoneIndex = -1;
+    _selectedZoneIndex = 0;
     _restaurantLocation = null;
     _zoneIds = null;
     List<ZoneDataModel>? zones = await storeRegistrationServiceInterface.getZoneList();

@@ -25,7 +25,7 @@ class LoyaltyCardWidget extends StatelessWidget {
               padding: EdgeInsets.all( ResponsiveHelper.isDesktop(context) ? 35 : Dimensions.paddingSizeExtraLarge),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                color: Theme.of(context).disabledColor.withOpacity(0.2),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.2),
               ),
               child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
 
@@ -97,7 +97,7 @@ class LoyaltyStepper extends StatelessWidget {
                   Expanded(
                     child: VerticalDivider(
                       thickness: 3,
-                      color: Theme.of(context).primaryColor.withOpacity(0.30),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.30),
                     ),
                   ),
 

@@ -378,7 +378,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                         child: Container(
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
-                            color: Theme.of(context).primaryColor.withOpacity(0.5),
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                           ),
                           padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                           child: const Icon(Icons.clear),
@@ -468,7 +468,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
                           },
                           child: Container(
                             decoration: BoxDecoration(
-                                color: isSelected ? Colors.blue.withOpacity(0.05) : Colors.transparent,
+                                color: isSelected ? Colors.blue.withValues(alpha: 0.05) : Colors.transparent,
                                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault)
                             ),
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeLarge),
@@ -544,7 +544,7 @@ class _ParcelRequestScreenState extends State<ParcelRequestScreen> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-                  child: Divider(thickness: 1, color: Theme.of(context).hintColor.withOpacity(0.5)),
+                  child: Divider(thickness: 1, color: Theme.of(context).hintColor.withValues(alpha: 0.5)),
                 ),
 
                 Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

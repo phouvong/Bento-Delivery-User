@@ -149,7 +149,7 @@ class _ParcelViewWidgetState extends State<ParcelViewWidget> {
                           constraints: BoxConstraints(minHeight: ResponsiveHelper.isDesktop(context) ? 90 : 75),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                           ),
                           child: CustomDropdown<int>(
                             onChange: (int? value, int index) async {

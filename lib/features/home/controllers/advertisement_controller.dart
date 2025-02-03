@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/home/domain/models/advertisement_model.dart';
 import 'package:sixam_mart/features/home/domain/services/advertisement_service_interface.dart';
 
@@ -16,12 +17,22 @@ class AdvertisementController extends GetxController implements GetxService {
 
   bool autoPlay = true;
 
-  Future<void> getAdvertisementList() async {
-    List<AdvertisementModel>? responseAdvertisement = await advertisementServiceInterface.getAdvertisementList();
-    if (responseAdvertisement != null) {
-      _advertisementList = responseAdvertisement;
+  Future<void> getAdvertisementList({DataSourceEnum dataSource = DataSourceEnum.local}) async {
+    List<AdvertisementModel>? responseAdvertisement;
+    if(dataSource == DataSourceEnum.local) {
+      responseAdvertisement = await advertisementServiceInterface.getAdvertisementList(dataSource);
+      if (responseAdvertisement != null) {
+        _advertisementList = responseAdvertisement;
+      }
+      update();
+      getAdvertisementList(dataSource: DataSourceEnum.client);
+    } else {
+      responseAdvertisement = await advertisementServiceInterface.getAdvertisementList(dataSource);
+      if (responseAdvertisement != null) {
+        _advertisementList = responseAdvertisement;
+      }
+      update();
     }
-    update();
   }
 
   void setCurrentIndex(int index, bool notify) {

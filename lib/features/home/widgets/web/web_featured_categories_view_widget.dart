@@ -82,7 +82,7 @@ class _WebFeaturedCategoriesViewWidgetState extends State<WebFeaturedCategoriesV
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
               ),
               child: Column(children: [
                 Padding(
@@ -188,7 +188,7 @@ class WebFeaturedCategoriesShimmerView extends StatelessWidget {
       padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
       child: Container(
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         ),
         child: Column(children: [
           Padding(

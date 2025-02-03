@@ -179,7 +179,7 @@ class OrderDetailsScreenState extends State<OrderDetailsScreen> {
           return orderController.orderDetails != null && order != null && orderController.trackModel != null ? Column(children: [
             ResponsiveHelper.isDesktop(context) ? Container(
               height: 64,
-              color: Theme.of(context).primaryColor.withOpacity(0.10),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
               child: Center(child: Text('order_details'.tr, style: robotoMedium)),
             ) : const SizedBox(),
 

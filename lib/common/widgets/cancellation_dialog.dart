@@ -52,7 +52,7 @@ class CancellationDialog extends StatelessWidget {
                 TextButton(
                   onPressed: () => onNoPressed != null ? onNoPressed!() : Get.back(),
                   style: TextButton.styleFrom(
-                    backgroundColor: Theme.of(context).disabledColor.withOpacity(0.3), minimumSize: const Size(80, 50), padding: EdgeInsets.zero,
+                    backgroundColor: Theme.of(context).disabledColor.withValues(alpha: 0.3), minimumSize: const Size(80, 50), padding: EdgeInsets.zero,
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
                   ),
                   child: Text('no'.tr, textAlign: TextAlign.center,
@@ -65,7 +65,7 @@ class CancellationDialog extends StatelessWidget {
                   height: 50,
                   width: 80,
                   decoration: BoxDecoration(
-                    color: Theme.of(context).colorScheme.error.withOpacity(.7),
+                    color: Theme.of(context).colorScheme.error.withValues(alpha: .7),
                     borderRadius: const BorderRadius.all(Radius.circular(8))
                   ),
                   child: Center(child: Text('yes'.tr,style: robotoRegular.copyWith(color: Theme.of(context).cardColor),)),

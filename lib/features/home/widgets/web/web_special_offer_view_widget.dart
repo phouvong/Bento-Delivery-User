@@ -69,7 +69,7 @@ class _WebSpecialOfferViewState extends State<WebSpecialOfferView> {
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
             child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).disabledColor.withOpacity(0.1),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
               ),
               child: Column(children: [
@@ -147,7 +147,7 @@ class WebItemShimmerView extends StatelessWidget {
           padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault),
           child: Container(
               decoration: BoxDecoration(
-                color: Theme.of(context).disabledColor.withOpacity(0.1),
+                color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
               ),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [

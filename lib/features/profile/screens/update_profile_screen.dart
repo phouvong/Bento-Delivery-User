@@ -128,7 +128,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                 onTap: () => profileController.pickImage(),
                 child: Container(
                   decoration: BoxDecoration(
-                    color: Colors.black.withOpacity(0.3), shape: BoxShape.circle,
+                    color: Colors.black.withValues(alpha: 0.3), shape: BoxShape.circle,
                     border: Border.all(width: 1, color: Theme.of(context).primaryColor),
                   ),
                   child: Container(
@@ -275,7 +275,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                   decoration: BoxDecoration(
                     color: Theme.of(context).cardColor,
                     borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusExtraLarge), bottom: Radius.circular(Dimensions.radiusDefault)),
-                    boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 10, offset: const Offset(0, 1))],
+                    boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 10, offset: const Offset(0, 1))],
                   ),
                 ),
 
@@ -298,7 +298,7 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
                           onTap: () => profileController.pickImage(),
                           child: Container(
                             decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.3), shape: BoxShape.circle,
+                              color: Colors.black.withValues(alpha: 0.3), shape: BoxShape.circle,
                             ),
                             child: Container(
                               margin: const EdgeInsets.all(25),

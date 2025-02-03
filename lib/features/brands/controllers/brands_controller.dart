@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/brands/domain/models/brands_model.dart';
 import 'package:sixam_mart/features/brands/domain/services/brands_service_interface.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
@@ -22,8 +23,20 @@ class BrandsController extends GetxController implements GetxService {
   bool _isLoading = false;
   bool get isLoading => _isLoading;
 
-  Future<void> getBrandList() async {
-    List<BrandModel>? brandList = await brandsServiceInterface.getBrandList();
+  Future<void> getBrandList({DataSourceEnum dataSource = DataSourceEnum.local}) async {
+    List<BrandModel>? brandList;
+    if(dataSource == DataSourceEnum.local) {
+      brandList = await brandsServiceInterface.getBrandList(DataSourceEnum.local);
+      _prepareBandList(brandList);
+      getBrandList(dataSource: DataSourceEnum.client);
+    } else {
+      brandList = await brandsServiceInterface.getBrandList(DataSourceEnum.client);
+      _prepareBandList(brandList);
+    }
+
+  }
+
+  _prepareBandList(List<BrandModel>? brandList) {
     if (brandList != null) {
       _brandList = [];
       _brandList!.addAll(brandList);

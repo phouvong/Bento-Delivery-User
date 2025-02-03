@@ -148,7 +148,7 @@ class CollapsingListTileState extends State<CollapsingListTile> {
         decoration: BoxDecoration(
           borderRadius: const BorderRadius.all(Radius.circular(10)),
           color: widget.isSelected
-              ? Colors.transparent.withOpacity(0.3)
+              ? Colors.transparent.withValues(alpha: 0.3)
               : Colors.transparent,
         ),
         width: widthAnimation.value,

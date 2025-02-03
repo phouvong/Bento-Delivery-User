@@ -94,7 +94,7 @@ class ItemCard extends StatelessWidget {
                           child: Container(
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                             decoration: BoxDecoration(
-                              color: Theme.of(context).primaryColor.withOpacity(0.5),
+                              color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                               borderRadius: const BorderRadius.only(
                                 topRight: Radius.circular(Dimensions.radiusLarge),
                                 bottomRight: Radius.circular(Dimensions.radiusLarge),

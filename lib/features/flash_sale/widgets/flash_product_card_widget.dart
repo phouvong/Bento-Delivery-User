@@ -31,7 +31,7 @@ class FlashProductCardWidget extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 0))],
+        boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 0))],
       ),
       child: CustomInkWell(
         onTap: remaining == 0 ? null : () => Get.find<ItemController>().navigateToItemPage(product.item, context),
@@ -72,7 +72,7 @@ class FlashProductCardWidget extends StatelessWidget {
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(112),
                       color: Theme.of(context).cardColor,
-                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                     ),
                     child: Text('sold_out'.tr, style: robotoMedium.copyWith(color: Colors.red)),
                   ),
@@ -86,7 +86,7 @@ class FlashProductCardWidget extends StatelessWidget {
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(112),
                         color: Theme.of(context).cardColor,
-                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
+                        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 1))],
                       ),
                       child: Text("add".tr, style: robotoBold.copyWith(color: Theme.of(context).primaryColor)),
                     ),
@@ -146,7 +146,7 @@ class FlashProductCardWidget extends StatelessWidget {
                           minHeight: ResponsiveHelper.isDesktop(context) ? 3 : 12,
                           value: remaining / stock,
                           valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                          backgroundColor: Theme.of(context).primaryColor.withOpacity(0.25),
+                          backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.25),
                         ),
                       ),
 

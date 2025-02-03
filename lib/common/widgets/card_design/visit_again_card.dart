@@ -35,7 +35,7 @@ class VisitAgainCard extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               color: Theme.of(context).cardColor,
-              border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 1),
+              border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 1),
               boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
             ),
             child: CustomInkWell(
@@ -104,7 +104,7 @@ class VisitAgainCard extends StatelessWidget {
                               child: Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular((isPharmacy || isFood) ? 100 : Dimensions.radiusSmall),
-                                  color: Colors.black.withOpacity(0.5),
+                                  color: Colors.black.withValues(alpha: 0.5),
                                 ),
                                 child: Center(child: Text(
                                   (store.itemCount! > 20) ? '20+' : '${store.itemCount}', style: robotoMedium.copyWith(color: Colors.white, fontSize: Dimensions.fontSizeExtraSmall),
@@ -128,7 +128,7 @@ class VisitAgainCard extends StatelessWidget {
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(fromFood ? 100 : Dimensions.radiusDefault),
                 color: Theme.of(context).cardColor,
-                border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2), width: 2),
+                border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
               ),
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(fromFood ? 100 : Dimensions.radiusDefault),
@@ -136,7 +136,7 @@ class VisitAgainCard extends StatelessWidget {
                   children: [
                     CustomImage(
                       isHovered: hovered,
-                      image: '${store.coverPhotoFullUrl}',
+                      image: '${store.logoFullUrl}',
                       fit: BoxFit.cover, height: 54, width: 54,
                     ),
 

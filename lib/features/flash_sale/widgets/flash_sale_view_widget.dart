@@ -42,7 +42,7 @@ class _FlashSaleViewWidgetState extends State<FlashSaleViewWidget> {
         width: Get.width,
         margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         decoration: BoxDecoration(
-          color: Theme.of(context).primaryColor.withOpacity(0.1),
+          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
         ),
         child: Column(children: [
@@ -119,7 +119,7 @@ class _FlashSaleViewWidgetState extends State<FlashSaleViewWidget> {
                       minHeight: 15,
                       value: bothZero ? 0 : remaining / stock,
                       valueColor: AlwaysStoppedAnimation<Color>(Theme.of(context).primaryColor),
-                      backgroundColor: Theme.of(context).primaryColor.withOpacity(0.25),
+                      backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.25),
                     );
                   }
                 ),
@@ -151,7 +151,7 @@ class FlashSaleShimmerView extends StatelessWidget {
       width: Get.width, height: ResponsiveHelper.isDesktop(context) ? 330 : 350,
       margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
       decoration: BoxDecoration(
-        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
       ),
       child: Shimmer(

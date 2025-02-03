@@ -21,7 +21,7 @@ class PopularStoreCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-        boxShadow: [BoxShadow(color: Colors.grey.withOpacity(0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 0))],
+        boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 5, offset: const Offset(0, 0))],
       ),
       child: TextHover(
         builder: (hovered) {
@@ -65,7 +65,7 @@ class PopularStoreCard extends StatelessWidget {
                               Container(
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(100),
-                                  border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.3), width: 1),
+                                  border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.3), width: 1),
                                 ),
                                 child: ClipRRect(
                                   borderRadius: BorderRadius.circular(100),

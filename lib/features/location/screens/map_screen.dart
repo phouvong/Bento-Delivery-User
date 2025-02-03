@@ -115,7 +115,7 @@ class MapScreenState extends State<MapScreen> {
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                             color: Theme.of(context).cardColor,
-                            // boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.3), spreadRadius: 3, blurRadius: 10)],
+                            // boxShadow: [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.3), spreadRadius: 3, blurRadius: 10)],
                           ),
                           child: widget.fromStore ? Row(children: [
                             Expanded(

@@ -1,4 +1,5 @@
 import 'package:get/get_connect/http/src/response/response.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/checkout/domain/models/place_order_body_model.dart';
 import 'package:sixam_mart/features/checkout/domain/repositories/checkout_repository_interface.dart';
 import 'package:sixam_mart/features/parcel/domain/models/parcel_category_model.dart';
@@ -26,13 +27,13 @@ class ParcelService implements ParcelServiceInterface{
   }
 
   @override
-  Future<WhyChooseModel?> getWhyChooseDetails() async {
-    return await parcelRepositoryInterface.get(null, isVideoDetails: false);
+  Future<WhyChooseModel?> getWhyChooseDetails({required DataSourceEnum source}) async {
+    return await parcelRepositoryInterface.get(null, isVideoDetails: false, source: source);
   }
 
   @override
-  Future<VideoContentModel?> getVideoContentDetails() async {
-    return await parcelRepositoryInterface.get(null, isVideoDetails: true);
+  Future<VideoContentModel?> getVideoContentDetails({required DataSourceEnum source}) async {
+    return await parcelRepositoryInterface.get(null, isVideoDetails: true, source: source);
   }
 
   @override

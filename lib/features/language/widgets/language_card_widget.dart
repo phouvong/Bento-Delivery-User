@@ -29,13 +29,13 @@ class LanguageCardWidget extends StatelessWidget {
         height: 70,
         padding: const EdgeInsets.all(Dimensions.paddingSizeLarge),
         decoration: !fromWeb ? BoxDecoration(
-          color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withOpacity(0.05) : null,
+          color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withValues(alpha: 0.05) : null,
           borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-          border: localizationController.selectedLanguageIndex == index ? Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2)) : null,
+          border: localizationController.selectedLanguageIndex == index ? Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2)) : null,
         ) : BoxDecoration(
-          color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withOpacity(0.05) : Theme.of(context).cardColor,
+          color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withValues(alpha: 0.05) : Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusLarge),
-          border: Border.all(color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withOpacity(0.2) : Theme.of(context).disabledColor.withOpacity(0.3)),
+          border: Border.all(color: localizationController.selectedLanguageIndex == index ? Theme.of(context).primaryColor.withValues(alpha: 0.2) : Theme.of(context).disabledColor.withValues(alpha: 0.3)),
         ),
         child: Row(children: [
 

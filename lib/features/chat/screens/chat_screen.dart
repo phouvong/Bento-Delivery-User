@@ -117,7 +117,7 @@ class _ChatScreenState extends State<ChatScreen> {
             ),
             backgroundColor: Theme.of(context).cardColor,
             surfaceTintColor: Theme.of(context).cardColor,
-            shadowColor: Theme.of(context).disabledColor.withOpacity(0.5),
+            shadowColor: Theme.of(context).disabledColor.withValues(alpha: 0.5),
             elevation: 2,
             actions: <Widget>[
               Padding(
@@ -142,7 +142,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
             Container(
               height: 64,
-              color: Theme.of(context).primaryColor.withOpacity(0.10),
+              color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
               child: Center(child: Text('live_chat'.tr, style: robotoMedium)),
             ),
 
@@ -235,7 +235,7 @@ class _ChatScreenState extends State<ChatScreen> {
                                   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
                                   decoration: BoxDecoration(
                                     borderRadius: const BorderRadius.all(Radius.circular(Dimensions.radiusDefault)),
-                                    border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.6)),
+                                    border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
                                     color: Theme.of(context).cardColor,
                                   ),
                                   child: Column(children: [
@@ -691,8 +691,8 @@ class MessageSuggestionWidget extends StatelessWidget {
                                       decoration: BoxDecoration(
                                         color: Theme.of(context).cardColor,
                                         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                        border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.5), width: 0.3),
-                                        boxShadow: isHovered ? [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.5), blurRadius: 10)] : null,
+                                        border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.5), width: 0.3),
+                                        boxShadow: isHovered ? [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.5), blurRadius: 10)] : null,
                                       ),
                                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                                       margin: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),

@@ -21,7 +21,7 @@ class _DeliveryInstructionViewState extends State<DeliveryInstructionView> {
     return Container(
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
-        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+        boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
       ),
       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical: Dimensions.paddingSizeExtraSmall),
       child: GetBuilder<CheckoutController>(
@@ -55,7 +55,7 @@ class _DeliveryInstructionViewState extends State<DeliveryInstructionView> {
                       },
                       child: Container(
                         decoration: BoxDecoration(
-                          color: isSelected ? Theme.of(context).primaryColor.withOpacity(0.5) : Colors.grey[200],
+                          color: isSelected ? Theme.of(context).primaryColor.withValues(alpha: 0.5) : Colors.grey[200],
                           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                         ),

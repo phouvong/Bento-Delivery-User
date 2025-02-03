@@ -89,7 +89,7 @@ class ItemTitleViewWidget extends StatelessWidget {
             item!.availableTimeStarts != null ? const SizedBox() : Container(
               padding: const EdgeInsets.all(8), alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Theme.of(context).primaryColor.withOpacity(0.05),
+                color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
               ),
               child: GetBuilder<FavouriteController>(
@@ -123,7 +123,7 @@ class ItemTitleViewWidget extends StatelessWidget {
               Wrap(children: List.generate(itemController.item!.genericName!.length, (index) {
                 return Text(
                   '${itemController.item!.genericName![index]}${itemController.item!.genericName!.length-1 == index ? '.' : ', '}',
-                  style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                  style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                 );
               })),
               const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -247,7 +247,7 @@ class ItemTitleViewWidget extends StatelessWidget {
                 Wrap(children: List.generate(item!.genericName!.length, (index) {
                   return Text(
                     '${item!.genericName![index]}${item!.genericName!.length-1 == index ? '.' : ', '}',
-                    style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                    style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                   );
                 })),
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
@@ -307,7 +307,7 @@ class ItemTitleViewWidget extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall, horizontal: Dimensions.paddingSizeSmall),
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                    color: Theme.of(context).primaryColor.withOpacity(0.1),
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                   ),
                   child: Text(
                     Get.find<SplashController>().configModel!.moduleConfig!.module!.unit! ? item!.unitType ?? ''

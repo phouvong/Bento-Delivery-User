@@ -1,5 +1,6 @@
 import 'package:country_code_picker/country_code_picker.dart';
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/dimensions.dart';
@@ -169,7 +170,7 @@ class CustomTextFieldState extends State<CustomTextField> {
                   text: widget.labelText ?? '',
                   style: robotoRegular.copyWith(
                     fontSize: widget.labelTextSize ?? Dimensions.fontSizeLarge,
-                    color: ((widget.focusNode?.hasFocus == true || widget.controller!.text.isNotEmpty ) &&  widget.isEnabled) ? Theme.of(context).textTheme.bodyLarge?.color :  Theme.of(context).hintColor.withOpacity(.75),
+                    color: ((widget.focusNode?.hasFocus == true || widget.controller!.text.isNotEmpty ) &&  widget.isEnabled) ? Theme.of(context).textTheme.bodyLarge?.color :  Theme.of(context).hintColor.withValues(alpha: .75),
                   ),
                 ),
 
@@ -215,11 +216,11 @@ class CustomTextFieldState extends State<CustomTextField> {
               ]),
               ) : widget.prefixImage != null && widget.prefixIcon == null ? Padding(
                 padding: EdgeInsets.all(ResponsiveHelper.isDesktop(context) ? Dimensions.paddingSizeSmall : Dimensions.paddingSizeDefault),
-                child: Image.asset(widget.prefixImage!, height: 10, width: 10, fit: BoxFit.cover, color: widget.focusNode?.hasFocus == true ? Theme.of(context).primaryColor : Theme.of(context).hintColor.withOpacity(0.7)),
-              ) : widget.prefixImage == null && widget.prefixIcon != null ? Icon(widget.prefixIcon, size: widget.iconSize, color: widget.focusNode?.hasFocus == true ? Theme.of(context).primaryColor : Theme.of(context).hintColor.withOpacity(0.7)) : null,
+                child: CustomAssetImageWidget(widget.prefixImage!, height: 10, width: 10, fit: BoxFit.cover, color: widget.focusNode?.hasFocus == true ? Theme.of(context).primaryColor : Theme.of(context).hintColor.withValues(alpha: 0.7)),
+              ) : widget.prefixImage == null && widget.prefixIcon != null ? Icon(widget.prefixIcon, size: widget.iconSize, color: widget.focusNode?.hasFocus == true ? Theme.of(context).primaryColor : Theme.of(context).hintColor.withValues(alpha: 0.7)) : null,
 
               suffixIcon: widget.isPassword ? IconButton(
-                icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withOpacity(0.3)),
+                icon: Icon(_obscureText ? Icons.visibility_off : Icons.visibility, color: Theme.of(context).hintColor.withValues(alpha: 0.3)),
                 onPressed: _toggle,
               ) : widget.suffixImage != null ? InkWell(
                 onTap: widget.suffixOnPressed, child: Padding(

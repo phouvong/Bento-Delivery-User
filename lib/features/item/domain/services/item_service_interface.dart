@@ -1,16 +1,17 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/item/domain/models/basic_medicine_model.dart';
 import 'package:sixam_mart/features/item/domain/models/common_condition_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
 import 'package:sixam_mart/features/cart/domain/models/cart_model.dart';
 
 abstract class ItemServiceInterface {
-  Future<List<Item>?> getPopularItemList(String type);
-  Future<ItemModel?> getReviewedItemList(String type);
-  Future<ItemModel?> getFeaturedCategoriesItemList();
-  Future<List<Item>?> getRecommendedItemList(String type);
-  Future<List<Item>?> getDiscountedItemList(String type);
+  Future<List<Item>?> getPopularItemList(String type, DataSourceEnum? source);
+  Future<ItemModel?> getReviewedItemList(String type, DataSourceEnum? source);
+  Future<ItemModel?> getFeaturedCategoriesItemList(DataSourceEnum? source);
+  Future<List<Item>?> getRecommendedItemList(String type, DataSourceEnum? source);
+  Future<List<Item>?> getDiscountedItemList(String type, DataSourceEnum? source);
   Future<Item?> getItemDetails(int? itemID);
-  Future<BasicMedicineModel?> getBasicMedicine();
+  Future<BasicMedicineModel?> getBasicMedicine(DataSourceEnum source);
   Future<List<CommonConditionModel>?> getCommonConditions();
   Future<List<Item>?> getConditionsWiseItems(int id);
   List<bool> initializeCartAddonActiveList(List<AddOn>? addOnIds, List<AddOns>? addOns);

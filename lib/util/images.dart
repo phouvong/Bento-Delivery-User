@@ -6,8 +6,8 @@ class Images {
   static const String bengali = 'assets/image/bangla.png';
   static const String call = 'assets/image/call.png';
   static const String checked = 'assets/image/checked.png';
-  static const String english = 'assets/image/eng.png';
-  static const String lao = 'assets/image/lao.png';
+  static const String english = 'assets/image/en.png';
+  static const String lao = 'assets/image/lo.png';
   static const String spanish = 'assets/image/spanish.png';
   static const String locationMarker = 'assets/image/location_marker.png';
   static const String lock = 'assets/image/lock.png';
@@ -61,14 +61,10 @@ class Images {
   static const String profile = 'assets/image/profile.png';
   static const String landingAppStore = 'assets/image/landing_app_store.png';
   static const String landingCheckout = 'assets/image/landing_checkout.png';
-  static const String landingChooseLocation = 'assets/image/landing_choose_location.png';
   static const String landingExcellent = 'assets/image/landing_excellent.png';
   static const String landingGooglePlay = 'assets/image/landing_google_play.png';
-  static const String landingBg = 'assets/image/landing_bg.png';
-  static const String landingStoreOpen = 'assets/image/landing_store_open.png';
   static const String landingStores = 'assets/image/landing_stores.png';
   static const String landingTrusted = 'assets/image/landing_trusted.png';
-  static const String landingDeliveryMan = 'assets/image/landing_delivery_man.png';
   static const String twitter = 'assets/image/twitter.png';
   static const String youtube = 'assets/image/youtube.png';
   static const String linkedin = 'assets/image/linkedin.png';
@@ -304,4 +300,10 @@ class Images {
   static const String referEarnIcon = 'assets/image/refer_earn_icon.svg';
   static const String otpVerification = 'assets/image/otp_verification.svg';
   static const String emailVerifiedIcon = 'assets/image/email_verification.svg';
+  static const String landingBg = 'assets/image/landing_bg.svg';
+  static const String landingDeliveryman = 'assets/image/landing_deliveryman.svg';
+  static const String landingDeliverymanBg = 'assets/image/landing_deliveryman_bg.svg';
+  static const String landingSellerBg = 'assets/image/landing_seller_bg.svg';
+  static const String landingStoreOpen = 'assets/image/landing_store_open.svg';
+  static const String landingChooseLocation = 'assets/image/landing_choose_location.svg';
 }

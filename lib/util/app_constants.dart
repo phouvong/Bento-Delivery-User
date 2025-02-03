@@ -5,15 +5,15 @@ import 'package:sixam_mart/util/images.dart';
 
 class AppConstants {
   static const String appName = 'bento';
-  static const double appVersion = 2.11; ///Flutter Version: 3.24.4
+  static const double appVersion = 2.12; ///Flutter Version: 3.24.5
 
   static const String fontFamily = 'Lao';
   static const bool payInWevView = false;
   static const int balanceInputLen = 10;
-  static const String webHostedUrl = 'https://bentodelivery.net';
-  static const bool useReactWebsite = false;
+  static const String webHostedUrl = 'https://web.bentolao.com';
+  static const bool useReactWebsite = true;
 
-  static const String baseUrl = 'https://admin.bentodelivery.net';
+  static const String baseUrl = 'https://am.bentolao.com';
   static const String categoryUri = '/api/v1/categories';
   static const String bannerUri = '/api/v1/banners';
   static const String storeItemUri = '/api/v1/items/latest';
@@ -213,7 +213,7 @@ class AppConstants {
   ];
 
   /// Delivery Tips
-  static List<String> tips = ['0' ,'15', '10', '20', '40', 'custom'];
+  static List<String> tips = ['5000' ,'10000', '15000', '20000', '25000', 'custom'];
   static List<String> deliveryInstructionList = [
     'deliver_to_front_door'.tr,
     'deliver_the_reception_desk'.tr,

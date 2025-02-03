@@ -192,7 +192,7 @@ class MenuDrawerState extends State<MenuDrawer> with SingleTickerProviderStateMi
         Container(
           padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge, horizontal: 25),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.10),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
           ),
           alignment: Alignment.centerLeft,
           child: Row( mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [

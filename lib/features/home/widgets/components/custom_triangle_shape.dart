@@ -22,7 +22,7 @@ class TrianglePainter extends CustomPainter {
       const Offset(0, 0),
       Offset(size.width, size.height),
       [
-        Theme.of(Get.context!).primaryColor.withOpacity(0.01),
+        Theme.of(Get.context!).primaryColor.withValues(alpha: 0.01),
         Theme.of(Get.context!).cardColor,
       ],
     );

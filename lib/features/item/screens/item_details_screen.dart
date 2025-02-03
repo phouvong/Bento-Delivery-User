@@ -262,7 +262,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall, vertical: Dimensions.paddingSizeExtraSmall),
                           margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeSmall),
                           decoration: BoxDecoration(
-                            color: Theme.of(context).colorScheme.error.withOpacity(0.1),
+                            color: Theme.of(context).colorScheme.error.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                           ),
                           child: Text(
@@ -290,7 +290,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             Wrap(children: List.generate(widget.item!.nutritionsName!.length, (index) {
                               return Text(
                                 '${widget.item!.nutritionsName![index]}${widget.item!.nutritionsName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),
@@ -306,7 +306,7 @@ class _ItemDetailsScreenState extends State<ItemDetailsScreen> {
                             Wrap(children: List.generate(widget.item!.allergiesName!.length, (index) {
                               return Text(
                                 '${widget.item!.allergiesName![index]}${widget.item!.allergiesName!.length-1 == index ? '.' : ', '}',
-                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withOpacity(0.5)),
+                                style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.5)),
                               );
                             })),
                             const SizedBox(height: Dimensions.paddingSizeLarge),

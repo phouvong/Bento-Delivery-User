@@ -45,7 +45,7 @@ class ModuleView extends StatelessWidget {
               borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
               color: Theme.of(context).cardColor,
               border: Border.all(color: Theme.of(context).primaryColor, width: 0.15),
-              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), spreadRadius: 1, blurRadius: 3)],
+              boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), spreadRadius: 1, blurRadius: 3)],
             ),
             child: CustomInkWell(
               onTap: () => splashController.switchModule(index, true),

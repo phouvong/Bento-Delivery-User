@@ -44,7 +44,7 @@ class _WebSearchFieldState extends State<WebSearchField> {
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           borderSide: BorderSide(
-            color: Theme.of(context).primaryColor.withOpacity(.30),
+            color: Theme.of(context).primaryColor.withValues(alpha: .30),
           ),
         )
       ),

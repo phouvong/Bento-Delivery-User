@@ -84,10 +84,10 @@ class _CartScreenState extends State<CartScreen> {
 
   void _initialBottomSheetShowHide() {
     Future.delayed(const Duration(milliseconds: 600), () {
-      key.currentState!.expand();
+      key.currentState?.expand();
       Future.delayed(const Duration(seconds: 3), () {
         setState(() {
-          key.currentState!.contract();
+          key.currentState?.contract();
         });
       });
 
@@ -138,7 +138,7 @@ class _CartScreenState extends State<CartScreen> {
                     child: Container(
                       constraints: const BoxConstraints.expand(height: 30),
                       decoration: BoxDecoration(
-                        color: Theme.of(context).disabledColor.withOpacity(0.5),
+                        color: Theme.of(context).disabledColor.withValues(alpha: 0.5),
                         borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
                       ),
                       child: Icon(Icons.drag_handle, color: Theme.of(context).hintColor, size: 25),
@@ -359,11 +359,11 @@ class _CartScreenState extends State<CartScreen> {
                   scale: 0.7,
                   child: CupertinoSwitch(
                     value: cartController.addCutlery,
-                    activeColor: Theme.of(context).primaryColor,
+                    activeTrackColor: Theme.of(context).primaryColor,
                     onChanged: (bool? value) {
                       cartController.updateCutlery();
                     },
-                    trackColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                    inactiveTrackColor: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                   ),
                 )
 
@@ -567,7 +567,7 @@ class CheckoutButton extends StatelessWidget {
                 const SizedBox(height: Dimensions.paddingSizeExtraSmall),
 
                 LinearProgressIndicator(
-                  backgroundColor: Theme.of(context).primaryColor.withOpacity(0.2),
+                  backgroundColor: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   value: percentage,
                 ),
               ]) : const SizedBox(),
@@ -610,11 +610,11 @@ class CheckoutButton extends StatelessWidget {
                     scale: 0.7,
                     child: CupertinoSwitch(
                       value: cartController.addCutlery,
-                      activeColor: Theme.of(context).primaryColor,
+                      activeTrackColor: Theme.of(context).primaryColor,
                       onChanged: (bool? value) {
                         cartController.updateCutlery();
                       },
-                      trackColor: Theme.of(context).primaryColor.withOpacity(0.5),
+                      inactiveTrackColor: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                     ),
                   )
                 ]),

@@ -41,7 +41,7 @@ class StoreCardWidget extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Theme.of(context).cardColor,
                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                  border: Border.all(color: Theme.of(context).disabledColor.withOpacity(0.1)),
+                  border: Border.all(color: Theme.of(context).disabledColor.withValues(alpha: 0.1)),
                   boxShadow: ResponsiveHelper.isDesktop(context) ? [] : const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                 ),
                 child: CustomInkWell(

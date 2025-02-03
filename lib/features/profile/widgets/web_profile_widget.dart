@@ -37,7 +37,7 @@ class WebProfileWidget extends StatelessWidget {
                     Container(
                       height: 162,
                       width: Dimensions.webMaxWidth,
-                      color: Theme.of(context).primaryColor.withOpacity(0.10),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
                       child: Align(
                         alignment: Alignment.topCenter,
                         child: Padding(
@@ -95,7 +95,7 @@ class WebProfileWidget extends StatelessWidget {
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                       color: Theme.of(context).cardColor,
                       border: Border.all(color: Theme.of(context).primaryColor, width: 0.1),
-                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), blurRadius: 5, spreadRadius: 1)],
+                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), blurRadius: 5, spreadRadius: 1)],
                     ),
                     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                       ClipOval(child: CustomImage(

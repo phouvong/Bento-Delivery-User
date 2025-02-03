@@ -73,6 +73,7 @@ class MiddleSectionMultipleBannerShimmer extends StatelessWidget {
         mainAxisSpacing: Dimensions.paddingSizeExtremeLarge,
         mainAxisExtent: 230,
       ),
+      padding: const EdgeInsets.only(top: 20),
       itemBuilder: (context, index) {
         return Shimmer(
           duration: const Duration(seconds: 2),

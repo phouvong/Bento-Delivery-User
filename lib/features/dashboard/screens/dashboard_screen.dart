@@ -318,7 +318,7 @@ class DashboardScreenState extends State<DashboardScreen> {
 
   Widget trackView(BuildContext context, {required bool status}) {
     return Container(height: 3, decoration: BoxDecoration(color: status ? Theme.of(context).primaryColor
-        : Theme.of(context).disabledColor.withOpacity(0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)));
+        : Theme.of(context).disabledColor.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)));
   }
 }
 

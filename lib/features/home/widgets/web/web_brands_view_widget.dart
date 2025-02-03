@@ -41,7 +41,7 @@ class WebBrandsViewWidget extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                     decoration: BoxDecoration(
-                      color: Theme.of(context).disabledColor.withOpacity(0.1),
+                      color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                     ),
                     child: TextHover(
@@ -103,7 +103,7 @@ class WebBrandViewShimmer extends StatelessWidget {
                 child: Container(
                   padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                   decoration: BoxDecoration(
-                    color: Theme.of(context).disabledColor.withOpacity(0.1),
+                    color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                   ),
                   child: Container(

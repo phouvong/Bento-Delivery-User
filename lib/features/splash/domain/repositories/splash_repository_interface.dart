@@ -1,14 +1,15 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/common/models/module_model.dart';
 import 'package:sixam_mart/interfaces/repository_interface.dart';
 
 abstract class SplashRepositoryInterface extends RepositoryInterface {
-  Future<dynamic> getConfigData();
-  Future<dynamic> getLandingPageData();
+  Future<dynamic> getConfigData({required DataSourceEnum source});
+  Future<dynamic> getLandingPageData({required DataSourceEnum source});
   Future<ModuleModel?> initSharedData();
   void disableIntro();
   bool? showIntro();
   Future<void> setStoreCategory(int storeCategoryID);
-  Future<dynamic> getModules({Map<String, String>? headers});
+  Future<dynamic> getModules({Map<String, String>? headers, required DataSourceEnum source});
   Future<void> setModule(ModuleModel? module);
   Future<void> setCacheModule(ModuleModel? module);
   ModuleModel? getCacheModule();

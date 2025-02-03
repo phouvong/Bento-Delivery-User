@@ -31,7 +31,8 @@ class AddressWidget extends StatelessWidget {
           color: Theme.of(context).cardColor,
           borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           border: Border.all(color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).cardColor, width: isSelected ? 0.5 : 0),
-          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.1), blurRadius: 5, spreadRadius: 1)],
+          // boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), blurRadius: 5, spreadRadius: 1)],
+          boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.1), blurRadius: 5, spreadRadius: 1)],
         ),
         child: CustomInkWell(
           onTap: onTap as void Function()?,

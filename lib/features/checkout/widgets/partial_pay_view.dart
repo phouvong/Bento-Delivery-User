@@ -23,12 +23,12 @@ class PartialPayView extends StatelessWidget {
         && Get.find<ProfileController>().userInfoModel!.walletBalance! > 0 ? AnimatedContainer(
           duration: const Duration(seconds: 2),
           decoration: BoxDecoration(
-            color: Get.find<ThemeController>().darkTheme ? Theme.of(context).primaryColor.withOpacity(0.2) : Theme.of(context).primaryColor.withOpacity(0.05),
+            color: Get.find<ThemeController>().darkTheme ? Theme.of(context).primaryColor.withValues(alpha: 0.2) : Theme.of(context).primaryColor.withValues(alpha: 0.05),
             border: Border.all(color: Theme.of(context).primaryColor, width: 0.5),
             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
             image: !ResponsiveHelper.isDesktop(context) ? DecorationImage(
               alignment: Alignment.bottomRight,
-              colorFilter: ColorFilter.mode(Colors.white.withOpacity(0.1), BlendMode.dstATop),
+              colorFilter: ColorFilter.mode(Colors.white.withValues(alpha: 0.1), BlendMode.dstATop),
               image: const AssetImage(Images.partialWallet),
             ) : null,
           ),

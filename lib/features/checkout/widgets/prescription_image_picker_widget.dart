@@ -138,7 +138,7 @@ class PrescriptionImagePickerWidget extends StatelessWidget {
         padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
         margin: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtremeLarge),
         decoration: BoxDecoration(
-          color: ResponsiveHelper.isDesktop(context) ? Theme.of(context).colorScheme.error.withOpacity(0.05) : Theme.of(context).primaryColor.withOpacity(0.05),
+          color: ResponsiveHelper.isDesktop(context) ? Theme.of(context).colorScheme.error.withValues(alpha: 0.05) : Theme.of(context).primaryColor.withValues(alpha: 0.05),
           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
         ),
         child: Text(

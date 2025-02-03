@@ -19,7 +19,7 @@ class NotAvailableWidget extends StatelessWidget {
       top: 0, left: 0, bottom: 0, right: 0,
       child: Container(
         alignment: Alignment.center,
-        decoration: BoxDecoration(borderRadius: isAllSideRound ? BorderRadius.circular(radius!) :  BorderRadius.vertical(top: Radius.circular(radius!)), color: Colors.black.withOpacity(0.6)),
+        decoration: BoxDecoration(borderRadius: isAllSideRound ? BorderRadius.circular(radius!) :  BorderRadius.vertical(top: Radius.circular(radius!)), color: Colors.black.withValues(alpha: 0.6)),
         child: Text(
           isStore
               ? store != null

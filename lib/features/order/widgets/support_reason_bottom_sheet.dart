@@ -96,7 +96,7 @@ class _SupportReasonBottomSheetState extends State<SupportReasonBottomSheet> {
                                     color: Theme.of(context).cardColor,
                                     borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
                                     border: Border.all(color: isSelected ? Colors.transparent : Theme.of(context).disabledColor, width: 0.5),
-                                    boxShadow: isSelected ? [BoxShadow(color: Theme.of(context).disabledColor.withOpacity(0.5), blurRadius: 5)] : null,
+                                    boxShadow: isSelected ? [BoxShadow(color: Theme.of(context).disabledColor.withValues(alpha: 0.5), blurRadius: 5)] : null,
                                   ),
                                   padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeSmall),
                                   margin: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault),
@@ -106,12 +106,12 @@ class _SupportReasonBottomSheetState extends State<SupportReasonBottomSheet> {
                                       Expanded(
                                         child: Text(
                                           orderController.supportReasons![index]!, maxLines: 2,
-                                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: isSelected ? Theme.of(context).textTheme.bodyMedium!.color : Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6)),
+                                          style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault, color: isSelected ? Theme.of(context).textTheme.bodyMedium!.color : Theme.of(context).textTheme.bodyMedium!.color!.withValues(alpha: 0.6)),
                                         ),
                                       ),
 
                                       if(!widget.fromChatPage)
-                                      Icon(isSelected ? Icons.radio_button_on : Icons.radio_button_off_outlined, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!.withOpacity(0.6)),
+                                      Icon(isSelected ? Icons.radio_button_on : Icons.radio_button_off_outlined, color: isSelected ? Theme.of(context).primaryColor : Theme.of(context).textTheme.bodyMedium!.color!.withValues(alpha: 0.6)),
                                     ],
                                   ),
                                 ),

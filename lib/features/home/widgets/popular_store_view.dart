@@ -59,7 +59,7 @@ class PopularStoreView extends StatelessWidget {
                     decoration: BoxDecoration(
                       color: Theme.of(context).cardColor,
                       borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.15), blurRadius: 7, spreadRadius: 0)],
+                      boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.15), blurRadius: 7, spreadRadius: 0)],
                     ),
                     child: CustomInkWell(
                       onTap: () {

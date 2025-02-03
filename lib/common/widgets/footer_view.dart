@@ -34,7 +34,7 @@ class _FooterViewState extends State<FooterView> {
       ),
 
       (widget.visibility && ResponsiveHelper.isDesktop(context)) ? Container(
-        color: Theme.of(context).primaryColor.withOpacity(0.1),
+        color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
         width: context.width,
         margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge),
         child: Center(child: Column(children: [
@@ -43,7 +43,7 @@ class _FooterViewState extends State<FooterView> {
             margin: const EdgeInsets.only(top: Dimensions.paddingSizeExtremeLarge),
             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeDefault),
             decoration: BoxDecoration(
-              color: Theme.of(context).cardColor.withOpacity(0.85),
+              color: Theme.of(context).cardColor.withValues(alpha: 0.85),
               borderRadius: const BorderRadius.only(topLeft: Radius.circular(Dimensions.radiusDefault), topRight: Radius.circular(Dimensions.radiusDefault)),
             ),
             width: Dimensions.webMaxWidth,
@@ -183,7 +183,7 @@ class _FooterViewState extends State<FooterView> {
                     padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -271,7 +271,7 @@ class _FooterViewState extends State<FooterView> {
 
           Container(
             padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeExtraSmall),
-            color: Theme.of(context).primaryColor.withOpacity(0.2),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
             child: Center(
               child: SizedBox(
                 width: Dimensions.webMaxWidth, height: 50,

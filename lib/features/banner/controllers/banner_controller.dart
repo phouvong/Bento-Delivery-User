@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/banner/domain/models/banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/others_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/promotional_banner_model.dart';
@@ -72,42 +73,61 @@ class BannerController extends GetxController implements GetxService {
     update();
   }
 
-  Future<void> getBannerList(bool reload) async {
-    if(_bannerImageList == null || reload) {
-      _bannerImageList = null;
-      BannerModel? bannerModel = await bannerServiceInterface.getBannerList();
-      if (bannerModel != null) {
-        _bannerImageList = [];
-        _bannerDataList = [];
-        for (var campaign in bannerModel.campaigns!) {
-          if(_bannerImageList!.contains(campaign.imageFullUrl)) {
-            _bannerImageList!.add('${campaign.imageFullUrl}${bannerModel.campaigns!.indexOf(campaign)}');
-          } else {
-            _bannerImageList!.add(campaign.imageFullUrl);
-          }
-          _bannerDataList!.add(campaign);
+  void clearBanner() {
+    _bannerImageList = null;
+  }
+
+  Future<void> getBannerList(bool reload, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    if(_bannerImageList == null || reload || fromRecall) {
+      if(reload) {
+        _bannerImageList = null;
+      }
+      BannerModel? bannerModel;
+      if(dataSource == DataSourceEnum.local) {
+        bannerModel = await bannerServiceInterface.getBannerList(source: DataSourceEnum.local);
+        await _prepareBanner(bannerModel);
+
+        getBannerList(false, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        bannerModel = await bannerServiceInterface.getBannerList(source: DataSourceEnum.client);
+        _prepareBanner(bannerModel);
+      }
+
+    }
+  }
+
+  _prepareBanner(BannerModel? bannerModel) async{
+    if (bannerModel != null) {
+      _bannerImageList = [];
+      _bannerDataList = [];
+      for (var campaign in bannerModel.campaigns!) {
+        if(_bannerImageList!.contains(campaign.imageFullUrl)) {
+          _bannerImageList!.add('${campaign.imageFullUrl}${bannerModel.campaigns!.indexOf(campaign)}');
+        } else {
+          _bannerImageList!.add(campaign.imageFullUrl);
         }
-        for (var banner in bannerModel.banners!) {
+        _bannerDataList!.add(campaign);
+      }
+      for (var banner in bannerModel.banners!) {
 
-          if(_bannerImageList!.contains(banner.imageFullUrl)) {
-            _bannerImageList!.add('${banner.imageFullUrl}${bannerModel.banners!.indexOf(banner)}');
-          } else {
-            _bannerImageList!.add(banner.imageFullUrl);
-          }
+        if(_bannerImageList!.contains(banner.imageFullUrl)) {
+          _bannerImageList!.add('${banner.imageFullUrl}${bannerModel.banners!.indexOf(banner)}');
+        } else {
+          _bannerImageList!.add(banner.imageFullUrl);
+        }
 
-          if(banner.item != null) {
-            _bannerDataList!.add(banner.item);
-          }else if(banner.store != null){
-            _bannerDataList!.add(banner.store);
-          }else if(banner.type == 'default'){
-            _bannerDataList!.add(banner.link);
-          }else{
-            _bannerDataList!.add(null);
-          }
+        if(banner.item != null) {
+          _bannerDataList!.add(banner.item);
+        }else if(banner.store != null){
+          _bannerDataList!.add(banner.store);
+        }else if(banner.type == 'default'){
+          _bannerDataList!.add(banner.link);
+        }else{
+          _bannerDataList!.add(null);
         }
       }
-      update();
     }
+    update();
   }
 
   Future<void> getTaxiBannerList(bool reload) async {
@@ -142,14 +162,25 @@ class BannerController extends GetxController implements GetxService {
     }
   }
 
-  Future<void> getParcelOtherBannerList(bool reload) async {
-    if(_parcelOtherBannerModel == null || reload) {
-      ParcelOtherBannerModel? parcelOtherBannerModel = await bannerServiceInterface.getParcelOtherBannerList();
-      if (parcelOtherBannerModel != null) {
-        _parcelOtherBannerModel = parcelOtherBannerModel;
+  Future<void> getParcelOtherBannerList(bool reload, {DataSourceEnum dataSource = DataSourceEnum.local, bool fromRecall = false}) async {
+    if(_parcelOtherBannerModel == null || reload || fromRecall) {
+      ParcelOtherBannerModel? parcelOtherBannerModel;
+      if(dataSource == DataSourceEnum.local) {
+        parcelOtherBannerModel = await bannerServiceInterface.getParcelOtherBannerList(source: dataSource);
+        _prepareParcelBanner(parcelOtherBannerModel);
+        getParcelOtherBannerList(false, dataSource: DataSourceEnum.client, fromRecall: true);
+      } else {
+        parcelOtherBannerModel = await bannerServiceInterface.getParcelOtherBannerList(source: dataSource);
+        _prepareParcelBanner(parcelOtherBannerModel);
       }
-      update();
     }
+  }
+
+  _prepareParcelBanner(ParcelOtherBannerModel? parcelOtherBannerModel) {
+    if (parcelOtherBannerModel != null) {
+      _parcelOtherBannerModel = parcelOtherBannerModel;
+    }
+    update();
   }
 
   Future<void> getPromotionalBannerList(bool reload) async {

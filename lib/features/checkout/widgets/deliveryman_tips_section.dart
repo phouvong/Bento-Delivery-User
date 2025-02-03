@@ -39,7 +39,7 @@ class _DeliveryManTipsSectionState extends State<DeliveryManTipsSection> {
             (!widget.takeAway && Get.find<SplashController>().configModel!.dmTipsStatus == 1) ? Container(
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
-                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
               ),
               padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeLarge, horizontal: Dimensions.paddingSizeLarge),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -174,7 +174,7 @@ class _DeliveryManTipsSectionState extends State<DeliveryManTipsSection> {
                     child: Container(
                       decoration: BoxDecoration(
                         shape: BoxShape.circle,
-                        color: Theme.of(context).primaryColor.withOpacity(0.5),
+                        color: Theme.of(context).primaryColor.withValues(alpha: 0.5),
                       ),
                       padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                       child: const Icon(Icons.clear),

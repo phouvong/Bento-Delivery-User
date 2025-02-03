@@ -73,7 +73,7 @@ class _WebMostPopularItemViewWidgetState extends State<WebMostPopularItemViewWid
         Container(
           margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge),
           decoration: BoxDecoration(
-            color: Theme.of(context).primaryColor.withOpacity(0.1),
+            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           ),
           child: Column(children: [

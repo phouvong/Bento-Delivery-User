@@ -198,7 +198,7 @@ class _StoreScreenState extends State<StoreScreen> {
                             store.discount != null ? Container(
                               width: double.infinity,
                               decoration: BoxDecoration(
-                                color: Theme.of(context).primaryColor.withOpacity(1 - scrollingRate),
+                                color: Theme.of(context).primaryColor.withValues(alpha: 1 - scrollingRate),
                                 borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
                               ),
                               padding: EdgeInsets.all(Dimensions.paddingSizeExtraSmall - (GetPlatform.isAndroid ? (scrollingRate * Dimensions.paddingSizeExtraSmall) : 0)),
@@ -208,14 +208,14 @@ class _StoreScreenState extends State<StoreScreen> {
                                   ' ${'daily_time'.tr}: ${DateConverter.convertTimeToTime(store.discount!.startTime!)} '
                                   '- ${DateConverter.convertTimeToTime(store.discount!.endTime!)}',
                                 style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall,
-                                  color: Colors.black.withOpacity(1 - scrollingRate),
+                                  color: Colors.black.withValues(alpha: 1 - scrollingRate),
                                 ),
                                 textAlign: TextAlign.center, maxLines: 2, overflow: TextOverflow.ellipsis,
                               ),
                             ) : const SizedBox(),
 
                             Container(
-                              color: Theme.of(context).cardColor.withOpacity(scrollingRate),
+                              color: Theme.of(context).cardColor.withValues(alpha: scrollingRate),
                               padding: EdgeInsets.only(
                                 bottom: 0,
                                 left: Get.find<LocalizationController>().isLtr ? 40 * scrollingRate : 0,
@@ -224,7 +224,7 @@ class _StoreScreenState extends State<StoreScreen> {
                               child: Align(
                                 alignment: Alignment.bottomLeft,
                                 child: Container(
-                                  height: 100, color: Theme.of(context).cardColor.withOpacity(scrollingRate == 0.0 ? 1 : 0),
+                                  height: 100, color: Theme.of(context).cardColor.withValues(alpha: scrollingRate == 0.0 ? 1 : 0),
                                   padding: EdgeInsets.only(
                                     left: Get.find<LocalizationController>().isLtr ? 20 : 0,
                                     right: Get.find<LocalizationController>().isLtr ? 0 : 20,
@@ -245,7 +245,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                             alignment: Alignment.center,
                                             decoration: BoxDecoration(
                                               borderRadius: const BorderRadius.vertical(bottom: Radius.circular(Dimensions.radiusSmall)),
-                                              color: Colors.black.withOpacity(0.6),
+                                              color: Colors.black.withValues(alpha: 0.6),
                                             ),
                                             child: Text(
                                               'closed_now'.tr, textAlign: TextAlign.center,
@@ -299,7 +299,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                         },
                                         child: Container(
                                           decoration: BoxDecoration(
-                                            color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                            color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                             borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                           ),
                                           padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
@@ -319,7 +319,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                       },
                                       child: Container(
                                         decoration: BoxDecoration(
-                                          color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                          color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                                           borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                         ),
                                         padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
@@ -352,7 +352,7 @@ class _StoreScreenState extends State<StoreScreen> {
               (ResponsiveHelper.isDesktop(context)  && storeController.recommendedItemModel != null && storeController.recommendedItemModel!.items!.isNotEmpty)
               ? SliverToBoxAdapter(
                 child: Container(
-                  color: Theme.of(context).primaryColor.withOpacity(0.10),
+                  color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
                   child: Center(
                     child: SizedBox(
                       width: Dimensions.webMaxWidth,
@@ -432,7 +432,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                                 begin: Alignment.bottomRight,
                                                 end: Alignment.topLeft,
                                                 colors: <Color>[
-                                                  index == storeController.categoryIndex ? Theme.of(context).primaryColor.withOpacity(0.50) : Colors.transparent,
+                                                  index == storeController.categoryIndex ? Theme.of(context).primaryColor.withValues(alpha: 0.50) : Colors.transparent,
                                                   index == storeController.categoryIndex ? Theme.of(context).cardColor : Colors.transparent,
                                                 ]
                                               )
@@ -455,7 +455,7 @@ class _StoreScreenState extends State<StoreScreen> {
 
                                 Container(
                                   height: storeController.categoryList!.length * 50, width: 1,
-                                  color: Theme.of(context).disabledColor.withOpacity(0.5),
+                                  color: Theme.of(context).disabledColor.withValues(alpha: 0.5),
                                 ),
                               ],
                             ),
@@ -474,7 +474,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                     decoration: BoxDecoration(
                                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
                                       color: Theme.of(context).cardColor,
-                                      border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.40)),
+                                      border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.40)),
                                     ),
                                     child: Row(
                                       children: [
@@ -489,7 +489,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                               border: OutlineInputBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall), borderSide: BorderSide.none),
                                               filled: true, fillColor:Theme.of(context).cardColor,
                                               isDense: true,
-                                              prefixIcon: Icon(Icons.search, color: Theme.of(context).primaryColor.withOpacity(0.50)),
+                                              prefixIcon: Icon(Icons.search, color: Theme.of(context).primaryColor.withValues(alpha: 0.50)),
                                             ),
                                             onSubmitted: (String? value) {
                                               if(value!.isNotEmpty) {
@@ -621,9 +621,9 @@ class _StoreScreenState extends State<StoreScreen> {
 
                   store?.announcementActive??false ? Container(
                     decoration: BoxDecoration(
-                      color: Theme.of(context).primaryColor.withOpacity(0.05),
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.05),
                       borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                      border: Border.all(color: Theme.of(context).primaryColor.withOpacity(0.2)),
+                      border: Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2)),
                     ),
                     padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                     margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
@@ -695,7 +695,7 @@ class _StoreScreenState extends State<StoreScreen> {
                             child: Container(
                               decoration: BoxDecoration(
                                 borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                color: Theme.of(context).primaryColor.withOpacity(0.1),
+                                color: Theme.of(context).primaryColor.withValues(alpha: 0.1),
                               ),
                               padding: const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                               child: Icon(Icons.search, size: 28, color: Theme.of(context).primaryColor),
@@ -728,7 +728,7 @@ class _StoreScreenState extends State<StoreScreen> {
                                 margin: const EdgeInsets.only(right: Dimensions.paddingSizeSmall),
                                 decoration: BoxDecoration(
                                   borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                  color: index == storeController.categoryIndex ? Theme.of(context).primaryColor.withOpacity(0.1) : Colors.transparent,
+                                  color: index == storeController.categoryIndex ? Theme.of(context).primaryColor.withValues(alpha: 0.1) : Colors.transparent,
                                 ),
                                 child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
                                   Text(
@@ -786,7 +786,7 @@ class _StoreScreenState extends State<StoreScreen> {
               decoration: BoxDecoration(
                 color: Theme.of(context).cardColor,
                 borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.5), blurRadius: 10, offset: const Offset(2, 2))],
+                boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.5), blurRadius: 10, offset: const Offset(2, 2))],
               ),
               child: Row(mainAxisSize: MainAxisSize.min, children: [
 

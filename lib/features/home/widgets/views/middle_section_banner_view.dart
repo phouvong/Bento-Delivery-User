@@ -83,7 +83,7 @@ class _MiddleSectionBannerViewState extends State<MiddleSectionBannerView> {
                     ),
                   ) : Container(
                     height: 5, width: 6,
-                    decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                    decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
                   ),
                 );
               }).toList(),

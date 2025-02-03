@@ -73,7 +73,7 @@ class BottomSection extends StatelessWidget {
         Container(
           decoration: BoxDecoration(
             color: Theme.of(context).cardColor,
-            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withOpacity(0.05), blurRadius: 10)],
+            boxShadow: [BoxShadow(color: Theme.of(context).primaryColor.withValues(alpha: 0.05), blurRadius: 10)],
           ),
           padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeLarge),
           child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
@@ -252,7 +252,7 @@ class BottomSection extends StatelessWidget {
 
             Padding(
               padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-              child: Divider(thickness: 1, color: Theme.of(context).hintColor.withOpacity(0.5)),
+              child: Divider(thickness: 1, color: Theme.of(context).hintColor.withValues(alpha: 0.5)),
             ),
           ],
         ),

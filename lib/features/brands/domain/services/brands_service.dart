@@ -1,3 +1,4 @@
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/brands/domain/models/brands_model.dart';
 import 'package:sixam_mart/features/brands/domain/repositories/brands_repository_interface.dart';
 import 'package:sixam_mart/features/brands/domain/services/brands_service_interface.dart';
@@ -8,8 +9,8 @@ class BrandsService implements BrandsServiceInterface {
   BrandsService({required this.brandsRepositoryInterface});
 
   @override
-  Future<List<BrandModel>?> getBrandList() async {
-    return await brandsRepositoryInterface.getList();
+  Future<List<BrandModel>?> getBrandList(DataSourceEnum source) async {
+    return await brandsRepositoryInterface.getBrandList(source: source);
   }
 
   @override

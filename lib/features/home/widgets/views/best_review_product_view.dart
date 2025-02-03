@@ -55,7 +55,7 @@ class BestReviewedProductView extends StatelessWidget {
           padding: const EdgeInsets.only(top: Dimensions.paddingSizeDefault),
           child: Container(
             decoration: BoxDecoration(
-              color: Theme.of(context).disabledColor.withOpacity(0.1),
+              color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
             ),
             child: SizedBox(
               height: 280, width: Get.width,

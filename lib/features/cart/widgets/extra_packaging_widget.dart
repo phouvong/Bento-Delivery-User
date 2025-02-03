@@ -18,7 +18,7 @@ class ExtraPackagingWidget extends StatelessWidget {
           padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
           margin: const EdgeInsets.all(Dimensions.paddingSizeDefault),
           decoration: BoxDecoration(
-            color: Theme.of(context).disabledColor.withOpacity(0.1),
+            color: Theme.of(context).disabledColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
           ),
           child: Row(children: [

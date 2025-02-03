@@ -1,9 +1,14 @@
+import 'dart:convert';
+
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
+import 'package:sixam_mart/api/local_client.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/banner/domain/models/banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/others_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/models/promotional_banner_model.dart';
 import 'package:sixam_mart/features/banner/domain/repositories/banner_repository_interface.dart';
+import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/helper/header_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 
@@ -12,9 +17,9 @@ class BannerRepository implements BannerRepositoryInterface {
   BannerRepository({required this.apiClient});
 
   @override
-  Future getList({int? offset, bool isBanner = false, bool isTaxiBanner = false, bool isFeaturedBanner = false, bool isParcelOtherBanner = false, bool isPromotionalBanner = false}) async {
+  Future getList({int? offset, bool isBanner = false, bool isTaxiBanner = false, bool isFeaturedBanner = false, bool isParcelOtherBanner = false, bool isPromotionalBanner = false, DataSourceEnum? source}) async {
     if (isBanner) {
-      return await _getBannerList();
+      return await _getBannerList(source: source!);
     } else if (isTaxiBanner) {
       return await _getTaxiBannerList();
     } else if (isFeaturedBanner) {
@@ -26,12 +31,27 @@ class BannerRepository implements BannerRepositoryInterface {
     }
   }
 
-  Future<BannerModel?> _getBannerList() async {
+  Future<BannerModel?> _getBannerList({required DataSourceEnum source}) async {
     BannerModel? bannerModel;
-    Response response = await apiClient.getData(AppConstants.bannerUri);
-    if (response.statusCode == 200) {
-      bannerModel = BannerModel.fromJson(response.body);
+    String cacheId = '${AppConstants.bannerUri}-${Get.find<SplashController>().module!.id!}';
+
+    switch(source) {
+      case DataSourceEnum.client:
+        Response response = await apiClient.getData(AppConstants.bannerUri);
+        if (response.statusCode == 200) {
+          bannerModel = BannerModel.fromJson(response.body);
+          LocalClient.organize(source, cacheId, jsonEncode(response.body), apiClient.getHeader());
+
+        }
+      case DataSourceEnum.local:
+
+        String? cacheResponseData = await LocalClient.organize(source, cacheId, null, null);
+        if(cacheResponseData != null) {
+          bannerModel = BannerModel.fromJson(jsonDecode(cacheResponseData));
+        }
     }
+
+
     return bannerModel;
   }
 

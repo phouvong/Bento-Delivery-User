@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:sixam_mart/common/enums/data_source_enum.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/store/domain/models/cart_suggested_item_model.dart';
 import 'package:sixam_mart/features/item/domain/models/item_model.dart';
@@ -17,33 +18,33 @@ class StoreService implements StoreServiceInterface {
   StoreService({required this.storeRepositoryInterface});
 
   @override
-  Future<StoreModel?> getStoreList(int offset, String filterBy, String storeType) async {
-    return await storeRepositoryInterface.getList(offset: offset, isStoreList: true, filterBy: filterBy, type: storeType);
+  Future<StoreModel?> getStoreList(int offset, String filterBy, String storeType, {required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(offset: offset, isStoreList: true, filterBy: filterBy, type: storeType, source: source);
   }
 
   @override
-  Future<List<Store>?> getPopularStoreList(String type) async {
-    return await storeRepositoryInterface.getList(isPopularStoreList: true, type: type);
+  Future<List<Store>?> getPopularStoreList(String type, {required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isPopularStoreList: true, type: type, source: source);
   }
 
   @override
-  Future<List<Store>?> getLatestStoreList(String type) async {
-    return await storeRepositoryInterface.getList(isLatestStoreList: true, type: type);
+  Future<List<Store>?> getLatestStoreList(String type, {required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isLatestStoreList: true, type: type, source: source);
   }
 
   @override
-  Future<List<Store>?> getTopOfferStoreList() async {
-    return await storeRepositoryInterface.getList(isTopOfferStoreList: true);
+  Future<List<Store>?> getTopOfferStoreList({required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isTopOfferStoreList: true, source: source);
   }
 
   @override
-  Future<Response> getFeaturedStoreList() async {
-    return await storeRepositoryInterface.getList(isFeaturedStoreList: true);
+  Future<List<Store>?> getFeaturedStoreList({required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isFeaturedStoreList: true, source: source);
   }
 
   @override
-  Future<Response> getVisitAgainStoreList() async {
-    return await storeRepositoryInterface.getList(isVisitAgainStoreList: true);
+  Future<List<Store>?> getVisitAgainStoreList({required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isVisitAgainStoreList: true, source: source);
   }
 
   @override
@@ -77,8 +78,8 @@ class StoreService implements StoreServiceInterface {
   }
 
   @override
-  Future<List<Store>?> getRecommendedStoreList() async {
-    return await storeRepositoryInterface.getList(isRecommendedStoreList: true);
+  Future<List<Store>?> getRecommendedStoreList({required DataSourceEnum source}) async {
+    return await storeRepositoryInterface.getList(isRecommendedStoreList: true, source: source);
   }
 
   @override

@@ -114,7 +114,7 @@ class WebMostPopularItemBannerViewWidget extends StatelessWidget {
                         decoration: BoxDecoration(color: Theme.of(context).primaryColor, borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
                       ) : Container(
                         height: 4, width: 4,
-                        decoration: BoxDecoration(color: Theme.of(context).primaryColor.withOpacity(0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
+                        decoration: BoxDecoration(color: Theme.of(context).primaryColor.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)),
                       ),
                     );
                   }).toList(),
