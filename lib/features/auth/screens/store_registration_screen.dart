@@ -100,7 +100,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
       Get.find<StoreRegistrationController>().showHidePass(isUpdate: false);
     }
     Get.find<StoreRegistrationController>().resetBusiness();
-    Get.find<StoreRegistrationController>().getPackageList(isUpdate: false);
+    Get.find<StoreRegistrationController>().clearPickupZone();
 
     for (var language in _languageList) {
       _tabs.add(Tab(text: language.value));
@@ -142,7 +142,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
         }
       },
       child: Scaffold(
-        appBar: CustomAppBar(title: 'store_registration'.tr, onBackPressed: () async {
+        appBar: CustomAppBar(title: 'vendor_registration'.tr, onBackPressed: () async {
           if(Get.find<StoreRegistrationController>().storeStatus != 0.1 && firstTime){
             Get.find<StoreRegistrationController>().storeStatusChange(0.1);
             firstTime = false;
@@ -159,7 +159,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
 
           return Column(children: [
 
-            WebScreenTitleWidget(title: 'join_as_store'.tr),
+            WebScreenTitleWidget(title: 'join_as_vendor'.tr),
 
             ResponsiveHelper.isDesktop(context) ? Center(child: SizedBox(
               width: Dimensions.webMaxWidth,
@@ -171,7 +171,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge, vertical:  Dimensions.paddingSizeSmall),
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
                 Text(
-                  storeRegController.storeStatus == 0.1 ? 'provide_store_information_to_proceed_next'.tr : storeRegController.storeStatus == 0.6 ? 'provide_owner_information_to_confirm'.tr : 'you_are_one_step_away_choose_your_business_plan'.tr,
+                  storeRegController.storeStatus == 0.1 ? 'provide_vendor_information_to_proceed_next'.tr : storeRegController.storeStatus == 0.6 ? 'provide_owner_information_to_confirm'.tr : 'you_are_one_step_away_choose_your_business_plan'.tr,
                   style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).hintColor),
                 ),
 
@@ -197,7 +197,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                         key: _formKeyFirst,
                         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                          Text('store_info'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                          Text('vendor_info'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
                           const SizedBox(height: Dimensions.paddingSizeDefault),
 
                           Container(
@@ -239,8 +239,8 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
 
                               CustomTextField(
                                 key: _storeInfoScrollKey,
-                                titleText: 'write_store_name'.tr,
-                                labelText: 'store_name'.tr,
+                                titleText: 'write_vendor_name'.tr,
+                                labelText: 'vendor_name'.tr,
                                 controller: _nameController[_tabController!.index],
                                 focusNode: _nameFocus[_tabController!.index],
                                 nextFocus: _tabController!.index != _languageList!.length-1 ? _addressFocus[_tabController!.index] : _addressFocus[0],
@@ -248,7 +248,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                 prefixImage: Images.shopIcon,
                                 capitalization: TextCapitalization.words,
                                 required: true,
-                                validator: (value) => ValidateCheck.validateEmptyText(value, "store_name_field_is_required".tr),
+                                validator: (value) => ValidateCheck.validateEmptyText(value, "vendor_name_field_is_required".tr),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
@@ -258,7 +258,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                     Row(children: [
-                                      Text('store_logo'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7))),
+                                      Text('vendor_logo'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7))),
                                       Text(' (${'1:1'})', style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall)),
                                     ]),
                                     const SizedBox(height: Dimensions.paddingSizeDefault),
@@ -282,7 +282,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                               Padding(
                                                 padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                                                 child: Text(
-                                                  'upload_store_logo'.tr,
+                                                  'upload_vendor_logo'.tr,
                                                   style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)), textAlign: TextAlign.center,
                                                 ),
                                               ),
@@ -328,7 +328,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                   child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                     Row(children: [
-                                      Text('store_cover'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7))),
+                                      Text('vendor_cover'.tr, style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7))),
                                       Text(' (${'3:1'})', style: robotoRegular.copyWith(color: Theme.of(context).hintColor, fontSize: Dimensions.fontSizeSmall)),
                                     ]),
                                     const SizedBox(height: Dimensions.paddingSizeDefault),
@@ -349,7 +349,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                               Icon(CupertinoIcons.photo_camera_solid, size: 30, color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
 
                                               Text(
-                                                'upload_store_cover'.tr,
+                                                'upload_vendor_cover'.tr,
                                                 style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)), textAlign: TextAlign.center,
                                               ),
 
@@ -415,7 +415,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                           const SizedBox(height: Dimensions.paddingSizeLarge),
 
 
-                          Text('store_preference'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                          Text('vendor_preference'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
                           const SizedBox(height: Dimensions.paddingSizeDefault),
 
                           Container(
@@ -443,7 +443,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                                   iconColor: Theme.of(context).disabledColor,
                                 ),
                                 required: true,
-                                validator: (value) => ValidateCheck.validateEmptyText(value, "store_vat_tax_field_is_required".tr),
+                                validator: (value) => ValidateCheck.validateEmptyText(value, "vendor_vat_tax_field_is_required".tr),
                               ),
                               const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
@@ -502,7 +502,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                             const SizedBox(width: Dimensions.paddingSizeSmall),
 
                             CustomToolTip(
-                              message: 'this_info_will_need_for_store_app_and_panel_login'.tr,
+                              message: 'this_info_will_need_for_vendor_app_and_panel_login'.tr,
                               preferredDirection: AxisDirection.down,
                               iconColor: Theme.of(context).textTheme.bodyLarge!.color?.withValues(alpha: 0.7),
                             ),
@@ -669,14 +669,14 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                         storeRegController.businessIndex == 0 ? Padding(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                           child: Text(
-                            "${'store_will_pay'.tr} ${Get.find<SplashController>().configModel!.adminCommission}% ${'commission_to'.tr} ${Get.find<SplashController>().configModel!.businessName} ${'from_each_order_You_will_get_access_of_all'.tr}",
+                            "${'vendor_will_pay'.tr} ${Get.find<SplashController>().configModel!.adminCommission}% ${'commission_to'.tr} ${Get.find<SplashController>().configModel!.businessName} ${'from_each_order_You_will_get_access_of_all'.tr}",
                             style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)), textAlign: TextAlign.justify, textScaler: const TextScaler.linear(1.1),
                           ),
                         ) : Column(children: [
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeLarge),
                             child: Text(
-                              'run_store_by_purchasing_subscription_packages'.tr,
+                              'run_vendor_by_purchasing_subscription_packages'.tr,
                               style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)), textAlign: TextAlign.justify, textScaler: const TextScaler.linear(1.1),
                             ),
                           ),
@@ -734,7 +734,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
           CustomAssetImageWidget(Images.shopIcon, height: 20, width: 20, color: Theme.of(context).textTheme.bodyLarge!.color),
           const SizedBox(width: Dimensions.paddingSizeSmall),
 
-          Text('store_information'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault)),
+          Text('vendor_information'.tr, style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeDefault)),
         ]),
         const SizedBox(height: Dimensions.paddingSizeSmall),
 
@@ -781,8 +781,8 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                   const SizedBox(height: Dimensions.paddingSizeSmall),
 
                   CustomTextField(
-                    titleText: 'write_store_name'.tr,
-                    labelText: 'store_name'.tr,
+                    titleText: 'write_vendor_name'.tr,
+                    labelText: 'vendor_name'.tr,
                     controller: _nameController[_tabController!.index],
                     focusNode: _nameFocus[_tabController!.index],
                     nextFocus: _tabController!.index != _languageList!.length-1 ? _addressFocus[_tabController!.index] : _addressFocus[0],
@@ -790,7 +790,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                     prefixImage: Images.shopIcon,
                     capitalization: TextCapitalization.words,
                     required: true,
-                    validator: (value) => ValidateCheck.validateEmptyText(value, "store_name_field_is_required".tr),
+                    validator: (value) => ValidateCheck.validateEmptyText(value, "vendor_name_field_is_required".tr),
                   ),
                   const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
@@ -798,7 +798,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                   const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
                   CustomTextField(
-                    titleText: 'write_store_address'.tr,
+                    titleText: 'write_vendor_address'.tr,
                     labelText: 'address'.tr,
                     controller: _addressController[0],
                     focusNode: _addressFocus[0],
@@ -807,7 +807,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                     capitalization: TextCapitalization.sentences,
                     maxLines: 3,
                     required: true,
-                    validator: (value) => ValidateCheck.validateEmptyText(value, "store_address_field_is_required".tr),
+                    validator: (value) => ValidateCheck.validateEmptyText(value, "vendor_address_field_is_required".tr),
                   ),
 
                 ]),
@@ -862,7 +862,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                     iconColor: Theme.of(context).disabledColor,
                   ),
                   required: true,
-                  validator: (value) => ValidateCheck.validateEmptyText(value, "store_vat_tax_field_is_required".tr),
+                  validator: (value) => ValidateCheck.validateEmptyText(value, "vendor_vat_tax_field_is_required".tr),
                 ),
                 const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
@@ -928,7 +928,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                             Padding(
                               padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
                               child: Text(
-                                '${'upload_store_logo'.tr} (${'1:1'})',
+                                '${'upload_vendor_logo'.tr} (${'1:1'})',
                                 style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeExtraSmall, color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7)), textAlign: TextAlign.center,
                               ),
                             ),
@@ -995,7 +995,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                             Icon(CupertinoIcons.photo_camera_solid, size: 30, color: Theme.of(context).disabledColor.withValues(alpha: 0.6)),
 
                             Text(
-                              '${'upload_store_cover'.tr} (${'3:1'})',
+                              '${'upload_vendor_cover'.tr} (${'3:1'})',
                               style: robotoRegular.copyWith(color: Theme.of(context).textTheme.bodyLarge?.color?.withValues(alpha: 0.7), fontSize: Dimensions.fontSizeExtraSmall), textAlign: TextAlign.center,
                             ),
 
@@ -1323,13 +1323,13 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                 }
                 if(_formKeyFirst!.currentState!.validate()){
                   if(defaultDataNull) {
-                    showCustomSnackBar('enter_store_name'.tr);
+                    showCustomSnackBar('enter_vendor_name'.tr);
                   }else if(storeRegController.pickedLogo == null) {
                     _scrollToKey(_storeInfoScrollKey);
-                    showCustomSnackBar('select_store_logo'.tr);
+                    showCustomSnackBar('select_vendor_logo'.tr);
                   }else if(storeRegController.pickedCover == null) {
                     _scrollToKey(_storeInfoScrollKey);
-                    showCustomSnackBar('select_store_cover_photo'.tr);
+                    showCustomSnackBar('select_vendor_cover_photo'.tr);
                   }else if(storeRegController.selectedZoneIndex == -1) {
                     _scrollToKey(_locationInfoScrollKey);
                     showCustomSnackBar('please_select_zone'.tr);
@@ -1337,7 +1337,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                     _scrollToKey(_locationInfoScrollKey);
                     showCustomSnackBar('please_select_module_first'.tr);
                   }else if(storeRegController.restaurantLocation == null) {
-                    showCustomSnackBar('set_store_location'.tr);
+                    showCustomSnackBar('set_vendor_location'.tr);
                     _scrollToKey(_locationInfoScrollKey);
                   }else if(vat.isEmpty) {
                     showCustomSnackBar('enter_vat_amount'.tr);
@@ -1359,9 +1359,9 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
               }else{
                 if(ResponsiveHelper.isDesktop(context)){
                   if(defaultDataNull) {
-                    showCustomSnackBar('enter_store_name'.tr);
+                    showCustomSnackBar('enter_vendor_name'.tr);
                   }else if(storeRegController.restaurantLocation == null) {
-                    showCustomSnackBar('set_store_location'.tr);
+                    showCustomSnackBar('set_vendor_location'.tr);
                   }else if(storeRegController.selectedZoneIndex == -1) {
                     showCustomSnackBar('please_select_zone'.tr);
                   }else if(storeRegController.selectedModuleIndex == -1) {
@@ -1377,9 +1377,9 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                   }else if(valid && double.parse(minTime) > double.parse(maxTime)) {
                     showCustomSnackBar('maximum_delivery_time_can_not_be_smaller_then_minimum_delivery_time'.tr);
                   }else if(storeRegController.pickedLogo == null) {
-                    showCustomSnackBar('select_store_logo'.tr);
+                    showCustomSnackBar('select_vendor_logo'.tr);
                   }else if(storeRegController.pickedCover == null) {
-                    showCustomSnackBar('select_store_cover_photo'.tr);
+                    showCustomSnackBar('select_vendor_cover_photo'.tr);
                   }
                 }
                 if((storeRegController.storeStatus == 0.6 && _formKeySecond!.currentState!.validate()) || ResponsiveHelper.isDesktop(context)){
@@ -1431,6 +1431,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
                 deliveryTimeType: storeRegController.storeTimeUnit,
                 businessPlan: storeRegController.businessIndex == 0 ? 'commission' : 'subscription',
                 packageId: storeRegController.businessIndex == 0 ? '' : storeRegController.packageModel!.packages![storeRegController.activeSubscriptionIndex].id!.toString(),
+                pickUpZoneIds: storeRegController.pickupZoneIdList.map((e) => e.toString()).toList(),
               ));
 
 
@@ -1450,13 +1451,13 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
     }
     if(_formKeyFirst!.currentState!.validate()){
       if(defaultDataNull) {
-        showCustomSnackBar('enter_store_name'.tr);
+        showCustomSnackBar('enter_vendor_name'.tr);
       }else if(storeRegController.pickedLogo == null) {
         _scrollToKey(_storeInfoScrollKey);
-        showCustomSnackBar('select_store_logo'.tr);
+        showCustomSnackBar('select_vendor_logo'.tr);
       }else if(storeRegController.pickedCover == null) {
         _scrollToKey(_storeInfoScrollKey);
-        showCustomSnackBar('select_store_cover_photo'.tr);
+        showCustomSnackBar('select_vendor_cover_photo'.tr);
       }else if(storeRegController.selectedZoneIndex == -1) {
         _scrollToKey(_locationInfoScrollKey);
         showCustomSnackBar('please_select_zone'.tr);
@@ -1464,7 +1465,7 @@ class _StoreRegistrationScreenState extends State<StoreRegistrationScreen> with 
         _scrollToKey(_locationInfoScrollKey);
         showCustomSnackBar('please_select_module_first'.tr);
       }else if(storeRegController.restaurantLocation == null) {
-        showCustomSnackBar('set_store_location'.tr);
+        showCustomSnackBar('set_vendor_location'.tr);
         _scrollToKey(_locationInfoScrollKey);
       }else if(vat.isEmpty) {
         showCustomSnackBar('enter_vat_amount'.tr);

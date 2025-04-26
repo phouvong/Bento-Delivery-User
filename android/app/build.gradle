@@ -30,6 +30,13 @@ if (keystorePropertiesFile.exists()) {
 }
 
 android {
+
+    buildTypes {
+        release {
+            crunchPngs false // or true
+        }
+    }
+    
     namespace "com.unilaos.fuser"
     compileSdk 35
 

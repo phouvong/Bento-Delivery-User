@@ -25,7 +25,7 @@
     </queries>
 
     <application
-        android:label="bento"
+        android:label="bentolao"
         android:name="${applicationName}"
         android:extractNativeLibs="true"
         android:requestLegacyExternalStorage="true"

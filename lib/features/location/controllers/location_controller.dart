@@ -1,9 +1,11 @@
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:sixam_mart/common/widgets/no_internet_screen.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
 import 'package:sixam_mart/features/location/screens/pick_map_screen.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
@@ -20,12 +22,14 @@ import 'package:sixam_mart/features/location/domain/models/zone_response_model.d
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/location/domain/services/location_service_interface.dart';
 import 'package:sixam_mart/features/location/widgets/module_dialog_widget.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/controllers/taxi_cart_controller.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:sixam_mart/common/widgets/custom_loader.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
+import 'package:sixam_mart/helper/taxi_helper.dart';
 
 class LocationController extends GetxController implements GetxService {
   final LocationServiceInterface locationServiceInterface;
@@ -77,8 +81,8 @@ class LocationController extends GetxController implements GetxService {
   List<PredictionModel> _predictionList = [];
   List<PredictionModel> get predictionList => _predictionList;
 
-  void hideSuggestedLocation(){
-    _showLocationSuggestion = !_showLocationSuggestion;
+  void showSuggestedLocation(bool status){
+    _showLocationSuggestion = status;
   }
 
   void setAddressTypeIndex(int index, {bool isUpdate = true}) {
@@ -179,6 +183,11 @@ class LocationController extends GetxController implements GetxService {
   }
 
   Future<void> syncZoneData() async {
+    bool hasInternet = await checkInternet();
+    if (!hasInternet) {
+      return;
+    }
+
     ZoneResponseModel response = await getZone(AddressHelper.getUserAddressFromSharedPref()!.latitude, AddressHelper.getUserAddressFromSharedPref()!.longitude, false, updateInAddress: true);
     if(response.zoneIds.isEmpty) {
       await AddressHelper.saveUserAddressInSharedPref(AddressModel());
@@ -233,7 +242,13 @@ class LocationController extends GetxController implements GetxService {
     _prepareZoneData(address!, fromSignUp, route, canRoute, isDesktop);
   }
 
-  void _prepareZoneData(AddressModel address, bool fromSignUp, String? route, bool canRoute, bool isDesktop) {
+  void _prepareZoneData(AddressModel address, bool fromSignUp, String? route, bool canRoute, bool isDesktop) async {
+
+    bool hasInternet = await checkInternet();
+    if (!hasInternet) {
+      return;
+    }
+
     getZone(address.latitude, address.longitude, false).then((response) async {
       if (response.isSuccess) {
         Get.find<CartController>().getCartDataOnline();
@@ -277,6 +292,9 @@ class LocationController extends GetxController implements GetxService {
 
   void _saveDataAndFirebaseConfig(AddressModel address, bool fromSignUp, String? route, bool canRoute, bool isDesktop) async {
     locationServiceInterface.configureFirebaseMessaging(address);
+
+    await _handleTaxiModuleCart(address);
+
     await AddressHelper.saveUserAddressInSharedPref(address);
     if(AuthHelper.isLoggedIn()) {
       if(Get.find<SplashController>().module != null) {
@@ -305,6 +323,21 @@ class LocationController extends GetxController implements GetxService {
     } else {
       locationServiceInterface.handleRoute(fromSignUp, route, canRoute);
     }
+  }
+
+  Future<void> _handleTaxiModuleCart(AddressModel address) async{
+    if(TaxiHelper.haveTaxiModule() && address.zoneIds != null && Get.find<TaxiCartController>().cartList.isNotEmpty) {
+      List<int>? providerZones = Get.find<TaxiCartController>().cartList[0].provider!.pickupZoneId??[];
+
+      if(!_hasIntersection(providerZones, address.zoneIds!)) {
+        showCustomSnackBar('your_cart_has_been_cleared_as_the_selected_zone_does_not_support_the_previous_pickup_point'.tr, showDuration: 10);
+        Get.find<TaxiCartController>().clearTaxiCart();
+      }
+    }
+  }
+
+  bool _hasIntersection(List<int> list1, List<int> list2) {
+    return list1.toSet().intersection(list2.toSet()).isNotEmpty;
   }
 
   Future<AddressModel> setLocation(String? placeID, String? address, GoogleMapController? mapController) async {
@@ -406,6 +439,11 @@ class LocationController extends GetxController implements GetxService {
 
   void _checkPermission(String page) async {
 
+    bool hasInternet = await checkInternet();
+    if (!hasInternet) {
+      return;
+    }
+
     LocationPermission permission = await Geolocator.checkPermission();
 
     if(permission == LocationPermission.denied) {
@@ -474,6 +512,19 @@ class LocationController extends GetxController implements GetxService {
       }
     }
 
+  }
+
+  Future<bool> checkInternet() async {
+    if(kIsWeb) {
+      return true;
+    }
+    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+    bool isConnected = connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile);
+    if(!isConnected) {
+      Get.offAll(()=> const NoInternetScreen());
+      return false;
+    }
+    return true;
   }
 
 }

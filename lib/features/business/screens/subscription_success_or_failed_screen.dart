@@ -35,14 +35,14 @@ class _SubscriptionSuccessOrFailedScreenState extends State<SubscriptionSuccessO
         Get.offAllNamed(RouteHelper.getInitialRoute());
       },
       child: Scaffold(
-        appBar: isDesktop ? CustomAppBar(title: 'store_registration'.tr) : null,
+        appBar: isDesktop ? CustomAppBar(title: 'join_as_vendor'.tr) : null,
         endDrawer: const MenuDrawer(), endDrawerEnableOpenDragGesture: false,
 
         body: SingleChildScrollView(
           child: FooterView(
             child: Column(children: [
 
-              WebScreenTitleWidget(title: 'join_as_store'.tr),
+              WebScreenTitleWidget(title: 'join_as_vendor'.tr),
 
               SizedBox(width: Dimensions.webMaxWidth, child: Center(
                 child: Column(mainAxisAlignment: MainAxisAlignment.center, mainAxisSize: MainAxisSize.min, children: [
@@ -63,7 +63,7 @@ class _SubscriptionSuccessOrFailedScreenState extends State<SubscriptionSuccessO
                     child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                       Text(
-                        'store_registration'.tr,
+                        'vendor_registration'.tr,
                         style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                       ),
 

@@ -109,6 +109,12 @@ class StoreController extends GetxController implements GetxService {
   List<Store>? _recommendedStoreList;
   List<Store>? get recommendedStoreList => _recommendedStoreList;
 
+  String _topOfferFilter = '';
+  String get topOfferFilter => _topOfferFilter;
+
+  String _topOfferSort = '';
+  String get topOfferSort => _topOfferSort;
+
   double getRestaurantDistance(LatLng storeLatLng){
     double distance = 0;
     distance = Geolocator.distanceBetween(storeLatLng.latitude, storeLatLng.longitude,
@@ -296,7 +302,7 @@ class StoreController extends GetxController implements GetxService {
     if(_topOfferStoreList == null || reload || fromRecall) {
       List<Store>? latestStoreList;
       if(dataSource == DataSourceEnum.local) {
-        latestStoreList = await storeServiceInterface.getTopOfferStoreList(source: DataSourceEnum.local);
+        latestStoreList = await storeServiceInterface.getTopOfferStoreList(source: DataSourceEnum.local, filterBy: _topOfferFilter, sortBy: _topOfferSort);
         if (latestStoreList != null) {
           _topOfferStoreList = [];
           _topOfferStoreList!.addAll(latestStoreList);
@@ -304,7 +310,7 @@ class StoreController extends GetxController implements GetxService {
         update();
         getTopOfferStoreList(false, notify, dataSource: DataSourceEnum.client, fromRecall: true);
       } else {
-        latestStoreList = await storeServiceInterface.getTopOfferStoreList(source: DataSourceEnum.client);
+        latestStoreList = await storeServiceInterface.getTopOfferStoreList(source: DataSourceEnum.client, filterBy: _topOfferFilter, sortBy: _topOfferSort);
         if (latestStoreList != null) {
           _topOfferStoreList = [];
           _topOfferStoreList!.addAll(latestStoreList);
@@ -312,6 +318,16 @@ class StoreController extends GetxController implements GetxService {
         update();
       }
     }
+  }
+
+  void setTopOfferFilter(String type) {
+    _topOfferFilter = type;
+   getTopOfferStoreList(true, false);
+  }
+
+  void setTopOfferSort(String sort) {
+    _topOfferSort = sort;
+    getTopOfferStoreList(true, false);
   }
 
   Future<void> getFeaturedStoreList({DataSourceEnum dataSource = DataSourceEnum.local}) async {

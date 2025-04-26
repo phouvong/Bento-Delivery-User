@@ -121,7 +121,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
             top: 130, left: 0,
             child: ArrowIconButton(
               isRight: false,
-              onTap: () => scrollController.animateTo(scrollController.offset - Dimensions.webMaxWidth,
+              onTap: () => scrollController.animateTo(scrollController.offset - (Dimensions.webMaxWidth / 3),
                   duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
             ),
           ),
@@ -130,7 +130,7 @@ class _WebTopOffersNearMeState extends State<WebTopOffersNearMe> {
           Positioned(
             top: 130, right: 0,
             child: ArrowIconButton(
-              onTap: () => scrollController.animateTo(scrollController.offset + Dimensions.webMaxWidth,
+              onTap: () => scrollController.animateTo(scrollController.offset + (Dimensions.webMaxWidth / 3),
                   duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
             ),
           ),

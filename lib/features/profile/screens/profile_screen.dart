@@ -212,7 +212,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             SizedBox(height: isLoggedIn ? Dimensions.paddingSizeSmall : 0),
 
                             isLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? ProfileButtonWidget(icon: Icons.lock, title: 'change_password'.tr, onTap: () {
-                              Get.toNamed(RouteHelper.getResetPasswordRoute('', '', 'password-change'));
+                              Get.toNamed(RouteHelper.getResetPasswordRoute(phone: '', email: '', token: '', page: 'password-change'));
                             }) : const SizedBox(),
                             SizedBox(height: isLoggedIn && Get.find<SplashController>().configModel!.centralizeLoginSetup!.manualLoginStatus! ? Dimensions.paddingSizeSmall : 0),
 

@@ -223,11 +223,13 @@ class _UpdateProfileScreenState extends State<UpdateProfileScreen> {
               ]))),
             )),
 
-            CustomButton(
-              isLoading: profileController.isLoading,
-              onPressed: () => _updateProfile(profileController: profileController, fromButton: true, fromPhone: false),
-              margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-              buttonText: 'update'.tr,
+            SafeArea(
+              child: CustomButton(
+                isLoading: profileController.isLoading,
+                onPressed: () => _updateProfile(profileController: profileController, fromButton: true, fromPhone: false),
+                margin: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                buttonText: 'update'.tr,
+              ),
             ),
 
           ]),

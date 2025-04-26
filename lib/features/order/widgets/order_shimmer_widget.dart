@@ -5,8 +5,8 @@ import 'package:flutter/material.dart';
 import 'package:shimmer_animation/shimmer_animation.dart';
 
 class OrderShimmerWidget extends StatelessWidget {
-  final OrderController orderController;
-  const OrderShimmerWidget({super.key, required this.orderController});
+  final OrderController? orderController;
+  const OrderShimmerWidget({super.key, this.orderController});
 
   @override
   Widget build(BuildContext context) {
@@ -37,7 +37,7 @@ class OrderShimmerWidget extends StatelessWidget {
                   padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
                   child: Shimmer(
                     duration: const Duration(seconds: 2),
-                    enabled: orderController.runningOrderModel == null,
+                    enabled: orderController?.runningOrderModel == null,
                     child: Column(mainAxisAlignment: MainAxisAlignment.center, children: [
 
                       Row(children: [

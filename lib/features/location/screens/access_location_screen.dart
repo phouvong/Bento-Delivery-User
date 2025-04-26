@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'dart:io';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/services.dart';
 import 'package:sixam_mart/common/widgets/address_widget.dart';
+import 'package:sixam_mart/common/widgets/no_internet_screen.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/address/controllers/address_controller.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
@@ -41,8 +43,19 @@ class _AccessLocationScreenState extends State<AccessLocationScreen> {
   @override
   void initState() {
     super.initState();
+
     if(AuthHelper.isLoggedIn()) {
       Get.find<AddressController>().getAddressList();
+    }
+
+    checkInternet();
+  }
+
+  void checkInternet() async {
+    final List<ConnectivityResult> connectivityResult = await (Connectivity().checkConnectivity());
+    bool isConnected = connectivityResult.contains(ConnectivityResult.wifi) || connectivityResult.contains(ConnectivityResult.mobile);
+    if(!isConnected) {
+      Get.offAll(()=> const NoInternetScreen());
     }
   }
 

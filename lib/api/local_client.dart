@@ -14,11 +14,9 @@ class LocalClient {
     switch(source) {
       case DataSourceEnum.client:
         try{
-          if (kDebugMode) {
-            print('==========cache data : endpoint banner=$cacheId, \n'
-              'header= ${header.toString()}, \n'
-              'response= $responseBody');
-          }
+          // print('==========cache data : endpoint banner=${cacheId}, '
+          //     'header= ${header.toString()}, '
+          //     'response= ${responseBody}');
 
           if(GetPlatform.isWeb) {
             await sharedPreferences.setString(cacheId, responseBody??'');

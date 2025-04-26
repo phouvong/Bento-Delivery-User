@@ -49,17 +49,23 @@ class VerificationScreenState extends State<VerificationScreen> {
   Timer? _timer;
   int _seconds = 0;
   final ScrollController _scrollController = ScrollController();
+  late StreamController<ErrorAnimationType> errorController;
+
+  bool hasError = false;
+  String errorMessage = "";
 
   @override
   void initState() {
     super.initState();
 
     Get.find<VerificationController>().updateVerificationCode('', canUpdate: false);
-    if(widget.number != null) {
+    if(widget.number != null && widget.number!.isNotEmpty) {
       _number = widget.number!.startsWith('+') ? widget.number : '+${widget.number!.substring(1, widget.number!.length)}';
     }
     _email = widget.email;
     _startTimer();
+
+    errorController = StreamController<ErrorAnimationType>();
   }
 
   void _startTimer() {
@@ -79,6 +85,7 @@ class VerificationScreenState extends State<VerificationScreen> {
     super.dispose();
 
     _timer?.cancel();
+    errorController.close();
   }
 
   @override
@@ -86,7 +93,7 @@ class VerificationScreenState extends State<VerificationScreen> {
     bool isDesktop = ResponsiveHelper.isDesktop(context);
     double borderWidth = 0.7;
     return Scaffold(
-      appBar: isDesktop ? null : CustomAppBar(title: _email != null ? 'email_verification'.tr : 'phone_verification'.tr),
+      appBar: isDesktop ? null : CustomAppBar(title: (_email != null && _email!.isNotEmpty) ? 'email_verification'.tr : 'phone_verification'.tr),
       backgroundColor: isDesktop ? Colors.transparent : null,
       body: SafeArea(child: Center(child: SingleChildScrollView(
         controller: _scrollController,
@@ -113,7 +120,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                 ),
               ) : const SizedBox(),
 
-              CustomAssetImageWidget(_email != null ? Images.emailVerifiedIcon : Images.otpVerification, height: 100),
+              CustomAssetImageWidget((_email != null && _email!.isNotEmpty) ? Images.emailVerifiedIcon : Images.otpVerification, height: 100),
               const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
               Get.find<SplashController>().configModel!.demo! ? Text(
@@ -122,15 +129,16 @@ class VerificationScreenState extends State<VerificationScreen> {
                 width: 250,
                 child: Wrap(crossAxisAlignment: WrapCrossAlignment.center, children: [
                   RichText(text: TextSpan(children: [
-                    TextSpan(text: 'we_have_a_verification_code'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor)),
-                    TextSpan(text: ' ${_email ?? _number}', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color)),
+                    TextSpan(text: 'we_have_a_verification_code'.tr, style: robotoRegular.copyWith(color: Theme.of(context).hintColor)),
+                    TextSpan(text: ' ${(_email != null && _email!.isNotEmpty) ? _email : _number}', style: robotoMedium.copyWith(color: Theme.of(context).textTheme.bodyLarge!.color)),
                   ]), textAlign: TextAlign.center,),
                 ],
                 ),
               ),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
 
               Padding(
-                padding: EdgeInsets.symmetric(horizontal: context.width > 850 ? 50 : Dimensions.paddingSizeDefault, vertical: 35),
+                padding: EdgeInsets.symmetric(horizontal: context.width > 850 ? 50 : Dimensions.paddingSizeDefault, vertical: Dimensions.paddingSizeDefault),
                 child: PinCodeTextField(
                   length: 6,
                   appContext: context,
@@ -146,7 +154,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                     selectedFillColor: Colors.white,
                     inactiveFillColor: Theme.of(context).cardColor,
                     inactiveColor: Theme.of(context).disabledColor.withValues(alpha: 0.6),
-                    activeColor: Theme.of(context).disabledColor,
+                    activeColor: hasError ? Colors.orange : Theme.of(context).disabledColor,
                     activeFillColor: Theme.of(context).cardColor,
                     inactiveBorderWidth: borderWidth,
                     selectedBorderWidth: borderWidth,
@@ -159,9 +167,18 @@ class VerificationScreenState extends State<VerificationScreen> {
                   enableActiveFill: true,
                   onChanged: verificationController.updateVerificationCode,
                   beforeTextPaste: (text) => true,
+                  errorAnimationController: errorController, // Optional: Custom error animation
+                  errorTextSpace: 20, // Space for error text
+                  errorTextMargin: const EdgeInsets.only(top: 10),
                 ),
               ),
-              const SizedBox(height: Dimensions.paddingSizeExtraLarge),
+              // const SizedBox(height: Dimensions.paddingSizeSmall),
+
+              Text(
+                hasError ? errorMessage : "",
+                style: const TextStyle(color: Colors.red, fontSize: 12, fontWeight: FontWeight.w400),
+              ),
+              const SizedBox(height: Dimensions.paddingSizeLarge),
 
               GetBuilder<ProfileController>(builder: (profileController) {
                 return Padding(
@@ -201,14 +218,20 @@ class VerificationScreenState extends State<VerificationScreen> {
                           }
                         });
                       } else {
-                        verificationController.verifyToken(_number).then((value) {
+                        verificationController.verifyToken(phone: _number, email: _email).then((value) {
                           if(value.isSuccess) {
                             if(ResponsiveHelper.isDesktop(Get.context!)){
-                              Get.dialog(Center(child: NewPassScreen(resetToken: verificationController.verificationCode, number : _number, fromPasswordChange: false, fromDialog: true )));
+                              Get.back();
+                              Get.dialog(Center(child: NewPassScreen(resetToken: verificationController.verificationCode, number : _number, email: _email, fromPasswordChange: false, fromDialog: true )));
                             }else{
-                              Get.toNamed(RouteHelper.getResetPasswordRoute(_number, verificationController.verificationCode, 'reset-password'));
+                              Get.toNamed(RouteHelper.getResetPasswordRoute(phone: _number, email: _email, token: verificationController.verificationCode, page: 'reset-password'));
                             }
                           }else {
+                            errorController.add(ErrorAnimationType.shake);
+                            errorMessage = value.message??'';
+                            setState(() {
+                              hasError = true;
+                            });
                             showCustomSnackBar(value.message);
                           }
                         });
@@ -224,7 +247,7 @@ class VerificationScreenState extends State<VerificationScreen> {
                 child: Row(mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
                   Text(
                     'did_not_receive_the_code'.tr,
-                    style: robotoRegular.copyWith(color: Theme.of(context).disabledColor),
+                    style: robotoRegular.copyWith(color: Theme.of(context).hintColor),
                   ),
                   TextButton(
                     onPressed: _seconds < 1 ? () async {
@@ -274,7 +297,7 @@ class VerificationScreenState extends State<VerificationScreen> {
     } else {
 
       if(widget.fromForgetPassword) {
-        Get.toNamed(RouteHelper.getResetPasswordRoute(_number, Get.find<VerificationController>().verificationCode, 'reset-password'));
+        Get.toNamed(RouteHelper.getResetPasswordRoute(phone: _number, email: _email, token: Get.find<VerificationController>().verificationCode, page: 'reset-password'));
       } else {
         Get.find<LocationController>().navigateToLocationScreen('verification', offNamed: true);
       }
@@ -308,7 +331,7 @@ class VerificationScreenState extends State<VerificationScreen> {
         });
       }
     } else {
-      Get.find<VerificationController>().forgetPassword(_number).then((value) {
+      Get.find<VerificationController>().forgetPassword(phone: _number, email: _email).then((value) {
         if (value.isSuccess) {
           _startTimer();
           showCustomSnackBar('resend_code_successful'.tr, isError: false);

@@ -129,7 +129,7 @@ class _WebCommonConditionViewWidgetState extends State<WebCommonConditionViewWid
                   top: 100, left: 0,
                   child: ArrowIconButton(
                     isRight: false,
-                    onTap: () => scrollController.animateTo(scrollController.offset - Dimensions.webMaxWidth,
+                    onTap: () => scrollController.animateTo(scrollController.offset - (Dimensions.webMaxWidth / 3),
                         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
                   ),
                 ),
@@ -138,7 +138,7 @@ class _WebCommonConditionViewWidgetState extends State<WebCommonConditionViewWid
                 Positioned(
                   top: 100, right: 0,
                   child: ArrowIconButton(
-                    onTap: () => scrollController.animateTo(scrollController.offset + Dimensions.webMaxWidth,
+                    onTap: () => scrollController.animateTo(scrollController.offset + (Dimensions.webMaxWidth / 3),
                         duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
                   ),
                 ),

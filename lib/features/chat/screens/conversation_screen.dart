@@ -46,7 +46,7 @@ class _ConversationScreenState extends State<ConversationScreen> {
   void initCall(){
     if(AuthHelper.isLoggedIn()) {
       Get.find<ProfileController>().getUserInfo();
-      Get.find<ChatController>().getConversationList(1, type: ResponsiveHelper.isDesktop(Get.context) ? 'vendor' : '');
+      Get.find<ChatController>().getConversationList(1, type: ResponsiveHelper.isDesktop(Get.context) ? 'vendor1' : '');
     }
   }
 

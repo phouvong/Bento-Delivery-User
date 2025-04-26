@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 class StoreBodyModel {
   String? translation;
   String? tax;
@@ -15,6 +17,7 @@ class StoreBodyModel {
   String? deliveryTimeType;
   String? businessPlan;
   String? packageId;
+  List<String>? pickUpZoneIds;
 
   StoreBodyModel({
     this.translation,
@@ -33,6 +36,7 @@ class StoreBodyModel {
     this.deliveryTimeType,
     this.businessPlan,
     this.packageId,
+    this.pickUpZoneIds,
   });
 
   StoreBodyModel.fromJson(Map<String, dynamic> json) {
@@ -52,6 +56,9 @@ class StoreBodyModel {
     deliveryTimeType = json['delivery_time_type'];
     businessPlan = json['business_plan'];
     packageId = json['package_id'];
+    if (json['pickup_zone_id'] != null) {
+      pickUpZoneIds = json['pickup_zone_id'].cast<String>();
+    }
   }
 
   Map<String, String> toJson() {
@@ -72,6 +79,9 @@ class StoreBodyModel {
     data['delivery_time_type'] = deliveryTimeType!;
     data['business_plan'] = businessPlan??'';
     data['package_id'] = packageId!;
+    if (pickUpZoneIds != null) {
+      data['pickup_zone_id'] = json.encode(pickUpZoneIds);
+    }
     return data;
   }
 }

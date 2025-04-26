@@ -29,7 +29,21 @@ class DateConverter {
   }
 
   static String dateTimeStringToDateTime(String dateTime) {
-    return DateFormat('dd MMM yyyy  ${_timeFormatter()}').format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime));
+    DateTime d;
+    try{
+      d = DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime);
+    } catch(_) {
+     d = isoStringToLocalDate(dateTime);
+    }
+    return DateFormat('dd MMM yyyy,  ${_timeFormatter()}').format(d);
+  }
+
+  static String taxiDateTimeToString(DateTime dateTime) {
+    return DateFormat('dd MMM yyyy,  ${_timeFormatter()}').format(dateTime);
+  }
+
+  static String dateTimeStringToUTCTime(String dateTime) {
+    return DateFormat('dd MMM yyyy  ${_timeFormatter()}').format(DateFormat('yyyy-MM-ddTHH:mm:ss.SSS').parse(dateTime));
   }
 
   static String dateTimeStringToDateOnly(String dateTime) {
@@ -201,6 +215,25 @@ class DateConverter {
 
   static String dateTimeStringToFormattedTime(String dateTime) {
     return DateFormat(_timeFormatter()).format(DateFormat('yyyy-MM-dd HH:mm:ss').parse(dateTime));
+  }
+
+  static DateTime formattingTripDateTime(DateTime pickedTime, DateTime pickedDate) {
+    return DateTime(pickedDate.year, pickedDate.month, pickedDate.day, pickedTime.hour, pickedTime.minute);
+  }
+
+  static bool isSameDate(DateTime pickedTime) {
+    return pickedTime.year == DateTime.now().year && pickedTime.month == DateTime.now().month && pickedTime.day == DateTime.now().day && pickedTime.hour == DateTime.now().hour && pickedTime.minute == DateTime.now().minute;
+  }
+
+  static bool isAfterCurrentDateTime(DateTime pickedTime) {
+    DateTime pick = DateTime(pickedTime.year, pickedTime.month, pickedTime.day, pickedTime.hour, pickedTime.minute);
+    DateTime current = DateTime(DateTime.now().year, DateTime.now().month, DateTime.now().day, DateTime.now().hour, DateTime.now().minute);
+    return pick.isAfter(current);
+  }
+
+  static int durationFromNow(String time) {
+    DateTime parsedTime = DateTime.parse(time);
+    return parsedTime.difference(DateTime.now()).inMinutes;
   }
 
 }

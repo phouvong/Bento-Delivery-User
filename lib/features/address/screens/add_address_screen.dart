@@ -15,6 +15,7 @@ import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/custom_validator.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -517,6 +518,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                               locationController.getCurrentLocation(true, mapController: controller);
                             }
                           },
+                          myLocationButtonEnabled: false,
                           style: Get.isDarkMode ? Get.find<ThemeController>().darkMap : Get.find<ThemeController>().lightMap,
                           gestureRecognizers: <Factory<OneSequenceGestureRecognizer>>{
                             Factory<OneSequenceGestureRecognizer>(() => EagerGestureRecognizer()),
@@ -636,7 +638,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
                   CustomTextField(
-                    labelText: 'delivery_address'.tr,
+                    labelText: widget.fromRide || (Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.taxi) ? 'pickup_address'.tr : 'delivery_address'.tr,
                     titleText: 'write_delivery_address'.tr,
                     inputType: TextInputType.streetAddress,
                     controller: _addressController,
@@ -830,7 +832,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
         }catch(_) {}
         Get.back(result: addressModel);
         showCustomSnackBar(response.message, isError: false);
-      }else {
+      } else if(widget.fromRide) {
+        Get.back();
+      } else {
         showCustomSnackBar(response.message);
       }
     });

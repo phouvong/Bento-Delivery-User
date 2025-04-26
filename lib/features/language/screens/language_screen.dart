@@ -73,29 +73,31 @@ class _ChooseLanguageScreenState extends State<ChooseLanguageScreen> {
             ),
           ),
 
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeExtraLarge),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.3), blurRadius: 10, spreadRadius: 0)],
-            ),
-            child: CustomButton(
-              buttonText: 'next'.tr,
-              onPressed: () {
-                if(localizationController.languages.isNotEmpty && localizationController.selectedLanguageIndex != -1) {
-                  localizationController.setLanguage(Locale(
-                    AppConstants.languages[localizationController.selectedLanguageIndex].languageCode!,
-                    AppConstants.languages[localizationController.selectedLanguageIndex].countryCode,
-                  ));
-                  if (widget.fromMenu) {
-                    Navigator.pop(context);
-                  } else {
-                    Get.offNamed(RouteHelper.getOnBoardingRoute());
+          SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeExtraLarge),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.3), blurRadius: 10, spreadRadius: 0)],
+              ),
+              child: CustomButton(
+                buttonText: 'next'.tr,
+                onPressed: () {
+                  if(localizationController.languages.isNotEmpty && localizationController.selectedLanguageIndex != -1) {
+                    localizationController.setLanguage(Locale(
+                      AppConstants.languages[localizationController.selectedLanguageIndex].languageCode!,
+                      AppConstants.languages[localizationController.selectedLanguageIndex].countryCode,
+                    ));
+                    if (widget.fromMenu) {
+                      Navigator.pop(context);
+                    } else {
+                      Get.offNamed(RouteHelper.getOnBoardingRoute());
+                    }
+                  }else {
+                    showCustomSnackBar('select_a_language'.tr);
                   }
-                }else {
-                  showCustomSnackBar('select_a_language'.tr);
-                }
-              },
+                },
+              ),
             ),
           ),
 

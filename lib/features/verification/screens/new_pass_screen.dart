@@ -5,7 +5,6 @@ import 'package:sixam_mart/features/verification/controllers/verification_contro
 import 'package:sixam_mart/helper/validate_check.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
-import 'package:sixam_mart/util/styles.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
 import 'package:sixam_mart/common/widgets/custom_button.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
@@ -15,13 +14,13 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 
-
 class NewPassScreen extends StatefulWidget {
   final String? resetToken;
   final String? number;
+  final String? email;
   final bool fromPasswordChange;
   final bool fromDialog;
-  const NewPassScreen({super.key, required this.resetToken, required this.number, required this.fromPasswordChange, this.fromDialog = false});
+  const NewPassScreen({super.key, required this.resetToken, this.number, required this.fromPasswordChange, this.fromDialog = false, this.email});
 
   @override
   State<NewPassScreen> createState() => _NewPassScreenState();
@@ -65,11 +64,11 @@ class _NewPassScreenState extends State<NewPassScreen> {
               Padding(
                 padding: widget.fromDialog ? const EdgeInsets.all(Dimensions.paddingSizeExtremeLarge) : context.width > 700 ? const EdgeInsets.all(Dimensions.paddingSizeDefault) : const EdgeInsets.all(Dimensions.paddingSizeExtraSmall),
                 child: Column(children: [
-                  Image.asset(Images.forgetIcon, height: 100),
+                  Image.asset(Images.logo, height: widget.fromDialog ? 100 : 70),
                   const SizedBox(height: Dimensions.paddingSizeLarge),
 
-                  Text('enter_new_password'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor), textAlign: TextAlign.center),
-                  const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
+                  // Text('enter_new_password'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor), textAlign: TextAlign.center),
+                  // const SizedBox(height: Dimensions.paddingSizeExtremeLarge),
 
                   Column(children: [
 
@@ -107,7 +106,7 @@ class _NewPassScreenState extends State<NewPassScreen> {
                     return GetBuilder<VerificationController>(builder: (verificationController) {
                       return CustomButton(
                         radius: Dimensions.radiusDefault,
-                        buttonText: 'submit'.tr,
+                        buttonText: 'change_password'.tr,
                         isLoading: widget.fromPasswordChange ? profileController.isLoading : verificationController.isLoading,
                         onPressed: () => _onPressedPasswordChange(),
                       );
@@ -155,7 +154,11 @@ class _NewPassScreenState extends State<NewPassScreen> {
   }
 
   void _resetUserPassword(String password, String confirmPassword) {
-    Get.find<VerificationController>().resetPassword(widget.resetToken, '${GetPlatform.isWeb ? '' : '+'}${widget.number!.trim()}', password, confirmPassword).then((value) {
+    String? number = '';
+    if(widget.number != null && widget.number != 'null' && widget.number!.isNotEmpty) {
+      number = widget.number!.startsWith('+') ? widget.number : '+${widget.number!.substring(1, widget.number!.length)}';
+    }
+    Get.find<VerificationController>().resetPassword(resetToken: widget.resetToken, phone: number, email: widget.email, password: password, confirmPassword: confirmPassword).then((value) {
       if (value.isSuccess) {
         if(!ResponsiveHelper.isDesktop(Get.context)) {
           Get.offAllNamed(RouteHelper.getSignInRoute(RouteHelper.resetPassword));

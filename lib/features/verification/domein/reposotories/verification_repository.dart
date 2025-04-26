@@ -16,9 +16,10 @@ class VerificationRepository implements VerificationRepositoryInterface{
   VerificationRepository({required this.sharedPreferences, required this.apiClient});
 
   @override
-  Future<ResponseModel> forgetPassword(String? phone) async {
+  Future<ResponseModel> forgetPassword({String? phone, String? email}) async {
     String? deviceToken = await Get.find<AuthController>().saveDeviceToken();
-    Response response = await apiClient.postData(AppConstants.forgetPasswordUri, {"phone": phone, "cm_firebase_token": deviceToken!}, handleError: false);
+    Response response = await apiClient.postData(AppConstants.forgetPasswordUri,
+      {"phone": phone, "email": email, "verification_method" : phone != null && phone.isNotEmpty ? 'phone' : 'email', "cm_firebase_token": deviceToken!}, handleError: false);
     if (response.statusCode == 200) {
       return ResponseModel(true, response.body["message"]);
     } else {
@@ -27,10 +28,10 @@ class VerificationRepository implements VerificationRepositoryInterface{
   }
 
   @override
-  Future<ResponseModel> resetPassword(String? resetToken, String number, String password, String confirmPassword) async {
+  Future<ResponseModel> resetPassword({String? resetToken, String? phone, String? email, required String password, required String confirmPassword}) async {
     Response response = await apiClient.postData(
       AppConstants.resetPasswordUri,
-      {"_method": "put", "reset_token": resetToken, "phone": number, "password": password, "confirm_password": confirmPassword},
+      {"_method": "put", "reset_token": resetToken, "phone": phone != null && phone != 'null' && phone.isNotEmpty ? phone : '', "email" : email != null && email != 'null' && email.isNotEmpty ? email : '', "verification_method" : phone != null && phone != 'null' && phone.isNotEmpty ? 'phone' : 'email', "password": password, "confirm_password": confirmPassword},
       handleError: false,
     );
     if (response.statusCode == 200) {
@@ -40,36 +41,10 @@ class VerificationRepository implements VerificationRepositoryInterface{
     }
   }
 
-/*  @override
-  Future<ResponseModel> verifyPhone(String? phone, String otp) async {
-    Response response = await apiClient.postData(AppConstants.verifyPhoneUri, {"phone": phone, "otp": otp});
-    if (response.statusCode == 200) {
-      return ResponseModel(true, response.body["message"]);
-    } else {
-      return ResponseModel(false, response.statusText);
-    }
-  }*/
-
   @override
   Future<Response> verifyPhone(VerificationDataModel data) async {
     return await apiClient.postData(AppConstants.verifyPhoneUri, data.toJson(), handleError: false);
   }
-
-/*  @override
-  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage}) async {
-    Response response = await apiClient.postData(AppConstants.firebaseAuthVerify,
-        {'sessionInfo' : session,
-          'phoneNumber' : phoneNumber,
-          'code' : otp,
-          'is_reset_token' : isSignUpPage ? 0 : 1,
-        },
-    );
-    if (response.statusCode == 200) {
-      return ResponseModel(true, response.body["message"]);
-    } else {
-      return ResponseModel(false, response.statusText);
-    }
-  }*/
 
   @override
   Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required String loginType}) async {
@@ -110,8 +85,9 @@ class VerificationRepository implements VerificationRepositoryInterface{
   }
 
   @override
-  Future<ResponseModel> verifyToken(String? phone, String token) async {
-    Response response = await apiClient.postData(AppConstants.verifyTokenUri, {"phone": phone, "reset_token": token});
+  Future<ResponseModel> verifyToken({String? phone, String? email, required String token}) async {
+    Response response = await apiClient.postData(AppConstants.verifyTokenUri,
+      {"phone": phone, "email" : email, "verification_method" : phone != null && phone.isNotEmpty ? 'phone' : 'email', "reset_token": token});
     if (response.statusCode == 200) {
       return ResponseModel(true, response.body["message"]);
     } else {

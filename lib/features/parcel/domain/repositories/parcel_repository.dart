@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:get/get.dart';
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/api/local_client.dart';

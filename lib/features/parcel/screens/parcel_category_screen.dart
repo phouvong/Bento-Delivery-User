@@ -63,7 +63,7 @@ class _ParcelCategoryScreenState extends State<ParcelCategoryScreen> {
                 child: FooterView(child: SizedBox(width: Dimensions.webMaxWidth,
                     child: Column(crossAxisAlignment: ResponsiveHelper.isDesktop(context) ? CrossAxisAlignment.center : CrossAxisAlignment.start, children: [
 
-                      bannerController.parcelOtherBannerModel != null ? bannerController.parcelOtherBannerModel!.banners!.isNotEmpty ? CarouselSlider.builder(
+                      bannerController.parcelOtherBannerModel != null && bannerController.parcelOtherBannerModel!.banners != null ? bannerController.parcelOtherBannerModel!.banners!.isNotEmpty ? CarouselSlider.builder(
                         itemCount: bannerController.parcelOtherBannerModel!.banners!.length,
                         options: CarouselOptions(
                           autoPlay: true,

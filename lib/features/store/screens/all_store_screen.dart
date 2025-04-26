@@ -1,5 +1,6 @@
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
 import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
+import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/common/widgets/custom_app_bar.dart';
@@ -9,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:sixam_mart/common/widgets/menu_drawer.dart';
 import 'package:sixam_mart/common/widgets/web_page_title_widget.dart';
+import 'package:sixam_mart/util/styles.dart';
 
 class AllStoreScreen extends StatefulWidget {
   final bool isPopular;
@@ -42,6 +44,9 @@ class _AllStoreScreenState extends State<AllStoreScreen> {
 
   @override
   Widget build(BuildContext context) {
+
+    bool isFood = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.food;
+
     return GetBuilder<StoreController>(
       builder: (storeController) {
         return Scaffold(
@@ -75,26 +80,94 @@ class _AllStoreScreenState extends State<AllStoreScreen> {
               }
             },
             child: SingleChildScrollView(
-              controller: scrollController, child: FooterView(child: Column(
-                children: [
-                  WebScreenTitleWidget(title: widget.isFeatured ? 'featured_stores'.tr :  widget.isPopular
-                      ? Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText!
-                      ? 'popular_restaurants'.tr : 'popular_stores'.tr : widget.isTopOfferStore ? 'top_offers_near_me'.tr : '${'new_on'.tr} ${AppConstants.appName}',
-                  ),
-                  SizedBox(
-                  width: Dimensions.webMaxWidth,
-                  child: GetBuilder<StoreController>(builder: (storeController) {
-                    return ItemsView(
-                      isStore: true, items: null, isFeatured: widget.isFeatured,
-                      noDataText: widget.isFeatured ? 'no_store_available'.tr : Get.find<SplashController>().configModel!.moduleConfig!
-                          .module!.showRestaurantText! ? 'no_restaurant_available'.tr : 'no_store_available'.tr,
-                      stores: widget.isFeatured ? storeController.featuredStoreList : widget.isPopular ? storeController.popularStoreList
-                          : widget.isTopOfferStore ? storeController.topOfferStoreList : storeController.latestStoreList,
-                    );
-                  }),
+              controller: scrollController,
+                child: FooterView(
+                  child: Column(children: [
+
+                    widget.isTopOfferStore && ResponsiveHelper.isDesktop(context) ? Container(
+                      height: 64,
+                      width: double.infinity,
+                      color: Theme.of(context).primaryColor.withValues(alpha: 0.10),
+                      child: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+
+                        SizedBox(
+                          width: Dimensions.webMaxWidth,
+                          child: Row(children: [
+                            const Spacer(),
+
+                            Text('top_offers_near_me'.tr, style: robotoMedium),
+                            const Spacer(),
+
+                            PopupMenuButton(
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context) {
+                                return [
+                                  PopupMenuItem(
+                                    value: 'asc',
+                                    child: Text('sort_by_a_to_z'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color)),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'desc',
+                                    child: Text('sort_by_z_to_a'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color)),
+                                  ),
+                                ];
+                              },
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+                              child: const RotatedBox(
+                                quarterTurns: 1,
+                                child: Icon(Icons.sync_alt, size: 20),
+                              ),
+                              onSelected: (dynamic value) => storeController.setTopOfferSort(value),
+                            ),
+                            const SizedBox(width: Dimensions.paddingSizeLarge),
+
+                            isFood ? PopupMenuButton(
+                              padding: EdgeInsets.zero,
+                              itemBuilder: (context) {
+                                return [
+                                  PopupMenuItem(
+                                    value: '1',
+                                    child: Text('only_halal'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color)),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'veg',
+                                    child: Text('only_veg'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color)),
+                                  ),
+                                  PopupMenuItem(
+                                    value: 'non_veg',
+                                    child: Text('only_non_veg'.tr, style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyLarge!.color)),
+                                  ),
+                                ];
+                              },
+                              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(Dimensions.radiusSmall)),
+                              child: const Icon(Icons.tune, size: 20),
+                              onSelected: (dynamic value) => storeController.setTopOfferFilter(value),
+                            ) : const SizedBox(),
+                            SizedBox(width: isFood ? Dimensions.paddingSizeDefault : 0),
+
+                          ]),
+                        ),
+
+                      ]),
+                    ) : WebScreenTitleWidget(title: widget.isFeatured ? 'featured_stores'.tr :
+                     widget.isPopular ? Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'popular_restaurants'.tr :
+                     'popular_stores'.tr : widget.isTopOfferStore ? 'top_offers_near_me'.tr : '${'new_on'.tr} ${AppConstants.appName}',
+                    ),
+
+                    SizedBox(
+                      width: Dimensions.webMaxWidth,
+                      child: GetBuilder<StoreController>(builder: (storeController) {
+                        return ItemsView(
+                          isStore: true, items: null, isFeatured: widget.isFeatured,
+                          noDataText: widget.isFeatured ? 'no_store_available'.tr : Get.find<SplashController>().configModel!.moduleConfig!.module!.showRestaurantText! ? 'no_restaurant_available'.tr : 'no_store_available'.tr,
+                          stores: widget.isFeatured ? storeController.featuredStoreList : widget.isPopular ? storeController.popularStoreList : widget.isTopOfferStore ? storeController.topOfferStoreList : storeController.latestStoreList,
+                        );
+                      }),
+                    ),
+
+                  ]),
+                ),
             ),
-                ],
-              ))),
           ),
         );
       }

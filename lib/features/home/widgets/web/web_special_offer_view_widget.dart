@@ -112,7 +112,7 @@ class _WebSpecialOfferViewState extends State<WebSpecialOfferView> {
             top: 200, left: 0,
             child: ArrowIconButton(
               isRight: false,
-              onTap: () => scrollController.animateTo(scrollController.offset - Dimensions.webMaxWidth,
+              onTap: () => scrollController.animateTo(scrollController.offset - (Dimensions.webMaxWidth/3),
                   duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
             ),
           ),
@@ -121,7 +121,7 @@ class _WebSpecialOfferViewState extends State<WebSpecialOfferView> {
           Positioned(
             top: 200, right: 0,
             child: ArrowIconButton(
-              onTap: () => scrollController.animateTo(scrollController.offset + Dimensions.webMaxWidth,
+              onTap: () => scrollController.animateTo(scrollController.offset + (Dimensions.webMaxWidth/3),
                   duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
             ),
           ),

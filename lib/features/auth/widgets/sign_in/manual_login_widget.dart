@@ -57,16 +57,17 @@ class ManualLoginWidget extends StatelessWidget {
           prefixImage: authController.isNumberLogin ? null : Images.emailWithPhoneIcon,
           onChanged: (String text){
             final numberRegExp = RegExp(r'^[+]?[0-9]+$');
+            final notNumberRegExp = RegExp(r'[^0-9+]');
 
             if(text.isEmpty && authController.isNumberLogin){
               authController.toggleIsNumberLogin();
             }
-            if(text.startsWith(numberRegExp) && !authController.isNumberLogin ){
+            if(text.startsWith(numberRegExp) && !text.contains(notNumberRegExp) && !authController.isNumberLogin ){
               authController.toggleIsNumberLogin();
               phoneController.text = text.replaceAll("+", "");
             }
             final emailRegExp = RegExp(r'@');
-            if(text.contains(emailRegExp) && authController.isNumberLogin){
+            if((text.contains(emailRegExp) || text.contains(notNumberRegExp)) && authController.isNumberLogin){
               authController.toggleIsNumberLogin();
             }
 

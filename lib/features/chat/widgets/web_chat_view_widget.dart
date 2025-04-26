@@ -236,7 +236,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                                   ],
                                   onTap: (int index){
                                     if(index == 0){
-                                      widget.chatController.setType('vendor');
+                                      widget.chatController.setType('vendor1');
                                       widget.chatController.setTabSelect();
                                     } else {
                                       widget.chatController.setType('delivery_man');
@@ -262,7 +262,7 @@ class _WebChatViewWidgetState extends State<WebChatViewWidget> with TickerProvid
                                       chatController: widget.chatController,
                                       conversation: widget.conversation,
                                       scrollController: _scrollController1,
-                                      type: 'vendor',
+                                      type: 'vendor1',
                                     ),
 
                                     /// Delivery Man

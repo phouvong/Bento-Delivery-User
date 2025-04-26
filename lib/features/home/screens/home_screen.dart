@@ -26,6 +26,9 @@ import 'package:sixam_mart/features/home/screens/modules/grocery_home_screen.dar
 import 'package:sixam_mart/features/home/screens/modules/pharmacy_home_screen.dart';
 import 'package:sixam_mart/features/home/screens/modules/shop_home_screen.dart';
 import 'package:sixam_mart/features/parcel/controllers/parcel_controller.dart';
+import 'package:sixam_mart/features/rental_module/home/controllers/taxi_home_controller.dart';
+import 'package:sixam_mart/features/rental_module/home/screens/taxi_home_screen.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/controllers/taxi_cart_controller.dart';
 import 'package:sixam_mart/helper/address_helper.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
@@ -56,7 +59,7 @@ class HomeScreen extends StatefulWidget {
     if(AuthHelper.isLoggedIn()) {
       Get.find<StoreController>().getVisitAgainStoreList(fromModule: fromModule);
     }
-    if(Get.find<SplashController>().module != null && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isParcel!) {
+    if(Get.find<SplashController>().module != null && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isParcel! && !Get.find<SplashController>().configModel!.moduleConfig!.module!.isTaxi!) {
       Get.find<BannerController>().getBannerList(reload);
       Get.find<StoreController>().getRecommendedStoreList();
       if(Get.find<SplashController>().module!.moduleType.toString() == AppConstants.grocery) {
@@ -181,6 +184,16 @@ class _HomeScreenState extends State<HomeScreen> {
     ).then((value) => Get.find<SplashController>().saveReferBottomSheetStatus(false));
   }
 
+  Future<void> loadTaxiApis() async{
+   await Get.find<TaxiHomeController>().getTaxiBannerList(true);
+   await Get.find<TaxiHomeController>().getTopRatedCarList(1, true);
+    if (AuthHelper.isLoggedIn()) {
+      await Get.find<AddressController>().getAddressList();
+      await Get.find<TaxiHomeController>().getTaxiCouponList(true);
+      await Get.find<TaxiCartController>().getCarCartList();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GetBuilder<SplashController>(builder: (splashController) {
@@ -188,11 +201,13 @@ class _HomeScreenState extends State<HomeScreen> {
         splashController.switchModule(0, true);
       }
       bool showMobileModule = !ResponsiveHelper.isDesktop(context) && splashController.module == null && splashController.configModel!.module == null;
-      bool isParcel = splashController.module != null && splashController.configModel!.moduleConfig!.module!.isParcel!;
+      // bool isParcel = splashController.module != null && splashController.configModel!.moduleConfig!.module!.isParcel!;
+      bool isParcel = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.parcel;
       bool isPharmacy = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.pharmacy;
       bool isFood = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.food;
       bool isShop = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.ecommerce;
       bool isGrocery = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.grocery;
+      bool isTaxi = splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.taxi;
 
       return GetBuilder<HomeController>(builder: (homeController) {
         return Scaffold(
@@ -204,7 +219,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: RefreshIndicator(
               onRefresh: () async {
                 splashController.setRefreshing(true);
-                if (Get.find<SplashController>().module != null) {
+                if (Get.find<SplashController>().module != null && !isTaxi) {
                   await Get.find<LocationController>().syncZoneData();
                   await Get.find<BannerController>().getBannerList(true);
                   if (isGrocery) {
@@ -236,6 +251,8 @@ class _HomeScreenState extends State<HomeScreen> {
                     Get.find<ItemController>().getFeaturedCategoriesItemList(true, true);
                     Get.find<BrandsController>().getBrandList();
                   }
+                } else if(isTaxi) {
+                  await loadTaxiApis();
                 } else {
                   await Get.find<BannerController>().getFeaturedBanner();
                   await Get.find<SplashController>().getModules();
@@ -324,13 +341,13 @@ class _HomeScreenState extends State<HomeScreen> {
                   ),
 
                   /// Search Button
-                  !showMobileModule ? SliverPersistentHeader(
+                  !showMobileModule && !isTaxi ? SliverPersistentHeader(
                     pinned: true,
                     delegate: SliverDelegate(callback: (val){}, child: Center(child: Container(
                       height: 50, width: Dimensions.webMaxWidth,
                       color: searchBgShow ? Get.find<ThemeController>().darkTheme ? Theme.of(context).colorScheme.surface : Theme.of(context).cardColor : null,
                       padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
-                      child: InkWell(
+                      child: isTaxi? Container(color: Theme.of(context).primaryColor): InkWell(
                         onTap: () => Get.toNamed(RouteHelper.getSearchRoute()),
                         child: Container(
                           padding: const EdgeInsets.symmetric(horizontal: Dimensions.paddingSizeSmall),
@@ -368,13 +385,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             : isPharmacy ? const PharmacyHomeScreen()
                             : isFood ? const FoodHomeScreen()
                             : isShop ? const ShopHomeScreen()
+                            : isTaxi ? const TaxiHomeScreen()
                             : const SizedBox(),
 
                       ]) : ModuleView(splashController: splashController),
                     )),
                   ),
 
-                  !showMobileModule ? SliverPersistentHeader(
+                  !showMobileModule && !isTaxi ? SliverPersistentHeader(
                     key: _headerKey,
                     pinned: true,
                     delegate: SliverDelegate(
@@ -386,7 +404,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                   ) : const SliverToBoxAdapter(),
 
-                  SliverToBoxAdapter(child: !showMobileModule ? Center(child: GetBuilder<StoreController>(builder: (storeController) {
+                  SliverToBoxAdapter(child: !showMobileModule && !isTaxi ? Center(child: GetBuilder<StoreController>(builder: (storeController) {
                     return Padding(
                       padding: EdgeInsets.only(bottom: ResponsiveHelper.isDesktop(context) ? 0 : 100),
                       child: PaginatedListView(

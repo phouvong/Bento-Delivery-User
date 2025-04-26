@@ -50,11 +50,11 @@ class OrderViewWidget extends StatelessWidget {
                   padding: EdgeInsets.only(bottom: ResponsiveHelper.isDesktop(context) ? 0 : 100),
                   child: PaginatedListView(
                     scrollController: scrollController,
-                    onPaginate: (int? offset) {
+                    onPaginate: (int? offset) async {
                       if(isRunning) {
-                        orderController.getRunningOrders(offset!, isUpdate: true);
+                        await orderController.getRunningOrders(offset!, isUpdate: true);
                       }else {
-                        orderController.getHistoryOrders(offset!, isUpdate: true);
+                        await orderController.getHistoryOrders(offset!, isUpdate: true);
                       }
                     },
                     totalSize: isRunning ? orderController.runningOrderModel!.totalSize : orderController.historyOrderModel!.totalSize,

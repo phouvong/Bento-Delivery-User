@@ -14,7 +14,6 @@ import 'package:sixam_mart/features/profile/controllers/profile_controller.dart'
 import 'package:sixam_mart/api/api_client.dart';
 import 'package:sixam_mart/features/address/domain/models/address_model.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
-import 'package:sixam_mart/features/checkout/domain/models/distance_model.dart';
 import 'package:sixam_mart/features/store/domain/models/store_model.dart';
 import 'package:sixam_mart/features/order/controllers/order_controller.dart';
 import 'package:sixam_mart/features/payment/domain/models/offline_method_model.dart';
@@ -137,6 +136,11 @@ class CheckoutController extends GetxController implements GetxService {
 
   bool _isExpand = false;
   bool get isExpand => _isExpand;
+
+  void initAdditionData(){
+    noteController.clear();
+    _selectedInstruction = -1;
+  }
 
   Future<void> initCheckoutData(int? storeId) async {
     Get.find<CouponController>().removeCouponData(false);
@@ -299,9 +303,12 @@ class CheckoutController extends GetxController implements GetxService {
     try {
       if (response.statusCode == 200 && response.body['status'] == 'OK') {
         if(isDuration){
-          _distance = DistanceModel.fromJson(response.body).rows![0].elements![0].duration!.value! / 3600;
+          final String duration = response.body['duration'] as String;
+          double parsedDuration = parseDuration(duration);
+          _distance = parsedDuration / 3600;
         }else{
-          _distance = DistanceModel.fromJson(response.body).rows![0].elements![0].distance!.value! / 1000;
+          final double distanceMater = response.body['distanceMeters'] as double;
+          _distance = distanceMater / 1000;
         }
       } else {
         if(!isDuration) {
@@ -321,6 +328,10 @@ class CheckoutController extends GetxController implements GetxService {
     }
     update();
     return _distance;
+  }
+
+  double parseDuration(String duration) {
+    return double.tryParse(duration.replaceAll('s', '')) ?? 0.0;
   }
 
   Future<double?> _getExtraCharge(double? distance) async {

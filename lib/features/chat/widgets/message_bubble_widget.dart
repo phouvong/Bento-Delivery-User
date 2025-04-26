@@ -92,9 +92,9 @@ class MessageBubbleWidget extends StatelessWidget {
 
                 (message.message != null && message.message!.isNotEmpty) ? Flexible(
                   child: Container(
-                    decoration: const BoxDecoration(
-                      color: Color(0xffE8EEFA),
-                      borderRadius: BorderRadius.all(Radius.circular(50)),
+                    decoration: BoxDecoration(
+                      color: Get.isDarkMode ? Theme.of(context).primaryColor.withValues(alpha: 0.2) : const Color(0xffE8EEFA),
+                      borderRadius: const BorderRadius.all(Radius.circular(50)),
                     ),
                     child: Container(
                       padding: EdgeInsets.all(message.message != null ? Dimensions.paddingSizeDefault : 0),

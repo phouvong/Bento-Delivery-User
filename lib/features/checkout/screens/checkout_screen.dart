@@ -91,6 +91,7 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   Future<void> initCall() async {
       bool isLoggedIn = AuthHelper.isLoggedIn();
       // Get.find<CheckoutController>().setGuestAddress(null, isUpdate: false);
+      Get.find<CheckoutController>().initAdditionData();
       Get.find<CheckoutController>().streetNumberController.text = AddressHelper.getUserAddressFromSharedPref()!.streetNumber ?? '';
       Get.find<CheckoutController>().houseController.text = AddressHelper.getUserAddressFromSharedPref()!.house ?? '';
       Get.find<CheckoutController>().floorController.text = AddressHelper.getUserAddressFromSharedPref()!.floor ?? '';
@@ -914,9 +915,11 @@ class CheckoutScreenState extends State<CheckoutScreen> {
   double _calculateDeliveryCharge({required Store? store, required AddressModel address, required double? distance, required double? extraCharge, required double orderAmount, required String orderType}) {
     double deliveryCharge = _calculateOriginalDeliveryCharge(store: store, address: address, distance: distance, extraCharge: extraCharge);
 
+    ConfigModel? configModel = Get.find<SplashController>().configModel;
+
     if (orderType == 'take_away' || (store != null && store.freeDelivery!)
-        || (Get.find<SplashController>().configModel!.freeDeliveryOver != null && orderAmount
-            >= Get.find<SplashController>().configModel!.freeDeliveryOver!)
+        || (configModel?.adminFreeDelivery?.status == true && (configModel?.adminFreeDelivery?.type != null && configModel?.adminFreeDelivery?.type == 'free_delivery_to_all_store'))
+        || (configModel?.adminFreeDelivery?.status == true && (configModel?.adminFreeDelivery?.type != null &&  configModel?.adminFreeDelivery?.type == 'free_delivery_by_order_amount') && (configModel!.adminFreeDelivery?.freeDeliveryOver != null && orderAmount >= configModel.adminFreeDelivery!.freeDeliveryOver!))
         || Get.find<CouponController>().freeDelivery || (AuthHelper.isGuestLoggedIn() && (Get.find<CheckoutController>().guestAddress == null && Get.find<CheckoutController>().orderType != 'take_away'))) {
       deliveryCharge = 0;
     }

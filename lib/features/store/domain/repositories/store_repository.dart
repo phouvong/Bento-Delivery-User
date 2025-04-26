@@ -44,7 +44,7 @@ class StoreRepository implements StoreRepositoryInterface {
     }else if(isRecommendedStoreList){
       return await _getRecommendedStoreList(source: source ?? DataSourceEnum.client);
     }else if(isTopOfferStoreList){
-      return await _getTopOfferStoreList(source: source ?? DataSourceEnum.client);
+      return await _getTopOfferStoreList(source: source ?? DataSourceEnum.client, filterBy: filterBy, sortBy: type);
     }
   }
 
@@ -118,13 +118,13 @@ class StoreRepository implements StoreRepositoryInterface {
     return latestStoreList;
   }
 
-  Future<List<Store>?> _getTopOfferStoreList({required DataSourceEnum source}) async {
+  Future<List<Store>?> _getTopOfferStoreList({required DataSourceEnum source, String? filterBy, String? sortBy}) async {
     List<Store>? topOfferStoreList;
     String cacheId = '${AppConstants.topOfferStoreUri}-${Get.find<SplashController>().module!.id!}';
 
     switch(source) {
       case DataSourceEnum.client:
-        Response response = await apiClient.getData(AppConstants.topOfferStoreUri);
+        Response response = await apiClient.getData('${AppConstants.topOfferStoreUri}?sort_by=$sortBy&${filterBy == '1' ? 'halal=1' : filterBy == 'veg' ? 'type=veg' : filterBy == 'non_veg' ? 'type=non_veg' : 'type='}');
         if (response.statusCode == 200) {
           topOfferStoreList = [];
           response.body['stores'].forEach((store) => topOfferStoreList!.add(Store.fromJson(store)));

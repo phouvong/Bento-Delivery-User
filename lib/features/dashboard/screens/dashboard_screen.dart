@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:expandable_bottom_sheet/expandable_bottom_sheet.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/services.dart';
+import 'package:sixam_mart/features/rental_module/common/widgets/taxi_cart_widget.dart';
 import 'package:sixam_mart/features/dashboard/widgets/store_registration_success_bottom_sheet.dart';
 import 'package:sixam_mart/features/home/controllers/home_controller.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
@@ -14,9 +15,13 @@ import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/dashboard/widgets/bottom_nav_item_widget.dart';
 import 'package:sixam_mart/features/parcel/controllers/parcel_controller.dart';
 import 'package:sixam_mart/features/store/controllers/store_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/taxi_cart_screen.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/screens/vehicle_favourite_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
+import 'package:sixam_mart/helper/taxi_helper.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/common/widgets/cart_widget.dart';
@@ -83,11 +88,6 @@ class DashboardScreenState extends State<DashboardScreen> {
       const OrderScreen(),
       const MenuScreen()
     ];
-
-    Future.delayed(const Duration(seconds: 1), () {
-      setState(() {});
-    });
-
   }
 
   _showRegistrationSuccessBottomSheet() {
@@ -118,7 +118,7 @@ class DashboardScreenState extends State<DashboardScreen> {
           context: Get.context!, isScrollControlled: true, backgroundColor: Colors.transparent,
           builder: (con) => const AddressBottomSheetWidget(),
         ).then((value) {
-          Get.find<LocationController>().hideSuggestedLocation();
+          Get.find<LocationController>().showSuggestedLocation(false);
           setState(() {});
         });
       });
@@ -169,136 +169,146 @@ class DashboardScreenState extends State<DashboardScreen> {
 
               List<OrderModel> reversOrder =  List.from(runningOrder.reversed);
 
-              return Scaffold(
-                key: _scaffoldKey,
-                body: ExpandableBottomSheet(
-                  background: Stack(children: [
-                    PageView.builder(
-                        controller: _pageController,
-                        itemCount: _screens.length,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemBuilder: (context, index) {
-                          return _screens[index];
-                        },
-                      ),
-
-                      ResponsiveHelper.isDesktop(context) || keyboardVisible ? const SizedBox() : Align(
-                        alignment: Alignment.bottomCenter,
-                        child: GetBuilder<SplashController>(
-                          builder: (splashController) {
-                            bool isParcel = splashController.module != null && splashController.configModel!.moduleConfig!.module!.isParcel!;
-
-                            _screens = [
-                              const HomeScreen(),
-                              isParcel ? const AddressScreen(fromDashboard: true) : const FavouriteScreen(),
-                              const SizedBox(),
-                              const OrderScreen(),
-                              const MenuScreen()
-                            ];
-                            return Container(
-                              width: size.width, height: GetPlatform.isIOS ? 80 : 65,
-                              decoration: BoxDecoration(
-                                color: Theme.of(context).cardColor,
-                                borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
-                                  boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                              ),
-                              child: Stack(children: [
-
-                                Center(
-                                  heightFactor: 0.6,
-                                  child: ResponsiveHelper.isDesktop(context) ? null : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? null
-                                    : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Container(
-                                      width: 60, height: 60,
-                                      decoration: BoxDecoration(
-                                        border: Border.all(color: Theme.of(context).cardColor, width: 5),
-                                        borderRadius: BorderRadius.circular(30),
-                                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                                      ),
-                                      child: FloatingActionButton(
-                                        backgroundColor: Theme.of(context).primaryColor,
-                                        onPressed: () {
-                                          if(isParcel) {
-                                            showModalBottomSheet(
-                                              context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
-                                              builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
-                                            );
-                                          } else {
-                                            Get.toNamed(RouteHelper.getCartRoute());
-                                          }
-                                        },
-                                        elevation: 0,
-                                        child: isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : CartWidget(color: Theme.of(context).cardColor, size: 22),
-                                      ),
-                                  ),
-                                ),
-
-                                ResponsiveHelper.isDesktop(context) ? const SizedBox() : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? const SizedBox()
-                                : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Center(
-                                  child: SizedBox(
-                                      width: size.width, height: 80,
-                                      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
-                                        BottomNavItemWidget(
-                                          title: 'home'.tr, selectedIcon: Images.homeSelect,
-                                          unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
-                                          onTap: () => _setPage(0),
-                                        ),
-                                        BottomNavItemWidget(
-                                          title: isParcel ? 'address'.tr : 'favourite'.tr,
-                                          selectedIcon: isParcel ? Images.addressSelect : Images.favouriteSelect,
-                                          unSelectedIcon: isParcel ? Images.addressUnselect : Images.favouriteUnselect,
-                                          isSelected: _pageIndex == 1, onTap: () => _setPage(1),
-                                        ),
-                                        Container(width: size.width * 0.2),
-                                        BottomNavItemWidget(
-                                          title: 'orders'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
-                                          isSelected: _pageIndex == 3, onTap: () => _setPage(3),
-                                        ),
-                                        BottomNavItemWidget(
-                                          title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
-                                          isSelected: _pageIndex == 4, onTap: () => _setPage(4),
-                                        ),
-                                      ]),
-                                  ),
-                                ),
-                              ],
-                              ),
-                            );
-                          }
+              return SafeArea(
+                top: false, bottom: GetPlatform.isAndroid,
+                child: Scaffold(
+                  key: _scaffoldKey,
+                  body: ExpandableBottomSheet(
+                    background: Stack(children: [
+                      PageView.builder(
+                          controller: _pageController,
+                          itemCount: _screens.length,
+                          physics: const NeverScrollableScrollPhysics(),
+                          itemBuilder: (context, index) {
+                            return _screens[index];
+                          },
                         ),
-                      ),
-                    ]),
 
-                  persistentContentHeight: (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? 0 : GetPlatform.isIOS ? 110 : 100,
+                        ResponsiveHelper.isDesktop(context) || keyboardVisible ? const SizedBox() : Align(
+                          alignment: Alignment.bottomCenter,
+                          child: GetBuilder<SplashController>(
+                            builder: (splashController) {
+                              bool isParcel = splashController.module != null && splashController.configModel!.moduleConfig!.module!.isParcel!;
+                              bool isTaxiWithCache = ((splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.taxi) || (splashController.cacheModule != null && splashController.cacheModule!.moduleType.toString() == AppConstants.taxi)) && TaxiHelper.haveTaxiModule();
+                              bool isTaxi = (splashController.module != null && splashController.module!.moduleType.toString() == AppConstants.taxi);
+                              isParcel = isParcel && !isTaxiWithCache;
 
-                  onIsContractedCallback: () {
-                    if(!orderController.showOneOrder) {
-                      orderController.showOrders();
-                    }
-                  },
-                  onIsExtendedCallback: () {
-                    if(orderController.showOneOrder) {
-                      orderController.showOrders();
-                    }
-                  },
+                              _screens = [
+                                const HomeScreen(),
+                                isParcel ? const AddressScreen(fromDashboard: true)
+                                    : isTaxi ? const VehicleFavouriteScreen()
+                                    : const FavouriteScreen(),
+                                const SizedBox(),
+                                OrderScreen(index: isTaxi ? 1 : 0),
+                                const MenuScreen()
+                              ];
+                              return Container(
+                                width: size.width, height: GetPlatform.isIOS ? 80 : 65,
+                                decoration: BoxDecoration(
+                                  color: Theme.of(context).cardColor,
+                                  borderRadius: const BorderRadius.vertical(top: Radius.circular(Dimensions.radiusLarge)),
+                                    boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                ),
+                                child: Stack(children: [
 
-                  enableToggle: true,
+                                  Center(
+                                    heightFactor: 0.6,
+                                    child: ResponsiveHelper.isDesktop(context) ? null : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? null
+                                      : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Container(
+                                        width: 60, height: 60,
+                                        decoration: BoxDecoration(
+                                          border: Border.all(color: Theme.of(context).cardColor, width: 5),
+                                          borderRadius: BorderRadius.circular(30),
+                                          boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                        ),
+                                        child: FloatingActionButton(
+                                          backgroundColor: Theme.of(context).primaryColor,
+                                          onPressed: () {
+                                            if(isParcel) {
+                                              showModalBottomSheet(
+                                                context: context, isScrollControlled: true, backgroundColor: Colors.transparent,
+                                                builder: (con) => ParcelBottomSheetWidget(parcelCategoryList: Get.find<ParcelController>().parcelCategoryList),
+                                              );
+                                            } else if(isTaxiWithCache) {
+                                              Get.to(()=> const TaxiCartScreen());
+                                            } else {
+                                              Get.toNamed(RouteHelper.getCartRoute());
+                                            }
+                                          },
+                                          elevation: 0,
+                                          child: isTaxiWithCache ? TaxiCartWidget(color: Theme.of(context).cardColor, size: 22) : isParcel ? Icon(CupertinoIcons.add, size: 34, color: Theme.of(context).cardColor) : CartWidget(color: Theme.of(context).cardColor, size: 22),
+                                        ),
+                                    ),
+                                  ),
 
-                  expandableContent: (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active && !ResponsiveHelper.isDesktop(context)) ?  const SizedBox()
-                  : (ResponsiveHelper.isDesktop(context) || !_isLogin || orderController.runningOrderModel == null
-                  || orderController.runningOrderModel!.orders!.isEmpty || !orderController.showBottomSheet) ? const SizedBox()
-                  : Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (direction) {
-                      if(orderController.showBottomSheet){
-                        orderController.showRunningOrders();
+                                  ResponsiveHelper.isDesktop(context) ? const SizedBox() : (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? const SizedBox()
+                                  : (orderController.showBottomSheet && orderController.runningOrderModel != null && orderController.runningOrderModel!.orders!.isNotEmpty && _isLogin) ? const SizedBox() : Center(
+                                    child: SizedBox(
+                                        width: size.width, height: 80,
+                                        child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
+                                          BottomNavItemWidget(
+                                            title: 'home'.tr, selectedIcon: Images.homeSelect,
+                                            unSelectedIcon: Images.homeUnselect, isSelected: _pageIndex == 0,
+                                            onTap: () => _setPage(0),
+                                          ),
+                                          BottomNavItemWidget(
+                                            title: isParcel ? 'address'.tr : isTaxi ? 'wishlist'.tr : 'favourite'.tr,
+                                            selectedIcon: isParcel ? Images.addressSelect : Images.favouriteSelect,
+                                            unSelectedIcon: isParcel ? Images.addressUnselect : Images.favouriteUnselect,
+                                            isSelected: _pageIndex == 1, onTap: () => _setPage(1),
+                                          ),
+                                          Container(width: size.width * 0.2),
+                                          BottomNavItemWidget(
+                                            title: isTaxi ? 'trips'.tr : 'orders'.tr, selectedIcon: Images.orderSelect, unSelectedIcon: Images.orderUnselect,
+                                            isSelected: _pageIndex == 3, onTap: () => _setPage(3),
+                                          ),
+                                          BottomNavItemWidget(
+                                            title: 'menu'.tr, selectedIcon: Images.menu, unSelectedIcon: Images.menu,
+                                            isSelected: _pageIndex == 4, onTap: () => _setPage(4),
+                                          ),
+                                        ]),
+                                    ),
+                                  ),
+                                ],
+                                ),
+                              );
+                            }
+                          ),
+                        ),
+                      ]),
+
+                    persistentContentHeight: (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active) ? 0 : GetPlatform.isIOS ? 110 : 100,
+
+                    onIsContractedCallback: () {
+                      if(!orderController.showOneOrder) {
+                        orderController.showOrders();
                       }
                     },
-                    child: RunningOrderViewWidget(reversOrder: reversOrder, onOrderTap: () {
-                      _setPage(3);
-                      if(orderController.showBottomSheet){
-                        orderController.showRunningOrders();
+                    onIsExtendedCallback: () {
+                      if(orderController.showOneOrder) {
+                        orderController.showOrders();
                       }
-                    }),
+                    },
+
+                    enableToggle: true,
+
+                    expandableContent: (widget.fromSplash && Get.find<LocationController>().showLocationSuggestion && active && !ResponsiveHelper.isDesktop(context)) ?  const SizedBox()
+                    : (ResponsiveHelper.isDesktop(context) || !_isLogin || orderController.runningOrderModel == null
+                    || orderController.runningOrderModel!.orders!.isEmpty || !orderController.showBottomSheet) ? const SizedBox()
+                    : Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (direction) {
+                        if(orderController.showBottomSheet){
+                          orderController.showRunningOrders();
+                        }
+                      },
+                      child: RunningOrderViewWidget(reversOrder: reversOrder, onOrderTap: () {
+                        _setPage(3);
+                        if(orderController.showBottomSheet){
+                          orderController.showRunningOrders();
+                        }
+                      }),
+                    ),
                   ),
                 ),
               );
@@ -320,5 +330,7 @@ class DashboardScreenState extends State<DashboardScreen> {
     return Container(height: 3, decoration: BoxDecoration(color: status ? Theme.of(context).primaryColor
         : Theme.of(context).disabledColor.withValues(alpha: 0.5), borderRadius: BorderRadius.circular(Dimensions.radiusDefault)));
   }
+
+
 }
 

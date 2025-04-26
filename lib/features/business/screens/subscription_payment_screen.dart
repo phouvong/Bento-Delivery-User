@@ -50,12 +50,12 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
           }
         },
         child: Scaffold(
-          appBar: isDesktop ? CustomAppBar(title: 'store_registration'.tr) : null,
+          appBar: isDesktop ? CustomAppBar(title: 'vendor_registration'.tr) : null,
           endDrawer: const MenuDrawer(), endDrawerEnableOpenDragGesture: false,
 
           body: Column(children: [
 
-            WebScreenTitleWidget(title: 'join_as_store'.tr),
+            WebScreenTitleWidget(title: 'join_as_vendor'.tr),
 
             const SizedBox(height: Dimensions.paddingSizeExtraOverLarge),
 
@@ -70,7 +70,7 @@ class _SubscriptionPaymentScreenState extends State<SubscriptionPaymentScreen> {
               child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                 Text(
-                  'store_registration'.tr,
+                  'vendor_registration'.tr,
                   style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeLarge),
                 ),
 

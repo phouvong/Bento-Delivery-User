@@ -31,8 +31,8 @@ class RatingProgressWidget extends StatelessWidget {
 
       Container(
         alignment: Alignment.centerRight,
-        width: 50,
-        child: Text('${ratingPercent.toStringAsFixed(1)}%', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color?.withValues(alpha: 0.5))),
+        width: 30,
+        child: Text('${ratingPercent.toStringAsFixed(0)}%', style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).textTheme.bodyMedium!.color?.withValues(alpha: 0.5))),
       ),
 
     ]);

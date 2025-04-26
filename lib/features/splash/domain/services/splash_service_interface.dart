@@ -15,7 +15,7 @@ abstract class SplashServiceInterface {
   Future<void> setStoreCategory(int storeCategoryID);
   Future<List<ModuleModel>?> getModules({Map<String, String>? headers, required DataSourceEnum source});
   Future<void> setModule(ModuleModel? module);
-  Future<void> setCacheModule(ModuleModel? module);
+  Future<ModuleModel?> setCacheModule(ModuleModel? module);
   ModuleModel? getCacheModule();
   ModuleModel? getModule();
   Future<ResponseModel> subscribeEmail(String email);

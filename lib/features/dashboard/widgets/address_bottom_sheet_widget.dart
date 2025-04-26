@@ -107,6 +107,7 @@ class AddressBottomSheetWidget extends StatelessWidget {
                             Get.find<LocationController>().saveAddressAndNavigate(
                               address, false, '', false, ResponsiveHelper.isDesktop(Get.context),
                             );
+                            Get.find<LocationController>().showSuggestedLocation(false);
                           }else {
                             Get.back();
                             if(ResponsiveHelper.isDesktop(Get.context)) {
@@ -166,6 +167,7 @@ class AddressBottomSheetWidget extends StatelessWidget {
                               address, false, null, false, ResponsiveHelper.isDesktop(context),
                             );
 
+                            Get.find<LocationController>().showSuggestedLocation(false);
                             Get.find<SplashController>().saveWebSuggestedLocationStatus(true);
                           },
                         )));

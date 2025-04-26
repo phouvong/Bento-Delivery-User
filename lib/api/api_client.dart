@@ -91,9 +91,19 @@ class ApiClient extends GetxService {
         print('====> API Call: $uri\nHeader: ${headers ?? _mainHeaders}');
         print('====> API Body: $body');
       }
+
+      Map<dynamic, dynamic> newBody = {};
+      if(body != null) {
+        body.forEach((key, value) {
+          if (value != null && value.toString().isNotEmpty) {
+            newBody.addAll({key: value});
+          }
+        });
+      }
+
       http.Response response = await http.post(
         Uri.parse(appBaseUrl+uri),
-        body: jsonEncode(body),
+        body: jsonEncode(newBody),
         headers: headers ?? _mainHeaders,
       ).timeout(Duration(seconds: timeout ?? timeoutInSeconds));
       return handleResponse(response, uri, handleError);
@@ -119,7 +129,13 @@ class ApiClient extends GetxService {
           ));
         }
       }
-      request.fields.addAll(body);
+      Map<String, String> newBody = {};
+      body.forEach((s, i) {
+        if(i.isNotEmpty) {
+          newBody.addAll({s: i});
+        }
+      });
+      request.fields.addAll(newBody);
       http.Response response = await http.Response.fromStream(await request.send());
       return handleResponse(response, uri, handleError);
     } catch (e) {

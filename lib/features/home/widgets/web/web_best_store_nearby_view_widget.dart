@@ -71,249 +71,249 @@ class _WebBestStoreNearbyViewWidgetState extends State<WebBestStoreNearbyViewWid
   Widget build(BuildContext context) {
     bool isPharmacy = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == AppConstants.pharmacy;
 
-    return Container(
-      margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge),
-      decoration: BoxDecoration(
-        color: isPharmacy ? null : Theme.of(context).disabledColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(isPharmacy ? 0 : Dimensions.radiusSmall),
-      ),
-      child: Column(children: [
+    return GetBuilder<StoreController>(builder: (storeController) {
+      List<Store>? storeList = isPharmacy ? storeController.featuredStoreList : storeController.popularStoreList;
 
-        isPharmacy ? Padding(
-          padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
-          child: TitleWidget(
-            title: 'featured_store'.tr,
-            onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('featured')),
+      if(storeList != null && storeList.length > 3 && isFirstTime){
+        showForwardButton = true;
+        isFirstTime = false;
+      }
+        return storeList != null ? storeList.isNotEmpty ? Container(
+          margin: const EdgeInsets.only(top: Dimensions.paddingSizeLarge, bottom: Dimensions.paddingSizeLarge),
+          decoration: BoxDecoration(
+            color: isPharmacy ? null : Theme.of(context).disabledColor.withValues(alpha: 0.1),
+            borderRadius: BorderRadius.circular(isPharmacy ? 0 : Dimensions.radiusSmall),
           ),
-        ) : Padding(
-          padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtremeLarge, left: Dimensions.paddingSizeExtraLarge, right: Dimensions.paddingSizeExtraLarge),
-          child: FittedBox(
-            child: Row(children: [
+          child: Column(children: [
 
-              Container(
-                height: 2, width: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth * 0.88 : Get.width * 0.75,
-                color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
+            isPharmacy ? Padding(
+              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeSmall),
+              child: TitleWidget(
+                title: 'featured_store'.tr,
+                onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('featured')),
               ),
-              Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withValues(alpha: 0.5))),
+            ) : Padding(
+              padding: const EdgeInsets.only(top: Dimensions.paddingSizeExtremeLarge, left: Dimensions.paddingSizeExtraLarge, right: Dimensions.paddingSizeExtraLarge),
+              child: FittedBox(
+                child: Row(children: [
 
-              InkWell(
-                onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('popular', isNearbyStore: true)),
-                child: Padding(
-                  padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
-                  child: Text(
-                    'see_all'.tr,
-                    style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor, decoration: TextDecoration.underline),
+                  Container(
+                    height: 2, width: ResponsiveHelper.isDesktop(context) ? Dimensions.webMaxWidth * 0.88 : Get.width * 0.75,
+                    color: Theme.of(context).primaryColor.withValues(alpha: 0.2),
                   ),
-                ),
-              ),
+                  Container(transform: Matrix4.translationValues(-5, 0, 0),child: Icon(Icons.arrow_forward, size: 18, color: Theme.of(context).primaryColor.withValues(alpha: 0.5))),
 
-            ]),
-          ),
-        ),
-
-        Stack(children: [
-          GetBuilder<StoreController>(builder: (storeController) {
-            List<Store>? storeList = isPharmacy ? storeController.featuredStoreList : storeController.popularStoreList;
-
-            if(storeList != null && storeList.length > 3 && isFirstTime){
-              showForwardButton = true;
-              isFirstTime = false;
-            }
-
-            return SizedBox(
-              height: 190, width: Get.width,
-              child: storeList != null && storeList.isNotEmpty ? Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  !isPharmacy ? const SizedBox(width: Dimensions.paddingSizeExtraLarge) : const SizedBox(),
-                  !isPharmacy ? RotatedBox(
-                    quarterTurns: 3,
+                  InkWell(
+                    onTap: () => Get.toNamed(RouteHelper.getAllStoreRoute('popular', isNearbyStore: true)),
                     child: Padding(
-                      padding: EdgeInsets.only(bottom: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeExtremeLarge : 0, left: 25),
-                      child: Text('best_store_nearby'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                      padding: const EdgeInsets.fromLTRB(10, 5, 0, 5),
+                      child: Text(
+                        'see_all'.tr,
+                        style: robotoMedium.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).primaryColor, decoration: TextDecoration.underline),
+                      ),
                     ),
-                  ) : const SizedBox(),
+                  ),
 
-                  Expanded(
-                    child: ListView.builder(
-                      controller: scrollController,
-                      scrollDirection: Axis.horizontal,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: storeList.length,
-                      itemBuilder: (context, index) {
-                        double distance = Get.find<StoreController>().getRestaurantDistance(
-                          LatLng(double.parse(storeList[index].latitude!), double.parse(storeList[index].longitude!)),
-                        );
+                ]),
+              ),
+            ),
 
-                        return Padding(
-                          padding: EdgeInsets.only(
-                            bottom: Dimensions.paddingSizeExtremeLarge, top: Dimensions.paddingSizeExtremeLarge,
-                            left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
-                            right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
-                          ),
-                          child: TextHover(
-                            builder: (hovered) {
-                              return OnHover(
-                                isItem: true,
-                                child: isPharmacy ? StoreCard(store: storeList[index]) : InkWell(
-                                  hoverColor: Colors.transparent,
-                                  onTap: () {
-                                    if(Get.find<SplashController>().moduleList != null) {
-                                      for(ModuleModel module in Get.find<SplashController>().moduleList!) {
-                                        if(module.id == storeList[index].moduleId) {
-                                          Get.find<SplashController>().setModule(module);
-                                          break;
+            Stack(children: [
+              SizedBox(
+                height: 190, width: Get.width,
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    !isPharmacy ? const SizedBox(width: Dimensions.paddingSizeExtraLarge) : const SizedBox(),
+                    !isPharmacy ? RotatedBox(
+                      quarterTurns: 3,
+                      child: Padding(
+                        padding: EdgeInsets.only(bottom: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeExtremeLarge : 0, left: 25),
+                        child: Text('best_store_nearby'.tr, style: robotoBold.copyWith(fontSize: Dimensions.fontSizeLarge)),
+                      ),
+                    ) : const SizedBox(),
+
+                    Expanded(
+                      child: ListView.builder(
+                        controller: scrollController,
+                        scrollDirection: Axis.horizontal,
+                        physics: const BouncingScrollPhysics(),
+                        itemCount: storeList.length,
+                        itemBuilder: (context, index) {
+                          double distance = Get.find<StoreController>().getRestaurantDistance(
+                            LatLng(double.parse(storeList[index].latitude!), double.parse(storeList[index].longitude!)),
+                          );
+
+                          return Padding(
+                            padding: EdgeInsets.only(
+                              bottom: Dimensions.paddingSizeExtremeLarge, top: Dimensions.paddingSizeExtremeLarge,
+                              left: Get.find<LocalizationController>().isLtr ? 0 : Dimensions.paddingSizeDefault,
+                              right: Get.find<LocalizationController>().isLtr ? Dimensions.paddingSizeDefault : 0,
+                            ),
+                            child: TextHover(
+                                builder: (hovered) {
+                                  return OnHover(
+                                    isItem: true,
+                                    child: isPharmacy ? StoreCard(store: storeList[index]) : InkWell(
+                                      hoverColor: Colors.transparent,
+                                      onTap: () {
+                                        if(Get.find<SplashController>().moduleList != null) {
+                                          for(ModuleModel module in Get.find<SplashController>().moduleList!) {
+                                            if(module.id == storeList[index].moduleId) {
+                                              Get.find<SplashController>().setModule(module);
+                                              break;
+                                            }
+                                          }
                                         }
-                                      }
-                                    }
-                                    Get.toNamed(
-                                      RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
-                                      arguments: StoreScreen(store: storeList[index], fromModule: true),
-                                    );
-                                  },
-                                  child: Stack(children: [
+                                        Get.toNamed(
+                                          RouteHelper.getStoreRoute(id: storeList[index].id, page: 'store'),
+                                          arguments: StoreScreen(store: storeList[index], fromModule: true),
+                                        );
+                                      },
+                                      child: Stack(children: [
 
-                                    Container(
-                                      height: 160, width: 275,
-                                      padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
-                                      decoration: BoxDecoration(
-                                        color: Theme.of(context).cardColor,
-                                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                        border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
-                                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                                      ),
-                                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                        Expanded(
-                                          flex: 6,
-                                          child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
-
-                                            Container(
-                                              height: 70, width: 70,
-                                              decoration: BoxDecoration(
-                                                color: Theme.of(context).cardColor,
-                                                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                                border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
-                                              ),
-                                              child: Stack(children: [
-                                                ClipRRect(
-                                                  borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                                                  child: CustomImage(
-                                                    isHovered: hovered,
-                                                    image: '${storeList[index].logoFullUrl}',
-                                                    fit: BoxFit.cover, height: double.infinity, width: double.infinity,
-                                                  ),
-                                                ),
-
-                                                DiscountTag(
-                                                  discount: storeController.getDiscount(storeList[index]),
-                                                  discountType: storeController.getDiscountType(storeList[index]),
-                                                  freeDelivery: storeList[index].freeDelivery,
-                                                ),
-
-                                              ]),
-                                            ),
-                                            const SizedBox(width: Dimensions.paddingSizeDefault),
+                                        Container(
+                                          height: 160, width: 275,
+                                          padding: const EdgeInsets.all(Dimensions.paddingSizeSmall),
+                                          decoration: BoxDecoration(
+                                            color: Theme.of(context).cardColor,
+                                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                            border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
+                                            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                          ),
+                                          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                             Expanded(
-                                              flex: 9,
-                                              child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                                                Row(children: [
-
-                                                  Text('start_from'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
-                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                                  Text(PriceConverter.convertPrice(storeList[index].minimumOrder), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
-
-                                                ]),
-
-                                                Row(children: [
-
-                                                  Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
-                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                                  Text(storeList[index].avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
-                                                  const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                                                  Text("(${storeList[index].ratingCount.toString()})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
-
-                                                ]),
+                                              flex: 6,
+                                              child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
                                                 Container(
-                                                  padding: const EdgeInsets.symmetric(vertical: 3),
+                                                  height: 70, width: 70,
                                                   decoration: BoxDecoration(
                                                     color: Theme.of(context).cardColor,
-                                                    borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                                    // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                                    borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                                    border: isPharmacy ? null : Border.all(color: Theme.of(context).primaryColor.withValues(alpha: 0.2), width: 2),
                                                   ),
-                                                  child: Row(children: [
+                                                  child: Stack(children: [
+                                                    ClipRRect(
+                                                      borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                                                      child: CustomImage(
+                                                        isHovered: hovered,
+                                                        image: '${storeList[index].logoFullUrl}',
+                                                        fit: BoxFit.cover, height: double.infinity, width: double.infinity,
+                                                      ),
+                                                    ),
 
-                                                    Image.asset(Images.distanceLine, height: 15, width: 15),
-                                                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                                    DiscountTag(
+                                                      discount: storeController.getDiscount(storeList[index]),
+                                                      discountType: storeController.getDiscountType(storeList[index]),
+                                                      freeDelivery: storeList[index].freeDelivery,
+                                                    ),
 
-                                                    Text('${distance > 10 ? '10+' : distance.toStringAsFixed(1)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
-                                                    const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+                                                  ]),
+                                                ),
+                                                const SizedBox(width: Dimensions.paddingSizeDefault),
 
-                                                    Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                                Expanded(
+                                                  flex: 9,
+                                                  child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+                                                    Row(children: [
+
+                                                      Text('start_from'.tr, style: robotoRegular.copyWith(color: Theme.of(context).disabledColor, fontSize: Dimensions.fontSizeSmall)),
+                                                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                      Text(PriceConverter.convertPrice(storeList[index].minimumOrder), style: robotoBold.copyWith(fontSize: Dimensions.fontSizeSmall)),
+
+                                                    ]),
+
+                                                    Row(children: [
+
+                                                      Icon(Icons.star, size: 15, color: Theme.of(context).primaryColor),
+                                                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                      Text(storeList[index].avgRating!.toStringAsFixed(1), style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall)),
+                                                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                      Text("(${storeList[index].ratingCount.toString()})", style: robotoRegular.copyWith(fontSize: Dimensions.fontSizeSmall, color: Theme.of(context).disabledColor)),
+
+                                                    ]),
+
+                                                    Container(
+                                                      padding: const EdgeInsets.symmetric(vertical: 3),
+                                                      decoration: BoxDecoration(
+                                                        color: Theme.of(context).cardColor,
+                                                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                                                        // boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                                                      ),
+                                                      child: Row(children: [
+
+                                                        Image.asset(Images.distanceLine, height: 15, width: 15),
+                                                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                        Text('${distance > 10 ? '10+' : distance.toStringAsFixed(1)} ${'km'.tr}', style: robotoBold.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                                        Text('from_you'.tr, style: robotoRegular.copyWith(color: Theme.of(context).primaryColor, fontSize: Dimensions.fontSizeExtraSmall)),
+                                                      ]),
+                                                    ),
+
                                                   ]),
                                                 ),
 
                                               ]),
                                             ),
+                                            const SizedBox(height: Dimensions.paddingSizeSmall),
 
+                                            Expanded(
+                                              flex: 2,
+                                              child: Text(storeList[index].name!, style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                            ),
                                           ]),
                                         ),
-                                        const SizedBox(height: Dimensions.paddingSizeSmall),
 
-                                        Expanded(
-                                          flex: 2,
-                                          child: Text(storeList[index].name!, style: robotoMedium, maxLines: 1, overflow: TextOverflow.ellipsis),
+                                        AddFavouriteView(
+                                          left: Get.find<LocalizationController>().isLtr ? null : 15,
+                                          right: Get.find<LocalizationController>().isLtr ? 15 : null,
+                                          item: Item(id: storeList[index].id),
                                         ),
+
                                       ]),
                                     ),
-
-                                    AddFavouriteView(
-                                      left: Get.find<LocalizationController>().isLtr ? null : 15,
-                                      right: Get.find<LocalizationController>().isLtr ? 15 : null,
-                                      item: Item(id: storeList[index].id),
-                                    ),
-
-                                  ]),
-                                ),
-                              );
-                            }
-                          ),
-                        );
-                      },
+                                  );
+                                }
+                            ),
+                          );
+                        },
+                      ),
                     ),
+                  ]),
+              ),
+
+              if(showBackButton)
+                Positioned(
+                  top: 70, left: isPharmacy ? 0 : Get.find<LocalizationController>().isLtr ? 45 : 0,
+                  child: ArrowIconButton(
+                    isRight: false,
+                    onTap: () => scrollController.animateTo(scrollController.offset - (Dimensions.webMaxWidth / 3),
+                        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
                   ),
-                ]) : WebBestStoreNearbyShimmerView(storeController: storeController),
-            );
-          }),
+                ),
 
-          if(showBackButton)
-            Positioned(
-              top: 70, left: isPharmacy ? 0 : Get.find<LocalizationController>().isLtr ? 45 : 0,
-              child: ArrowIconButton(
-                isRight: false,
-                onTap: () => scrollController.animateTo(scrollController.offset - Dimensions.webMaxWidth,
-                    duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
-              ),
-            ),
+              if(showForwardButton)
+                Positioned(
+                  top: 70, right: Get.find<LocalizationController>().isLtr ? 0 : 45,
+                  child: ArrowIconButton(
+                    onTap: () => scrollController.animateTo(scrollController.offset + (Dimensions.webMaxWidth / 3),
+                        duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
+                  ),
+                ),
 
-          if(showForwardButton)
-            Positioned(
-              top: 70, right: Get.find<LocalizationController>().isLtr ? 0 : 45,
-              child: ArrowIconButton(
-                onTap: () => scrollController.animateTo(scrollController.offset + Dimensions.webMaxWidth,
-                    duration: const Duration(milliseconds: 500), curve: Curves.easeInOut),
-              ),
-            ),
-
-        ]),
-      ]),
+            ]),
+          ]),
+        ) : const SizedBox() : WebBestStoreNearbyShimmerView(storeController: storeController);
+      }
     );
   }
 }
@@ -326,126 +326,129 @@ class WebBestStoreNearbyShimmerView extends StatelessWidget {
   Widget build(BuildContext context) {
     final bool isPharmacy = Get.find<SplashController>().module != null && Get.find<SplashController>().module!.moduleType.toString() == 'pharmacy';
 
-    return ListView.builder(
-      scrollDirection: Axis.horizontal,
-      physics: const NeverScrollableScrollPhysics(),
-      padding: EdgeInsets.only(left: isPharmacy ? 0 : Dimensions.paddingSizeDefault),
-      itemCount: 8,
-      itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault),
-          child: Container(
-            height: 160, width: 275,
-            padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
-            margin: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-            ),
-            child: Shimmer(
-              duration: const Duration(seconds: 2),
-              enabled: true,
-              child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+    return SizedBox(
+      height: 190,
+      child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        physics: const NeverScrollableScrollPhysics(),
+        padding: EdgeInsets.only(left: isPharmacy ? 0 : Dimensions.paddingSizeDefault),
+        itemCount: 8, shrinkWrap: true,
+        itemBuilder: (context, index) {
+          return Padding(
+            padding: const EdgeInsets.only(bottom: Dimensions.paddingSizeDefault, right: Dimensions.paddingSizeDefault, top: Dimensions.paddingSizeDefault),
+            child: Container(
+              height: 160, width: 275,
+              padding: const EdgeInsets.all(Dimensions.paddingSizeDefault),
+              margin: const EdgeInsets.all(Dimensions.paddingSizeExtraLarge),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+              ),
+              child: Shimmer(
+                duration: const Duration(seconds: 2),
+                enabled: true,
+                child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                Expanded(
-                  flex: 6,
-                  child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  Expanded(
+                    flex: 6,
+                    child: Row(crossAxisAlignment: CrossAxisAlignment.start, children: [
 
-                    Container(
-                      height: 70, width: 70,
+                      Container(
+                        height: 70, width: 70,
+                        decoration: BoxDecoration(
+                          color: Theme.of(context).cardColor,
+                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        ),
+                        child: Stack(children: [
+                          ClipRRect(
+                            borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                            child: Container(
+                              height: double.infinity, width: double.infinity,
+                              color: Colors.grey[300],
+                            ),
+                          ),
+                        ]),
+                      ),
+                      const SizedBox(width: Dimensions.paddingSizeDefault),
+
+                      Expanded(
+                        flex: 9,
+                        child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
+
+                          isPharmacy ? Container(height: 10, width: 100, color: Colors.grey[300]) : Row(children: [
+
+                            Container(height: 10, width: 50, color: Colors.grey[300]),
+                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                            Container(height: 10, width: 20, color: Colors.grey[300]),
+
+                          ]),
+
+                          isPharmacy ? Row(children: [
+
+                            Icon(Icons.storefront, size: 15, color: Theme.of(context).disabledColor),
+                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                            Expanded(
+                              child: Container(height: 10, width: 100, color: Colors.grey[300]),
+                            ),
+                          ]) : Row(children: [
+
+                            Icon(Icons.star, size: 15, color: Theme.of(context).disabledColor),
+                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                            Container(height: 10, width: 20, color: Colors.grey[300]),
+                            const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                            Container(height: 10, width: 20, color: Colors.grey[300]),
+
+                          ]),
+
+                          isPharmacy ? Container(height: 10, width: 20, color: Colors.grey[300]) : Container(
+                            padding: const EdgeInsets.symmetric(vertical: 3),
+                            decoration: BoxDecoration(
+                              color: Theme.of(context).cardColor,
+                              borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                              boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
+                            ),
+                            child: Row(children: [
+                                Container(height: 10, width: 20, color: Colors.grey[300]),
+                                const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                                Container(height: 10, width: 20, color: Colors.grey[300]),
+                            ]),
+                          ),
+
+                        ]),
+                      ),
+                    ]),
+                  ),
+                  const SizedBox(height: Dimensions.paddingSizeSmall),
+
+                  Expanded(
+                    flex: 2,
+                    child: isPharmacy ? Container(
+                      padding: const EdgeInsets.symmetric(vertical: 3),
                       decoration: BoxDecoration(
                         color: Theme.of(context).cardColor,
-                        borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
+                        borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
+                        boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
                       ),
-                      child: Stack(children: [
-                        ClipRRect(
-                          borderRadius: BorderRadius.circular(Dimensions.radiusDefault),
-                          child: Container(
-                            height: double.infinity, width: double.infinity,
-                            color: Colors.grey[300],
-                          ),
-                        ),
+                      child: Row(children: [
+                        Container(height: 10, width: 20, color: Colors.grey[300]),
+                        const SizedBox(width: Dimensions.paddingSizeExtraSmall),
+
+                        Container(height: 10, width: 20, color: Colors.grey[300]),
                       ]),
-                    ),
-                    const SizedBox(width: Dimensions.paddingSizeDefault),
-
-                    Expanded(
-                      flex: 9,
-                      child: Column(crossAxisAlignment: CrossAxisAlignment.start, mainAxisAlignment: MainAxisAlignment.spaceBetween, children: [
-
-                        isPharmacy ? Container(height: 10, width: 100, color: Colors.grey[300]) : Row(children: [
-
-                          Container(height: 10, width: 50, color: Colors.grey[300]),
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                          Container(height: 10, width: 20, color: Colors.grey[300]),
-
-                        ]),
-
-                        isPharmacy ? Row(children: [
-
-                          Icon(Icons.storefront, size: 15, color: Theme.of(context).disabledColor),
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                          Expanded(
-                            child: Container(height: 10, width: 100, color: Colors.grey[300]),
-                          ),
-                        ]) : Row(children: [
-
-                          Icon(Icons.star, size: 15, color: Theme.of(context).disabledColor),
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                          Container(height: 10, width: 20, color: Colors.grey[300]),
-                          const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                          Container(height: 10, width: 20, color: Colors.grey[300]),
-
-                        ]),
-
-                        isPharmacy ? Container(height: 10, width: 20, color: Colors.grey[300]) : Container(
-                          padding: const EdgeInsets.symmetric(vertical: 3),
-                          decoration: BoxDecoration(
-                            color: Theme.of(context).cardColor,
-                            borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                            boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                          ),
-                          child: Row(children: [
-                              Container(height: 10, width: 20, color: Colors.grey[300]),
-                              const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                              Container(height: 10, width: 20, color: Colors.grey[300]),
-                          ]),
-                        ),
-
-                      ]),
-                    ),
-                  ]),
-                ),
-                const SizedBox(height: Dimensions.paddingSizeSmall),
-
-                Expanded(
-                  flex: 2,
-                  child: isPharmacy ? Container(
-                    padding: const EdgeInsets.symmetric(vertical: 3),
-                    decoration: BoxDecoration(
-                      color: Theme.of(context).cardColor,
-                      borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                      boxShadow: const [BoxShadow(color: Colors.black12, blurRadius: 5, spreadRadius: 1)],
-                    ),
-                    child: Row(children: [
-                      Container(height: 10, width: 20, color: Colors.grey[300]),
-                      const SizedBox(width: Dimensions.paddingSizeExtraSmall),
-
-                      Container(height: 10, width: 20, color: Colors.grey[300]),
-                    ]),
-                  ) : Container(height: 10, width: 100, color: Colors.grey[300]),
-                ),
-              ]),
+                    ) : Container(height: 10, width: 100, color: Colors.grey[300]),
+                  ),
+                ]),
+              ),
             ),
-          ),
-        );
-      },
+          );
+        },
+      ),
     );
   }
 }

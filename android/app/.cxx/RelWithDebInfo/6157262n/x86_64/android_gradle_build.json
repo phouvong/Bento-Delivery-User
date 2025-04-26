@@ -1,0 +1,28 @@
+{
+  "buildFiles": [
+    "/opt/homebrew/Caskroom/flutter/3.27.1/flutter/packages/flutter_tools/gradle/src/main/groovy/CMakeLists.txt"
+  ],
+  "cleanCommandsComponents": [
+    [
+      "/Users/phouvong/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+      "-C",
+      "/Users/phouvong/Project/Bento Delivery/3.1/user/3.1/User app and web/android/app/.cxx/RelWithDebInfo/6157262n/x86_64",
+      "clean"
+    ]
+  ],
+  "buildTargetsCommandComponents": [
+    "/Users/phouvong/Library/Android/sdk/cmake/3.22.1/bin/ninja",
+    "-C",
+    "/Users/phouvong/Project/Bento Delivery/3.1/user/3.1/User app and web/android/app/.cxx/RelWithDebInfo/6157262n/x86_64",
+    "{LIST_OF_TARGETS_TO_BUILD}"
+  ],
+  "libraries": {},
+  "toolchains": {
+    "toolchain": {
+      "cCompilerExecutable": "/Users/phouvong/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang.lld",
+      "cppCompilerExecutable": "/Users/phouvong/Library/Android/sdk/ndk/25.1.8937393/toolchains/llvm/prebuilt/darwin-x86_64/bin/clang++.lld"
+    }
+  },
+  "cFileExtensions": [],
+  "cppFileExtensions": []
+}

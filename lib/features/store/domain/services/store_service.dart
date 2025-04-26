@@ -33,8 +33,8 @@ class StoreService implements StoreServiceInterface {
   }
 
   @override
-  Future<List<Store>?> getTopOfferStoreList({required DataSourceEnum source}) async {
-    return await storeRepositoryInterface.getList(isTopOfferStoreList: true, source: source);
+  Future<List<Store>?> getTopOfferStoreList({required DataSourceEnum source, String? filterBy, String? sortBy}) async {
+    return await storeRepositoryInterface.getList(isTopOfferStoreList: true, source: source, filterBy: filterBy, type: sortBy);
   }
 
   @override

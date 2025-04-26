@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:io';
 import 'dart:ui';
+import 'package:flutter/services.dart';
 import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
 import 'package:sixam_mart/features/cart/controllers/cart_controller.dart';
@@ -25,15 +26,6 @@ import 'package:get/get.dart';
 import 'package:sixam_mart/features/home/widgets/cookies_view.dart';
 import 'package:url_strategy/url_strategy.dart';
 import 'helper/get_di.dart' as di;
-
-// import 'package:js/js.dart';
-//
-// @JS('removePreloader') // Link to the JavaScript function
-// external void removePreloader();
-//
-// void callPreloaderRemoveScript() {
-//   removePreloader();
-// }
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
 
@@ -64,11 +56,11 @@ Future<void> main() async {
         projectId: "bento-delivery-service",
         storageBucket: "bento-delivery-service.firebasestorage.app",
         messagingSenderId: "787586896333",
-        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484",
+        appId: "1:787586896333:web:f6fead1c4225e3e0c6b484"
     ));
   } else if(GetPlatform.isAndroid) {
     await Firebase.initializeApp(
-      name: 'bentodelivery',
+      name: 'bentolao',
       options: const FirebaseOptions(
         apiKey: "AIzaSyBV4ueEuzRBy0Yehx-OvUi68pHznhGnT0E",
         appId: "1:787586896333:android:d1f7f473916bfe70c6b484",
@@ -146,6 +138,14 @@ class _MyAppState extends State<MyApp> {
 
   @override
   Widget build(BuildContext context) {
+
+    SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
+      statusBarIconBrightness: Brightness.dark,
+      statusBarBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.transparent,
+      systemNavigationBarIconBrightness: Brightness.dark,
+    ));
 
     return GetBuilder<ThemeController>(builder: (themeController) {
       return GetBuilder<LocalizationController>(builder: (localizeController) {

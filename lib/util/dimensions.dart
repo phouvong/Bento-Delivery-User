@@ -24,4 +24,6 @@ class Dimensions {
 
   static const double webMaxWidth = 1170;
   static const int messageInputLength = 1000;
+
+  static const double pickMapIconSize = 100.0;
 }

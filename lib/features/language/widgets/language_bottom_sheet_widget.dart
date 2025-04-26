@@ -65,24 +65,26 @@ class _LanguageBottomSheetWidgetState extends State<LanguageBottomSheetWidget> {
             ),
           ),
 
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeExtraLarge),
-            decoration: BoxDecoration(
-              color: Theme.of(context).cardColor,
-              boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.3), blurRadius: 10, spreadRadius: 0)],
-            ),
-            margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
-            child: CustomButton(
-              buttonText: 'update'.tr,
-              onPressed: () {
-                if(localizationController.languages.isNotEmpty && localizationController.selectedLanguageIndex != -1) {
-                  localizationController.saveCacheLanguage(Locale(
-                    AppConstants.languages[localizationController.selectedLanguageIndex].languageCode!,
-                    AppConstants.languages[localizationController.selectedLanguageIndex].countryCode,
-                  ));
-                }
-                Get.back();
-              },
+          SafeArea(
+            child: Container(
+              padding: const EdgeInsets.symmetric(vertical: Dimensions.paddingSizeDefault, horizontal: Dimensions.paddingSizeExtraLarge),
+              decoration: BoxDecoration(
+                color: Theme.of(context).cardColor,
+                boxShadow: [BoxShadow(color: Colors.grey.withValues(alpha: 0.3), blurRadius: 10, spreadRadius: 0)],
+              ),
+              margin: const EdgeInsets.only(top: Dimensions.paddingSizeSmall),
+              child: CustomButton(
+                buttonText: 'update'.tr,
+                onPressed: () {
+                  if(localizationController.languages.isNotEmpty && localizationController.selectedLanguageIndex != -1) {
+                    localizationController.saveCacheLanguage(Locale(
+                      AppConstants.languages[localizationController.selectedLanguageIndex].languageCode!,
+                      AppConstants.languages[localizationController.selectedLanguageIndex].countryCode,
+                    ));
+                  }
+                  Get.back();
+                },
+              ),
             ),
           ),
 

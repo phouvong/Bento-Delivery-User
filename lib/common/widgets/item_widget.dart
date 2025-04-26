@@ -181,7 +181,7 @@ class ItemWidget extends StatelessWidget {
                           ]),
                           const SizedBox(height: 3),
 
-                          (isStore ? store!.address != null : item!.storeName != null) ? Text(
+                          inStore ? const SizedBox() : (isStore ? store!.address != null : item!.storeName != null) ? Text(
                             isStore ? store!.address ?? '' : item!.storeName ?? '',
                             style: robotoRegular.copyWith(
                               fontSize: Dimensions.fontSizeExtraSmall,

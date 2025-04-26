@@ -47,8 +47,8 @@ class StoreRegistrationService implements StoreRegistrationServiceInterface {
   }
 
   @override
-  Future<PackageModel?> getPackageList() async {
-    return await storeRegistrationRepoInterface.getList();
+  Future<PackageModel?> getPackageList({int? moduleId}) async {
+    return await storeRegistrationRepoInterface.getPackageList(moduleId: moduleId);
   }
 
 }

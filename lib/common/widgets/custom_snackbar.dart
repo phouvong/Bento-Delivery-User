@@ -3,17 +3,17 @@ import 'package:sixam_mart/util/dimensions.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-void showCustomSnackBar(String? message, {bool isError = true, bool getXSnackBar = false}) {
+void showCustomSnackBar(String? message, {bool isError = true, bool getXSnackBar = false, int? showDuration}) {
   if(message != null && message.isNotEmpty) {
     if(getXSnackBar) {
       Get.showSnackbar(GetSnackBar(
-        backgroundColor: isError ? Colors.red : Colors.green,
-        message: message,
+        backgroundColor: Colors.transparent,
+        messageText: CustomToast(text: message, isError: isError),
         maxWidth: 500,
-        duration: const Duration(seconds: 3),
+        duration: Duration(seconds: showDuration ??3),
         snackStyle: SnackStyle.FLOATING,
         margin: const EdgeInsets.only(left: Dimensions.paddingSizeSmall, right:  Dimensions.paddingSizeSmall, bottom:  100),
-        borderRadius: Dimensions.radiusSmall,
+        borderRadius: 50,
         isDismissible: true,
         dismissDirection: DismissDirection.horizontal,
       ));
@@ -24,7 +24,7 @@ void showCustomSnackBar(String? message, {bool isError = true, bool getXSnackBar
         backgroundColor: Colors.transparent,
         padding: EdgeInsets.zero,
         content: CustomToast(text: message, isError: isError),
-        duration: const Duration(seconds: 2),
+        duration: Duration(seconds: showDuration??2),
         behavior: SnackBarBehavior.floating,
       ));
     }

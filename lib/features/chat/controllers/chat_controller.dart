@@ -65,7 +65,7 @@ class ChatController extends GetxController implements GetxService {
   int? _selectedIndex;
   int? get selectedIndex => _selectedIndex;
   
-  String _type = 'vendor';
+  String _type = 'vendor1';
   String? get type => _type;
   
   bool _clickTab = false;
@@ -192,6 +192,8 @@ class ChatController extends GetxController implements GetxService {
       response = await chatServiceInterface.getMessages(offset, notificationBody.restaurantId, UserType.vendor.name, conversationID);
     } else if(notificationBody.deliverymanId != null) {
       response = await chatServiceInterface.getMessages(offset, notificationBody.deliverymanId, UserType.delivery_man.name, conversationID);
+    } else if(conversationID != null) {
+      response = await chatServiceInterface.getMessages(offset, notificationBody.restaurantId, UserType.vendor.name, conversationID);
     }
 
     if (response != null && response.body['messages'] != {} && response.statusCode == 200) {
@@ -271,6 +273,8 @@ class ChatController extends GetxController implements GetxService {
       response = await chatServiceInterface.sendMessage(message, '', myImages, notificationBody.restaurantId, UserType.vendor.name, conversationID);
     } else if(notificationBody.deliverymanId != null) {
       response = await chatServiceInterface.sendMessage(message, '', myImages, notificationBody.deliverymanId, UserType.delivery_man.name, conversationID);
+    } else if(conversationID != null) {
+      response = await chatServiceInterface.sendMessage(message, '', myImages, notificationBody.restaurantId, UserType.vendor.name, conversationID);
     }
     if (response!.statusCode == 200) {
       _chatImage = [];

@@ -1,6 +1,7 @@
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/features/business/controllers/business_controller.dart';
 import 'package:sixam_mart/features/business/domain/models/package_model.dart';
 import 'package:sixam_mart/features/home/controllers/home_controller.dart';
@@ -100,6 +101,45 @@ class StoreRegistrationController extends GetxController implements GetxService 
 
   PackageModel? _packageModel;
   PackageModel? get packageModel => _packageModel;
+
+  String? _selectedPickupZone;
+  String? get selectedPickupZone => _selectedPickupZone;
+
+  int? _selectedPickupZoneId;
+  int? get selectedPickupZoneId => _selectedPickupZoneId;
+
+  final List<String> _pickupZoneList = [];
+  List<String> get pickupZoneList => _pickupZoneList;
+
+  final List<int> _pickupZoneIdList = [];
+  List<int> get pickupZoneIdList => _pickupZoneIdList;
+
+  void setSelectedPickupZone(String? zone, int? zoneId) {
+    if (zone != null && zoneId != null) {
+      if (_pickupZoneList.contains(zone) || _pickupZoneIdList.contains(zoneId)) {
+        showCustomSnackBar('zone_already_added_please_select_another'.tr);
+      } else {
+        _selectedPickupZone = zone;
+        _pickupZoneList.add(zone);
+        _pickupZoneIdList.add(zoneId);
+        update();
+      }
+    }
+  }
+
+  void removePickupZone(String zone, int zoneId) {
+    _selectedPickupZone = null;
+    _pickupZoneList.remove(zone);
+    _pickupZoneIdList.remove(zoneId);
+    update();
+  }
+
+  void clearPickupZone() {
+    _selectedModuleIndex = -1;
+    _selectedPickupZone = null;
+    _pickupZoneList.clear();
+    _pickupZoneIdList.clear();
+  }
 
   void showHidePass({bool isUpdate = true}){
     _showPassView = ! _showPassView;
@@ -288,8 +328,8 @@ class StoreRegistrationController extends GetxController implements GetxService 
     _paymentIndex = Get.find<SplashController>().configModel!.subscriptionFreeTrialStatus??false ? 1 : 0;
   }
 
-  Future<void> getPackageList({bool isUpdate = true}) async {
-    _packageModel = await storeRegistrationServiceInterface.getPackageList();
+  Future<void> getPackageList({bool isUpdate = true, int? moduleId}) async {
+    _packageModel = await storeRegistrationServiceInterface.getPackageList(moduleId: moduleId);
     if(isUpdate) {
       update();
     }

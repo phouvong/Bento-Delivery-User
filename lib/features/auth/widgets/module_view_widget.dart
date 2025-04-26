@@ -43,6 +43,7 @@ class ModuleViewWidget extends StatelessWidget {
           child: CustomDropdown<int>(
             onChange: (int? value, int index) {
               storeRegController.selectModuleIndex(value);
+              Get.find<StoreRegistrationController>().getPackageList(moduleId: storeRegController.moduleList![value!].id);
             },
             dropdownButtonStyle: DropdownButtonStyle(
               height: 50,
@@ -58,7 +59,7 @@ class ModuleViewWidget extends StatelessWidget {
             items: moduleList,
             child: Padding(
               padding: const EdgeInsets.only(left: 8),
-              child: Text('select_module_type'.tr),
+              child: Text(storeRegController.selectedModuleIndex == -1 ? 'select_module_type'.tr : storeRegController.moduleList![storeRegController.selectedModuleIndex!].moduleName.toString()),
             ),
           ),
         ),

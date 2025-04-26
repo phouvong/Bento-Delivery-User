@@ -15,11 +15,6 @@ class VerificationController extends GetxController implements GetxService {
   String _verificationCode = '';
   String get verificationCode => _verificationCode;
 
-/*  void updateVerificationCode(String query) {
-    _verificationCode = query;
-    update();
-  }*/
-
   void updateVerificationCode(String query, {bool canUpdate = true}) {
     _verificationCode = query;
     if(canUpdate){
@@ -27,35 +22,23 @@ class VerificationController extends GetxController implements GetxService {
     }
   }
 
-  Future<ResponseModel> forgetPassword(String? email) async {
+  Future<ResponseModel> forgetPassword({String? phone, String? email}) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await verificationServiceInterface.forgetPassword(email);
+    ResponseModel responseModel = await verificationServiceInterface.forgetPassword(phone: phone, email: email);
     _isLoading = false;
     update();
     return responseModel;
   }
 
-  Future<ResponseModel> resetPassword(String? resetToken, String number, String password, String confirmPassword) async {
+  Future<ResponseModel> resetPassword({String? resetToken, String? phone, String? email, required String password, required String confirmPassword}) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await verificationServiceInterface.resetPassword(resetToken, number, password, confirmPassword);
+    ResponseModel responseModel = await verificationServiceInterface.resetPassword(resetToken: resetToken, phone: phone, email: email, password: password, confirmPassword: confirmPassword);
     _isLoading = false;
     update();
     return responseModel;
   }
-
-/*  Future<ResponseModel> verifyPhone(String? phone, String? token) async {
-    _isLoading = true;
-    update();
-    ResponseModel responseModel = await verificationServiceInterface.verifyPhone(phone, _verificationCode, token);
-    if (responseModel.isSuccess) {
-      Get.find<ProfileController>().getUserInfo();
-    }
-    _isLoading = false;
-    update();
-    return responseModel;
-  }*/
 
   Future<ResponseModel> verifyPhone({required VerificationDataModel data}) async {
     _isLoading = true;
@@ -69,27 +52,14 @@ class VerificationController extends GetxController implements GetxService {
     return responseModel;
   }
 
-
-  Future<ResponseModel> verifyToken(String? email) async {
+  Future<ResponseModel> verifyToken({String? phone, String? email}) async {
     _isLoading = true;
     update();
-    ResponseModel responseModel = await verificationServiceInterface.verifyToken(email, _verificationCode);
+    ResponseModel responseModel = await verificationServiceInterface.verifyToken(phone: phone, email: email,token: _verificationCode);
     _isLoading = false;
     update();
     return responseModel;
   }
-
-/*  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage, required String? token}) async {
-    _isLoading = true;
-    update();
-    ResponseModel responseModel = await verificationServiceInterface.verifyFirebaseOtp(phoneNumber: phoneNumber, session: session, otp: otp, isSignUpPage: isSignUpPage, token: token);
-    if (responseModel.isSuccess && isSignUpPage) {
-      Get.find<ProfileController>().getUserInfo();
-    }
-    _isLoading = false;
-    update();
-    return responseModel;
-  }*/
 
   Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required String loginType, required String? token, required bool isSignUpPage, required bool isForgetPassPage}) async {
     _isLoading = true;

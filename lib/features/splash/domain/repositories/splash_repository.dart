@@ -19,7 +19,7 @@ class SplashRepository implements SplashRepositoryInterface {
 
   @override
   Future<Response> getConfigData({required DataSourceEnum source}) async {
-    Response responseData = const Response(statusCode: 00, body: null);
+    Response responseData = Response(statusCode: 00, body: ApiClient.noInternetMessage);
     String cacheId = AppConstants.configUri;
 
     switch(source) {
@@ -176,11 +176,13 @@ class SplashRepository implements SplashRepositoryInterface {
   }
 
   @override
-  Future<void> setCacheModule(ModuleModel? module) async {
+  Future<ModuleModel?> setCacheModule(ModuleModel? module) async {
     if(module != null) {
       await sharedPreferences.setString(AppConstants.cacheModuleId, jsonEncode(module.toJson()));
+      return module;
     }else {
       await sharedPreferences.remove(AppConstants.cacheModuleId);
+      return null;
     }
   }
 

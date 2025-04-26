@@ -161,6 +161,36 @@ import 'package:sixam_mart/features/store/domain/repositories/store_repository.d
 import 'package:sixam_mart/features/store/domain/repositories/store_repository_interface.dart';
 import 'package:sixam_mart/features/store/domain/services/store_service.dart';
 import 'package:sixam_mart/features/store/domain/services/store_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_location_screen/controller/taxi_location_controller.dart';
+import 'package:sixam_mart/features/rental_module/home/controllers/taxi_home_controller.dart';
+import 'package:sixam_mart/features/rental_module/home/domain/repositories/taxi_home_repository.dart';
+import 'package:sixam_mart/features/rental_module/home/domain/repositories/taxi_home_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/home/domain/services/taxi_home_service.dart';
+import 'package:sixam_mart/features/rental_module/home/domain/services/taxi_home_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/controllers/taxi_cart_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/repository/taxi_cart_repository.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/repository/taxi_cart_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/services/taxi_cart_service.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/domain/services/taxi_cart_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/controllers/taxi_favourite_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/domain/repositories/taxi_favourite_repository.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/domain/repositories/taxi_favourite_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/domain/services/taxi_favourite_service.dart';
+import 'package:sixam_mart/features/rental_module/rental_favourite/domain/services/taxi_favourite_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/repository/taxi_repository.dart';
+import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/repository/taxi_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/services/taxi_location_service.dart';
+import 'package:sixam_mart/features/rental_module/rental_location_screen/domain/services/taxi_location_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/controllers/taxi_order_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/domain/repository/taxi_order_repository.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/domain/repository/taxi_order_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/domain/services/taxi_order_service.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/domain/services/taxi_order_service_interface.dart';
+import 'package:sixam_mart/features/rental_module/vendor/controllers/taxi_vendor_controller.dart';
+import 'package:sixam_mart/features/rental_module/vendor/domain/repositories/taxi_vendor_repository.dart';
+import 'package:sixam_mart/features/rental_module/vendor/domain/repositories/taxi_vendor_repository_interface.dart';
+import 'package:sixam_mart/features/rental_module/vendor/domain/services/taxi_vendor_service.dart';
+import 'package:sixam_mart/features/rental_module/vendor/domain/services/taxi_vendor_service_interface.dart';
 import 'package:sixam_mart/features/verification/controllers/verification_controller.dart';
 import 'package:sixam_mart/features/verification/domein/reposotories/verification_repository.dart';
 import 'package:sixam_mart/features/verification/domein/reposotories/verification_repository_interface.dart';
@@ -286,6 +316,24 @@ Future<Map<String, Map<String, String>>> init() async {
   AdvertisementRepositoryInterface advertisementRepositoryInterface = AdvertisementRepository(apiClient: Get.find());
   Get.lazyPut(() => advertisementRepositoryInterface);
 
+  TaxiRepositoryInterface taxiRepositoryInterface = TaxiRepository(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => taxiRepositoryInterface);
+  
+  TaxiHomeRepositoryInterface taxiHomeRepositoryInterface = TaxiHomeRepository(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => taxiHomeRepositoryInterface);
+
+  TaxiCartRepositoryInterface taxiCartRepositoryInterface = TaxiCartRepository(apiClient: Get.find());
+  Get.lazyPut(() => taxiCartRepositoryInterface);
+
+  TaxiVendorRepositoryInterface taxiVendorRepositoryInterface = TaxiVendorRepository(apiClient: Get.find());
+  Get.lazyPut(() => taxiVendorRepositoryInterface);
+
+  TaxiOrderRepositoryInterface taxiOrderRepositoryInterface = TaxiOrderRepository(apiClient: Get.find());
+  Get.lazyPut(() => taxiOrderRepositoryInterface);
+
+  TaxiFavouriteRepositoryInterface taxiFavouriteRepositoryInterface = TaxiFavouriteRepository(apiClient: Get.find(), sharedPreferences: Get.find());
+  Get.lazyPut(() => taxiFavouriteRepositoryInterface);
+
   /// Service Interface
   CheckoutServiceInterface checkoutServiceInterface = CheckoutService(checkoutRepositoryInterface: Get.find());
   Get.lazyPut(() => checkoutServiceInterface);
@@ -388,6 +436,24 @@ Future<Map<String, Map<String, String>>> init() async {
   AdvertisementServiceInterface advertisementServiceInterface = AdvertisementService(advertisementRepositoryInterface: Get.find());
   Get.lazyPut(() => advertisementServiceInterface);
 
+  TaxiLocationServiceInterface taxiLocationServiceInterface = TaxiLocationService(taxiRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiLocationServiceInterface);
+
+  TaxiHomeServiceInterface taxiHomeServiceInterface = TaxiHomeService(taxiHomeRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiHomeServiceInterface);
+
+  TaxiCartServiceInterface taxiCartServiceInterface = TaxiCartService(taxiCartRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiCartServiceInterface);
+
+  TaxiVendorServiceInterface taxiVendorServiceInterface = TaxiVendorService(taxiVendorRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiVendorServiceInterface);
+
+  TaxiOrderServiceInterface taxiOrderServiceInterface = TaxiOrderService(taxiOrderRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiOrderServiceInterface);
+
+  TaxiFavouriteServiceInterface taxiFavouriteServiceInterface = TaxiFavouriteService(taxiFavouriteRepositoryInterface: Get.find());
+  Get.lazyPut(() => taxiFavouriteServiceInterface);
+
 
   /// Controller
   Get.lazyPut(() => ThemeController(sharedPreferences: Get.find()));
@@ -426,6 +492,12 @@ Future<Map<String, Map<String, String>>> init() async {
   Get.lazyPut(() => BrandsController(brandsServiceInterface: Get.find()));
   Get.lazyPut(() => BusinessController(businessServiceInterface: Get.find()));
   Get.lazyPut(() => AdvertisementController(advertisementServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiLocationController(taxiLocationServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiHomeController(taxiHomeServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiCartController(taxiCartServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiVendorController(taxiVendorServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiOrderController(taxiOrderServiceInterface: Get.find()));
+  Get.lazyPut(() => TaxiFavouriteController(taxiFavouriteServiceInterface: Get.find()));
 
   /// Retrieving localized data
   Map<String, Map<String, String>> languages = {};

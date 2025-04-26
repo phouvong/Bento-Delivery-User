@@ -3,7 +3,7 @@
 A new Flutter application.
 
 ## Getting Started
-## flutter sdk: 3.24.5
+## flutter sdk: 3.27.4
 
 This project is a starting point for a Flutter application.
 

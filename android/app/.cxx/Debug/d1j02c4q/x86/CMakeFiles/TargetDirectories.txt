@@ -1,0 +1,2 @@
+/Users/phouvong/Project/Bento Delivery/3.1/user/3.1/User app and web/android/app/.cxx/Debug/d1j02c4q/x86/CMakeFiles/edit_cache.dir
+/Users/phouvong/Project/Bento Delivery/3.1/user/3.1/User app and web/android/app/.cxx/Debug/d1j02c4q/x86/CMakeFiles/rebuild_cache.dir

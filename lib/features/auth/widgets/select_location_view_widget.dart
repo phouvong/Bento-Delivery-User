@@ -8,6 +8,7 @@ import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:sixam_mart/common/widgets/custom_asset_image_widget.dart';
 import 'package:sixam_mart/common/widgets/custom_snackbar.dart';
 import 'package:sixam_mart/common/widgets/custom_text_field.dart';
+import 'package:sixam_mart/features/auth/widgets/pickup_zone_widget.dart';
 import 'package:sixam_mart/features/auth/widgets/zone_selection_widget.dart';
 import 'package:sixam_mart/features/location/controllers/location_controller.dart';
 import 'package:sixam_mart/features/location/domain/models/zone_data_model.dart';
@@ -18,6 +19,7 @@ import 'package:sixam_mart/features/auth/widgets/module_view_widget.dart';
 import 'package:sixam_mart/features/location/widgets/location_search_dialog_widget.dart';
 import 'package:sixam_mart/helper/responsive_helper.dart';
 import 'package:sixam_mart/helper/validate_check.dart';
+import 'package:sixam_mart/util/app_constants.dart';
 import 'package:sixam_mart/util/dimensions.dart';
 import 'package:sixam_mart/util/images.dart';
 import 'package:sixam_mart/util/styles.dart';
@@ -51,6 +53,9 @@ class _SelectLocationViewWidgetState extends State<SelectLocationViewWidget> {
     return GetBuilder<StoreRegistrationController>(builder: (storeRegController) {
 
       bool isDesktop = ResponsiveHelper.isDesktop(context);
+
+      bool isRentalModule = widget.fromView && storeRegController.moduleList != null && storeRegController.selectedModuleIndex != -1 &&
+          storeRegController.moduleList![storeRegController.selectedModuleIndex!].moduleType == AppConstants.taxi;
 
       List<int> zoneIndexList = [];
       List<DropdownItem<int>> zoneList = [];
@@ -88,6 +93,9 @@ class _SelectLocationViewWidgetState extends State<SelectLocationViewWidget> {
 
               widget.fromView ? const ModuleViewWidget() : const SizedBox(),
               widget.fromView ? const SizedBox(height: Dimensions.paddingSizeExtremeLarge) : const SizedBox(),
+
+              isRentalModule ? const PickupZoneWidget() : const SizedBox(),
+              isRentalModule ? const SizedBox(height: Dimensions.paddingSizeExtremeLarge) : const SizedBox(),
 
               mapView(storeRegController),
               SizedBox(height: !widget.fromView ? Dimensions.paddingSizeSmall : 0),

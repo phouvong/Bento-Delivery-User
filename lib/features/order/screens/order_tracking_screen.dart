@@ -55,6 +55,7 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
   }
 
   void _startApiCall(){
+    _timer?.cancel();
     _timer = Timer.periodic(const Duration(seconds: 10), (timer) {
       Get.find<OrderController>().timerTrackOrder(widget.orderID.toString(), contactNumber: widget.contactNumber);
     });
@@ -190,15 +191,15 @@ class OrderTrackingScreenState extends State<OrderTrackingScreen> {
     try {
 
       BitmapDescriptor restaurantImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: (isRestaurant || parcel) ? 50 : 70,
+        width: (isRestaurant || parcel) ? 30 : isRestaurant ? 30 : 50,
         imagePath: parcel ? Images.userMarker : isRestaurant ? Images.restaurantMarker : Images.markerStore,
       );
 
       BitmapDescriptor deliveryBoyImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: 50, imagePath: Images.deliveryManMarker,
+        width: 30, imagePath: Images.deliveryManMarker,
       );
       BitmapDescriptor destinationImageData = await MarkerHelper.convertAssetToBitmapDescriptor(
-        width: 50, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
+        width: 30, imagePath: takeAway ? Images.myLocationMarker : Images.userMarker,
       );
 
       /// Animate to coordinate

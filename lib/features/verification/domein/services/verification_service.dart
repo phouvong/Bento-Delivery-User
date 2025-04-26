@@ -13,25 +13,14 @@ class VerificationService implements VerificationServiceInterface {
   VerificationService({required this.verificationRepoInterface, required this.authRepoInterface});
 
   @override
-  Future<ResponseModel> forgetPassword(String? phone) async {
-    return await verificationRepoInterface.forgetPassword(phone);
+  Future<ResponseModel> forgetPassword({String? phone, String? email}) async {
+    return await verificationRepoInterface.forgetPassword(phone: phone, email: email);
   }
 
   @override
-  Future<ResponseModel> resetPassword(String? resetToken, String number, String password, String confirmPassword) async {
-    return await verificationRepoInterface.resetPassword(resetToken, number, password, confirmPassword);
+  Future<ResponseModel> resetPassword({String? resetToken, String? phone, String? email, required String password, required String confirmPassword}) async {
+    return await verificationRepoInterface.resetPassword(resetToken: resetToken, phone: phone, email: email, password: password, confirmPassword: confirmPassword);
   }
-
-/*  @override
-  Future<ResponseModel> verifyPhone(String? phone, String otp, String? token) async {
-    ResponseModel responseModel = await verificationRepoInterface.verifyPhone(phone, otp);
-    if(responseModel.isSuccess) {
-      authRepoInterface.saveUserToken(token!);
-      await authRepoInterface.updateToken();
-      authRepoInterface.clearSharedPrefGuestId();
-    }
-    return responseModel;
-  }*/
 
   @override
   Future<ResponseModel> verifyPhone(VerificationDataModel data) async {
@@ -52,20 +41,9 @@ class VerificationService implements VerificationServiceInterface {
   }
 
   @override
-  Future<ResponseModel> verifyToken(String? phone, String token) async {
-    return await verificationRepoInterface.verifyToken(phone, token);
+  Future<ResponseModel> verifyToken({String? phone, String? email, required String token}) async {
+    return await verificationRepoInterface.verifyToken(phone: phone, email: email, token: token);
   }
-
-/*  @override
-  Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required bool isSignUpPage, required String? token}) async {
-    ResponseModel responseModel = await verificationRepoInterface.verifyFirebaseOtp(phoneNumber: phoneNumber, session: session, otp: otp, isSignUpPage: isSignUpPage);
-    if(responseModel.isSuccess && isSignUpPage) {
-      authRepoInterface.saveUserToken(token!);
-      await authRepoInterface.updateToken();
-      authRepoInterface.clearSharedPrefGuestId();
-    }
-    return responseModel;
-  }*/
 
   @override
   Future<ResponseModel> verifyFirebaseOtp({required String phoneNumber, required String session, required String otp, required String loginType, required String? token, required bool isSignUpPage, required bool isForgetPassPage}) async {

@@ -3,11 +3,14 @@ import 'dart:io';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:sixam_mart/common/widgets/demo_reset_dialog_widget.dart';
+import 'package:sixam_mart/common/widgets/taxi_make_payment_bottomsheet.dart';
 import 'package:sixam_mart/features/chat/controllers/chat_controller.dart';
 import 'package:sixam_mart/features/chat/enums/user_type_enum.dart';
 import 'package:sixam_mart/features/notification/controllers/notification_controller.dart';
 import 'package:sixam_mart/features/notification/domain/models/notification_body_model.dart';
 import 'package:sixam_mart/features/order/controllers/order_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/controllers/taxi_order_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_order/screens/taxi_order_details_screen.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/route_helper.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -48,6 +51,7 @@ class NotificationHelper {
             NotificationType.cashback: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.loyalty_point: () => Get.toNamed(RouteHelper.getLoyaltyRoute(fromNotification: true)),
             NotificationType.general: () => Get.toNamed(RouteHelper.getNotificationRoute(fromNotification: true)),
+            NotificationType.trip: () => Get.to(()=> TaxiOrderDetailsScreen(tripId: int.parse(payload.orderId.toString()))),
           };
 
           notificationActions[payload.notificationType]?.call();
@@ -56,7 +60,7 @@ class NotificationHelper {
       return;
     });
 
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+    FirebaseMessaging.onMessage.listen((RemoteMessage message) async {
       if (kDebugMode) {
         print("onMessage: ${message.data['type']}/${message.data}");
       }
@@ -79,18 +83,49 @@ class NotificationHelper {
             NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
           }
         }
-      }else if(message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.conversation)) {
+      } else if(message.data['type'] == 'message' && Get.currentRoute.startsWith(RouteHelper.conversation)) {
         if(AuthHelper.isLoggedIn()) {
           Get.find<ChatController>().getConversationList(1);
         }
         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
-      }else if(message.data['type'] == 'demo_reset'){
-      }else {
+      } else if(message.data['type'] == 'demo_reset'){
+      } else if(message.data['type'] == 'trip_status' && message.data['status'] == 'completed' && message.data['order_id'] != '' && message.data['order_id'] != null) {
+        if(!Get.currentRoute.contains('/TaxiOrderDetailsScreen')) {
+          Get.bottomSheet(TaxiMakePaymentBottomSheet(orderId: message.data['order_id']));
+        }
+        Get.find<TaxiOrderController>().getTripList(1, isRunning: true);
+        Get.find<TaxiOrderController>().getTripList(1, isRunning: false);
+        if(Get.currentRoute.contains('/TaxiOrderDetailsScreen')) {
+          Get.find<TaxiOrderController>().getTripDetails(int.parse(message.data['order_id']), willUpdate: false);
+        }
+      }
+      else {
         NotificationHelper.showNotification(message, flutterLocalNotificationsPlugin);
         if(AuthHelper.isLoggedIn()) {
-          Get.find<OrderController>().getRunningOrders(1);
-          Get.find<OrderController>().getHistoryOrders(1);
+          if(message.data['type'] != 'trip_status') {
+            Get.find<OrderController>().getRunningOrders(1);
+            Get.find<OrderController>().getHistoryOrders(1);
+          }
+
           Get.find<NotificationController>().getNotificationList(true);
+          if(message.data['type'] == 'trip_status' && message.data['order_id'] != '' && message.data['order_id'] != null) {
+            if(Get.isBottomSheetOpen!) {
+              Get.back();
+            }
+            if(Get.currentRoute.contains('/TaxiOrderDetailsScreen')) {
+             await Get.find<TaxiOrderController>().getTripDetails(int.parse(message.data['order_id']), willUpdate: false);
+            }
+            Get.find<TaxiOrderController>().getTripList(1, isRunning: true);
+            Get.find<TaxiOrderController>().getTripList(1, isRunning: false);
+          }
+
+        } else if(message.data['type'] == 'trip_status' && message.data['order_id'] != '' && message.data['order_id'] != null) {
+          if(Get.isBottomSheetOpen!) {
+            Get.back();
+          }
+          if(Get.currentRoute.contains('/TaxiOrderDetailsScreen')) {
+            await Get.find<TaxiOrderController>().getTripDetails(int.parse(message.data['order_id']), willUpdate: false);
+          }
         }
       }
 
@@ -130,6 +165,7 @@ class NotificationHelper {
             NotificationType.cashback: () => Get.toNamed(RouteHelper.getWalletRoute(fromNotification: true)),
             NotificationType.loyalty_point: () => Get.toNamed(RouteHelper.getLoyaltyRoute(fromNotification: true)),
             NotificationType.general: () => Get.toNamed(RouteHelper.getNotificationRoute(fromNotification: true)),
+            NotificationType.trip: () => Get.to(()=> TaxiOrderDetailsScreen(tripId: int.parse(message.data['order_id']))),
           };
 
           notificationActions[notificationBody.notificationType]?.call();
@@ -236,6 +272,8 @@ class NotificationHelper {
         return NotificationBodyModel(notificationType: NotificationType.unblock);
       case 'order_status':
         return _handleOrderNotification(data);
+      case 'trip_status':
+        return _handleTripNotification(data);
       case 'message':
         return _handleMessageNotification(data);
       default:
@@ -251,6 +289,14 @@ class NotificationHelper {
     );
   }
 
+  static NotificationBodyModel _handleTripNotification(Map<String, dynamic> data) {
+    final orderId = data['order_id'];
+    return NotificationBodyModel(
+      orderId: int.tryParse(orderId) ?? 0,
+      notificationType: NotificationType.trip,
+    );
+  }
+
   static NotificationBodyModel _handleMessageNotification(Map<String, dynamic> data) {
     final conversationId = data['conversation_id'];
     final senderType = data['sender_type'];
@@ -259,7 +305,7 @@ class NotificationHelper {
       notificationType: NotificationType.message,
       deliverymanId: senderType == 'delivery_man' ? 0 : null,
       adminId: senderType == 'admin' ? 0 : null,
-      restaurantId: senderType == 'vendor' ? 0 : null,
+      restaurantId: senderType == 'vendor1' ? 0 : null,
       conversationId: int.parse(conversationId.toString()),
     );
   }

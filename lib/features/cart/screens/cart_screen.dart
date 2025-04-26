@@ -543,21 +543,22 @@ class CheckoutButton extends StatelessWidget {
       ),
       child: GetBuilder<StoreController>(
         builder: (storeController) {
-          if(Get.find<StoreController>().store != null && !Get.find<StoreController>().store!.freeDelivery! && Get.find<SplashController>().configModel!.freeDeliveryOver != null){
-            percentage = cartController.subTotal/Get.find<SplashController>().configModel!.freeDeliveryOver!;
+          if(Get.find<StoreController>().store != null && !Get.find<StoreController>().store!.freeDelivery!
+            && (Get.find<SplashController>().configModel?.adminFreeDelivery?.status == true && (Get.find<SplashController>().configModel?.adminFreeDelivery?.type != null && Get.find<SplashController>().configModel?.adminFreeDelivery?.type == 'free_delivery_by_order_amount') && (Get.find<SplashController>().configModel!.adminFreeDelivery?.freeDeliveryOver != null))){
+            percentage = cartController.subTotal/Get.find<SplashController>().configModel!.adminFreeDelivery!.freeDeliveryOver!;
           }
           return Column(
             mainAxisSize: MainAxisSize.min,
             children: [
 
-              (storeController.store != null && !storeController.store!.freeDelivery! && Get.find<SplashController>().configModel!.freeDeliveryOver != null && percentage < 1)
+              (storeController.store != null && !storeController.store!.freeDelivery! && (Get.find<SplashController>().configModel?.adminFreeDelivery?.status == true && (Get.find<SplashController>().configModel?.adminFreeDelivery?.type != null && Get.find<SplashController>().configModel?.adminFreeDelivery?.type == 'free_delivery_by_order_amount') && (Get.find<SplashController>().configModel!.adminFreeDelivery?.freeDeliveryOver != null)) && percentage < 1)
               ? Column(children: [
                   Row(children: [
                     Image.asset(Images.percentTag, height: 20, width: 20),
                     const SizedBox(width: Dimensions.paddingSizeExtraSmall),
 
                     Text(
-                      PriceConverter.convertPrice(Get.find<SplashController>().configModel!.freeDeliveryOver! - cartController.subTotal),
+                      PriceConverter.convertPrice(Get.find<SplashController>().configModel!.adminFreeDelivery!.freeDeliveryOver! - cartController.subTotal),
                       style: robotoMedium.copyWith(color: Theme.of(context).primaryColor), textDirection: TextDirection.ltr,
                     ),
                     const SizedBox(width: Dimensions.paddingSizeExtraSmall),

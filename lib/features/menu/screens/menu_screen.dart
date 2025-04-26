@@ -10,6 +10,7 @@ import 'package:sixam_mart/features/splash/controllers/splash_controller.dart';
 import 'package:sixam_mart/features/profile/controllers/profile_controller.dart';
 import 'package:sixam_mart/features/favourite/controllers/favourite_controller.dart';
 import 'package:sixam_mart/features/auth/controllers/auth_controller.dart';
+import 'package:sixam_mart/features/rental_module/rental_cart_screen/controllers/taxi_cart_controller.dart';
 import 'package:sixam_mart/helper/auth_helper.dart';
 import 'package:sixam_mart/helper/date_converter.dart';
 import 'package:sixam_mart/helper/price_converter.dart';
@@ -216,7 +217,7 @@ class _MenuScreenState extends State<MenuScreen> {
                       ) : const SizedBox(),
 
                       (Get.find<SplashController>().configModel!.toggleStoreRegistration! && !ResponsiveHelper.isDesktop(context)) ? PortionWidget(
-                          icon: Images.storeIcon, title: 'open_store'.tr, hideDivider: true, route: RouteHelper.getRestaurantRegistrationRoute(),
+                          icon: Images.storeIcon, title: 'open_vendor'.tr, hideDivider: true, route: RouteHelper.getRestaurantRegistrationRoute(),
                       ) : const SizedBox(),
                     ]),
                   )
@@ -274,6 +275,7 @@ class _MenuScreenState extends State<MenuScreen> {
                         Get.find<FavouriteController>().removeFavourite();
                         await Get.find<AuthController>().clearSharedData();
                         Get.find<HomeController>().forcefullyNullCashBackOffers();
+                        Get.find<TaxiCartController>().getCarCartList();
                         Get.offAllNamed(RouteHelper.getInitialRoute());
                       }), useSafeArea: false);
                     }else {

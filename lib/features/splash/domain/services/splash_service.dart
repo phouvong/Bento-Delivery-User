@@ -62,7 +62,7 @@ class SplashService implements SplashServiceInterface {
   }
 
   @override
-  Future<void> setCacheModule(ModuleModel? module) async {
+  Future<ModuleModel?> setCacheModule(ModuleModel? module) async {
     return await splashRepositoryInterface.setCacheModule(module);
   }
 

@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:just_the_tooltip/just_the_tooltip.dart';
@@ -41,10 +40,6 @@ class _PaymentMethodBottomSheetState extends State<PaymentMethodBottomSheet> {
   void initState() {
     super.initState();
 
-    if (kDebugMode) {
-      print('=====digital payments : ${Get.find<SplashController>().configModel!.activePaymentMethodList!}');
-    }
-
     if(!AuthHelper.isGuestLoggedIn()) {
       double walletBalance = Get.find<ProfileController>().userInfoModel!.walletBalance!;
       if(walletBalance < widget.totalPrice){
@@ -64,7 +59,6 @@ class _PaymentMethodBottomSheetState extends State<PaymentMethodBottomSheet> {
         }
       }
     }
-
   }
   @override
   Widget build(BuildContext context) {

@@ -16,7 +16,7 @@ class AdvertisementRepository implements AdvertisementRepositoryInterface {
   @override
   Future<List<AdvertisementModel>?> getList({int? offset, DataSourceEnum source = DataSourceEnum.client}) async {
     List<AdvertisementModel>? advertisementList;
-    String cacheId = '${AppConstants.advertisementListUri}-${Get.find<SplashController>().module!.id!}';
+    String cacheId = '${AppConstants.advertisementListUri}-${Get.find<SplashController>().module?.id??0}';
 
     switch(source) {
       case DataSourceEnum.client:

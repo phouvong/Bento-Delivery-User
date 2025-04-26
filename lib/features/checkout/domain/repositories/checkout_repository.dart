@@ -36,7 +36,7 @@ class CheckoutRepository implements CheckoutRepositoryInterface {
   Future<Response> getDistanceInMeter(LatLng originLatLng, LatLng destinationLatLng) async {
     return await apiClient.getData(
       '${AppConstants.distanceMatrixUri}?origin_lat=${originLatLng.latitude}&origin_lng=${originLatLng.longitude}'
-          '&destination_lat=${destinationLatLng.latitude}&destination_lng=${destinationLatLng.longitude}&mode=walking',
+          '&destination_lat=${destinationLatLng.latitude}&destination_lng=${destinationLatLng.longitude}&mode=WALK',
       handleError: false,
     );
   }

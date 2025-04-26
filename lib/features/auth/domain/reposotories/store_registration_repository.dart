@@ -28,6 +28,15 @@ class StoreRegistrationRepository implements StoreRegistrationRepositoryInterfac
     }
   }
 
+  @override
+  Future<PackageModel?> getPackageList({int? moduleId}) async {
+    PackageModel? packageModel;
+    Response response = await apiClient.getData('${AppConstants.storePackagesUri}?module_id=$moduleId');
+    if(response.statusCode == 200) {
+      packageModel = PackageModel.fromJson(response.body);
+    }
+    return packageModel;
+  }
 
   @override
   Future add(value) {
@@ -45,17 +54,12 @@ class StoreRegistrationRepository implements StoreRegistrationRepositoryInterfac
   }
 
   @override
-  Future<PackageModel?> getList({int? offset}) async {
-    PackageModel? packageModel;
-    Response response = await apiClient.getData(AppConstants.storePackagesUri);
-    if(response.statusCode == 200) {
-      packageModel = PackageModel.fromJson(response.body);
-    }
-    return packageModel;
+  Future update(Map<String, dynamic> body, int? id) {
+    throw UnimplementedError();
   }
 
   @override
-  Future update(Map<String, dynamic> body, int? id) {
+  Future getList({int? offset}) {
     throw UnimplementedError();
   }
 

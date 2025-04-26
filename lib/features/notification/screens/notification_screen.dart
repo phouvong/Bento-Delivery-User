@@ -188,11 +188,10 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
                                       notificationController.notificationList![index].data!.type == 'push_notification' ? ClipRRect(
                                         borderRadius: BorderRadius.circular(Dimensions.radiusSmall),
-                                        child: CustomImage(
-                                          placeholder: Images.placeholder,
+                                        child: notificationController.notificationList![index].imageFullUrl!=null ? CustomImage(
                                           image: '${notificationController.notificationList![index].imageFullUrl}',
                                           height: 45, width: 75, fit: BoxFit.cover,
-                                        ),
+                                        ): const SizedBox(),
                                       ) : const SizedBox.shrink(),
 
                                     ]),

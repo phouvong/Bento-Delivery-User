@@ -11,5 +11,5 @@ abstract class StoreRegistrationServiceInterface{
   Future<List<ModuleModel>?> getModules(int? zoneId);
   Future<Response> registerStore(StoreBodyModel store, XFile? logo, XFile? cover);
   Future<bool> checkInZone(String? lat, String? lng, int zoneId);
-  Future<PackageModel?> getPackageList();
+  Future<PackageModel?> getPackageList({int? moduleId});
 }
